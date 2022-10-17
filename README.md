@@ -2,7 +2,7 @@
 
 ## Database Schema Design
 
-<img src='dbdiagram_airbnb.png' width='500'>
+<img src='dbdiagram_airbnb.png' width='1000'>
 
 ## API Documentation
 
