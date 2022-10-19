@@ -1,7 +1,7 @@
 'use strict';
 
 const bcrypt = require('bcryptjs');
-const salt = bcrypt.genSaltSync(10);
+// const salt = bcrypt.genSaltSync(10);
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -10,17 +10,17 @@ module.exports = {
       {
         username: 'DemoUser',
         email: 'demouser@example.com',
-        hashedPassword: bcrypt.hashSync('DemoUser', salt)
+        hashedPassword: bcrypt.hashSync('DemoUser')
       },
       {
         username: 'DemoUser1',
         email: 'demouser1@example.com',
-        hashedPassword: bcrypt.hashSync('DemoUser1', salt)
+        hashedPassword: bcrypt.hashSync('DemoUser1')
       },
       {
         username: 'DemoUser2',
         email: 'demouser2@example.com',
-        hashedPassword: bcrypt.hashSync('DemoUser2', salt)
+        hashedPassword: bcrypt.hashSync('DemoUser2')
       }            
   ], {});
   },
