@@ -1,17 +1,24 @@
 const router = require('express').Router();
 const { setTokenCookie, restoreUser, requireAuth } = require('../../utils/auth');
-const {User} = require('../../db/models');
+const sessionRouter = require('./session.js');
+const usersRouter = require('./users.js');
 
 router.use(restoreUser);
+router.use('/session', sessionRouter);
+router.use('/users', usersRouter);
+
+router.post('/test', (req, res) => {
+    res.json({reqBody: req.body})
+});
+
+module.exports = router;
 
 // /* ------------------ test starts ----------------------- */
+// const {User} = require('../../db/models');
 // router.get('/restore-user', (req, res) => {
 //     return res.json(req.user);
 // });
 
-// router.post('/test', (req, res) => {
-//     res.json({reqBody: req.body})
-// });
 
 // router.get('/set-token-cookie', async (_req, res) => {
 //     const user = await User.findOne({
@@ -28,5 +35,3 @@ router.use(restoreUser);
 //     return res.json(req.user);
 // })
 // /* ------------------ test ends ----------------------- */
-
-module.exports = router;
