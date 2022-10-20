@@ -1,11 +1,15 @@
+// this file collects all route handlers
+
 const express = require('express');
 const router = express.Router();
 const apiRouter = require('./api');
 
+// /* ---------- TEST ----------- */
 // router.get('/hello/world', function (req, res) {
 //     res.cookie('XSRF-TOKEN', req.csrfToken());
 //     res.send('Hello World!');
 // });
+// /* ---------- TEST ----------- */
 
 router.get('/api/csrf/restore', (req, res) => {
     const csrfToken = req.csrfToken();
