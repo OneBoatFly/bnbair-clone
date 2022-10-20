@@ -3,6 +3,7 @@ const router = require('express').Router();
 const { setTokenCookie, restoreUser } = require('../../utils/auth');
 const { User } = require('../../db/models');
 
+// login route
 router.post('/', async (req, res, next) => {
     const { credential, password } = req.body;
     const user = await User.login({ credential, password });
@@ -17,6 +18,12 @@ router.post('/', async (req, res, next) => {
         err.errors = ['The provided credentials were invalid.'];
         return next(err);
     }
+});
+
+// logout route
+router.delete('/', (_req, res) => {
+    res.clearCookie('token');
+    return res.json({message: 'success'});
 });
 
 module.exports = router;
