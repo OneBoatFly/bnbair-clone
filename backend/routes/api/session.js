@@ -26,4 +26,14 @@ router.delete('/', (_req, res) => {
     return res.json({message: 'success'});
 });
 
+// get session user route
+router.get('/', restoreUser, async (req, res) => {
+    const user = req.user;
+    if (user) {
+        return res.json({user: user.toSafeObject()})
+    } else {
+        return res.json({});
+    }
+});
+
 module.exports = router;
