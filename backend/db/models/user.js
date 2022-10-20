@@ -33,13 +33,17 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
 
-    static async singup({username, email, password}) {
+    static async signup({username, email, password}) {
       const hashedPassword = bcrypt.hashSync(password);
       const user = await User.create({
         username,
         email,
         hashedPassword
-      })
+      });
+
+      // Per documentation, starting with Express 5, route handlers and middleware that return a Promise will 
+      // call next(value) automatically when they reject or throw an error.
+      // thus, not next(error) used here, but still catch errors on app.js error handler
 
       return await User.scope('currentUser').findByPk(user.id);
     }
