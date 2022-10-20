@@ -5,8 +5,8 @@ const bcrypt = require('bcryptjs');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     toSafeObject() {
-      const {id, username, email} = this; // info for that one user instance
-      return { id, username, email };
+      const {id, username, email, firstName, lastName} = this; // info for that one user instance
+      return { id, username, email, firstName, lastName };
     }
 
     validatePassword(password) {
@@ -33,18 +33,19 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
 
-    static async signup({username, email, password}) {
+    static async signup({username, email, firstName, lastName, password}) {
       const hashedPassword = bcrypt.hashSync(password);
       const user = await User.create({
         username,
         email,
+        firstName,
+        lastName,
         hashedPassword
       });
 
       // Per documentation, starting with Express 5, route handlers and middleware that return a Promise will 
       // call next(value) automatically when they reject or throw an error.
       // thus, not next(error) used here, but still catch errors on app.js error handler
-
       return await User.scope('currentUser').findByPk(user.id);
     }
 
@@ -75,6 +76,14 @@ module.exports = (sequelize, DataTypes) => {
         isEmail: true,
       }
     },
+    firstName: {
+      type: DataTypes.STRING,
+      allowNull: false,   
+    },
+    lastName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },    
     hashedPassword: {
       type: DataTypes.STRING.BINARY,
       allowNull: false,

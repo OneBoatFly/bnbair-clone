@@ -2,6 +2,7 @@
 
 const bcrypt = require('bcryptjs');
 // const salt = bcrypt.genSaltSync(10);
+const { Op } = require('sequelize');
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -10,17 +11,23 @@ module.exports = {
       {
         username: 'DemoUser',
         email: 'demouser@example.com',
-        hashedPassword: bcrypt.hashSync('DemoUser')
+        firstName: 'DemoUserF',
+        lastName: 'DemoUserL',
+        hashedPassword: bcrypt.hashSync('password')
       },
       {
         username: 'DemoUser1',
         email: 'demouser1@example.com',
-        hashedPassword: bcrypt.hashSync('DemoUser1')
+        firstName: 'DemoUser1F',
+        lastName: 'DemoUser1L',
+        hashedPassword: bcrypt.hashSync('password')
       },
       {
         username: 'DemoUser2',
         email: 'demouser2@example.com',
-        hashedPassword: bcrypt.hashSync('DemoUser2')
+        firstName: 'DemoUser2F',
+        lastName: 'DemoUser2L',        
+        hashedPassword: bcrypt.hashSync('password')
       }            
   ], {});
   },
@@ -28,7 +35,7 @@ module.exports = {
   async down (queryInterface, Sequelize) {
     await queryInterface.bulkDelete('Users', {
       username: {
-        [Op.in]: ['DemoUser']
+        [Op.in]: ['DemoUser', 'DemoUser1', 'DemoUser2']
       }
     }, {});
   }
