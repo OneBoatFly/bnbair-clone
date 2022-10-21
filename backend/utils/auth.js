@@ -37,7 +37,7 @@ const restoreUser = (req, res, next) => {
     // are valid. If not, it will be called with the error.
     return jwt.verify(token, secret, null, async (err, jwtPayload) => {
         if (err) {
-            return next(); // ? why not pass the error in?
+            return next(); // for security
         }
 
         try {
