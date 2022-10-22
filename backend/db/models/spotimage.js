@@ -31,6 +31,11 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     }
   }, {
+    scopes: {
+      shortView: {
+        attributes: { exclude: ['createAt', 'updatedAt']}
+      }
+    },
     sequelize,
     modelName: 'SpotImage',
   });

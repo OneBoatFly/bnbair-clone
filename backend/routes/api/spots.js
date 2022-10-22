@@ -42,12 +42,51 @@ const validateSpot = [
 ];
 
 router.post('/', requireAuth, validateSpot, async (req, res, next) => {
-    // console.log('passed authenticated and validateSpot user middleware');
+    console.log('in post a spot route');
     const { address, city, state, country, lat, lng, name, description, price } = req.body;
     const spot = await Spot.create({ ownerId: req.user.id, 
         address, city, state, country, lat, lng, name, description, price });
 
     res.json(spot);
+});
+
+// add an image to a spot based on spotId
+    // check image body
+const validateImage = [
+    check('url')
+        .exists({checkFalsy: true})
+        .isURL()
+        .withMessage('Must provide a valid URL.'),
+    check('preview')
+        .exists()
+        .isBoolean()
+        .withMessage('Must indicate if this is preview or not.'),
+    handleValidationErrors
+];
+
+router.post('/:spotId/images', requireAuth, validateImage, async (req, res, next) => {
+    console.log('in add an image given a spotId route');
+    const spotId = req.params.spotId;
+    const spot = await Spot.findByPk(spotId);
+
+    if (!spot) {
+        const err = new Error("Spot couldn't be found");
+        err.status = 404;
+        next(err);
+    } else {
+        const image = await spot.createSpotImage({
+            url: req.body.url,
+            preview: req.body.preview,
+        });
+
+        const imageJSON = image.toJSON(); 
+
+        res.json({
+            id: imageJSON.id,
+            url: imageJSON.url,
+            preview: imageJSON.preview
+        });
+    }
 });
 
 module.exports = router;
