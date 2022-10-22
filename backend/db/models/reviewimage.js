@@ -27,11 +27,11 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
   }, {
-    indexes: {
+    indexes: [{
       fields: ['reviewId', 'url'],
       unique: true,
       validate: true      
-    },
+    }],
     sequelize,
     modelName: 'ReviewImage',
   });

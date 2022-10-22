@@ -82,11 +82,11 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
   }, {
-    indexes: {
+    indexes: [{
       fields: ['address', 'city', 'state', 'country'],
       unique: true,
       validate: true,
-    },
+    }],
     sequelize,
     modelName: 'Spot',
   });

@@ -39,11 +39,11 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
   }, {
-    indexes: {
+    indexes: [{
       fields: ['spotId', 'userId'],
       unique: true,
       validate: true,      
-    },
+    }],
     sequelize,
     modelName: 'Review',
   });
