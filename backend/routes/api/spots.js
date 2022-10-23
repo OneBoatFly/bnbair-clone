@@ -74,18 +74,24 @@ router.post('/:spotId/images', requireAuth, validateImage, async (req, res, next
         err.status = 404;
         next(err);
     } else {
-        const image = await spot.createSpotImage({
-            url: req.body.url,
-            preview: req.body.preview,
-        });
-
-        const imageJSON = image.toJSON(); 
-
-        res.json({
-            id: imageJSON.id,
-            url: imageJSON.url,
-            preview: imageJSON.preview
-        });
+        if (spot.ownerId == req.user.id) {
+            const image = await spot.createSpotImage({
+                url: req.body.url,
+                preview: req.body.preview,
+            });
+    
+            const imageJSON = image.toJSON(); 
+    
+            res.json({
+                id: imageJSON.id,
+                url: imageJSON.url,
+                preview: imageJSON.preview
+            });
+        } else {
+            const err = new Error('Unauthorized');
+            err.status = 401;
+            next(err);
+        }
     }
 });
 
