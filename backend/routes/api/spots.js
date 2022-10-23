@@ -193,11 +193,19 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res, ne
 
         if (!review) {
             try {
-                const review = await spot.createReview({
+                console.log('**', spot.toJSON())
+                console.log('*** userId:', req.user.id, typeof req.user.id)
+                // const review = await spot.createReview({
+                //     userId: req.user.id,
+                //     review: req.body.review,
+                //     stars: req.body.stars
+                // });
+                const review = await Review.create({
+                    spotId: spot.id,
                     userId: req.user.id,
                     review: req.body.review,
                     stars: req.body.stars
-                });
+                })
     
                 res.json(review);
             } catch (e) {
