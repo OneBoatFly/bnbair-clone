@@ -2,9 +2,7 @@ const { check } = require('express-validator');
 const { requireAuth } = require('../../utils/auth');
 const { handleValidationErrors } = require('../../utils/validation');
 const router = require('express').Router();
-const { Spot, Booking, Review } = require('../../db/models');
-const { Op } = require('express');
-const review = require('../../db/models/review');
+const { Spot } = require('../../db/models');
 
 //create a spot
     // check create spot req body
@@ -21,25 +19,21 @@ const validateSpot = [
     check('country')
         .exists({ checkFalsy: true })
         .withMessage("Country is required"),
-    check('lat')
+    check('lat', "Latitude is not valid")
         .exists({checkFalsy: true})
-        .isDecimal({min: -90.0, max: 90.0})
-        .withMessage("Latitude is not valid"),
-    check('lng')
+        .isFloat({min: -90, max: 90}),
+    check('lng', "Longitude is not valid")
         .exists({ checkFalsy: true })
-        .isDecimal({ min: -180.0, max: 180.0 })
-        .withMessage("Latitude is not valid"),
-    check('name')
+        .isFloat({ min: -180, max: 180 }),
+    check('name', "Name must be less than 50 characters")
         .exists({checkFalsy: true})
-        .isLength({max: 50})
-        .withMessage("Name must be less than 50 characters"),
+        .isLength({max: 50}),
     check('description')
         .exists({checkFalsy: true})
         .withMessage('Description is required'),
-    check('price')
+    check('price', "Price per day is required")
         .exists({checkFalsy: true})
-        .isDecimal({min: 0, decimal_digits: '0,2'})
-        .withMessage("Price per day is required"),
+        .isFloat({min: 0}),
     handleValidationErrors
 ];
 

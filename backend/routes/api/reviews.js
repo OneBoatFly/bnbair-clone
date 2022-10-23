@@ -14,7 +14,7 @@ const validateReview = [
     handleValidationErrors
 ];
 
-router.post('/:reviewId/image', requireAuth, validateReview, async (req, res, next) => {
+router.post('/:reviewId/images', requireAuth, validateReview, async (req, res, next) => {
     // console.log('in the add an image to a review route');
     const review = await Review.findOne({
         where: {
