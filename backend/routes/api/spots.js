@@ -2,7 +2,7 @@ const { check } = require('express-validator');
 const { requireAuth } = require('../../utils/auth');
 const { handleValidationErrors } = require('../../utils/validation');
 const router = require('express').Router();
-const { Spot } = require('../../db/models');
+const { Spot, Review } = require('../../db/models');
 
 //create a spot
     // check create spot req body
@@ -177,7 +177,6 @@ const validateReview = [
 ];
 
 router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res, next) => {
-    console.log('in the create review route');
     const spot = await Spot.findByPk(req.params.spotId);
 
     if (!spot) {
@@ -185,23 +184,31 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res, ne
         err.status = 404;
         next(err);
     } else {
-        try {
-            const review = await spot.createReview({
+        const review = await Review.findOne({
+            where: {
+                spotId: spot.id,
                 userId: req.user.id,
-                review: req.body.review,
-                stars: req.body.stars
-            });
-
-            res.json(review);
-        } catch (e) {
-            // console.log(e.errors[0].type, e.errors[1].type);
-            if (e.errors[0].type === 'unique violation') {
-                const err = new Error("User already has a review for this spot");
-                err.status = 403;
-                next(err);
             }
-        }
-    }
+        });
+
+        if (!review) {
+            try {
+                const review = await spot.createReview({
+                    userId: req.user.id,
+                    review: req.body.review,
+                    stars: req.body.stars
+                });
+    
+                res.json(review);
+            } catch (e) {
+                next(e);
+            }
+        } else {
+            const err = new Error("User already has a review for this spot");
+            err.status = 403;
+            next(err);
+        };
+    };
 });
 
 module.exports = router;
