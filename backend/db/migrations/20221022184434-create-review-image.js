@@ -40,6 +40,5 @@ module.exports = {
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('ReviewImages');
-    await queryInterface.removeIndex('ReviewImages');
   }
 };
