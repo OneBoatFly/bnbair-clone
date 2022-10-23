@@ -64,7 +64,6 @@ app.use((_req, _res, next) => {
     // Sequelize Error Handler
 app.use((err, _req, _res, next) => {
     if (err instanceof ValidationError) {
-        console.log('*** in sequelize error handler')
         err.status = 403;
         err.errors = err.errors.map((e) => e.message);
         err.title = 'Validation error';
@@ -75,16 +74,22 @@ app.use((err, _req, _res, next) => {
 
     // Format Error and Return JSON Error Handler
 app.use((err, _req, res, _next) => {
-    console.log('***** in format, return json error handler')
     res.status(err.status || 500);
     console.error(err);
-    res.json({
-        // title: err.title || 'Server Error',
-        message: err.message,
-        statusCode: err.status,
-        errors: err.errors,
-        stack: isProduction ? null : err.stack
-    });
+    const errJSON = {};
+    errJSON.message = err.message;
+    errJSON.statusCode = err.status;
+    errJSON.errors = err.errors;
+    if (!isProduction) errJSON.stack = err.stack;
+    res.json(errJSON);
+
+    // res.json({
+    //     // title: err.title || 'Server Error',
+    //     message: err.message,
+    //     statusCode: err.status,
+    //     errors: err.errors,
+    //     stack: isProduction ? null : err.stack
+    // });
 });
 
 module.exports = app;
