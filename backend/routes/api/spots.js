@@ -23,6 +23,8 @@ router.get('/', async (req, res, next) => {
         const spotJSON = spot.toJSON();
         if (spotJSON.Reviews.length) {
             spotJSON.avgRating = Math.round(spotJSON.Reviews[0].avgRating * 10) / 10;
+        } else {
+            spotJSON.avgRating = null;
         }
         delete spotJSON.Reviews;
     
@@ -34,8 +36,9 @@ router.get('/', async (req, res, next) => {
             attributes: ['url']
         });
         if (preview) {
-            console.log(preview.toJSON());
             spotJSON.preview = preview.url;
+        } else {
+            spotJSON.preview = null;
         }
         
         spotsArr.push(spotJSON);
