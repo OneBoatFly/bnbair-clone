@@ -7,17 +7,17 @@ module.exports = {
       {
         "spotId": 1,
         "url": "image.url/1",
-        "preview": "true",
+        "preview": true,
       },
       {
         "spotId": 1,
         "url": "image.url/2",
-        "preview": "false",
+        "preview": false,
       },
       {
         "spotId": 2,
         "url": "image.url/1",
-        "preview": "true",
+        "preview": true,
       },
     ]);
   },
