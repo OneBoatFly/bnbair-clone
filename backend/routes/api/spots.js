@@ -2,7 +2,50 @@ const { check } = require('express-validator');
 const { requireAuth } = require('../../utils/auth');
 const { handleValidationErrors } = require('../../utils/validation');
 const router = require('express').Router();
-const { Spot, Review } = require('../../db/models');
+const { Spot, Review, SpotImage, sequelize } = require('../../db/models');
+
+// get all spot
+router.get('/', async (req, res, next) => {
+    const spots = await Spot.findAll({
+        include: [
+            {
+                model: Review,
+                attributes: [[sequelize.fn("AVG", sequelize.col("stars")), "avgRating"]]
+            }
+        ],
+        group: ['Spot.id']
+    });
+
+    const spotsArr = [];
+    for (let i = 0; i < spots.length; i++) {
+        let spot = spots[i];
+        
+        const spotJSON = spot.toJSON();
+        if (spotJSON.Reviews.length) {
+            spotJSON.avgRating = Math.round(spotJSON.Reviews[0].avgRating * 10) / 10;
+        } else {
+            spotJSON.avgRating = null;
+        }
+        delete spotJSON.Reviews;
+    
+        const preview = await SpotImage.findOne({
+            where: {
+                preview: true,
+                spotId: spot.id,
+            },
+            attributes: ['url']
+        });
+        if (preview) {
+            spotJSON.preview = preview.url;
+        } else {
+            spotJSON.preview = null;
+        }
+        
+        spotsArr.push(spotJSON);
+    }
+
+    res.json({ Spots: spotsArr });
+});
 
 //create a spot
     // check create spot req body
