@@ -6,33 +6,41 @@ const { Spot, Review, SpotImage, sequelize } = require('../../db/models');
 
 // get all spot
 router.get('/', async (req, res, next) => {
-    const spots = await Spot.findAll({
-        include: [
-            {
-                model: Review,
-                attributes: [[sequelize.fn("AVG", sequelize.col("stars")), "avgRating"]],
-                group: ['Reviews.id']
-            }
-        ],
-        group: ['Spot.id']
-    });
+    // const spots = await Spot.findAll({
+    //     include: [
+    //         {
+    //             model: Review,
+    //             attributes: [[sequelize.fn("AVG", sequelize.col("stars")), "avgRating"]],
+    //             group: ['Reviews.id']
+    //         }
+    //     ],
+    //     group: ['Spot.id']
+    // });
+    // this works on sqlite but gets an error message in postres
+    // "column \"Reviews.id\" must appear in the GROUP BY clause or be used in an aggregate function"
+
+    const spots = await Spot.findAll();
 
     const spotsArr = [];
     for (let i = 0; i < spots.length; i++) {
         let spot = spots[i];
         
         const spotJSON = spot.toJSON();
-        if (spotJSON.Reviews.length) {
-            spotJSON.avgRating = Math.round(spotJSON.Reviews[0].avgRating * 10) / 10;
-        } else {
+        const avgRating = await Review.findAll({
+            attributes: [[sequelize.fn("AVG", sequelize.col("stars")), "avgRating"]],
+            where: { spotId: spot.id }
+        });
+        console.log(avgRating[0].toJSON().avgRating);
+        if (!avgRating[0].toJSON().avgRating) {
             spotJSON.avgRating = null;
+        } else {
+            spotJSON.avgRating = Math.round(avgRating[0].toJSON().avgRating * 10) / 10;
         }
-        delete spotJSON.Reviews;
     
         const preview = await SpotImage.findOne({
             where: {
                 preview: true,
-                spotId: spot.id,
+                spotId: spot.id
             },
             attributes: ['url']
         });
