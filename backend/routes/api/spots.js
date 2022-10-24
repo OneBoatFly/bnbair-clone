@@ -10,7 +10,8 @@ router.get('/', async (req, res, next) => {
         include: [
             {
                 model: Review,
-                attributes: [[sequelize.fn("AVG", sequelize.col("stars")), "avgRating"]]
+                attributes: [[sequelize.fn("AVG", sequelize.col("stars")), "avgRating"]],
+                group: ['Reviews.id']
             }
         ],
         group: ['Spot.id']
@@ -236,8 +237,8 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res, ne
 
         if (!review) {
             try {
-                console.log('**', spot.toJSON())
-                console.log('*** userId:', req.user.id, typeof req.user.id)
+                // console.log('**', spot.toJSON())
+                // console.log('*** userId:', req.user.id, typeof req.user.id)
                 // const review = await spot.createReview({
                 //     userId: req.user.id,
                 //     review: req.body.review,
