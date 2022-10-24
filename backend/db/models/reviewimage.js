@@ -15,6 +15,12 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   ReviewImage.init({
+    id: {
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+      type: DataTypes.INTEGER
+    },    
     reviewId: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -32,6 +38,9 @@ module.exports = (sequelize, DataTypes) => {
       unique: true,
       validate: true      
     }],
+    defaultScope: {
+      attributes: ['id', 'url'],
+    },
     sequelize,
     modelName: 'ReviewImage',
   });
