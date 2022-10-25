@@ -2,8 +2,122 @@ const { check, query } = require('express-validator');
 const { requireAuth } = require('../../utils/auth');
 const { handleValidationErrors } = require('../../utils/validation');
 const router = require('express').Router();
-const { Spot, Review, SpotImage, sequelize } = require('../../db/models');
+const { Spot, Review, SpotImage, User, ReviewImage, sequelize } = require('../../db/models');
 const { Op } = require('sequelize');
+
+// get all spots owned by the current user
+router.get('/current', requireAuth, async (req, res) => {
+    const spots = await Spot.findAll({
+        where: { ownerId: req.user.id }
+    });
+
+    const spotsArr = [];
+    for (let i = 0; i < spots.length; i++) {
+        let spot = spots[i];
+        const spotJSON = spot.toJSON();
+
+        const avgRating = await Review.findAll({
+            attributes: [[sequelize.fn("AVG", sequelize.col("stars")), "avgRating"]],
+            where: { spotId: spot.id }
+        });
+
+        if (!avgRating[0].toJSON().avgRating) {
+            spotJSON.avgRating = null;
+        } else {
+            spotJSON.avgRating = Math.round(avgRating[0].toJSON().avgRating * 10) / 10;
+        }
+
+        const preview = await SpotImage.findOne({
+            where: {
+                preview: true,
+                spotId: spot.id
+            },
+            attributes: ['url']
+        });
+
+        if (preview) {
+            spotJSON.preview = preview.url;
+        } else {
+            spotJSON.preview = null;
+        }
+
+        spotsArr.push(spotJSON);
+    }
+
+    res.json({ Spots: spotsArr });
+})
+
+// get all reviews by a spotId
+router.get('/:spotId/reviews', async (req, res, next) => {
+    const spot = await Spot.findByPk(req.params.spotId);
+
+    if (!spot) {
+        const err = new Error("Spot couldn't be found");
+        err.status = 404;
+        next(err);        
+    } else {
+        const reviews = await Review.findAll({
+            where: { spotId: req.params.spotId },
+            include: [
+                {
+                    model: User,
+                    attributes: ['id', 'firstName', 'lastName']
+                },
+                {
+                    model: ReviewImage,
+                    attributes: ['id', 'url']
+                },
+            ]
+        });
+
+        res.json({ Reviews: reviews });
+    }
+});
+
+// get details of a spot from an id
+router.get('/:spotId', async (req, res, next) => {
+    const spot = await Spot.findByPk(req.params.spotId, {
+        include : [
+            {
+                model: SpotImage,
+                attributes: ['id', 'url', 'preview']
+            },
+            {
+                model: User,
+                as: 'Owner',
+                attributes: ['id', 'firstName', 'lastName'],
+            }
+        ]
+    });
+
+    if (!spot) {
+        const err = new Error("Spot couldn't be found");
+        err.status = 404;
+        next(err);
+    } else {
+        const spotJSON = spot.toJSON();
+
+        const countAndAvg = await Review.findAll({
+            attributes: [[sequelize.fn("COUNT", sequelize.col('stars')), 'numReviews'], [sequelize.fn("AVG", sequelize.col("stars")), "avgRating"]],
+            where: { spotId: spot.id }
+        });
+        // console.log(countAndAvg[0].toJSON())
+
+        if (!countAndAvg[0].toJSON().numReviews) {
+            spotJSON.numReviews = null;
+        } else {
+            spotJSON.numReviews = countAndAvg[0].toJSON().numReviews;
+        }
+
+        if (!countAndAvg[0].toJSON().avgRating) {
+            spotJSON.avgStarRating = null;
+        } else {
+            spotJSON.avgStarRating = Math.round(countAndAvg[0].toJSON().avgRating * 10) / 10;
+        }
+
+        res.json(spotJSON);
+    }
+})
 
 // get all spot with query filters
     // check query inputs
@@ -196,6 +310,36 @@ router.put('/:spotId', requireAuth, validateSpot, async (req, res, next) => {
         }
     }
 });
+
+// delete a spot
+router.delete('/:spotId', requireAuth, async (req, res, next) => {
+    const spot = await Spot.findByPk(req.params.spotId);
+    // console.log('***************')
+    // if (spot) console.log(spot.toJSON())
+    // else console.log(spot)
+    // console.log('***************')
+
+    if (!spot) {
+        const err = new Error("Spot couldn't be found");
+        err.status = 404;
+        next(err);
+    } else {
+        if (spot.ownerId !== req.user.id) {
+            const err = new Error('Unauthorized');
+            err.title = 'Unauthorized';
+            err.errors = ['Unauthorized'];
+            err.status = 401;
+            return next(err);
+        } else {
+            await spot.destroy();
+            res.json({
+                "message": "Successfully deleted",
+                "statusCode": 200
+            });
+        }
+    }
+
+})
 
 // add an image to a spot based on spotId
     // check image body

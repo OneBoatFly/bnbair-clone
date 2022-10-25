@@ -11,10 +11,11 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      // Review.belongsTo(models.User, {foreignKey: 'userId'});
+      Review.belongsTo(models.User, { foreignKey: 'userId' }); // used to include users for /api/spots/:spotId/reviews
       // Review.belongsTo(models.Spot, {foreignKey: 'spotId'});
 
-      Review.hasMany(models.ReviewImage, {foreignKey: 'reviewId', onDelete: 'CASCADE', hooks: true}); // used to add images to review
+      Review.hasMany(models.ReviewImage, {foreignKey: 'reviewId', onDelete: 'CASCADE', hooks: true}); 
+      // used to add images to review, and include ReviewImage when getting reviews
     }
   }
   Review.init({
