@@ -5,6 +5,48 @@ const router = require('express').Router();
 const { Spot, Review, SpotImage, sequelize } = require('../../db/models');
 const { Op } = require('sequelize');
 
+// get all spots owned by the current user
+router.get('/current', requireAuth, async (req, res) => {
+    const spots = await Spot.findAll({
+        where: { ownerId: req.user.id }
+    });
+
+    const spotsArr = [];
+    for (let i = 0; i < spots.length; i++) {
+        let spot = spots[i];
+        const spotJSON = spot.toJSON();
+
+        const avgRating = await Review.findAll({
+            attributes: [[sequelize.fn("AVG", sequelize.col("stars")), "avgRating"]],
+            where: { spotId: spot.id }
+        });
+
+        if (!avgRating[0].toJSON().avgRating) {
+            spotJSON.avgRating = null;
+        } else {
+            spotJSON.avgRating = Math.round(avgRating[0].toJSON().avgRating * 10) / 10;
+        }
+
+        const preview = await SpotImage.findOne({
+            where: {
+                preview: true,
+                spotId: spot.id
+            },
+            attributes: ['url']
+        });
+
+        if (preview) {
+            spotJSON.preview = preview.url;
+        } else {
+            spotJSON.preview = null;
+        }
+
+        spotsArr.push(spotJSON);
+    }
+
+    res.json({ Spots: spotsArr });
+})
+
 // get all spot with query filters
     // check query inputs
 const validateQuery = [
