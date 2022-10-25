@@ -36,9 +36,9 @@ router.get('/current', requireAuth, async (req, res) => {
         });
 
         if (preview) {
-            spotJSON.preview = preview.url;
+            spotJSON.previewImage = preview.url;
         } else {
-            spotJSON.preview = null;
+            spotJSON.previewImage = null;
         }
 
         spotsArr.push(spotJSON);
@@ -230,9 +230,9 @@ router.get('/', validateQuery, async (req, res, next) => {
             attributes: ['url']
         });
         if (preview) {
-            spotJSON.preview = preview.url;
+            spotJSON.previewImage = preview.url;
         } else {
-            spotJSON.preview = null;
+            spotJSON.previewImage = null;
         }
         
         spotsArr.push(spotJSON);
