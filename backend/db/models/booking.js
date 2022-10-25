@@ -6,6 +6,8 @@ module.exports = (sequelize, DataTypes) => {
   class Booking extends Model {
     static associate(models) {
       // define association here
+      Booking.belongsTo(models.User, { foreignKey: 'userId' }) // used to include users /api/spots/:spotId/bookings
+      Booking.belongsTo(models.Spot, { foreignKey: 'spotId' }) // used to include spots /api/bookings/current
     }
   }
   Booking.init({
@@ -24,10 +26,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     startDate: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATEONLY,
     },
     endDate: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATEONLY,
       validate: {
         isAfterStartDate(value) {
           if (value < this.startDate) {
