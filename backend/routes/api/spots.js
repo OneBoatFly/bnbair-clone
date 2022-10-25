@@ -2,7 +2,7 @@ const { check, query } = require('express-validator');
 const { requireAuth } = require('../../utils/auth');
 const { handleValidationErrors } = require('../../utils/validation');
 const router = require('express').Router();
-const { Spot, Review, SpotImage, User, sequelize } = require('../../db/models');
+const { Spot, Review, SpotImage, User, ReviewImage, sequelize } = require('../../db/models');
 const { Op } = require('sequelize');
 
 // get all spots owned by the current user
@@ -46,6 +46,33 @@ router.get('/current', requireAuth, async (req, res) => {
 
     res.json({ Spots: spotsArr });
 })
+
+// get all reviews by a spotId
+router.get('/:spotId/reviews', async (req, res, next) => {
+    const spot = await Spot.findByPk(req.params.spotId);
+
+    if (!spot) {
+        const err = new Error("Spot couldn't be found");
+        err.status = 404;
+        next(err);        
+    } else {
+        const reviews = await Review.findAll({
+            where: { spotId: req.params.spotId },
+            include: [
+                {
+                    model: User,
+                    attributes: ['id', 'firstName', 'lastName']
+                },
+                {
+                    model: ReviewImage,
+                    attributes: ['id', 'url']
+                },
+            ]
+        });
+
+        res.json({ Reviews: reviews });
+    }
+});
 
 // get details of a spot from an id
 router.get('/:spotId', async (req, res, next) => {
