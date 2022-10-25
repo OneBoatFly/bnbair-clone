@@ -6,6 +6,7 @@ module.exports = (sequelize, DataTypes) => {
   class Booking extends Model {
     static associate(models) {
       // define association here
+      Booking.belongsTo(models.User, { foreignKey: 'userId' }) // used to include users /api/spots/:spotId/bookings
     }
   }
   Booking.init({

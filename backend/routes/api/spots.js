@@ -2,7 +2,7 @@ const { check, query } = require('express-validator');
 const { requireAuth } = require('../../utils/auth');
 const { handleValidationErrors } = require('../../utils/validation');
 const router = require('express').Router();
-const { Spot, Review, SpotImage, User, ReviewImage, sequelize } = require('../../db/models');
+const { Spot, Review, SpotImage, User, ReviewImage, Booking, sequelize } = require('../../db/models');
 const { Op } = require('sequelize');
 
 // get all spots owned by the current user
@@ -75,7 +75,38 @@ router.get('/:spotId/reviews', async (req, res, next) => {
 });
 
 // get all bookings by a spotId
-router.get('/:spotId')
+router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
+    const spot = await Spot.findByPk(req.params.spotId);
+
+    if (!spot) {
+        const err = new Error("Spot couldn't be found");
+        err.status = 404;
+        next(err);        
+    } else {
+        const bookings = await spot.getBookings({
+            include: {
+                model: User,
+                attributes: ['id', 'firstName', 'lastName']
+            }
+        });
+
+        if (req.user.id === spot.ownerId) {
+            res.json({ Bookings: bookings })
+        } else {
+            const bookingsJSON = [];
+            for (let booking of bookings) {
+                const bookingJSON = {};
+                bookingJSON.spotId = booking.spotId;
+                bookingJSON.startDate = booking.startDate;
+                bookingJSON.endDate = booking.endDate;
+                bookingsJSON.push(bookingJSON);
+            }
+
+            res.json({Bookings: bookingsJSON});
+        }
+    }
+
+});
 
 // get details of a spot from an id
 router.get('/:spotId', async (req, res, next) => {
