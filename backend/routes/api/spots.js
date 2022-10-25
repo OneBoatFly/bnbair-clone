@@ -173,6 +173,30 @@ router.post('/', requireAuth, validateSpot, async (req, res, next) => {
     res.json(spot);
 });
 
+// edit a spot
+// need to confirm if i should assume body must include all attributes
+router.put('/:spotId', requireAuth, validateSpot, async (req, res, next) => {
+    const { address, city, state, country, lat, lng, name, description, price } = req.body;
+    const spot = await Spot.findByPk(req.params.spotId);
+    if (!spot) {
+        const err = new Error("Spot couldn't be found");
+        err.status = 404;
+        next(err);
+    } else {
+        if (spot.ownerId == req.user.id) {
+            // make the updates
+            const updatedSpot = await spot.update({ address, city, state, country, lat, lng, name, description, price });
+            res.json(updatedSpot);
+        } else {
+            const err = new Error('Unauthorized');
+            err.title = 'Unauthorized';
+            err.errors = ['Unauthorized'];
+            err.status = 401;
+            return next(err);
+        }
+    }
+});
+
 // add an image to a spot based on spotId
     // check image body
 const validateImage = [
