@@ -1,41 +1,36 @@
 'use strict';
 
 const bcrypt = require('bcryptjs');
-// const salt = bcrypt.genSaltSync(10);
 const { Op } = require('sequelize');
+const {User} = require('../models');
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.bulkInsert('Users', [
-      {
-        username: 'DemoUser1',
-        email: 'demouser@example.com',
-        firstName: 'DemoUserF',
-        lastName: 'DemoUserL',
-        hashedPassword: bcrypt.hashSync('password')
-      },
-      {
-        username: 'DemoUser2',
-        email: 'demouser1@example.com',
-        firstName: 'DemoUser1F',
-        lastName: 'DemoUser1L',
-        hashedPassword: bcrypt.hashSync('password')
-      },
-      {
-        username: 'DemoUser3',
-        email: 'demouser2@example.com',
-        firstName: 'DemoUser2F',
-        lastName: 'DemoUser2L',        
-        hashedPassword: bcrypt.hashSync('password')
-      }            
-  ], {});
+    let counter = 0;
+
+    while (counter < 10) {
+      const username = `DemoUser${counter + 1}`;
+      const email = `user${counter + 1}@demo.com`;
+      const firstName = 'DemoFirst';
+      const lastName = 'DemoLast';
+      const hashedPassword = bcrypt.hashSync('password');
+      await User.create({
+        username,
+        email,
+        firstName,
+        lastName,
+        hashedPassword
+      });
+      counter++;
+    }
+
   },
 
   async down (queryInterface, Sequelize) {
     await queryInterface.bulkDelete('Users', {
       username: {
-        [Op.in]: ['DemoUser1', 'DemoUser2', 'DemoUser3']
+        [Op.like]: 'DemoUser%'
       }
     }, {});
   }
