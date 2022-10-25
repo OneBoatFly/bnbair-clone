@@ -443,6 +443,8 @@ const validateBooking = [
     handleValidationErrors
 ];
 
+const checkConflict = require('../../utils/booking-conflicts');
+
 router.post('/:spotId/bookings', requireAuth, validateBooking, async (req, res, next) => {
     // console.log('in create a booking route');
 
@@ -463,29 +465,12 @@ router.post('/:spotId/bookings', requireAuth, validateBooking, async (req, res, 
         return next(err);
     } else {
         const { startDate, endDate } = req.body;
-        const bookings = await spot.getBookings();
-        const err = new Error('Sorry, this spot is already booked for the specified dates');
-        err.errors = {};
-        err.status = 403;
+        const existingBookings = await spot.getBookings();
+        const hasConflict = checkConflict(existingBookings, startDate, endDate);
 
-        let [startConflict, endConflict, bothConflict] = [false, false, false];
-        
-        bookings.forEach(booking => {
-            const newStartDate = new Date(startDate);
-            const newEndDate = new Date(endDate);
-            if (booking.startDate <= newStartDate && newStartDate <= booking.endDate && booking.startDate <= newEndDate && newEndDate <= booking.endDate) {
-                bothConflict = true;
-            } else if (booking.startDate <= newStartDate && newStartDate <= booking.endDate) {
-                startConflict = true;           
-            } else if (booking.startDate <= newEndDate && newEndDate <= booking.endDate) {
-                endConflict = true;
-            }
-        });
-        if (startConflict || bothConflict) err.errors.startDate = "Start date conflicts with an existing booking";
-        if (endConflict || bothConflict) err.errors.endDate = "End date conflicts with an existing booking";
-
-        if (startConflict || endConflict || bothConflict) next(err);
-        else {
+        if (hasConflict) {
+            next(hasConflict);
+        } else {
             // no conflict
             const booking = await spot.createBooking({userId: guest.id, startDate, endDate});
             res.json(booking);

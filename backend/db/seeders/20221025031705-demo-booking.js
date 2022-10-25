@@ -6,15 +6,14 @@ const { Op } = require('sequelize');
 module.exports = {
   async up (queryInterface, Sequelize) {
     const users = await User.findAll({limit:5, offset: 5});
-    const spots = await Spot.findAll({limit: 10});
-    const now = Date.now();
+    const spots = await Spot.findAll({limit:5});
 
-    for (let i = 0; i < users.length; i++) {
-      const user = users[i];
-      for (let j = 0; j < spots.length; j++) {
-        const spot = spots[j];
-        const startDate = 8.64e+7 * (i + j) + now;
+    for (let spot of spots) {
+      let now = Date.now();
+      for (let user of users) {
+        const startDate = 8.64e+7 * 3 + now;
         const endDate = 2.592e+8 + startDate;
+        now = endDate;
 
         await Booking.create({
           spotId: spot.id,
@@ -22,10 +21,25 @@ module.exports = {
           startDate,
           endDate
         });
-
       };
     };
-    
+
+    for (let spot of spots) {
+      let now = Date.now();
+      for (let user of users) {
+        const endDate = now - 8.64e+7 * 3;
+        const startDate = endDate - 2.592e+8;
+        now = startDate;
+
+        await Booking.create({
+          spotId: spot.id,
+          userId: user.id,
+          startDate,
+          endDate
+        });
+      };
+    };
+
   },
 
   async down (queryInterface, Sequelize) {

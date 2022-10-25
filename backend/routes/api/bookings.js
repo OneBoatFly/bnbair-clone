@@ -2,6 +2,7 @@ const { requireAuth } = require('../../utils/auth');
 const router = require('express').Router();
 const { Booking, Spot, SpotImage } = require('../../db/models');
 const { validateBooking } = require('./spots');
+const checkConflict = require('../../utils/booking-conflicts');
 
 router.get('/current', requireAuth, async (req, res) => {
     const bookings = await Booking.findAll({
@@ -55,35 +56,17 @@ router.put('/:bookingId', requireAuth, validateBooking, async (req, res, next) =
         next(err);
     } else {
         if (oldBooking.userId == req.user.id) {
-            if (oldBooking.endDate < Date.now()) {
+            if (new Date(oldBooking.endDate) < Date.now()) {
                 const err = new Error("Past bookings can't be modified");
                 err.status = 403;
                 next(err);
             } else {
                 const existingBookings = oldBooking.toJSON().Spot.Bookings;
+                const hasConflict = checkConflict(existingBookings, startDate, endDate);
 
-                const err = new Error('Sorry, this spot is already booked for the specified dates');
-                err.errors = {};
-                err.status = 403;
-    
-                let [startConflict, endConflict, bothConflict] = [false, false, false];
-    
-                existingBookings.forEach(booking => {
-                    const newStartDate = new Date(startDate);
-                    const newEndDate = new Date(endDate);
-                    if (booking.startDate <= newStartDate && newStartDate <= booking.endDate && booking.startDate <= newEndDate && newEndDate <= booking.endDate) {
-                        bothConflict = true;
-                    } else if (booking.startDate <= newStartDate && newStartDate <= booking.endDate) {
-                        startConflict = true;
-                    } else if (booking.startDate <= newEndDate && newEndDate <= booking.endDate) {
-                        endConflict = true;
-                    }
-                });
-                if (startConflict || bothConflict) err.errors.startDate = "Start date conflicts with an existing booking";
-                if (endConflict || bothConflict) err.errors.endDate = "End date conflicts with an existing booking";
-    
-                if (startConflict || endConflict || bothConflict) next(err);
-                else {
+                if (hasConflict) {
+                    next(hasConflict);
+                } else {
                     // no conflict
                     const newBooking = await oldBooking.update({ startDate, endDate });
                     const newBookingJSON = newBooking.toJSON();
