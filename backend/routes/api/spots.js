@@ -197,6 +197,36 @@ router.put('/:spotId', requireAuth, validateSpot, async (req, res, next) => {
     }
 });
 
+// delete a spot
+router.delete('/:spotId', requireAuth, async (req, res, next) => {
+    const spot = await Spot.findByPk(req.params.spotId);
+    console.log('***************')
+    if (spot) console.log(spot.toJSON())
+    else console.log(spot)
+    console.log('***************')
+
+    if (!spot) {
+        const err = new Error("Spot couldn't be found");
+        err.status = 404;
+        next(err);
+    } else {
+        if (spot.ownerId !== req.user.id) {
+            const err = new Error('Unauthorized');
+            err.title = 'Unauthorized';
+            err.errors = ['Unauthorized'];
+            err.status = 401;
+            return next(err);
+        } else {
+            await spot.destroy();
+            res.json({
+                "message": "Successfully deleted",
+                "statusCode": 200
+            });
+        }
+    }
+
+})
+
 // add an image to a spot based on spotId
     // check image body
 const validateImage = [
