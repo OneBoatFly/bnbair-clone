@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Review.belongsTo(models.User, { foreignKey: 'userId' }); // used to include users for /api/spots/:spotId/reviews
-      // Review.belongsTo(models.Spot, {foreignKey: 'spotId'});
+      Review.belongsTo(models.Spot, { foreignKey: 'spotId' }); // used to include spots for /api/reviews/current
 
       Review.hasMany(models.ReviewImage, {foreignKey: 'reviewId', onDelete: 'CASCADE', hooks: true}); 
       // used to add images to review, and include ReviewImage when getting reviews

@@ -74,6 +74,9 @@ router.get('/:spotId/reviews', async (req, res, next) => {
     }
 });
 
+// get all bookings by a spotId
+router.get('/:spotId')
+
 // get details of a spot from an id
 router.get('/:spotId', async (req, res, next) => {
     const spot = await Spot.findByPk(req.params.spotId, {
