@@ -1,49 +1,40 @@
 'use strict';
+const { Op } = require('sequelize');
+const { User } = require('../models');
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-   await queryInterface.bulkInsert('Spots', [
-     {
-       "ownerId": 1,
-       "address": "aaa123 Disney Lane",
-       "city": "San Francisco",
-       "state": "California",
-       "country": "United States of America",
-       "lat": 37.7645358,
-       "lng": -122.4730327,
-       "name": "App Academy",
-       "description": "Place where web developers are created",
-       "price": 123
-     },
-     {
-       "ownerId": 1, 
-      "address": "aaa1234566 Disney Lane",
-       "city": "San Francisco",
-       "state": "California",
-       "country": "United States of America",
-       "lat": 37.76455658,
-       "lng": -122.46570327,
-       "name": "App Academy222",
-       "description": "Place where web developers are created",
-       "price": 163
-     },
-     {
-       "ownerId": 2, 
-      "address": "234566 Disney Lane",
-       "city": "San Francisco",
-       "state": "California",
-       "country": "United States of America",
-       "lat": 37.7645758,
-       "lng": -122.4656327,
-       "name": "Academy222",
-       "description": "Place where web developers are created",
-       "price": 163
-     },     
-   ]);
+    const users = await User.findAll({limit: 5});
+    for (let i = 0; i < users.length; i++) {
+      let user = users[i];
+      let counter = 0;
+      while (counter < i + 1) {
+        const address = `DemoUser: ${user.id} DemoProperty: ${counter + 1}`;
+        const city = 'Test City';
+        const state = 'Test State';
+        const country = 'Test Country';
+        const lat = Math.round(getRandomArbitrary(-90, 90) * 100000) / 100000;
+        const lng = Math.round(getRandomArbitrary(-180, 180) * 100000) / 100000;
+        const name = 'Test Name';
+        const description = 'Test Description';
+        const price = (counter + 1) * 99;
+
+        await user.createSpot({ownerId: user.id, address, city, state, country, lat, lng, name, description, price});
+        counter++;
+      };
+    };
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.bulkDelete('Spots', null, {});
+    await queryInterface.bulkDelete('Spots', {
+      address: {
+        [Op.like]: 'DemoUser%'
+      }
+    });
   }
 };
+
+function getRandomArbitrary(min, max) {
+  return Math.random() * (max - min) + min;
+}
