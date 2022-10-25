@@ -2,7 +2,7 @@ const { check, query } = require('express-validator');
 const { requireAuth } = require('../../utils/auth');
 const { handleValidationErrors } = require('../../utils/validation');
 const router = require('express').Router();
-const { Spot, Review, SpotImage, sequelize } = require('../../db/models');
+const { Spot, Review, SpotImage, User, sequelize } = require('../../db/models');
 const { Op } = require('sequelize');
 
 // get all spots owned by the current user
@@ -45,6 +45,51 @@ router.get('/current', requireAuth, async (req, res) => {
     }
 
     res.json({ Spots: spotsArr });
+})
+
+// get details of a spot from an id
+router.get('/:spotId', async (req, res, next) => {
+    const spot = await Spot.findByPk(req.params.spotId, {
+        include : [
+            {
+                model: SpotImage,
+                attributes: ['id', 'url', 'preview']
+            },
+            {
+                model: User,
+                as: 'Owner',
+                attributes: ['id', 'firstName', 'lastName'],
+            }
+        ]
+    });
+
+    if (!spot) {
+        const err = new Error("Spot couldn't be found");
+        err.status = 404;
+        next(err);
+    } else {
+        const spotJSON = spot.toJSON();
+
+        const countAndAvg = await Review.findAll({
+            attributes: [[sequelize.fn("COUNT", sequelize.col('stars')), 'numReviews'], [sequelize.fn("AVG", sequelize.col("stars")), "avgRating"]],
+            where: { spotId: spot.id }
+        });
+        // console.log(countAndAvg[0].toJSON())
+
+        if (!countAndAvg[0].toJSON().numReviews) {
+            spotJSON.numReviews = null;
+        } else {
+            spotJSON.numReviews = countAndAvg[0].toJSON().numReviews;
+        }
+
+        if (!countAndAvg[0].toJSON().avgRating) {
+            spotJSON.avgStarRating = null;
+        } else {
+            spotJSON.avgStarRating = Math.round(countAndAvg[0].toJSON().avgRating * 10) / 10;
+        }
+
+        res.json(spotJSON);
+    }
 })
 
 // get all spot with query filters
@@ -242,10 +287,10 @@ router.put('/:spotId', requireAuth, validateSpot, async (req, res, next) => {
 // delete a spot
 router.delete('/:spotId', requireAuth, async (req, res, next) => {
     const spot = await Spot.findByPk(req.params.spotId);
-    console.log('***************')
-    if (spot) console.log(spot.toJSON())
-    else console.log(spot)
-    console.log('***************')
+    // console.log('***************')
+    // if (spot) console.log(spot.toJSON())
+    // else console.log(spot)
+    // console.log('***************')
 
     if (!spot) {
         const err = new Error("Spot couldn't be found");
