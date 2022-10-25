@@ -432,6 +432,7 @@ const validateBooking = [
     check('endDate')
         .exists({ checkFalsy: true })
         .isDate()
+        .withMessage('Must have a valid end Date.')
         .custom((value, {req}) => {
             if (new Date(value) <= new Date(req.body.startDate)) {
                 return false;
@@ -548,4 +549,4 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res, ne
     };
 });
 
-module.exports = { router, validateReview };
+module.exports = { router, validateReview, validateBooking };
