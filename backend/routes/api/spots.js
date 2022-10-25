@@ -1,11 +1,59 @@
-const { check } = require('express-validator');
+const { check, query } = require('express-validator');
 const { requireAuth } = require('../../utils/auth');
 const { handleValidationErrors } = require('../../utils/validation');
 const router = require('express').Router();
 const { Spot, Review, SpotImage, sequelize } = require('../../db/models');
+const { Op } = require('sequelize');
 
-// get all spot
-router.get('/', async (req, res, next) => {
+// get all spot with query filters
+    // check query inputs
+const validateQuery = [
+    query('page', "Page must be greater than or equal to 1")
+        .if((value, {req}) => req.query.page)
+        .isInt({ min: 1 }),
+    query('size', "Size must be greater than or equal to 1")
+        .if((value, { req }) => req.query.size)
+        .isInt({min: 1}),
+    query('maxLat', "Maximum latitude is invalid")
+        .if((value, { req }) => req.query.maxLat)
+        .isFloat({ min: -90, max: 90 }),
+    query('minLat', "Minimum latitude is invalid")
+        .if((value, { req }) => req.query.minLat)
+        .isFloat({ min: -90, max: 90 })
+        .custom((value, { req }) => {
+            if (parseInt(value) > parseInt(req.query.maxLat)) {
+                return false;
+            }
+            return true;
+        }),
+    query('maxLng', "Maximum longitude is invalid")
+        .if((value, { req }) => req.query.maxLng)
+        .isFloat({ min: -180, max: 180 }),
+    query('minLng', "Minimum longitude is invalid")
+        .if((value, { req }) => req.query.minLng)
+        .isFloat({ min: -180, max: 180 })
+        .custom((value, { req }) => {
+            if (parseInt(value) > parseInt(req.query.maxLng)) {
+                return false;
+            }
+            return true;
+        }),
+    query('maxPrice', "Maximum price must be greater than or equal to 0")
+        .if((value, { req }) => req.query.maxPrice)
+        .isFloat({min: 0}),
+    query('minPrice', "Minimum price must be greater than or equal to 0")
+        .if((value, { req }) => req.query.minPrice)
+        .isFloat({min: 0})
+        .custom((value, { req }) => {
+            if (value > req.query.maxPrice) {
+                return false;
+            }
+            return true;
+        }),
+    handleValidationErrors
+];
+
+router.get('/', validateQuery, async (req, res, next) => {
     // const spots = await Spot.findAll({
     //     include: [
     //         {
@@ -18,8 +66,31 @@ router.get('/', async (req, res, next) => {
     // });
     // this works on sqlite but gets an error message in postres
     // "column \"Reviews.id\" must appear in the GROUP BY clause or be used in an aggregate function"
+    
+    let { page, size, maxLat, minLat, maxLng, minLng, maxPrice, minPrice } = req.query;
+    if (!page) page = 1;
+    if (!size) size = 20;
+    const offset = (page - 1) * size;
+    
+    const where = {};
+    // console.log('--------------------', maxLat, minLat, maxLng, minLng, maxPrice, minPrice)
+    const latOp = [];
+    if (maxLat) latOp.push({ [Op.lte]: maxLat });
+    if (minLat) latOp.push({ [Op.gte]: minLat });
+    if (maxLat || minLat) where.lat = {[Op.and]: latOp};
 
-    const spots = await Spot.findAll();
+    const lngOp = [];
+    if (maxLng) lngOp.push({ [Op.lte]: maxLng });
+    if (minLng) lngOp.push({ [Op.gte]: minLng });
+    if (maxLng || minLng) where.lng = { [Op.and]: lngOp };
+
+    const priceOp = [];
+    if (maxPrice) priceOp.push({ [Op.lte]: maxPrice });
+    if (minPrice) priceOp.push({ [Op.gte]: minPrice });
+    if (maxPrice || minPrice) where.price = { [Op.and]: priceOp };
+
+    // console.log('****************', where)
+    const spots = await Spot.findAll({ where, limit: size, offset });
 
     const spotsArr = [];
     for (let i = 0; i < spots.length; i++) {
@@ -30,7 +101,7 @@ router.get('/', async (req, res, next) => {
             attributes: [[sequelize.fn("AVG", sequelize.col("stars")), "avgRating"]],
             where: { spotId: spot.id }
         });
-        console.log(avgRating[0].toJSON().avgRating);
+        // console.log(avgRating[0].toJSON().avgRating);
         if (!avgRating[0].toJSON().avgRating) {
             spotJSON.avgRating = null;
         } else {
@@ -53,7 +124,11 @@ router.get('/', async (req, res, next) => {
         spotsArr.push(spotJSON);
     }
 
-    res.json({ Spots: spotsArr });
+    res.json({ 
+        Spots: spotsArr,
+        page,
+        size
+    });
 });
 
 //create a spot
