@@ -24,7 +24,7 @@ router.delete('/:imageId', requireAuth, async (req, res, next) => {
             const err = new Error('Unauthorized');
             err.title = 'Unauthorized';
             err.errors = ['Unauthorized'];
-            err.status = 401;
+            err.status = 403;
             return next(err);        
         }
     }
