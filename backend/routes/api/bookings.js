@@ -39,16 +39,7 @@ router.get('/current', requireAuth, async (req, res) => {
 
 router.put('/:bookingId', requireAuth, validateBooking, async (req, res, next) => {
     const { startDate, endDate } = req.body;
-    const oldBooking = await Booking.findByPk(req.params.bookingId, {
-        include: {
-            model: Spot,
-            attributes: ['id'],
-            include: {
-                model: Booking,
-                attributes: {exclude: ['createdAt', 'updatedAt']}
-            }
-        }
-    });
+    const oldBooking = await Booking.findByPk(req.params.bookingId);
 
     if (!oldBooking) {
         const err = new Error("Booking couldn't be found");
@@ -61,18 +52,12 @@ router.put('/:bookingId', requireAuth, validateBooking, async (req, res, next) =
                 err.status = 403;
                 next(err);
             } else {
-                const existingBookings = oldBooking.toJSON().Spot.Bookings;
-                const hasConflict = checkConflict(existingBookings, startDate, endDate);
-
-                if (hasConflict) {
+                const hasConflict = await checkConflict(oldBooking.spotId, startDate, endDate);
+                if (hasConflict) {                 
                     next(hasConflict);
                 } else {
-                    // no conflict
                     const newBooking = await oldBooking.update({ startDate, endDate });
-                    const newBookingJSON = newBooking.toJSON();
-                    delete newBookingJSON.Spot;
-
-                    res.json(newBookingJSON);
+                    res.json(newBooking);
                 }
             }
 

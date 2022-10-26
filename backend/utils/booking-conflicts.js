@@ -1,37 +1,55 @@
-function checkConflict(bookings, startDate, endDate) {
+const { Booking } = require('../db/models');
+const { Op } = require('sequelize');
+
+async function checkConflict(spotId, newStart, newEnd) {
     const err = new Error('Sorry, this spot is already booked for the specified dates');
     err.errors = {};
     err.status = 403;
 
-    let [startC, endC, bothC] = [false, false, false];
-    for (let booking of bookings) {
-        const newStart = new Date(startDate);
-        const newEnd = new Date(endDate);
-        const existingStart = new Date(booking.startDate);
-        const existingEnd = new Date(booking.endDate);
-
-        // console.log('****************')
-        // console.log('new', newStart, newEnd)
-        // console.log('existing', existingStart, existingEnd)
-        // console.log('****************')
-        if (newStart <= existingStart && existingStart <= newEnd && newStart <= existingEnd && existingEnd <= newEnd) {
-            // console.log('----------- both', booking.id)
-            err.errors.startDate = "Start date conflicts with an existing booking";
-            err.errors.endDate = "End date conflicts with an existing booking";
-            bothC = true;
-        } else if (newStart <= existingStart && existingStart <= newEnd) {
-            // console.log('----------- end', booking.id)
-            err.errors.endDate = "End date conflicts with an existing booking";
-            startC = true;
-        } else if (newStart <= existingEnd && existingEnd <= newEnd) {
-            // console.log('----------- start', booking.id)
-            err.errors.startDate = "Start date conflicts with an existing booking";
-            endC = true;
+    const startConflictBooking = await Booking.findOne({
+        where: {
+            startDate: {[Op.lte]: newStart},
+            endDate: {[Op.gte]: newStart},
+            spotId,
         }
+    });
 
-    };
+    const endConflictBooking = await Booking.findOne({
+        where: {
+            startDate: {[Op.lte]: newEnd},
+            endDate: {[Op.gte]: newEnd},
+            spotId,
+        }
+    });
 
-    if (startC || endC || bothC) {
+    const bothConflictBooking = await Booking.findOne({
+        where: {
+            startDate: {[Op.gte]: newStart},
+            endDate: {[Op.lte]: newEnd},
+            spotId,
+        }
+    });
+
+    // console.log('-----------------checkling conflicts--------------------')
+    // if (startConflictBooking) console.log('start', startConflictBooking.toJSON());
+    // if (endConflictBooking) console.log('end', endConflictBooking.toJSON());
+    // if (bothConflictBooking) console.log('both', bothConflictBooking.toJSON())
+
+    if (startConflictBooking && endConflictBooking) {
+        // console.log('both conflicts by falling into a existing booking')
+        err.errors.startDate = "Start date conflicts with an existing booking";
+        err.errors.endDate = "End date conflicts with an existing booking";
+        return err;
+    } else if (startConflictBooking) {
+        err.errors.startDate = "Start date conflicts with an existing booking";
+        return err;
+    } else if (endConflictBooking) {
+        err.errors.endDate = "End date conflicts with an existing booking";
+        return err;        
+    } else if (!startConflictBooking && !endConflictBooking && bothConflictBooking ) {
+        // console.log('both conflicts by wrapping a existing booking')
+        err.errors.startDate = "Start date conflicts with an existing booking";
+        err.errors.endDate = "End date conflicts with an existing booking";
         return err;
     } else {
         return false;

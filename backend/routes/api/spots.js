@@ -465,13 +465,11 @@ router.post('/:spotId/bookings', requireAuth, validateBooking, async (req, res, 
         return next(err);
     } else {
         const { startDate, endDate } = req.body;
-        const existingBookings = await spot.getBookings();
-        const hasConflict = checkConflict(existingBookings, startDate, endDate);
+        const hasConflict = await checkConflict(req.params.spotId, startDate, endDate);
 
         if (hasConflict) {
             next(hasConflict);
         } else {
-            // no conflict
             const booking = await spot.createBooking({userId: guest.id, startDate, endDate});
             res.json(booking);
         }
