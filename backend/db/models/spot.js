@@ -83,7 +83,11 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         isDecimal: true,
         min: 0
-      }
+      },
+      // get() {
+      //   const rawValue = this.getDataValue('price');
+      //   return rawValue ? parseFloat(rawValue) : null;
+      // }
     }
   }, {
     indexes: [{
