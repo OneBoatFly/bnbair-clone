@@ -135,12 +135,12 @@ router.get('/:spotId', async (req, res, next) => {
             attributes: [[sequelize.fn("COUNT", sequelize.col('stars')), 'numReviews'], [sequelize.fn("AVG", sequelize.col("stars")), "avgRating"]],
             where: { spotId: spot.id }
         });
-        // console.log(countAndAvg[0].toJSON())
+        // console.log(countAndAvg[0].toJSON().numReviews, typeof countAndAvg[0].toJSON().numReviews)
 
-        if (!countAndAvg[0].toJSON().numReviews) {
-            spotJSON.numReviews = null;
+        if (!countAndAvg[0].toJSON().numReviews || !countAndAvg[0].toJSON().numReviews === '0') {
+            spotJSON.numReviews = 0;
         } else {
-            spotJSON.numReviews = countAndAvg[0].toJSON().numReviews;
+            spotJSON.numReviews = parseInt(countAndAvg[0].toJSON().numReviews);
         }
 
         if (!countAndAvg[0].toJSON().avgRating) {
