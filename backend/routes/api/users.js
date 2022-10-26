@@ -53,17 +53,22 @@ router.post('/', validateSignup, async (req, res, next) => {
         userJSON.token = token;
         return res.json(userJSON);
     } catch (e) {
+        const err = new Error("User already exists");
+        err.status = 403;
+        err.errors = {};
+        
+        let uniqueViolation = false;
+        // console.log('**************')
+        // console.log(e.errors)
         for (let i = 0; i < e.errors.length; i++) {
             if (e.errors[i].type === 'unique violation') {
+                uniqueViolation = true;
                 const path = e.errors[i].path;
-                const err = new Error("User already exists");
-                err.status = 403;
-                if (path === 'email') err.errors = { email: `User with that email already exists` };
-                else if (path === 'username') err.errors = { username: `User with that username already exists` };
-                next(err);
+                err.errors[path] = `User with that ${path} already exists` ;
             }
         }
-        next(e)
+        if (uniqueViolation) next(err);
+        else next(e);
     }
 });
 
