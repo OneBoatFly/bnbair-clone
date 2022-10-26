@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      // used to get review the reviewImage belongs to when deleting the reviewImage
       ReviewImage.belongsTo(models.Review, {foreignKey: 'reviewId', onDelete: 'CASCADE', hooks: true});
     }
   }
