@@ -1,16 +1,24 @@
 import { csrfFetch } from './csrf';
 
 // action consts
+const SIGNUP_USER = 'users/signup';
 const LOGIN_USER = 'session/login';
 const LOGOUT_USER = 'session/logout';
 
 // normal action creators
-const loginUser = (user) => {
+const setUser = (user) => {
     return {
         type: LOGIN_USER,
         user
     }
 };
+
+// const signupUser = (signupInfo) => {
+//     return {
+//         type: SIGNUP_USER,
+//         signupInfo
+//     }
+// }
 
 // thunk action creators
 export const login = (userCredentials) => async (dispatch) => {
@@ -26,7 +34,7 @@ export const login = (userCredentials) => async (dispatch) => {
     if (response.ok) {
         const user = await response.json();
         // console.log('user', user)
-        dispatch(loginUser(user));
+        dispatch(setUser(user));
         return user;
     }
 };
@@ -37,7 +45,22 @@ export const restoreUser = () => async (dispatch) => {
     if (response.ok) {
         const user = await response.json();
         // console.log('user', user)
-        dispatch(loginUser(user));
+        dispatch(setUser(user));
+        return user;
+    }
+};
+
+export const signup = (signupInfo) => async (dispatch) => {
+    const options = {
+        method: 'POST',
+        body: JSON.stringify(signupInfo)
+    };
+
+    const response = await csrfFetch('/api/users', options);
+
+    if (response.ok) {
+        const user = await response.json();
+        dispatch(setUser(user));
         return user;
     }
 }

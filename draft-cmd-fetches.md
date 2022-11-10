@@ -84,3 +84,12 @@ fetch('/api/csrf/restore').then(res => res.json()).then(data => console.log(data
 
 `test login`
 store.dispatch(sessionActions.login({credential:"DemoUser1", password:"password"}))
+
+`test singup`
+store.dispatch(sessionActions.signup({
+  firstName: 'TestUser1',
+  lastName: 'TestUser1',
+  username: 'TestUser1',
+  email: 'testuser1@email.com',
+  password: 'password'
+}))
