@@ -1,0 +1,138 @@
+body {
+    font-family: 'Roboto', Arial, Helvetica, sans-serif; 
+}
+
+.login-all-wrapper {
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+    /* need to figure out popping up from bottom & position later */
+}
+
+.login-all {
+    width: 100%;
+    max-width: 568px;
+    /* border: 1px solid red; */
+    border-radius: 12px;
+    background: white;
+    box-shadow: rgb(0 0 0 / 28%) 0px 8px 28px;
+    padding: 24px;
+}
+
+.login.welcome {
+    margin-top: 8px;
+    margin-bottom: 24px;
+    /* border: 1px solid red; */
+}
+
+h3 {
+    font-size: 22px;
+    color: #222222;
+    margin: 0px;
+    margin-bottom: 8px;
+    /* border: 1px solid red; */
+}
+
+form {
+    /* border: 1px solid red; */
+    color: #222222;
+    font-size: 16px;
+}
+
+.login {
+    display: flex;
+    flex-direction: column;
+}
+
+.login.inputs {
+    color: rgb(113, 113, 113);
+    font-size: 12px;
+    line-height: 20px;
+}
+
+input {
+    background: transparent;
+    background-color: transparent;
+    border: none;
+    padding: 0px;
+}
+
+input:focus {
+    outline: none;
+    background: transparent;
+    background-color: transparent;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+    transition: background-color 600000s 0s, color 600000s 0s;
+}
+
+.login.credential {
+    border: 1px solid rgb(113, 113, 113);
+    border-radius: 8px 8px 0px 0px;
+    padding: 12px;
+}
+
+.login.password {
+    border: 1px solid rgb(113, 113, 113);
+    border-top: 0px;
+    border-radius: 0px 0px 8px 8px;
+    padding: 12px;
+}
+
+.login.button-div {
+    margin-top: 16px;
+    margin-bottom: 24px;
+}
+
+button {
+    cursor: pointer;
+    display: inline-block;
+    margin: 0px;
+    position: relative;
+    outline: none;
+    padding: 14px 24px;
+    transition: box-shadow 0.2s ease 0s, -ms-transform 0.1s ease 0s, -webkit-transform 0.1s ease 0s, transform 0.1s ease 0s;
+    border: none;
+    background: linear-gradient(to right, rgb(230, 30, 77) 0%, rgb(227, 28, 95) 50%, rgb(215, 4, 102) 100%);
+    color: rgb(255, 255, 255);
+    width: 100%;
+    border-radius: 8px;
+}
+
+#outer-span {
+    /* border: 1px solid black; */
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+#inner-span {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-width: 200px;
+    background-size: 200% 200%;
+    opacity: 0;
+    transition: opacity 1.25s ease 0s;
+    background-image: radial-gradient(circle at center center, rgb(255, 56, 92) 0%, rgb(230, 30, 77) 27.5%, rgb(227, 28, 95) 40%, rgb(215, 4, 102) 57.5%, rgb(189, 30, 89) 75%, rgb(189, 30, 89) 100%);
+    background-position: calc((100 - var(--mouse-x, 0)) * 1%) calc((100 - var(--mouse-y, 0)) * 1%);
+}
+
+#inner-span:hover {
+    opacity: 1;
+}
+
+#login-span {
+    display: block;
+    position: relative;
+    pointer-events: none;
+    font-size: 16px;
+}

@@ -81,3 +81,6 @@ INSERT INTO `Reviews` (`id`,`spotId`,`userId`,`review`,`stars`) VALUES (NULL,5,1
 
 `check proxy`
 fetch('/api/csrf/restore').then(res => res.json()).then(data => console.log(data))
+
+`test login`
+store.dispatch(sessionActions.login({credential:"DemoUser1", password:"password"}))

@@ -1,6 +1,21 @@
+import React  from 'react';
+import { Switch, Route, NavLink } from 'react-router-dom';
+
+import LoginFormPage from './components/LoginFormPage';
+
 function App() {
   return (
-    <h1>Hello from App</h1>
+    <div>
+      <Switch>
+        <Route exact path='/'>
+          <NavLink to='/login'>Login</NavLink>
+        </Route>
+        <Route path='/login'>
+          <LoginFormPage></LoginFormPage>
+        </Route>
+        <Route>Page not found.</Route>
+      </Switch>
+    </div>
   );
 }
 
