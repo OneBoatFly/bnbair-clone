@@ -4,7 +4,7 @@ import { csrfFetch } from './csrf';
 const LOGIN_USER = 'session/login';
 const LOGOUT_USER = 'session/logout';
 
-// thunk action creators
+// normal action creators
 const loginUser = (user) => {
     return {
         type: LOGIN_USER,
@@ -12,6 +12,7 @@ const loginUser = (user) => {
     }
 };
 
+// thunk action creators
 export const login = (userCredentials) => async (dispatch) => {
     // expect userCredentials = {credential: 'sth', password: 'sth'}
     const options = {
@@ -30,6 +31,17 @@ export const login = (userCredentials) => async (dispatch) => {
     }
 };
 
+export const restoreUser = () => async (dispatch) => {
+    const response = await csrfFetch('/api/session');
+
+    if (response.ok) {
+        const user = await response.json();
+        // console.log('user', user)
+        dispatch(loginUser(user));
+        return user;
+    }
+}
+
 export const logout = () => {
     return {
         type: LOGOUT_USER
@@ -40,9 +52,9 @@ const sessionReducer = (state = {user: null}, action) => {
     // console.log(action)
     switch (action.type) {
         case LOGIN_USER: {
-            const newState = {};
+            const newState = { user: null };
             const {id, username, email} = action.user;
-            newState.user = { id, username, email };
+            if (id) newState.user = { id, username, email };
             return newState;
         }
         case LOGOUT_USER: {
