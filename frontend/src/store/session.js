@@ -1,7 +1,6 @@
 import { csrfFetch } from './csrf';
 
 // action consts
-const SIGNUP_USER = 'users/signup';
 const LOGIN_USER = 'session/login';
 const LOGOUT_USER = 'session/logout';
 
@@ -13,12 +12,11 @@ const setUser = (user) => {
     }
 };
 
-// const signupUser = (signupInfo) => {
-//     return {
-//         type: SIGNUP_USER,
-//         signupInfo
-//     }
-// }
+const unset_user = () => {
+    return {
+        type: LOGOUT_USER
+    }
+}
 
 // thunk action creators
 export const login = (userCredentials) => async (dispatch) => {
@@ -65,9 +63,14 @@ export const signup = (signupInfo) => async (dispatch) => {
     }
 }
 
-export const logout = () => {
-    return {
-        type: LOGOUT_USER
+export const logout = () => async (dispatch) => {
+    const options = {
+        method: 'DELETE'
+    }
+
+    const response = await csrfFetch('/api/session', options);
+    if (response.ok) {
+        dispatch(unset_user());
     }
 }
 

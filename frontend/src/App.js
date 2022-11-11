@@ -1,7 +1,7 @@
 import React, { useState, useEffect }  from 'react';
 import { Switch, Route, NavLink } from 'react-router-dom';
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import LoginFormPage from './components/LoginFormPage';
 import SignupFormPage from './components/SignupFormPage';
@@ -19,12 +19,19 @@ function App() {
     });
   }, [dispatch]);
 
+  const sessionUser = useSelector(state => state.session.user);
+  const handleLogout = () => {
+    dispatch(sessionActions.logout());
+  }
+
   return (
     <div>
       {isLoaded && <Switch>
         <Route exact path='/'>
-          <NavLink to='/login'>Login</NavLink>
-          <NavLink to='/signup'>Signup</NavLink>
+          {sessionUser ? <button onClick={handleLogout}>Logout</button> : <button><NavLink to='/login'>Login</NavLink></button>}
+          <button>
+            <NavLink to='/signup'>Signup</NavLink>
+          </button>
         </Route>
         <Route path='/login'>
           <LoginFormPage></LoginFormPage>
