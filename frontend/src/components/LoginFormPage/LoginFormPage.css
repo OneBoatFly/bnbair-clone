@@ -1,21 +1,25 @@
-body {
-    font-family: 'Roboto', Arial, Helvetica, sans-serif; 
-}
-
 .login-all-wrapper {
-    padding: 40px;
+    /* outline: 1px solid darkblue; */
     display: flex;
     justify-content: center;
-    /* need to figure out popping up from bottom & position later */
+    align-items: center;
+    flex-direction: column;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.login-sub-wrapper {
+    /* outline: 1px solid green; */
+    width: 100%;
+    max-width: 568px;
+    background: white;
+    box-shadow: rgb(0 0 0 / 28%) 0px 8px 28px;
 }
 
 .login-all {
-    width: 100%;
-    max-width: 568px;
-    /* border: 1px solid red; */
+    /* outline: 1px solid red; */
     border-radius: 12px;
     background: white;
-    box-shadow: rgb(0 0 0 / 28%) 0px 8px 28px;
     padding: 24px;
 }
 
@@ -25,8 +29,9 @@ body {
     /* border: 1px solid red; */
 }
 
-h3 {
+.login-all-wrapper h3 {
     font-size: 22px;
+    font-weight: 800;
     color: #222222;
     margin: 0px;
     margin-bottom: 8px;
@@ -35,7 +40,7 @@ h3 {
 
 form {
     /* border: 1px solid red; */
-    color: #222222;
+    color: #B0B0B0;
     font-size: 16px;
 }
 
@@ -69,12 +74,12 @@ input:-webkit-autofill:focus {
 }
 
 .login.credential {
-    border: 1px solid rgb(113, 113, 113);
+    border: 1px solid #B0B0B0;
     border-radius: 8px 8px 0px 0px;
 }
 
 .login.password {
-    border: 1px solid rgb(113, 113, 113);
+    border: 1px solid #B0B0B0;
     border-top: 0px;
     border-radius: 0px 0px 8px 8px;
 }
@@ -135,4 +140,19 @@ input:-webkit-autofill:focus {
     position: relative;
     pointer-events: none;
     font-size: 16px;
+}
+
+.exit-button-wrapper{
+    /* outline: 1px solid black; */
+    background: white;
+    /* width: 100%; */
+    border-bottom: 1px solid rgb(235, 235, 235);
+    padding: 24px;
+    color: #222222;
+}
+
+.exit-button-div {
+    /* outline: 1px solid black; */
+    cursor: pointer;
+    width: fit-content;
 }

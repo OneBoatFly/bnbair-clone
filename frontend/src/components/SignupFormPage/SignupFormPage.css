@@ -1,22 +1,20 @@
-body {
-    font-family: 'Roboto', Arial, Helvetica, sans-serif; 
-}
-
 .signup-all-wrapper {
-    /* border: 1px solid black; */
-    padding: 40px;
+    /* outline: 2px solid yellow; */
     display: flex;
     justify-content: center;
-    /* need to figure out popping up from bottom & position later */
+    flex-direction: column;
+    max-height: 704px;
+    max-width: 568px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: rgb(0 0 0 / 28%) 0px 8px 28px;
 }
 
 .signup-all {
-    width: 100%;
-    max-width: 568px;
     /* border: 1px solid red; */
-    border-radius: 12px;
+    max-height: 500px;
+    overflow: scroll;
     background: white;
-    box-shadow: rgb(0 0 0 / 28%) 0px 8px 28px;
     padding: 24px;
 }
 
@@ -67,7 +65,7 @@ input:-webkit-autofill:focus {
 .firstName,
 .username,
 .password {
-    border: 1px solid rgb(113, 113, 113);
+    border: 1px solid #B0B0B0;
     border-radius: 8px 8px 0px 0px;
     /* padding: 12px; */
 }
@@ -75,13 +73,13 @@ input:-webkit-autofill:focus {
 .lastName,
 .email,
 .passwordConfirm {
-    border: 1px solid rgb(113, 113, 113);
+    border: 1px solid #B0B0B0;
     border-top: 0px;
     border-radius: 0px 0px 8px 8px;
 }
 
 .birthday {
-    border: 1px solid rgb(113, 113, 113);
+    border: 1px solid #B0B0B0;
     border-radius: 8px;
     padding: 12px;
 }
@@ -100,6 +98,21 @@ input:-webkit-autofill:focus {
 .signup.button-div {
     margin-top: 16px;
     margin-bottom: 24px;
+}
+
+.singup.welcome {
+    margin-top: 8px;
+    margin-bottom: 24px;
+    /* border: 1px solid red; */
+}
+
+.signup-all-wrapper h3 {
+    font-size: 22px;
+    font-weight: 800;
+    color: #222222;
+    margin: 0px;
+    margin-bottom: 8px;
+    /* border: 1px solid red; */
 }
 
 /* ---------------------------------------- comment related ---------------------------------------- */

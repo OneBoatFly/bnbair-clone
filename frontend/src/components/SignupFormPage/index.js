@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import './SignupFormPage.css';
 import { handleMouseMove, handleDivTopBorder, handleDivTopBorderOut } from '../styles';
 
-export default function SignupFormPage() {
+export default function SignupFormPage({ setShowSignUpModal }) {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [birthday, setBirthday] = useState(''); // this is not in backend yet.
@@ -52,7 +52,15 @@ export default function SignupFormPage() {
 
     return (
         <div className='signup-all-wrapper'>
+            <div className='signup exit-button-wrapper'>
+                <div className='login exit-button-div' onClick={() => setShowSignUpModal(false)}>
+                    <i className="fa-solid fa-xmark"></i>
+                </div>
+            </div>            
             <div className='signup-all'>
+                <div className='singup welcome'>
+                    <h3>Welcome to Airbnb</h3>
+                </div>                
                 <form onSubmit={handleSubmit}>
                     <div className='signup fullName-wrapper'>
                         <div className='signup firstName' ref={firstNameDiv} onFocus={() => handleDivTopBorder(firstNameDiv)} onBlur={() => handleDivTopBorderOut(firstNameDiv)}>

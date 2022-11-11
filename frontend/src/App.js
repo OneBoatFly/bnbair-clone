@@ -22,18 +22,14 @@ function App() {
 
   return (
     <div>
-      {isLoaded && <Switch>
-        <Route exact path='/'>
-          <Navigation />
-        </Route>
-        <Route path='/login'>
-          <LoginFormPage></LoginFormPage>
-        </Route>
-        <Route path='/signup'>
-          <SignupFormPage></SignupFormPage>
-        </Route>        
-        <Route>Page not found.</Route>
-      </Switch>}
+      <Navigation isLoaded={isLoaded} />
+      {isLoaded && 
+        <Switch>
+          <Route exact path='/'>
+          </Route>
+          <Route>Page not found.</Route>
+        </Switch>
+      }
     </div>
   );
 }

@@ -1,33 +1,41 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-import { useDispatch, useSelector } from "react-redux";
-import * as sessionActions from "../../store/session";
+import { useSelector } from "react-redux";
 
+// import LoginFormModal from '../LoginFormModal'; // delete this? doesn't look like needed. Modal is in MenuButton
 import ProfileButton from './ProfileButton';
+import MenuButton from './MenuButton';
+import Icon from './Icon';
 
-export default function Navigation() {
+export default function Navigation({isLoaded}) {
     const sessionUser = useSelector(state => state.session.user);
-    const dispatch = useDispatch();
-    const handleLogout = () => {
-        dispatch(sessionActions.logout());
+
+    let sessionLinks;
+    if (sessionUser) {
+        sessionLinks = (
+            <ProfileButton user={sessionUser} />
+        );
+    } else {
+        sessionLinks = (
+            <>
+                {/* <LoginFormModal /> */}
+                <MenuButton></MenuButton>
+            </>
+        );
     }
 
-  return (
-    <div className='navigation-all-wrapper'>
-        <div>
-            {sessionUser && <ProfileButton />}
-            <ul>
-                <li>
-                    <button>
-                        <NavLink to='/'>Home</NavLink>
-                    </button>
-                </li>
-                {sessionUser && <li><button onClick={handleLogout}>Logout</button></li>}
-                {!sessionUser && <li><button><NavLink to='/login'>Login</NavLink></button></li>}
-                {!sessionUser && <li><button><NavLink to='/signup'>Signup</NavLink></button></li>}
-            </ul>
+    return (
+        <div className='navigation-all-wrapper'>
+            <div className='navigation-sub-wrapper side1'>
+                <NavLink exact to="/"><Icon /></NavLink>
+            </div>
+            <div className='navigation-sub-wrapper center'>
+                <span>Placeholder for search form</span>
+            </div>
+            <div className='navigation-sub-wrapper side2'>
+                {isLoaded && sessionLinks}
+            </div>
         </div>
-    </div>
-  )
+    )
 }
