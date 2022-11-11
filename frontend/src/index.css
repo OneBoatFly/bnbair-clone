@@ -1,8 +1,13 @@
 body {
+    /* outline: 1px solid red; */
     font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+    margin: 0px;
 }
 
-#root {
-    outline: 1px solid black;
+.root-wrapper {
+    /* outline: 1px solid black; */
     padding: 0 80px;
+    display: flex;
+    justify-content: center;
+    border: 1px solid #dddddd;
 }
