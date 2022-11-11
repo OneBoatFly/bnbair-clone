@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import LoginFormPage from './components/LoginFormPage';
 import SignupFormPage from './components/SignupFormPage';
 import * as sessionActions from "./store/session";
+import Navigation from './components/Navigation';
 
 function App() {
   const dispatch = useDispatch();
@@ -19,19 +20,11 @@ function App() {
     });
   }, [dispatch]);
 
-  const sessionUser = useSelector(state => state.session.user);
-  const handleLogout = () => {
-    dispatch(sessionActions.logout());
-  }
-
   return (
     <div>
       {isLoaded && <Switch>
         <Route exact path='/'>
-          {sessionUser ? <button onClick={handleLogout}>Logout</button> : <button><NavLink to='/login'>Login</NavLink></button>}
-          <button>
-            <NavLink to='/signup'>Signup</NavLink>
-          </button>
+          <Navigation />
         </Route>
         <Route path='/login'>
           <LoginFormPage></LoginFormPage>
