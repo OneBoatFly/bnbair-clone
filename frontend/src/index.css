@@ -1,0 +1,8 @@
+body {
+    font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+}
+
+#root {
+    outline: 1px solid black;
+    padding: 0 80px;
+}

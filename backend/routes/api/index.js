@@ -17,9 +17,10 @@ router.use('/spot-images', spotImagesRouter);
 router.use('/bookings', bookingsRouter);
 router.use('/review-images', reviewImagesRouter);
 
-router.post('/test', (req, res) => {
-    res.json({reqBody: req.body})
-});
+// router.post('/test', (req, res) => {
+//     console.log('getting to post - /test endpoint')
+//     res.json({reqBody: req.body})
+// });
 
 module.exports = router;
 

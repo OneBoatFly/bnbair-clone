@@ -339,7 +339,7 @@ router.put('/:spotId', requireAuth, validateSpot, async (req, res, next) => {
             const err = new Error('Unauthorized');
             err.title = 'Unauthorized';
             err.errors = ['Unauthorized'];
-            err.status = 401;
+            err.status = 403;
             return next(err);
         }
     }
@@ -362,7 +362,7 @@ router.delete('/:spotId', requireAuth, async (req, res, next) => {
             const err = new Error('Unauthorized');
             err.title = 'Unauthorized';
             err.errors = ['Unauthorized'];
-            err.status = 401;
+            err.status = 403;
             return next(err);
         } else {
             await spot.destroy();
@@ -416,7 +416,7 @@ router.post('/:spotId/images', requireAuth, validateImage, async (req, res, next
             const err = new Error('Unauthorized');
             err.title = 'Unauthorized';
             err.errors = ['Unauthorized'];
-            err.status = 401;
+            err.status = 403;
             return next(err);
         }
     }
@@ -461,7 +461,7 @@ router.post('/:spotId/bookings', requireAuth, validateBooking, async (req, res, 
         const err = new Error('Unauthorized');
         err.title = 'Unauthorized';
         err.errors = ['Unauthorized'];
-        err.status = 401;
+        err.status = 403;
         return next(err);
     } else {
         const { startDate, endDate } = req.body;
