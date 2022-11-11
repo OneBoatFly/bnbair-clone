@@ -71,14 +71,12 @@ input:-webkit-autofill:focus {
 .login.credential {
     border: 1px solid rgb(113, 113, 113);
     border-radius: 8px 8px 0px 0px;
-    padding: 12px;
 }
 
 .login.password {
     border: 1px solid rgb(113, 113, 113);
     border-top: 0px;
     border-radius: 0px 0px 8px 8px;
-    padding: 12px;
 }
 
 .login.button-div {
@@ -86,7 +84,8 @@ input:-webkit-autofill:focus {
     margin-bottom: 24px;
 }
 
-button {
+.login-all-wrapper button,
+.signup-all-wrapper button {
     cursor: pointer;
     display: inline-block;
     margin: 0px;
@@ -101,7 +100,7 @@ button {
     border-radius: 8px;
 }
 
-#outer-span {
+.outer-span {
     /* border: 1px solid black; */
     position: absolute;
     top: 0px;
@@ -114,7 +113,7 @@ button {
     border-radius: 8px;
 }
 
-#inner-span {
+.inner-span {
     display: block;
     width: 100%;
     height: 100%;
@@ -126,11 +125,12 @@ button {
     background-position: calc((100 - var(--mouse-x, 0)) * 1%) calc((100 - var(--mouse-y, 0)) * 1%);
 }
 
-#inner-span:hover {
+.inner-span:hover {
     opacity: 1;
 }
 
-#login-span {
+.login-span,
+.signup-span {
     display: block;
     position: relative;
     pointer-events: none;

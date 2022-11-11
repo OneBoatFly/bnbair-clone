@@ -1,22 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Redirect } from 'react-router-dom';
 
 import * as sessionActions from '../../store/session';
 import { useDispatch, useSelector } from 'react-redux';
 
 import './LoginFormPage.css';
+import { handleMouseMove, handleDivTopBorder, handleDivTopBorderOut } from '../styles';
 
 export default function LoginFormPage() {
-    const handleMouseMove = (e) => {
-        const butt = e.target
-        const rect = butt.getBoundingClientRect(); // has to bound on the element the background position is set with xy
-
-        const x = (e.clientX - rect.left) * 100 / butt.clientWidth;
-        const y = (e.clientY - rect.top) * 100 / butt.clientHeight;
-        butt.style.setProperty('--mouse-x', x);
-        butt.style.setProperty('--mouse-y', y);
-    }
-
     const [credential, setCredential] = useState('');
     const [password, setPassword] = useState('');
     const [errors, setErrors] = useState([]);
@@ -39,6 +30,8 @@ export default function LoginFormPage() {
 
     // console.log('errors', errors)
 
+    const credentialRef = useRef(null);
+
     if (sessionUser) return (
         <Redirect to='/' />
     )
@@ -51,13 +44,17 @@ export default function LoginFormPage() {
                 </div>
                 <form onSubmit={handleSubmit}>
                     <div className='login inputs'>
-                        <div className='login credential'>
-                            <label htmlFor='credential'>Username or Email</label>
-                            <input type='text' id="credential" value={credential} onChange={(e) => setCredential(e.target.value)} />
+                        <div className='login credential' ref={credentialRef} onFocus={() => handleDivTopBorder(credentialRef)} onBlur={() => handleDivTopBorderOut(credentialRef)}>
+                            <div className='signup radius-wrapper'>
+                                <label htmlFor='credential'>Username or Email</label>
+                                <input type='text' id="credential" value={credential} onChange={(e) => setCredential(e.target.value)} />
+                            </div>
                         </div>
-                        <div className='login password'>
-                            <label htmlFor='password'>Password</label>
-                            <input type='password' id='password' value={password} onChange={(e) => setPassword(e.target.value)} />
+                        <div className='login password' onFocus={() => handleDivTopBorder(credentialRef)} onBlur={() => handleDivTopBorderOut(credentialRef)}>
+                            <div className='signup radius-wrapper'>
+                                <label htmlFor='password'>Password</label>
+                                <input type='password' id='password' value={password} onChange={(e) => setPassword(e.target.value)} />
+                            </div>
                         </div>
                     </div>
                     <div className='login errors'>
@@ -67,8 +64,8 @@ export default function LoginFormPage() {
                     </div>
                     <div className='login button-div' >
                         <button>
-                            <span onMouseMove={handleMouseMove} id='outer-span'><span id='inner-span'></span></span>                            
-                            <span id='login-span'>Login</span>
+                            <span onMouseMove={handleMouseMove} className='outer-span'><span className='inner-span'></span></span>                            
+                            <span className='login-span'>Login</span>
                         </button>
                     </div>
                 </form>
