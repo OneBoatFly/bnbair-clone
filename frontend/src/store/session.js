@@ -21,6 +21,7 @@ const unset_user = () => {
 // thunk action creators
 export const login = (userCredentials) => async (dispatch) => {
     // expect userCredentials = {credential: 'sth', password: 'sth'}
+    // console.log('*** reaching login thunk')
     const options = {
         method: 'POST',
         body: JSON.stringify(userCredentials)
@@ -49,6 +50,7 @@ export const restoreUser = () => async (dispatch) => {
 };
 
 export const signup = (signupInfo) => async (dispatch) => {
+    // console.log("************** hitting singup thunk")
     const options = {
         method: 'POST',
         body: JSON.stringify(signupInfo)

@@ -11,3 +11,23 @@ body {
     justify-content: center;
     border: 1px solid #dddddd;
 }
+
+.error-messages-wrapper {
+    margin-top: 6px;
+    display: flex;
+    align-items: center;
+    column-gap: 6px;
+    color: rgb(193, 53, 21);
+    /* padding: 4px; */
+}
+
+ul {
+    margin: 0px;
+    padding: 0px;
+}
+
+span.error-messages {
+    font-size: 12px;
+    margin: 0px;
+    padding: 0px;
+}

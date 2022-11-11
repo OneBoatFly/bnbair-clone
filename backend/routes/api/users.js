@@ -14,7 +14,7 @@ const validateSignup = [
     check('username', 'Please provide a username with at least 4 characters.')
         .exists({checkFalsy: true})
         .isLength({min: 4}),
-    check('username', 'Username cannot be only whitespaces.')
+    check('username', 'Username is required.')
         .not()
         .isEmpty({ ignore_whitespace: true }),
     check('username')
@@ -28,14 +28,14 @@ const validateSignup = [
         .withMessage('Password must be 6 characters or more.'),
     check('firstName')
         .exists({checkFalsy: true})
-        .withMessage('First Name is required.'),
-    check('firstName', 'First name cannot be only whitespaces')
+        .withMessage('First name is required.'),
+    check('firstName', 'First name is required.')
         .not()    
         .isEmpty({ ignore_whitespace: true }),
     check('lastName')
         .exists({ checkFalsy: true })
-        .withMessage('Last Name is required.'),
-    check('lastName', 'Last name cannot be only whitespaces')
+        .withMessage('Last name is required.'),
+    check('lastName', 'Last name is required.')
         .not()
         .isEmpty({ ignore_whitespace: true }),        
     handleValidationErrors        

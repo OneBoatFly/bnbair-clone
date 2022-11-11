@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 
 import * as sessionActions from '../../store/session';
@@ -11,25 +11,40 @@ export default function LoginFormPage({ setShowSignInModal }) {
     const [credential, setCredential] = useState('');
     const [password, setPassword] = useState('');
     const [errors, setErrors] = useState([]);
-    // const [showModal, setShowModal] = useState(false);
+    const [hasSubmitted, setHasSubmitted] = useState(false);
 
     const dispatch = useDispatch();
     const sessionUser = useSelector(state => state.session.user);
     
-    const handleSubmit = (e) => {
+    useEffect(() => {
+        const hasErrors = {};
+        if (!credential.length) hasErrors.credential = 'Username or email is required.';
+        else delete hasErrors.credential;
+
+        if (!password.length) hasErrors.password = 'Password is required.';
+        else delete hasErrors.password;
+
+        if (Object.values(hasErrors).length) {
+            setErrors(Object.values(hasErrors));
+        } else {
+            setErrors([]);
+        }
+
+    }, [credential, password])
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // console.log('handleSubmit fired')
-        setErrors([]);
-        dispatch(sessionActions.login({credential, password}))
+        setHasSubmitted(true);
+
+        if (errors.length) return;
+        
+        dispatch(sessionActions.login({ credential, password }))
+            .then(() => setHasSubmitted(false))
             .catch(async (res) => {
                 const data = await res.json();
-                // console.log('data returned: ', data)
-                // console.log('data.errors', data.errors)
                 if (data && data.errors) setErrors(data.errors);
             });
     }
-
-    // console.log('errors', errors)
 
     const credentialRef = useRef(null);
 
@@ -53,7 +68,7 @@ export default function LoginFormPage({ setShowSignInModal }) {
                         <div className='login inputs'>
                             <div className='login credential' ref={credentialRef} onFocus={() => handleDivTopBorder(credentialRef)} onBlur={() => handleDivTopBorderOut(credentialRef)}>
                                 <div className='signup radius-wrapper'>
-                                    <label htmlFor='credential'>Username or Email</label>
+                                    <label htmlFor='credential'>Username or email</label>
                                     <input type='text' id="credential" value={credential} onChange={(e) => setCredential(e.target.value)} />
                                 </div>
                             </div>
@@ -64,14 +79,22 @@ export default function LoginFormPage({ setShowSignInModal }) {
                                 </div>
                             </div>
                         </div>
-                        <div className='login errors'>
-                            <ul>
-                                {errors.map((err, i) => <li key={i}>{err}</li>)}
-                            </ul>
+                        <div className='login errors' style={{ marginTop: '4px', marginBottom: '4px' }}>
+                            {/* {console.log('component ---', errors)} */}
+                            {
+                                hasSubmitted && (
+                                    errors?.map((err, i) => (
+                                        <div key={i} className='error-messages-wrapper'>
+                                            <i className="fa-sharp fa-solid fa-circle-exclamation"></i>
+                                            <span className='error-messages'>{err}</span>
+                                        </div>
+                                    ))
+                                )
+                            }
                         </div>
                         <div className='login button-div' >
                             <button>
-                                <span onMouseMove={handleMouseMove} className='outer-span'><span className='inner-span'></span></span>                            
+                                <span onMouseMove={handleMouseMove} className='outer-span'><span className='inner-span'></span></span>
                                 <span className='login-span'>Login</span>
                             </button>
                         </div>
