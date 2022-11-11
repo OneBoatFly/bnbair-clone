@@ -21,7 +21,7 @@ function App() {
   }, [dispatch]);
 
   return (
-    <div>
+    <div className='root-wrapper'>
       <Navigation isLoaded={isLoaded} />
       {isLoaded && 
         <Switch>
