@@ -21,6 +21,7 @@ const unset_user = () => {
 // thunk action creators
 export const login = (userCredentials) => async (dispatch) => {
     // expect userCredentials = {credential: 'sth', password: 'sth'}
+    // console.log('*** reaching login thunk')
     const options = {
         method: 'POST',
         body: JSON.stringify(userCredentials)
@@ -49,6 +50,7 @@ export const restoreUser = () => async (dispatch) => {
 };
 
 export const signup = (signupInfo) => async (dispatch) => {
+    // console.log("************** hitting singup thunk")
     const options = {
         method: 'POST',
         body: JSON.stringify(signupInfo)
@@ -79,8 +81,9 @@ const sessionReducer = (state = {user: null}, action) => {
     switch (action.type) {
         case LOGIN_USER: {
             const newState = { user: null };
-            const {id, username, email} = action.user;
-            if (id) newState.user = { id, username, email };
+            const {id, username, email, firstName, lastName} = action.user;
+            // console.log(action.user)
+            if (id) newState.user = { id, username, email, firstName, lastName };
             return newState;
         }
         case LOGOUT_USER: {
