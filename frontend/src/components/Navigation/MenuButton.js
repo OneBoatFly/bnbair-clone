@@ -42,7 +42,7 @@ export default function MenuButton() {
             {showMenu && (
                 <div className="navlinks">
                     <div className="menu-dropdown">
-                        <button onClick={() => setShowSignInModal(true)}>Log In</button>
+                        <button onClick={() => setShowSignInModal(true)}><b>Log In</b></button>
                     </div>
                     <div className="menu-dropdown">
                         <button onClick={() => setShowSignUpModal(true)}>Sign up</button>

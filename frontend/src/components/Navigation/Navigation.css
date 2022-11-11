@@ -4,6 +4,7 @@
     align-items: center;
     justify-content: space-between;
     min-height: 80px;
+    font-family: inherit
 }
 
 .navigation-sub-wrapper {
@@ -74,13 +75,6 @@
     row-gap: 6px;
 }
 
-.menu-dropdown > a {
-    text-decoration: none;
-    cursor: pointer;
-    margin: 0;
-    color: inherit;
-}
-
 .menu-dropdown.logout-button {
     border-top: 1px solid #dddddd;
 }
@@ -92,4 +86,5 @@
     padding: 0px;
     cursor: pointer;
     font-size: 14px;
+    font-family: inherit;
 }
