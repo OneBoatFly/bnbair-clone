@@ -3,5 +3,5 @@ node_modules
 build
 .DS_Store
 *.db
-cmd-draft.md
 *.sh
+z__draft-cmd-fetches.md
