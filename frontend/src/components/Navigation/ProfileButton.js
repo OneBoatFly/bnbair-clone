@@ -34,15 +34,15 @@ export default function ProfileButton({ user }) {
     <div className="menu-all-wrapper">
         <button className="navBar-button" onClick={openMenu}>
             <div>
-                  {/* style={{ background: "rgb(113, 113, 113)", color: 'white', width: '30px', height: '30px', borderRadius: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center' }} */}
                 <i className="fa-solid fa-user"></i>
             </div>
         </button>
         {showMenu && (
-            <div className="navlinks">
+            <div className="navlinks" style={{background:'white', zIndex:'1'}}>
                 <div className="menu-dropdown">
                     <span>{user.username}</span>
                     <span>{user.email}</span>
+                    <button onClick={logout}>My Spots</button>
                 </div>
                 <div className="menu-dropdown logout-button"><button onClick={logout}>Log Out</button></div>
             </div>

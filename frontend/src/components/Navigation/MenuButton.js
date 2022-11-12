@@ -10,7 +10,7 @@ import './Navigation.css';
 export default function MenuButton() {
     const [showMenu, setShowMenu] = useState(false);
     const [showSignInModal, setShowSignInModal] = useState(false);
-    const [showSingUpModal, setShowSignUpModal] = useState(false);
+    const [showSignUpModal, setShowSignUpModal] = useState(false);
 
     const openMenu = () => {
         if (showMenu) return;
@@ -52,12 +52,12 @@ export default function MenuButton() {
             )}
             {showSignInModal && (
                 <Modal onClose={() => setShowSignInModal(false)} >
-                    <LoginFormPage showSignInModal={showSignInModal} setShowSignInModal={setShowSignInModal}/>
+                    <LoginFormPage setShowSignInModal={setShowSignInModal}/>
                 </Modal>
             )}
-            {showSingUpModal && (
+            {showSignUpModal && (
                 <Modal onClose={() => setShowSignUpModal(false)} >
-                    <SignupFormPage showSingUpModal={showSingUpModal} setShowSignUpModal={setShowSignUpModal} />
+                    <SignupFormPage setShowSignUpModal={setShowSignUpModal} />
                 </Modal>
             )}
         </div>

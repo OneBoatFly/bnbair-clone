@@ -80,11 +80,11 @@ const initalState = { user: null }
 
 const sessionReducer = (state = initalState, action) => {
     // console.log(action)
-    console.log('session: current state --------', state)
+    // console.log('session: current state --------', state)
     let newState;
     switch (action.type) {
         case LOGIN_USER: {
-            console.log('LOGIN_USER')
+            // console.log('LOGIN_USER')
             newState = Object.assign({}, state);
             const {id, username, email, firstName, lastName} = action.user;
             // console.log(action.user)
@@ -92,13 +92,13 @@ const sessionReducer = (state = initalState, action) => {
             return newState;
         }
         case LOGOUT_USER: {
-            console.log('LOGOUT_USER')
+            // console.log('LOGOUT_USER')
             newState = Object.assign({}, state);
             newState.user = null;
             return newState;
         }
         default: {
-            console.log('session reducer DEFAULT')
+            // console.log('session reducer DEFAULT')
             return state;
         }
     }

@@ -9,20 +9,23 @@ import Navigation from './components/Navigation';
 import { Spots, SpotDetails } from './components/Spots';
 
 function App() {
-  console.log('0. App component rendered')
+  // console.log('0. App component rendered')
   const [isLoaded, setIsLoaded] = useState(false);
-  const spots = useSelector(state => {
-    console.log('useSelector state >>>', state)
-    return state.spots.allSpots
-    // return state
-  }, (a, b) => false);
+  const spots = useSelector(state => state.spots.allSpots);
   
+  // const [userCoord, setUserCoord] = useState({});
+  // const getCord = async () => {
+  //   await navigator.geolocation.getCurrentPosition((location) => setUserCoord(location.coords))
+  // };
+  // getCord();
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => {
       setIsLoaded(true);
     });
 
+    // dispatch(spotsActions.getAllSpots(userCoord));
     dispatch(spotsActions.getAllSpots());
   }, [dispatch]);
 

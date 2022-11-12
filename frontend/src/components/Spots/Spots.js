@@ -1,17 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from "react-redux";
+import React from 'react';
 import { NavLink } from 'react-router-dom';
 import './Spots.css';
 
-import * as spotsActions from '../../store/spots';
-
 export default function Spots({ spots }) {
-    console.log('1. Spots component rendered')
-    // const spots = useSelector(state => state.spots.allSpots);
-    console.log('spots >>> ', spots)
-    // const spotsFromStore = store.getState().allSpots;
-    // console.log('spots from store getstate >>>', spotsFromStore)
-
     let spotsArr = [];
     if (spots) spotsArr = Object.values(spots);
     // console.log('spts array >>> ', spotsArr)
@@ -28,7 +19,6 @@ export default function Spots({ spots }) {
   return (
     <div className='all-spots-wrapper'>
         <div className='all-spots-sub-wrapper'>
-            {console.log('&&&&&&&&', spotsArr)}
             {
                 spotsArr?.map(spot => {
                     const { previewImage, city, state, avgRating, price, id, distance } = spot;

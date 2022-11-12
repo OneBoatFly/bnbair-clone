@@ -26,7 +26,6 @@ export const getAllSpots = (userCoord) => async (dispatch) => {
 
     if (response.ok) {
         const spots = await response.json();
-        console.log('!!!!!!!!!!!!!!!!!!getAllSpots thunk: ', spots)
 
         // const userLat = userCoord.latitude;
         // const userLon = userCoord.longitude;
@@ -59,23 +58,23 @@ export const getOneSpot = (spotId) => async (dispatch) => {
 const initalState = {};
 const spotsReducer = (state = initalState, action) => {
     // console.log(action)
-    console.log('*spots reducer: current state ------------ ', state)
+    // console.log('*spots reducer: current state ------------ ', state)
     let newState;
     switch (action.type) {
         case LOAD_SPOTS: {
-            console.log('LOAD_SPOTS')
+            // console.log('LOAD_SPOTS')
             newState = {...state}
             newState.allSpots = action.spots
             return newState;
         }
         case LOAD_SPOT_DETAIL: {
-            console.log('LOAD_SPOT_DETAIL')
+            // console.log('LOAD_SPOT_DETAIL')
             const newState = { ...state };
             newState.spotDetails = action.spot;
             return newState;
         }
         default: {
-            console.log('spots reducer DEFAULT')
+            // console.log('spots reducer DEFAULT')
             return state;
         }
     }
