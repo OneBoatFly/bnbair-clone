@@ -22,6 +22,8 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 function Root() {
+  console.log('*** Root rendered ***')
+  console.log('Root: ', store.getState())
   return (
     <ReduxProvider store={store}>
       <ModalProvider>

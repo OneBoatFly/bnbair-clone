@@ -26,18 +26,18 @@ export const getAllSpots = (userCoord) => async (dispatch) => {
 
     if (response.ok) {
         const spots = await response.json();
-        // console.log('getAllSpots thunk: ', spots)
+        console.log('!!!!!!!!!!!!!!!!!!getAllSpots thunk: ', spots)
 
-        const userLat = userCoord.latitude;
-        const userLon = userCoord.longitude;
-        // console.log(userCoord)
-        // console.log(spots)
-        for (let id in spots.Spots) {
-            const spot = spots.Spots[id];
-            const { lat, lng } = spot;
-            const distance = coordinatesDistance(userLat, userLon, lat, lng);
-            spot.distance = Math.round(distance);
-        }
+        // const userLat = userCoord.latitude;
+        // const userLon = userCoord.longitude;
+        // // console.log(userCoord)
+        // // console.log(spots)
+        // for (let id in spots.Spots) {
+        //     const spot = spots.Spots[id];
+        //     const { lat, lng } = spot;
+        //     const distance = coordinatesDistance(userLat, userLon, lat, lng);
+        //     spot.distance = Math.round(distance);
+        // }
 
         const normalSpots = normalizeArray(spots.Spots)
         dispatch(loadSpots(normalSpots));
@@ -55,22 +55,29 @@ export const getOneSpot = (spotId) => async (dispatch) => {
     }
 };
 
-// reducer
-const initalState = {spots: {}, spotDetails: {}};
+// reducer allSpots: {}, spotDetails: {SpotImages: [], Owner: {}}
+const initalState = {};
 const spotsReducer = (state = initalState, action) => {
     // console.log(action)
-    // console.log('spots: current state', state)
+    console.log('*spots reducer: current state ------------ ', state)
+    let newState;
     switch (action.type) {
         case LOAD_SPOTS: {
-            const newState = Object.assign(state, { spots: action.spots });
-            // console.log(spots)
+            console.log('LOAD_SPOTS')
+            newState = {...state}
+            newState.allSpots = action.spots
             return newState;
         }
         case LOAD_SPOT_DETAIL: {
-            const newState = Object.assign(state, {spotDetails: action.spot});
+            console.log('LOAD_SPOT_DETAIL')
+            const newState = { ...state };
+            newState.spotDetails = action.spot;
             return newState;
         }
-        default: return state;
+        default: {
+            console.log('spots reducer DEFAULT')
+            return state;
+        }
     }
 };
 

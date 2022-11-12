@@ -6,6 +6,7 @@ import './Spots.css';
 import * as spotsActions from '../../store/spots';
 
 export default function SpotDetails() {
+    console.log('2. SpotDetails rendered')
     const spot = useSelector(state => state.spots.spotDetails);
     const {spotId} = useParams();
     // console.log(spotId)
@@ -21,38 +22,62 @@ export default function SpotDetails() {
             <div><h3>{spot.name}</h3></div>
             <div className='title-div-wrapper'>
                 <i className="fa-solid fa-star" />
-                {console.log("rating---------", spot.avgStarRating)}
+                {/* {console.log("rating---------", spot.avgStarRating)} */}
                 {spot.avgStarRating && <span>{spot.avgStarRating.toFixed(1)}</span>}
                 <span> · </span>
                 <NavLink to=''><span>{spot.numReviews} reviews</span></NavLink>
             </div>
             <div className='pictures-div-wrapper'>
-                <div>
+                {/* <div> */}
                     <div className='pictures-big'>
-                        {spot.SpotImages[0] && <img src={`${spot.SpotImages[0].url}`} alt='room'></img>}
+                        <div className='image-div'>
+                         {spot.SpotImages[0] && <img src={`${spot.SpotImages[0].url}`} alt='room'></img>}
+                        </div>
                     </div>
                     <div className='pictures-small'>
+                      <div className='image-div'>
                         {spot.SpotImages[1] && <img src={`${spot.SpotImages[1].url}`} alt='room'></img>}
+                      </div>
+                      <div className='image-div'>
                         {spot.SpotImages[2] && <img src={`${spot.SpotImages[2].url}`} alt='room'></img>}
+                      </div>
+                      <div className='image-div'> 
                         {spot.SpotImages[3] && <img src={`${spot.SpotImages[3].url}`} alt='room'></img>}
+                      </div>
+                      <div className='image-div'>
                         {spot.SpotImages[4] && <img src={`${spot.SpotImages[4].url}`} alt='room'></img>}
+                      </div>
+                    </div>
+                {/* </div> */}
+            </div>
+            <div className='info-booking-wrapper'>
+                <div className='spot-info-wrapper'>
+                    <div className='hostName'>{spot.Owner && <h4>Hosted by {spot.Owner.firstName}</h4>}</div>
+                    <div className='info-detail-wrapper'>
+                        <div>air cover logo</div>
+                        <p>Every booking includes free protection from Host cancellations, listing inaccuracies, and other issues like trouble checking in.</p>
+                    </div>
+                    <div className='info-detail-wrapper'>
+                        <p>{spot.description}</p>
+                    </div>
+                    <div className='info-detail-wrapper'>
+                        <h4>5 nights in {spot.city}</h4>
+                        <span>placeholder for dates</span>
+                        <div>
+                            placeholder for calendar
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div className='spot-info-wrapper'>
-                <div>{spot.Owner && <h4>Hosted by {spot.Owner.firstName}</h4>}</div>
-                <div>
-                    <div>air cover logo</div>
-                    <p>Every booking includes free protection from Host cancellations, listing inaccuracies, and other issues like trouble checking in.</p>
-                </div>
-                <div>
-                    <p>{spot.description}</p>
-                </div>
-                <div>
-                    <h4>5 nights in {spot.city}</h4>
-                    <span>placeholder for dates</span>
-                    <div>
-                        placeholder for calendar
+                <div className='booking-form-wrapper'>
+                    <div className='booking-form-sub-wrapper'>
+                        <div className='booking-form'>
+                            placholder for booking
+                        </div>
+                        <div>
+                            <p>
+                                Good price.Your dates are $392 less than the avg. nightly rate over the last 3 months.
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>

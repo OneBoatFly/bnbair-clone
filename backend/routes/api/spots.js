@@ -253,7 +253,7 @@ router.get('/', validateQuery, async (req, res, next) => {
         if (!avgRating[0].toJSON().avgRating) {
             spotJSON.avgRating = null;
         } else {
-            console.log(avgRating)
+            // console.log(avgRating)
             spotJSON.avgRating = Math.round(avgRating[0].toJSON().avgRating * 100) / 100;
         }
     

@@ -5,22 +5,30 @@ import './Spots.css';
 
 import * as spotsActions from '../../store/spots';
 
-export default function Spots() {
-    const [userCoord, setUserCoord] = useState({});
-    const spots = useSelector(state => state.spots.spots);
-    const spotsArr = Object.values(spots);
-    const dispatch = useDispatch();
+export default function Spots({ spots }) {
+    console.log('1. Spots component rendered')
+    // const spots = useSelector(state => state.spots.allSpots);
+    console.log('spots >>> ', spots)
+    // const spotsFromStore = store.getState().allSpots;
+    // console.log('spots from store getstate >>>', spotsFromStore)
+
+    let spotsArr = [];
+    if (spots) spotsArr = Object.values(spots);
+    // console.log('spts array >>> ', spotsArr)
+    // const dispatch = useDispatch();
     
-    navigator.geolocation.getCurrentPosition((location) => setUserCoord(location.coords))
+    // const [userCoord, setUserCoord] = useState({});
+    // navigator.geolocation.getCurrentPosition((location) => setUserCoord(location.coords))
     // console.log('userCoord', userCoord)
-    useEffect(() => {
-        dispatch(spotsActions.getAllSpots(userCoord));
-        // dispatch(spotsActions.getAllSpots());
-    }, [dispatch, userCoord]);
+    // useEffect(() => {
+    //     // dispatch(spotsActions.getAllSpots(userCoord));
+    //     dispatch(spotsActions.getAllSpots());
+    // }, [dispatch]);
 
   return (
     <div className='all-spots-wrapper'>
         <div className='all-spots-sub-wrapper'>
+            {console.log('&&&&&&&&', spotsArr)}
             {
                 spotsArr?.map(spot => {
                     const { previewImage, city, state, avgRating, price, id, distance } = spot;
@@ -38,7 +46,8 @@ export default function Spots() {
                                     <span className='rating-wrapper'>
                                         <i className="fa-solid fa-star" />
                                         {/* {console.log(avgRating)} */}
-                                        <span>{avgRating.toFixed(1)}</span>
+                                        {avgRating ? <span>{avgRating.toFixed(1)}</span> : null }
+                                    
                                     </span>
                                 </div>
                             </div>
