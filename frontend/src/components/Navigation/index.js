@@ -19,7 +19,6 @@ export default function Navigation({isLoaded}) {
     } else {
         sessionLinks = (
             <>
-                {/* <LoginFormModal /> */}
                 <MenuButton></MenuButton>
             </>
         );

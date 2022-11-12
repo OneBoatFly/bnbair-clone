@@ -1,0 +1,72 @@
+.all-spots-wrapper {
+    margin: 24px 0px;
+}
+
+.all-spots-sub-wrapper {
+    display: flex;
+    column-gap: 16px;
+    row-gap: 32px;
+    flex-wrap: wrap;
+    box-sizing: content-box;
+}
+
+.link-wrapper {
+    box-sizing: border-box;
+    max-width: calc((100% - 80px) / 6);
+    flex-basis: calc((100% - 80px) / 6);
+    flex-grow: 1;
+    flex-shrink: 1;
+    text-decoration: none;
+    color: inherit;
+}
+
+.individual-spot-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+.image-div {
+    /* outline: 1px solid salmon; */
+    flex-basis: 80%;
+    border-radius: 12px;
+    overflow: hidden;
+    width: 100%;
+    aspect-ratio: 1.05/1;
+}
+
+.image-div > img {
+    object-fit: cover;
+    vertical-align: bottom;
+    height: 100%;
+}
+
+.short-info-wrapper {
+    padding: 6px 0px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    row-gap: 4px;
+    font-size: 0.8rem;
+}
+
+.cityState {
+    font-weight: 600;
+    color: #222222;
+}
+
+.rating-wrapper {
+    position: absolute;
+    top: 6px;
+    right: 0;
+    display: flex;
+    align-items: center;
+}
+
+.rating-wrapper > i {
+    font-size: 0.7rem;
+}
+
+.rating-wrapper>span {
+    margin-left: 4px;
+}

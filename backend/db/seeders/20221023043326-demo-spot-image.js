@@ -2,21 +2,36 @@
 const { Spot } = require('../models');
 const {Op} = require('sequelize');
 
+const airBnBImages = require('../SpotImagesAirBnB.json');
+// console.log('________________________', airBnBImages)
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    const spots = await Spot.findAll({limit: 10});
+    const spots = await Spot.findAll({limit: 12});
 
     for (let i = 0; i < spots.length; i++) {
       const spot = spots[i];
-      let counter = 0;
-      while (counter < i + 1) {
-        const url = `demo.url/spot/${spot.id}/num/${counter + 1}`;
-        const preview = (counter === 0);
-        await spot.createSpotImage({url, preview});
-        counter++;
-      };
-    };
+      // console.log('spot', spot);
+      const images = Object.values(airBnBImages[i + 1]);
+      // console.log('images', images)
+      for (let image of images) {
+        const { url, preview } = image;
+        // console.log(url, preview)
+        await spot.createSpotImage({ url, preview })
+      }
+    }
+
+    // for (let i = 0; i < spots.length; i++) {
+    //   const spot = spots[i];
+    //   let counter = 0;
+    //   while (counter < i + 1) {
+    //     const url = `demo.url/spot/${spot.id}/num/${counter + 1}`;
+    //     const preview = (counter === 0);
+    //     await spot.createSpotImage({url, preview});
+    //     counter++;
+    //   };
+    // };
 
   },
 

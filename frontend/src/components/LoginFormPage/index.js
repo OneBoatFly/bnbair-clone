@@ -39,7 +39,10 @@ export default function LoginFormPage({ setShowSignInModal }) {
         if (errors.length) return;
         
         dispatch(sessionActions.login({ credential, password }))
-            .then(() => setHasSubmitted(false))
+            .then(() => {
+                setHasSubmitted(false);
+                console.log('success login')
+            })
             .catch(async (res) => {
                 const data = await res.json();
                 if (data && data.errors) setErrors(data.errors);
@@ -48,9 +51,13 @@ export default function LoginFormPage({ setShowSignInModal }) {
 
     const credentialRef = useRef(null);
 
-    if (sessionUser) return (
-        <Redirect to='/' />
-    )
+    if (sessionUser) {
+        console.log('got here')
+
+        return (
+            <Redirect to='/' />
+        )
+    }
 
     return (
         <div className='login-all-wrapper'>

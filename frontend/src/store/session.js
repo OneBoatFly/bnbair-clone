@@ -1,8 +1,8 @@
 import { csrfFetch } from './csrf';
 
 // action consts
-const LOGIN_USER = 'session/login';
-const LOGOUT_USER = 'session/logout';
+const LOGIN_USER = 'session/setUser';
+const LOGOUT_USER = 'session/unSetUser';
 
 // normal action creators
 const setUser = (user) => {
@@ -12,7 +12,7 @@ const setUser = (user) => {
     }
 };
 
-const unset_user = () => {
+const unsetUser = () => {
     return {
         type: LOGOUT_USER
     }
@@ -72,22 +72,28 @@ export const logout = () => async (dispatch) => {
 
     const response = await csrfFetch('/api/session', options);
     if (response.ok) {
-        dispatch(unset_user());
+        dispatch(unsetUser());
     }
 }
 
-const sessionReducer = (state = {user: null}, action) => {
+const initalState = { user: null }
+
+const sessionReducer = (state = initalState, action) => {
     // console.log(action)
+    // console.log('session: current state --------', state)
+    let newState;
     switch (action.type) {
         case LOGIN_USER: {
-            const newState = { user: null };
+            newState = Object.assign({}, state);
             const {id, username, email, firstName, lastName} = action.user;
             // console.log(action.user)
             if (id) newState.user = { id, username, email, firstName, lastName };
             return newState;
         }
         case LOGOUT_USER: {
-            return { user: null };
+            newState = Object.assign({}, state);
+            newState.user = null;
+            return newState;
         }
         default: return state;
     }
