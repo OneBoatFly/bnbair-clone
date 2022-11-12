@@ -23,11 +23,12 @@ export default function OwnerSpots({ isLoaded }) {
 
   return (
     <div className='all-spots-wrapper'>
+      <div className='all-spots-sub-wrapper'>
         {
           ownerSpotsArr?.map(spot => {
             const { previewImage, city, state, avgRating, price, id } = spot;
             return (
-              <div key={id} className='all-spots-sub-wrapper'>
+              <div key={id} className='owner-spots-wrapper'>
                 <NavLink to={`/spots/${id}`} className='link-wrapper'>
                   <div className='individual-spot-wrapper'>
                     <div className='image-div'>
@@ -49,6 +50,7 @@ export default function OwnerSpots({ isLoaded }) {
             )
           })
         }
+      </div>
     </div>
   )
 }
