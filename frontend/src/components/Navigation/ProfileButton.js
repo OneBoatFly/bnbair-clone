@@ -2,11 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useDispatch } from 'react-redux';
 import * as sessionActions from '../../store/session';
 
+import { Modal } from '../../context/Modal';
+import CreateSpot from '../Spots/CreateSpot';
 import './Navigation.css';
 
 export default function ProfileButton({ user }) {
     const dispatch = useDispatch();
     const [showMenu, setShowMenu] = useState(false);
+    const [showSpotFormModal, setShowSpotFormModal] = useState(false);
 
     const openMenu = () => {
         if (showMenu) return;
@@ -42,11 +45,21 @@ export default function ProfileButton({ user }) {
                 <div className="menu-dropdown">
                     <span>{user.username}</span>
                     <span>{user.email}</span>
-                    <button onClick={logout}>My Spots</button>
+                </div>
+                <div className="menu-dropdown">
+                    <button onClick={() => setShowSpotFormModal(true)}><b>Create a new listing</b></button>
+                </div>                    
+                <div className="menu-dropdown">
+                    <button onClick={logout}>Listing</button>
                 </div>
                 <div className="menu-dropdown logout-button"><button onClick={logout}>Log Out</button></div>
             </div>
-        )}        
+        )}      
+        {showSpotFormModal && (
+            <Modal onClose={() => setShowSpotFormModal(false)} >
+                <CreateSpot setShowSpotFormModal={setShowSpotFormModal} />
+            </Modal>
+        )}  
     </div>
   )
 }

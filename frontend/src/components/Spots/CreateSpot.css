@@ -1,0 +1,86 @@
+.create-spot-wrapper {
+    outline: 2px solid yellow;
+    background: white;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    max-height: 704px;
+    max-width: 568px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: rgb(0 0 0 / 28%) 0px 8px 28px;
+}
+
+.create-spot-sub-wrapper {
+    outline: 1px solid red;
+    max-height: 500px;
+    overflow: scroll;
+    background: white;
+    padding: 24px;
+}
+
+.fullAddress-wrapper {
+    /* outline: 1px solid salmon; */
+}
+
+.create-spot-address {
+    border: 1px solid #B0B0B0;
+    border-radius: 8px 8px 0px 0px;
+    padding: 12px;
+}
+
+.create-spot-country {
+    border: 1px solid #B0B0B0;
+    border-radius: 0px 0px 8px 8px;
+    padding: 12px;
+    border-top: 0px;
+}
+
+.create-spot-aptNum,
+.create-spot-city,
+.create-spot-province {
+    border: 1px solid #B0B0B0;
+    padding: 12px;
+    border-top: 0px;
+}
+
+.create-spot-name,
+.create-spot-price,
+.create-spot-description {
+    border: 1px solid #B0B0B0;
+    border-radius: 8px;
+    padding: 12px;
+}
+
+.outline-wrapper:focus-within {
+    outline: 2px solid #222222;
+    outline-offset: -2px;
+    border-radius: 8px;
+    height: 100%;
+    width: 100%;
+}
+
+.outline-wrapper input,
+.outline-wrapper textarea {
+    width: 100%;
+    height: 100%;
+}
+
+textarea {
+    border: none;
+    min-width: 100%;
+    max-width: 100%;
+    min-height: 100px;
+    max-height: 100px;
+    resize: none;
+}
+
+textarea:focus {
+    border: none;
+    outline: none;
+}
+
+textarea:focus::placeholder,
+input:focus::placeholder {
+    color: transparent;
+}
