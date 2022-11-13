@@ -10,6 +10,7 @@ import { restoreCSRF, csrfFetch } from './store/csrf';
 import * as sessionActions from './store/session';
 
 import {ModalProvider} from './context/Modal';
+// import LogoutProvider from './context/LogoutSignal';
 
 const store = configureStore();
 

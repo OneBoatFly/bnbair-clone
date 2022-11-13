@@ -1,0 +1,17 @@
+.owner-spots-wrapper {
+    max-width: calc((100% - 16px) / 2);
+    flex-basis: calc((100% - 16px) / 2);
+    flex-grow: 1;
+    flex-shrink: 1;
+    overflow: hidden;
+}
+
+.modify-button-div {
+    margin: 4px 0px;
+}
+
+.modify-buttons {
+    border: none;
+    background: white;
+    padding: 0;
+}

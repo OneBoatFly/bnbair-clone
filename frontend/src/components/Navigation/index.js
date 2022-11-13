@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import { useSelector } from "react-redux";
@@ -14,12 +14,12 @@ export default function Navigation({ isLoaded, setIsLoaded }) {
     let sessionLinks;
     if (sessionUser) {
         sessionLinks = (
-            <ProfileButton user={sessionUser} setIsLoaded={setIsLoaded} isLoaded={isLoaded}/>
+            <ProfileButton user={sessionUser} setIsLoaded={setIsLoaded} isLoaded={isLoaded} />
         );
     } else {
         sessionLinks = (
             <>
-                <MenuButton></MenuButton>
+                <MenuButton setIsLoaded={setIsLoaded} ></MenuButton>
             </>
         );
     }

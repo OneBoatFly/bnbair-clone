@@ -35,6 +35,10 @@ export default function ProfileButton({ user, setIsLoaded }) {
         dispatch(sessionActions.logout());
         dispatch(spotsActions.removeOwnerSpots());
         setIsLoaded(false);
+
+        return (
+            <Redirect to='/' />
+        )
     };
 
   return (
@@ -47,16 +51,16 @@ export default function ProfileButton({ user, setIsLoaded }) {
         {showMenu && (
             <div className="navlinks" style={{background:'white', zIndex:'2'}}>
                 <div className="menu-dropdown">
-                    <span>{user.username}</span>
+                    <span><b>{user.username}</b></span>
                     <span>{user.email}</span>
                 </div>
-                <div className="menu-dropdown">
-                    <button onClick={() => setShowSpotFormModal(true)}><b>Create a new listing</b></button>
+                <div className="menu-dropdown creat-listing">
+                    <button onClick={() => setShowSpotFormModal(true)}>Create a new listing</button>
                 </div>                    
                 <div className="menu-dropdown">
-                    <button onClick={logout}>Listing</button>
+                    <NavLink to='/spots/current'>Listing</NavLink>
                 </div>
-                <div className="menu-dropdown logout-button"><button onClick={logout}>Log Out</button></div>
+                  <div className="menu-dropdown logout-button"><button onClick={logout}>Log Out</button></div>
             </div>
         )}      
         {showSpotFormModal && (

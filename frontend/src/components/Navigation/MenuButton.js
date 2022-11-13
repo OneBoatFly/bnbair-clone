@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { NavLink } from 'react-router-dom';
+// import { NavLink } from 'react-router-dom';
 
 import { Modal } from '../../context/Modal';
 import LoginFormPage from '../LoginFormPage';
@@ -7,7 +7,7 @@ import SignupFormPage from '../SignupFormPage';
 
 import './Navigation.css';
 
-export default function MenuButton() {
+export default function MenuButton({ setIsLoaded }) {
     const [showMenu, setShowMenu] = useState(false);
     const [showSignInModal, setShowSignInModal] = useState(false);
     const [showSignUpModal, setShowSignUpModal] = useState(false);
@@ -52,12 +52,12 @@ export default function MenuButton() {
             )}
             {showSignInModal && (
                 <Modal onClose={() => setShowSignInModal(false)} >
-                    <LoginFormPage setShowSignInModal={setShowSignInModal}/>
+                    <LoginFormPage setShowSignInModal={setShowSignInModal} setIsLoaded={setIsLoaded} />
                 </Modal>
             )}
             {showSignUpModal && (
                 <Modal onClose={() => setShowSignUpModal(false)} >
-                    <SignupFormPage setShowSignUpModal={setShowSignUpModal} />
+                    <SignupFormPage setShowSignUpModal={setShowSignUpModal} setIsLoaded={setIsLoaded} />
                 </Modal>
             )}
         </div>

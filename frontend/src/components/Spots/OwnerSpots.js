@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { NavLink, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import * as spotsActions from '../../store/spots';
-import './Spots.css';
+import './OwnerSpots.css';
 
 export default function OwnerSpots({ isLoaded }) {
   const ownerSpots = useSelector(state => state.spots.ownerSpots);
@@ -11,7 +11,7 @@ export default function OwnerSpots({ isLoaded }) {
   useEffect(() => {
     dispatch(spotsActions.getOwnerSpots());
   }, [dispatch]);
-  
+
   if (!isLoaded) {
     return (
         <Redirect to = '/' />

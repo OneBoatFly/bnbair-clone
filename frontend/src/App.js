@@ -47,7 +47,7 @@ function App() {
         </Route>
         <Route path='/spots/:spotId'>
           <div className='root-sub-wrapper'>
-            <SpotDetails></SpotDetails>
+            <SpotDetails isLoaded={isLoaded}></SpotDetails>
           </div>
         </Route>
         <Route>Page not found.</Route>
