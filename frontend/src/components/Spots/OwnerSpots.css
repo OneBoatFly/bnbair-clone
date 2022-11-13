@@ -1,17 +1,103 @@
 .owner-spots-wrapper {
-    max-width: calc((100% - 16px) / 2);
-    flex-basis: calc((100% - 16px) / 2);
-    flex-grow: 1;
-    flex-shrink: 1;
-    overflow: hidden;
+    /* outline: 1px solid rebeccapurple; */
+    width: 100%;
+    margin: 24px 0px;
+    font-family: inherit;
+}
+
+.owner-spots-sub-wrapper {
+    /* outline: 1px solid yellowgreen; */
+    width: 100%;
+}
+
+.owner-spots-sub-wrapper h4 {
+    margin: 0;
+    padding-bottom: 16px;
+    padding-left: 10px;
 }
 
 .modify-button-div {
     margin: 4px 0px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #222222;
+    border-radius: 8px;
+    overflow: hidden;
+    width: 85%;
 }
 
 .modify-buttons {
     border: none;
     background: white;
-    padding: 0;
+    padding: 7px 15px;
+    cursor: pointer;
+}
+
+.modify-buttons.first {
+    border-bottom: 1px solid #222222;
+}
+
+.modify-buttons:hover {
+    background-color: #f7f7f7;
+    color: black;
+    border-color: black;
+}
+
+/* ------------------------ table------------------------ */
+.owner-spots-table {
+    width: 100%;
+    display: inline-table;
+    border-collapse: collapse;
+    position: relative;
+}
+
+.owner-spots-table thead {
+    box-sizing: border-box;
+    display: table-header-group;
+    vertical-align: middle;
+    border-color: inherit;
+    position: sticky;
+    top: 0px;
+    background-color: white;
+}
+
+.owner-spots-table th {
+    padding: 10px;
+}
+
+.owner-spots-table td {
+    padding: 16px 8px;
+    font-size: 0.8rem;
+}
+
+.owner-spots-header-row {
+    /* outline: 1px solid salmon; */
+    font-size: 14px;
+    color: #717171;
+    text-align: left;
+    border-bottom: 1px solid rgb(235, 235, 235);
+}
+
+.owner-spots-table tr {
+    border-bottom: 1px solid rgb(235, 235, 235);
+}
+
+.table-image-wrapper {
+    display: flex;
+    align-items: center;
+    column-gap: 8px;
+}
+
+.table-image-div {
+    border-radius: 4px;
+    min-width: 56px;
+    height: 40px;
+    width: 56px;
+    overflow: hidden;
+}
+
+.table-image-div img {
+    object-fit: cover;
+    vertical-align: bottom;
+    height: 100%;
 }
