@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as sessionActions from "./store/session";
 import * as spotsActions from './store/spots';
 import Navigation from './components/Navigation';
-import { Spots, SpotDetails } from './components/Spots';
+import { Spots, SpotDetails, OwnerSpots } from './components/Spots';
 
 function App() {
   // console.log('0. App component rendered')
@@ -32,13 +32,18 @@ function App() {
   return (
     <div className='root-wrapper'>
       <div className='root-sub-wrapper'>
-        <Navigation isLoaded={isLoaded} />
+        <Navigation isLoaded={isLoaded} setIsLoaded={setIsLoaded} />
       </div>
       <Switch>
         <Route exact path='/'>
           <div className='root-sub-wrapper'>
             <Spots spots={spots} ></Spots>
           </div>      
+        </Route>
+        <Route path='/spots/current'>
+          <div className='root-sub-wrapper'>
+            <OwnerSpots isLoaded={isLoaded}></OwnerSpots>
+          </div>
         </Route>
         <Route path='/spots/:spotId'>
           <div className='root-sub-wrapper'>

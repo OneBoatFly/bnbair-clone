@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from 'react-redux';
+import { NavLink, Redirect } from "react-router-dom";
 import * as sessionActions from '../../store/session';
+import * as spotsActions from '../../store/spots'
 
 import { Modal } from '../../context/Modal';
 import CreateSpot from '../Spots/CreateSpot';
 import './Navigation.css';
 
-export default function ProfileButton({ user }) {
+export default function ProfileButton({ user, setIsLoaded }) {
     const dispatch = useDispatch();
     const [showMenu, setShowMenu] = useState(false);
     const [showSpotFormModal, setShowSpotFormModal] = useState(false);
@@ -31,6 +33,8 @@ export default function ProfileButton({ user }) {
     const logout = (e) => {
         e.preventDefault();
         dispatch(sessionActions.logout());
+        dispatch(spotsActions.removeOwnerSpots());
+        setIsLoaded(false);
     };
 
   return (

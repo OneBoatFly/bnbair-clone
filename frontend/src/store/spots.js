@@ -4,6 +4,8 @@ import coordinatesDistance from '../components/Spots/spotDistance';
 // regular actions
 const LOAD_SPOTS = 'spots/loadSpots';
 const LOAD_SPOT_DETAIL = 'spots/getOneSpot';
+const LOAD_OWNER_SPOTS = 'spots/ownerSpots';
+const REMOVE_OWNER_SPOTS = 'spots/removeOwnerSpots';
 const CREATE_SPOT = 'spots/createSpot';
 
 const loadSpots = (spots) => {
@@ -24,6 +26,19 @@ const createSpot = (spot) => {
     return {
         type: CREATE_SPOT,
         spot
+    }
+}
+
+const loadOwnerSpots = (spots) => {
+    return {
+        type: LOAD_OWNER_SPOTS,
+        spots
+    }
+};
+
+export const removeOwnerSpots = () => {
+    return {
+        type: REMOVE_OWNER_SPOTS
     }
 }
 
@@ -80,7 +95,18 @@ export const createOneSpot = (spotInfo) => async (dispatch) => {
     }
 }
 
-// reducer allSpots: {}, spotDetails: {SpotImages: [], Owner: {}}
+export const getOwnerSpots = () => async (dispatch) => {
+    console.log('getOwnerSpots thunk')
+    const response = await csrfFetch('/api/spots/current');
+
+    if (response.ok) {
+        const ownerSpots = await response.json();
+
+        const normalSpots = normalizeArray(ownerSpots.Spots)
+        dispatch(loadOwnerSpots(normalSpots));
+    }
+};
+
 const initalState = {};
 const spotsReducer = (state = initalState, action) => {
     // console.log(action)
@@ -97,6 +123,17 @@ const spotsReducer = (state = initalState, action) => {
             // console.log('LOAD_SPOT_DETAIL')
             const newState = { ...state };
             newState.spotDetails = action.spot;
+            return newState;
+        }
+        case LOAD_OWNER_SPOTS: {
+            // console.log('LOAD_LOAD_OWNER_SPOTS_SPOTS')
+            newState = { ...state }
+            newState.ownerSpots = action.spots
+            return newState;            
+        }
+        case REMOVE_OWNER_SPOTS: {
+            newState = { ...state }
+            delete newState.ownerSpots;
             return newState;
         }
         default: {

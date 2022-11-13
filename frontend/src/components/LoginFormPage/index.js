@@ -41,7 +41,6 @@ export default function LoginFormPage({ setShowSignInModal }) {
         dispatch(sessionActions.login({ credential, password }))
             .then(() => {
                 setHasSubmitted(false);
-                console.log('success login')
             })
             .catch(async (res) => {
                 const data = await res.json();
@@ -52,7 +51,6 @@ export default function LoginFormPage({ setShowSignInModal }) {
     const credentialRef = useRef(null);
 
     if (sessionUser) {
-        console.log('got here')
 
         return (
             <Redirect to='/' />
