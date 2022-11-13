@@ -25,29 +25,32 @@ export default function SpotDetails() {
                     <span> · </span>
                     <NavLink to=''><span>{spot.numReviews} reviews</span></NavLink>
                 </div>
-                <div className='pictures-div-wrapper'>
-                    {/* <div> */}
-                        <div className='pictures-big'>
-                            <div className='image-div'>
-                            {spot.SpotImages[0] && <img src={`${spot.SpotImages[0].url}`} alt='room'></img>}
+                {spot.SpotImages.length > 0 ?
+                    <div className='pictures-div-wrapper'>
+                            <div className='pictures-big'>
+                                <div className='image-div'>
+                                {spot.SpotImages[0] && <img src={`${spot.SpotImages[0].url}`} alt='room'></img>}
+                                </div>
                             </div>
-                        </div>
-                        <div className='pictures-small'>
-                        <div className='image-div'>
-                            {spot.SpotImages[1] && <img src={`${spot.SpotImages[1].url}`} alt='room'></img>}
-                        </div>
-                        <div className='image-div'>
-                            {spot.SpotImages[2] && <img src={`${spot.SpotImages[2].url}`} alt='room'></img>}
-                        </div>
-                        <div className='image-div'> 
-                            {spot.SpotImages[3] && <img src={`${spot.SpotImages[3].url}`} alt='room'></img>}
-                        </div>
-                        <div className='image-div'>
-                            {spot.SpotImages[4] && <img src={`${spot.SpotImages[4].url}`} alt='room'></img>}
-                        </div>
-                        </div>
-                    {/* </div> */}
-                </div>
+                            <div className='pictures-small'>
+                            <div className='image-div'>
+                                {spot.SpotImages[1] && <img src={`${spot.SpotImages[1].url}`} alt='room'></img>}
+                            </div>
+                            <div className='image-div'>
+                                {spot.SpotImages[2] && <img src={`${spot.SpotImages[2].url}`} alt='room'></img>}
+                            </div>
+                            <div className='image-div'> 
+                                {spot.SpotImages[3] && <img src={`${spot.SpotImages[3].url}`} alt='room'></img>}
+                            </div>
+                            <div className='image-div'>
+                                {spot.SpotImages[4] && <img src={`${spot.SpotImages[4].url}`} alt='room'></img>}
+                            </div>
+                            </div>
+                        {/* </div> */}
+                    </div>
+                    :
+                    <div>No Images</div>
+                }
                 <div className='info-booking-wrapper'>
                     <div className='spot-info-wrapper'>
                         <div className='hostName'>{spot.Owner && <h4>Hosted by {spot.Owner.firstName}</h4>}</div>

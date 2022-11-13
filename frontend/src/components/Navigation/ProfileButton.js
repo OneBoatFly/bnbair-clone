@@ -41,7 +41,7 @@ export default function ProfileButton({ user }) {
             </div>
         </button>
         {showMenu && (
-            <div className="navlinks" style={{background:'white', zIndex:'1'}}>
+            <div className="navlinks" style={{background:'white', zIndex:'2'}}>
                 <div className="menu-dropdown">
                     <span>{user.username}</span>
                     <span>{user.email}</span>
