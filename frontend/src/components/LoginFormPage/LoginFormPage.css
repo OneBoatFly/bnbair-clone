@@ -84,13 +84,15 @@ input:-webkit-autofill:focus {
     border-radius: 0px 0px 8px 8px;
 }
 
-.login.button-div {
+.login.button-div,
+.create-spot.button-div {
     margin-top: 16px;
     margin-bottom: 24px;
 }
 
 .login-all-wrapper button,
-.signup-all-wrapper button {
+.signup-all-wrapper button,
+.create-spot-wrapper button {
     cursor: pointer;
     display: inline-block;
     margin: 0px;
@@ -135,14 +137,15 @@ input:-webkit-autofill:focus {
 }
 
 .login-span,
-.signup-span {
+.signup-span,
+.create-spot-span {
     display: block;
     position: relative;
     pointer-events: none;
     font-size: 16px;
 }
 
-.exit-button-wrapper{
+.exit-button-wrapper {
     /* outline: 1px solid black; */
     background: white;
     /* width: 100%; */

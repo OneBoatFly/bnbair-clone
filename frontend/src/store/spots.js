@@ -4,6 +4,7 @@ import coordinatesDistance from '../components/Spots/spotDistance';
 // regular actions
 const LOAD_SPOTS = 'spots/loadSpots';
 const LOAD_SPOT_DETAIL = 'spots/getOneSpot';
+const CREATE_SPOT = 'spots/createSpot';
 
 const loadSpots = (spots) => {
     return {
@@ -18,6 +19,13 @@ const loadSpotDetail = (spot) => {
         spot
     }
 };
+
+const createSpot = (spot) => {
+    return {
+        type: CREATE_SPOT,
+        spot
+    }
+}
 
 // thunk actions
 export const getAllSpots = (userCoord) => async (dispatch) => {
@@ -53,6 +61,24 @@ export const getOneSpot = (spotId) => async (dispatch) => {
         dispatch(loadSpotDetail(spot));
     }
 };
+
+export const createOneSpot = (spotInfo) => async (dispatch) => {
+    console.log('----------reached creating a spot thunk----------')
+    const options = {
+        method: 'POST',
+        body: JSON.stringify(spotInfo)
+    };
+
+    const response = await csrfFetch('/api/spots', options);
+
+    if (response.ok) {
+        console.log('-------------reached reponse ok-------------')
+        const spot = await response.json();
+        
+        // dispatch(loadSpotDetail(spot));
+        return spot;
+    }
+}
 
 // reducer allSpots: {}, spotDetails: {SpotImages: [], Owner: {}}
 const initalState = {};
