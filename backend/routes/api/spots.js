@@ -249,11 +249,12 @@ router.get('/', validateQuery, async (req, res, next) => {
             attributes: [[sequelize.fn("AVG", sequelize.col("stars")), "avgRating"]],
             where: { spotId: spot.id }
         });
-        // console.log(avgRating[0].toJSON().avgRating);
+        // console.log(typeof avgRating[0].toJSON().avgRating);
         if (!avgRating[0].toJSON().avgRating) {
             spotJSON.avgRating = null;
         } else {
-            spotJSON.avgRating = Math.round(avgRating[0].toJSON().avgRating * 10) / 10;
+            // console.log(avgRating)
+            spotJSON.avgRating = Math.round(avgRating[0].toJSON().avgRating * 100) / 100;
         }
     
         const preview = await SpotImage.findOne({

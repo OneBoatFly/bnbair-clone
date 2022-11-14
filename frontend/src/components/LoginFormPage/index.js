@@ -1,13 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 import * as sessionActions from '../../store/session';
-import { useDispatch, useSelector } from 'react-redux';
 
 import './LoginFormPage.css';
 import { handleMouseMove, handleDivTopBorder, handleDivTopBorderOut } from '../styles';
 
-export default function LoginFormPage({ setShowSignInModal }) {
+export default function LoginFormPage({ setShowSignInModal, setIsLoaded }) {
     const [credential, setCredential] = useState('');
     const [password, setPassword] = useState('');
     const [errors, setErrors] = useState([]);
@@ -39,7 +39,10 @@ export default function LoginFormPage({ setShowSignInModal }) {
         if (errors.length) return;
         
         dispatch(sessionActions.login({ credential, password }))
-            .then(() => setHasSubmitted(false))
+            .then(() => {
+                setHasSubmitted(false);
+                setIsLoaded(true);
+            })
             .catch(async (res) => {
                 const data = await res.json();
                 if (data && data.errors) setErrors(data.errors);
@@ -48,9 +51,11 @@ export default function LoginFormPage({ setShowSignInModal }) {
 
     const credentialRef = useRef(null);
 
-    if (sessionUser) return (
-        <Redirect to='/' />
-    )
+    if (sessionUser) {
+        return (
+            <Redirect to='/' />
+        )
+    }
 
     return (
         <div className='login-all-wrapper'>

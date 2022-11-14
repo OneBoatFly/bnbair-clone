@@ -10,6 +10,7 @@ import { restoreCSRF, csrfFetch } from './store/csrf';
 import * as sessionActions from './store/session';
 
 import {ModalProvider} from './context/Modal';
+// import LogoutProvider from './context/LogoutSignal';
 
 const store = configureStore();
 
@@ -22,6 +23,8 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 function Root() {
+  // console.log('*** Root rendered ***')
+  // console.log('Root: ', store.getState())
   return (
     <ReduxProvider store={store}>
       <ModalProvider>

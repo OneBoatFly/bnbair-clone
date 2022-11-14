@@ -5,11 +5,17 @@ body {
 }
 
 .root-wrapper {
-    /* outline: 1px solid black; */
-    padding: 0 80px;
+    /* outline: 1px solid purle; */
     display: flex;
     justify-content: center;
-    border: 1px solid #dddddd;
+    flex-direction: column;
+    position: relative;
+}
+
+.root-sub-wrapper {
+    /* outline: 1px solid black; */
+    padding: 0 80px;
+    border-bottom: 1px solid #dddddd;
 }
 
 .error-messages-wrapper {
@@ -30,4 +36,12 @@ span.error-messages {
     font-size: 12px;
     margin: 0px;
     padding: 0px;
+}
+
+.root-sub-wrapper.navigation {
+    /* outline: 1px solid palevioletred; */
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 1;
 }

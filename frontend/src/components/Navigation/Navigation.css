@@ -30,6 +30,34 @@
     justify-content: right;
 }
 
+.airbnb-icon {
+    color: #ff385c;
+    position: relative;
+}
+
+.airbnb-logo {
+    width: 30px;
+    height: 32px;
+    transform: rotate(45deg);
+}
+
+.airbnb-text-air {
+    width: 61px;
+    height: 32px;
+    position: absolute;
+    left: 36px;
+    top: 6px
+}
+
+.airbnb-text-bnb {
+    clip-path: inset(0px 0px 0px 62px);
+    width: 102px;
+    height: 32px;
+    position: absolute;
+    left: -31px;
+    top: 6px
+}
+
 .navBar-button {
     background: none;
     border: none;
@@ -88,4 +116,15 @@
     cursor: pointer;
     font-size: 14px;
     font-family: inherit;
+}
+
+.menu-dropdown.creat-listing {
+    padding-bottom: 0;
+    border-top: 1px solid #dddddd;
+}
+
+.menu-dropdown a {
+    text-decoration: none;
+    color: inherit;
+    font-size: inherit;
 }

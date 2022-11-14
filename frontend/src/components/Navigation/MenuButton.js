@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { NavLink } from 'react-router-dom';
+// import { NavLink } from 'react-router-dom';
 
 import { Modal } from '../../context/Modal';
 import LoginFormPage from '../LoginFormPage';
@@ -7,10 +7,10 @@ import SignupFormPage from '../SignupFormPage';
 
 import './Navigation.css';
 
-export default function MenuButton() {
+export default function MenuButton({ setIsLoaded }) {
     const [showMenu, setShowMenu] = useState(false);
     const [showSignInModal, setShowSignInModal] = useState(false);
-    const [showSingUpModal, setShowSignUpModal] = useState(false);
+    const [showSignUpModal, setShowSignUpModal] = useState(false);
 
     const openMenu = () => {
         if (showMenu) return;
@@ -52,12 +52,12 @@ export default function MenuButton() {
             )}
             {showSignInModal && (
                 <Modal onClose={() => setShowSignInModal(false)} >
-                    <LoginFormPage showSignInModal={showSignInModal} setShowSignInModal={setShowSignInModal}/>
+                    <LoginFormPage setShowSignInModal={setShowSignInModal} setIsLoaded={setIsLoaded} />
                 </Modal>
             )}
-            {showSingUpModal && (
+            {showSignUpModal && (
                 <Modal onClose={() => setShowSignUpModal(false)} >
-                    <SignupFormPage showSingUpModal={showSingUpModal} setShowSignUpModal={setShowSignUpModal} />
+                    <SignupFormPage setShowSignUpModal={setShowSignUpModal} setIsLoaded={setIsLoaded} />
                 </Modal>
             )}
         </div>

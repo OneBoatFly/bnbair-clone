@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import './SignupFormPage.css';
 import { handleMouseMove, handleDivTopBorder, handleDivTopBorderOut } from '../styles';
 
-export default function SignupFormPage({ setShowSignUpModal }) {
+export default function SignupFormPage({ setShowSignUpModal, setIsLoaded }) {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [birthday, setBirthday] = useState(''); // this is not in backend yet.
@@ -87,7 +87,10 @@ export default function SignupFormPage({ setShowSignUpModal }) {
             email,
             password 
         }))
-        .then(() => setHasSubmitted(false))
+        .then(() => {
+            setHasSubmitted(false);
+            setIsLoaded(true);
+        })
         .catch(async (res) => {
             const data = await res.json();
             // console.log('data returned: ', data)
