@@ -65,11 +65,11 @@ module.exports = {
       }
     });
 
-    await queryInterface.addIndex('Spots', {
-      fields: ['address', 'city', 'state', 'country'],
-      unique: true,
-      name: 'uniqueAddress'
-    })
+    // await queryInterface.addIndex('Spots', {
+    //   fields: ['address', 'city', 'state', 'country'],
+    //   unique: true,
+    //   name: 'uniqueAddress'
+    // })
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('Spots');

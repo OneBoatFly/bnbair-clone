@@ -46,7 +46,7 @@ export default function UpdateSpot({ setShowSpotFormModal, spot }) {
     else if (province.length > 255) hasAddressErrors.province = 'State must be less than 255 characters.';
     else delete hasAddressErrors.province;
 
-    console.log(country, country.length > 255)
+    // console.log(country, country.length > 255)
     if (!country.length) hasAddressErrors.country = 'Country is required.';
     else if (country.length > 255) hasAddressErrors.country = 'Country must be less than 255 characters.';
     else delete hasAddressErrors.country;

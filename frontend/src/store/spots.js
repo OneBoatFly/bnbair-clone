@@ -69,7 +69,7 @@ export const getOneSpot = (spotId) => async (dispatch) => {
     }
 };
 
-export const createOneSpot = (spotInfo) => async () => {
+export const createOneSpot = (spotInfo) => async (dispatch) => {
     console.log('----------reached creating a spot thunk----------')
     const options = {
         method: 'POST',
@@ -84,11 +84,12 @@ export const createOneSpot = (spotInfo) => async () => {
         console.log('-------------reached reponse ok-------------')
         const spot = await response.json();
         console.log(spot)
+        dispatch(getOneSpot(spot.id));
         return spot;
     }
 };
 
-export const updateOneSpot = (spotInfo, spotId) => async () => {
+export const updateOneSpot = (spotInfo, spotId) => async (dispatch) => {
     console.log('----------reached update a spot thunk----------')
     const options = {
         method: 'PUT',
@@ -100,6 +101,7 @@ export const updateOneSpot = (spotInfo, spotId) => async () => {
     if (response.ok) {
         console.log('-------------reached reponse ok-------------')
         const spot = await response.json();
+        dispatch(getOneSpot(spot.id));
         return spot;
     }
 };
