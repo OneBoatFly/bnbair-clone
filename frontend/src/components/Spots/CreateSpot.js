@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Redirect } from 'react-router-dom';
 
 import * as spotsActions from '../../store/spots';
 import { useDispatch, useSelector } from 'react-redux';
 
 import './CreateSpot.css';
-// import { handleMouseMove, handleDivTopBorder, handleDivTopBorderOut } from '../styles';
+import { handleLabelSmall, handleLabelBig } from '../styles';
 import MyButton from '../FormElements/MyButton';
 
 export default function CreateSpot({ setShowSpotFormModal }) {
@@ -36,20 +36,32 @@ export default function CreateSpot({ setShowSpotFormModal }) {
 
     if (!address.length) hasAddressErrors.street = 'Street is required.';
     else if (address.length > 255) hasAddressErrors.street = 'Street must be less than 255 characters.';
-    else delete hasAddressErrors.street;
+    else {
+      delete hasAddressErrors.street;
+      handleLabelSmall(streetLabel, streetInput);
+    }
 
     if (!city.length) hasAddressErrors.city = 'City is required.';
     else if (city.length > 255) hasAddressErrors.city = 'City must be less than 255 characters.';
-    else delete hasAddressErrors.city;
+    else {
+      delete hasAddressErrors.city;
+      handleLabelSmall(cityLabel, cityInput);
+    }
 
     if (!province.length) hasAddressErrors.province = 'State is required.';
     else if (province.length > 255) hasAddressErrors.province = 'State must be less than 255 characters.';
-    else delete hasAddressErrors.province;
+    else {
+      delete hasAddressErrors.province;
+      handleLabelSmall(provinceLabel, provinceInput);
+    }
 
     // console.log(country, country.length > 255)
     if (!country.length) hasAddressErrors.country = 'Country is required.';
     else if (country.length > 255) hasAddressErrors.country = 'Country must be less than 255 characters.';
-    else delete hasAddressErrors.country;
+    else {
+      delete hasAddressErrors.country;
+      handleLabelSmall(countryLabel, countryInput);
+    }
 
     if (!name.length) setTitleErrors('Title is required.');
     else if (name.length > 50) setTitleErrors('Title must be less than 50 characters.');
@@ -63,17 +75,17 @@ export default function CreateSpot({ setShowSpotFormModal }) {
     else setPriceErrors('');
 
     // set addressErrors expecting []:
-    console.log('hasAddressErrors', hasAddressErrors)
+    // console.log('hasAddressErrors', hasAddressErrors)
     if (Object.values(hasAddressErrors).length) {
       setAddressErrors(Object.values(hasAddressErrors));
     } else {
       setAddressErrors([]);
     }
 
-    console.log('addressErrors', addressErrors);
-    console.log('titleErrors', titleErrors);
-    console.log('descriptionErrors', descriptionErrors);
-    console.log('priceErrors', priceErrors);
+    // console.log('addressErrors', addressErrors);
+    // console.log('titleErrors', titleErrors);
+    // console.log('descriptionErrors', descriptionErrors);
+    // console.log('priceErrors', priceErrors);
 
   }, [address, city, province, country, name, description, price]);
 
@@ -98,7 +110,6 @@ export default function CreateSpot({ setShowSpotFormModal }) {
         console.log('in dispatch success - checking spot', spot)
         setHasSubmitted(false);
         setNewSpot(spot);
-        // dispatch(spotsActions.getOneSpot(spot.id));
         setShowSpotFormModal(false);
       })
       .catch(async (res) => {
@@ -127,10 +138,16 @@ export default function CreateSpot({ setShowSpotFormModal }) {
 
   
   // css related //
-  // const firstNameDiv = useRef(null);
-  // const userNameDiv = useRef(null);
-  // const passwordDiv = useRef(null);
+  const streetLabel = useRef(null);
+  const streetInput = useRef(null);
+  const cityLabel = useRef(null);
+  const cityInput = useRef(null);
+  const provinceLabel = useRef(null);
+  const provinceInput = useRef(null);
+  const countryLabel = useRef(null);
+  const countryInput = useRef(null);
   // css related //
+
   if (newSpot.id) return (
     <Redirect to={`/spots/${newSpot.id}`}/>
   )
@@ -153,33 +170,53 @@ export default function CreateSpot({ setShowSpotFormModal }) {
           </div>          
           <div className='create-spot fullAddress-wrapper'>
             <div className='outline-wrapper'>
-              <div className='create-spot-address'>
-                  <label htmlFor='address'>Street</label>
+              <div className='create-spot-address' onFocus={() => handleLabelSmall(streetLabel)} onBlur={() => handleLabelBig(streetLabel, streetInput)}>
+                <div className='label-div' ref={streetLabel}>
+                  <label htmlFor='address' >Street</label>
+                </div>
+                <div className='input-div' ref={streetInput} >
                   <input type='text' id="address" value={address} onChange={(e) => setAddress(e.target.value)} />
+                </div>
               </div>
             </div>
-            <div className='outline-wrapper'>
-              <div className='create-spot-aptNum'>
-                <label htmlFor='aptNum'>Apt, suite, etc. (Optional)</label>
-                <input type='text' id="aptNum" value={aptNum} onChange={(e) => setAptNum(e.target.value)} />
+            {/* <div className='outline-wrapper'>
+              <div className='create-spot-aptNum' onFocus={() => handleLabelSmall(aptLabel)} onBlur={() => handleLabelBig(aptLabel, aptInput)}>
+                <div className='label-div' ref={aptLabel}>
+                  <label htmlFor='aptNum'>Apt, suite, etc. (Optional)</label>
+                </div>
+                <div className='input-div' ref={aptInput}>
+                  <input type='text' id="aptNum" value={aptNum} onChange={(e) => setAptNum(e.target.value)} />
+                </div>
               </div>
-            </div>            
+            </div>             */}
             <div className='outline-wrapper'>
-                <div className='create-spot-city'>
+              <div className='create-spot-city' onFocus={() => handleLabelSmall(cityLabel)} onBlur={() => handleLabelBig(cityLabel, cityInput)}>
+                <div className='label-div' ref={cityLabel}>
                   <label htmlFor='city'>City</label>
+                </div>
+                <div className='input-div' ref={cityInput}>
                   <input type='text' id="city" value={city} onChange={(e) => setCity(e.target.value)} />
                 </div>
-            </div>
-            <div className='outline-wrapper'>
-              <div className='create-spot-province'>
-                <label htmlFor='province'>State</label>
-                <input type='text' id="province" value={province} onChange={(e) => setProvince(e.target.value)} />
               </div>
             </div>
             <div className='outline-wrapper'>
-              <div className='create-spot-country'>
-                <label htmlFor='country'>Country</label>
-                <input type='text' id="country" value={country} onChange={(e) => setCountry(e.target.value)} />
+              <div className='create-spot-province' onFocus={() => handleLabelSmall(provinceLabel)} onBlur={() => handleLabelBig(provinceLabel, provinceInput)}>
+                <div className='label-div' ref={provinceLabel}>
+                  <label htmlFor='province'>State</label>
+                </div>
+                <div className='input-div' ref={provinceInput}>
+                  <input type='text' id="province" value={province} onChange={(e) => setProvince(e.target.value)} />
+                </div>
+              </div>
+            </div>
+            <div className='outline-wrapper'>
+              <div className='create-spot-country' onFocus={() => handleLabelSmall(countryLabel)} onBlur={() => handleLabelBig(countryLabel, countryInput)}>
+                <div className='label-div' ref={countryLabel}>
+                  <label htmlFor='country'>Country</label>
+                </div>
+                <div className='input-div' ref={countryInput}>
+                  <input type='text' id="country" value={country} onChange={(e) => setCountry(e.target.value)} />
+                </div>
               </div>
             </div>       
           </div>
@@ -232,7 +269,7 @@ export default function CreateSpot({ setShowSpotFormModal }) {
           <div className='create-spot price-wrapper'>
             <div className='outline-wrapper'>
               <div className='create-spot-price'>
-                <label htmlFor='price'>Price</label>
+                {/* <label htmlFor='price'>Price</label> */}
                 <input type='number' id="price" value={price} onChange={(e) => {
                   const value = Math.max(0, Number(e.target.value));
                   setPrice(value);                  

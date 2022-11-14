@@ -41,10 +41,10 @@
 
 .airbnb-logo {
     width: 30px;
-    height: 32px;
+    height: 45px;
     transform: rotate(45deg);
     position: absolute;
-    left: 4px;
+    left: 0px;
 }
 
 .airbnb-text-air {
@@ -52,7 +52,7 @@
     height: 32px;
     position: absolute;
     left: 36px;
-    top: -7px
+    top: -10px
 }
 
 .airbnb-text-bnb {
@@ -61,7 +61,7 @@
     height: 32px;
     position: absolute;
     left: -31px;
-    top: -7px
+    top: -10px
 }
 
 .navBar-button {
@@ -85,6 +85,7 @@
 
 .menu-all-wrapper {
     position: relative;
+    color: #222222;
 }
 
 .menu-all-wrapper > .navlinks {
