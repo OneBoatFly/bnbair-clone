@@ -316,10 +316,26 @@ const validateSpot = [
 router.post('/', requireAuth, validateSpot, async (req, res, next) => {
     // console.log('in post a spot route');
     const { address, city, state, country, lat, lng, name, description, price } = req.body;
-    const spot = await Spot.create({ ownerId: req.user.id, 
-        address, city, state, country, lat, lng, name, description, price });
-
-    res.json(spot);
+    
+    try {
+        const spot = await Spot.create({ ownerId: req.user.id, 
+            address, city, state, country, lat, lng, name, description, price });
+    
+        res.json(spot);
+    } catch(e) {
+        // console.log(e.errors)
+        const resError = {}
+        e.errors.forEach(error => {
+            // console.log(error)
+            resError[error.path] = error.message
+        })
+        console.log(resError);
+        const err = new Error();
+        err.status = 403;
+        err.errors = resError;
+        next(err);
+    }
+    
 });
 
 // edit a spot

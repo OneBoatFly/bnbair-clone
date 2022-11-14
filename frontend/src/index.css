@@ -6,16 +6,24 @@ body {
 
 .root-wrapper {
     /* outline: 1px solid purle; */
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
     position: relative;
 }
 
-.root-sub-wrapper {
-    /* outline: 1px solid black; */
-    padding: 0 80px;
+/* padding 80px is for 1440px screen or above */
+.root-sub-wrapper-navigation {
+    /* outline: 2px solid salmon; */
     border-bottom: 1px solid #dddddd;
+    padding: 0 80px;
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 1;
+}
+
+.root-sub-wrapper {
+    /* outline: 2px solid black; */
+    border-bottom: 1px solid #dddddd;
+    padding: 0 80px;
 }
 
 .error-messages-wrapper {
@@ -38,10 +46,18 @@ span.error-messages {
     padding: 0px;
 }
 
-.root-sub-wrapper.navigation {
-    /* outline: 1px solid palevioletred; */
-    position: sticky;
-    top: 0;
-    background: white;
-    z-index: 1;
+@media (max-width: 1128px) {
+    .root-sub-wrapper,
+    .root-sub-wrapper-navigation {
+        /* outline: 1px solid black; */
+        padding: 0 40px;
+    }
+}
+
+@media (max-width: 744px) {
+    .root-sub-wrapper,
+    .root-sub-wrapper-navigation {
+        /* outline: 1px solid black; */
+        padding: 0 20px;
+    }
 }

@@ -24,6 +24,7 @@ export default function CreateSpot({ setShowSpotFormModal }) {
   const [descriptionErrors, setDescriptionErrors] = useState('');
   const [priceErrors, setPriceErrors] = useState('');
   const [validationErrors, setValidationErrors] = useState({});
+  const [sqlErrors, setSqlErrors] = useState([]);
   const [hasSubmitted, setHasSubmitted] = useState(false);
 
   const [newSpot, setNewSpot] = useState({});
@@ -132,9 +133,9 @@ export default function CreateSpot({ setShowSpotFormModal }) {
             return errors;
           });
 
-          setTitleErrors(data.errors.name);
-          setDescriptionErrors(data.errors.description);
-          setPriceErrors(data.errors.price);
+          if (data.errors.name) setTitleErrors(data.errors.name);
+          if (data.errors.description) setDescriptionErrors(data.errors.description);
+          if (data.errors.price) setPriceErrors(data.errors.price);
 
           if (data.errors.lat || data.errors.lng) setValidationErrors(err => data.errors);
         }
