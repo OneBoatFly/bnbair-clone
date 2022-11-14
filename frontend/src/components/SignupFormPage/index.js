@@ -47,6 +47,7 @@ export default function SignupFormPage({ setShowSignUpModal, setIsLoaded }) {
         else delete hasErrors.age;
 
         if (!username.length) hasErrors.username = 'Username is required.';
+        else if (username.length < 4) hasErrors.username = 'Please provide a username with at least 4 characters.';
         else delete hasErrors.username;
         
         const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -54,6 +55,7 @@ export default function SignupFormPage({ setShowSignUpModal, setIsLoaded }) {
         else delete hasErrors.email;
 
         if (!password.length) hasErrors.password = 'Password is required.';
+        else if (password.length < 6) hasErrors.password = 'Password must be 6 characters or more.';
         else delete hasErrors.password;
         
         if (!passwordConfirm.length) hasErrors.passwordConfirm = 'Password confirmation is required.';
