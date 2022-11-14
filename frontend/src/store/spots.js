@@ -6,7 +6,6 @@ const LOAD_SPOTS = 'spots/loadSpots';
 const LOAD_SPOT_DETAIL = 'spots/getOneSpot';
 const LOAD_OWNER_SPOTS = 'spots/ownerSpots';
 const REMOVE_OWNER_SPOTS = 'spots/removeOwnerSpots';
-const CREATE_SPOT = 'spots/createSpot';
 
 const loadSpots = (spots) => {
     return {
@@ -21,13 +20,6 @@ const loadSpotDetail = (spot) => {
         spot
     }
 };
-
-const createSpot = (spot) => {
-    return {
-        type: CREATE_SPOT,
-        spot
-    }
-}
 
 const loadOwnerSpots = (spots) => {
     return {
@@ -77,7 +69,7 @@ export const getOneSpot = (spotId) => async (dispatch) => {
     }
 };
 
-export const createOneSpot = (spotInfo) => async (dispatch) => {
+export const createOneSpot = (spotInfo) => async () => {
     console.log('----------reached creating a spot thunk----------')
     const options = {
         method: 'POST',
@@ -89,11 +81,25 @@ export const createOneSpot = (spotInfo) => async (dispatch) => {
     if (response.ok) {
         console.log('-------------reached reponse ok-------------')
         const spot = await response.json();
-        
-        // dispatch(loadSpotDetail(spot));
         return spot;
     }
-}
+};
+
+export const updateOneSpot = (spotInfo, spotId) => async () => {
+    console.log('----------reached update a spot thunk----------')
+    const options = {
+        method: 'PUT',
+        body: JSON.stringify(spotInfo)
+    };
+
+    const response = await csrfFetch(`/api/spots/${spotId}`, options);
+
+    if (response.ok) {
+        console.log('-------------reached reponse ok-------------')
+        const spot = await response.json();
+        return spot;
+    }
+};
 
 export const getOwnerSpots = () => async (dispatch) => {
     console.log('getOwnerSpots thunk')
@@ -104,6 +110,20 @@ export const getOwnerSpots = () => async (dispatch) => {
 
         const normalSpots = normalizeArray(ownerSpots.Spots)
         dispatch(loadOwnerSpots(normalSpots));
+    }
+};
+
+export const deleteOneSpot = (spotId) => async (dispatch) => {
+    console.log('deleteOneSpot thunk')
+    const options = {
+        method: 'DELETE'
+    }
+    const response = await csrfFetch(`/api/spots/${spotId}`, options);
+
+    if (response.ok) {
+        const data = await response.json();
+        console.log('deleteOneSpot thunk', data)
+        return data.message;
     }
 };
 

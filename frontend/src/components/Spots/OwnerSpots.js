@@ -1,16 +1,33 @@
-import React, { useEffect } from 'react';
-import { NavLink, Redirect } from 'react-router-dom';
+import React, { useEffect, useState} from 'react';
+import { Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
+
 import * as spotsActions from '../../store/spots';
+import { Modal } from '../../context/Modal';
+import UpdateSpot from './UpdateSpot';
+import OwnerSpotsTR from './OwnerSpotsTR';
+
 import './OwnerSpots.css';
 
 export default function OwnerSpots({ isLoaded }) {
   const ownerSpots = useSelector(state => state.spots.ownerSpots);
+  const [showSpotFormModal, setShowSpotFormModal] = useState(false);
+  const [currSpot, setCurrSpot] = useState({});
+  const [deleteMessage, setDeleteMessage] = useState('');
+  const [showDelete, setShowDelete] = useState(false);
   
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(spotsActions.getOwnerSpots());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (deleteMessage === '') return;
+    console.log('deleteMessage change detected')
+    const toDelete = setTimeout(() => setShowDelete(false), 2000)
+
+    return () => clearTimeout(toDelete);
+  }, [deleteMessage]);
 
   if (!isLoaded) {
     return (
@@ -24,9 +41,14 @@ export default function OwnerSpots({ isLoaded }) {
   return (
     <div className='owner-spots-wrapper'>
       <div className='owner-spots-sub-wrapper'>
-        <h4>
-          {ownerSpotsArr.length > 0 ? `${ownerSpotsArr.length} listings` : 'No listing'}
-        </h4>
+        <div style={{display: 'flex', justifyContent: 'space-between'}}>
+          <h4>
+            {ownerSpotsArr.length > 0 ? `${ownerSpotsArr.length} listings` : 'No listing'}
+          </h4>
+          <h5 id='delete-message' className={showDelete ? 'fadeIn' : 'fadeOut'}>
+            {deleteMessage.length > 0 && `${deleteMessage}.`}
+          </h5>
+        </div>
         <table className='owner-spots-table'>
           <thead>
             <tr className='owner-spots-header-row' >
@@ -38,65 +60,18 @@ export default function OwnerSpots({ isLoaded }) {
           </thead>
           <tbody>
             {
-              ownerSpotsArr?.map(spot => {
-                const { previewImage, city, state, name, id, updatedAt } = spot;
-                const date = new Date(updatedAt);
-                const month = date.toLocaleString('en-US', { month: 'long' });
-                const day = date.getDate();
-
-                return (
-                  <tr key={id}>
-                    <td>
-                      <div className="table-image-wrapper" style={{display:'flex'}}>
-                        <div className='table-image-div' >
-                          <img src={`${previewImage}`} alt='preview' />
-                        </div>
-                        <span><b>{name}</b></span>
-                      </div>
-                    </td>
-                    <td>
-                      <div className='modify-button-div'>
-                        <button className='modify-buttons first'>Update</button>
-                        <button className='modify-buttons'>Delete</button>
-                      </div>
-                    </td>
-                    <td>
-                      <span>{city}, {state}</span>
-                    </td>
-                    <td>
-                      <span>{month} {day}</span>
-                    </td>                    
-                  </tr>
-                )
+              ownerSpotsArr?.map((spot, idx) => {
+                return <OwnerSpotsTR key={idx} setShowSpotFormModal={setShowSpotFormModal} spot={spot} setCurrSpot={setCurrSpot} setDeleteMessage={setDeleteMessage} setShowDelete={setShowDelete}/>
               })
             }
-            {/* ownerSpotsArr?.map(spot => {
-              
-              // return (
-              //   <div key={id} className='owner-spots-wrapper'>
-              //     <NavLink to={`/spots/${id}`} className='link-wrapper'>
-              //       <div className='individual-spot-wrapper'>
-              //         <div className='image-div'>
-              //           <img src={`${previewImage}`} alt='preview' />
-              //         </div>
-              //         <div className='short-info-wrapper'>
-              //           <span className='cityState'>{city}, {state}</span>
-              //           <span style={{ color: '#717171' }}><b>${price}</b> night</span>
-              //           <span className='rating-wrapper'>
-              //             <i className="fa-solid fa-star" />
-              //             {avgRating ? <span>{avgRating.toFixed(1)}</span> : null}
-              //           </span>
-              //         </div>
-              //       </div>
-              //     </NavLink>
-              //     <div className='modify-button-div'><button className='modify-buttons'>Update</button></div>
-              //     <div className='modify-button-div'><button className='modify-buttons'>Delete</button></div>
-              //   </div>
-              // )
-            }) */}
           </tbody>
         </table>
       </div>
+      {showSpotFormModal && (
+        <Modal onClose={() => setShowSpotFormModal(false)} >
+          <UpdateSpot setShowSpotFormModal={setShowSpotFormModal} spot={currSpot} />
+        </Modal>
+      )}
     </div>
   )
 }

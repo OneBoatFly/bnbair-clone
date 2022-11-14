@@ -5,18 +5,17 @@ import * as spotsActions from '../../store/spots';
 import { useDispatch, useSelector } from 'react-redux';
 
 import './CreateSpot.css';
-// import { handleMouseMove, handleDivTopBorder, handleDivTopBorderOut } from '../styles';
 import MyButton from '../FormElements/MyButton';
 
-export default function CreateSpot({ setShowSpotFormModal }) {
-  const [address, setAddress] = useState('');
-  const [aptNum, setAptNum] = useState('');
-  const [city, setCity] = useState('');
-  const [province, setProvince] = useState('');
-  const [country, setCountry] = useState('');
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
-  const [price, setPrice] = useState(4500);
+export default function UpdateSpot({ setShowSpotFormModal, spot }) {
+  const [address, setAddress] = useState(spot.address);
+  const [aptNum, setAptNum] = useState(spot.aptNum);
+  const [city, setCity] = useState(spot.city);
+  const [province, setProvince] = useState(spot.state);
+  const [country, setCountry] = useState(spot.country);
+  const [name, setName] = useState(spot.name);
+  const [description, setDescription] = useState(spot.description);
+  const [price, setPrice] = useState(spot.price);
 
   const [errors, setErrors] = useState([]);
   const [addressErrors, setAddressErrors] = useState([]);
@@ -26,7 +25,8 @@ export default function CreateSpot({ setShowSpotFormModal }) {
   const [validationErrors, setValidationErrors] = useState({});
   const [hasSubmitted, setHasSubmitted] = useState(false);
 
-  const [newSpot, setNewSpot] = useState({});
+  const [newSpot, setNewSpot] = useState(spot);
+  const [success, setSuccess] = useState(false);
 
   const dispatch = useDispatch();
   const sessionUser = useSelector(state => state.session.user);
@@ -102,27 +102,28 @@ export default function CreateSpot({ setShowSpotFormModal }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     setHasSubmitted(true);
-    console.log('handleSubmit fired')
+    console.log('update handleSubmit fired')
     // setErrors([]);
 
     if (errors.length) {
-      console.log('has errors, returned,', errors)
+      console.log('update has errors, returned,', errors)
       return;
     }
 
-    dispatch(spotsActions.createOneSpot({
-      address, city, state: province, country, name, description, price, lat: 37.7645358, lng: -122.4730327
-    }))
+    dispatch(spotsActions.updateOneSpot({
+      address, city, state: province, country, name, description, price, lat: spot.lat, lng: spot.lng
+    }, spot.id))
       .then((spot) => {
-        console.log('in dispatch success - checking spot', spot)
+        console.log('update in dispatch success - checking spot', spot)
         setHasSubmitted(false);
         setNewSpot(spot);
+        setSuccess(true);
         setShowSpotFormModal(false);
       })
       .catch(async (res) => {
         const data = await res.json();
-        console.log('data returned: ', data)
-        console.log('data.errors', data.errors)
+        console.log('update data returned: ', data)
+        console.log('update data.errors', data.errors)
         if (data && data.errors) {
           setAddressErrors((errors) => {
             if (data.errors.address) errors.push(data.errors.address);
@@ -147,7 +148,7 @@ export default function CreateSpot({ setShowSpotFormModal }) {
   // const userNameDiv = useRef(null);
   // const passwordDiv = useRef(null);
   // css related //
-  if (newSpot.id) return (
+  if (success) return (
     <Redirect to={`/spots/${newSpot.id}`}/>
   )
 
