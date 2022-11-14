@@ -326,17 +326,25 @@ router.post('/', requireAuth, validateSpot, async (req, res, next) => {
         console.log('backend error: ', e)
         console.log('backend error: ', typeof e)
         console.log('backend e.parent: ', e.parent)
-        console.log('backend e.parent.error: ', e.parent.error)
+        console.log('backend e.parent: ', typeof e.parent)
+        // console.log('backend e.parent.error: ', e.parent.error)
         const resError = {}
-        e.errors.forEach(error => {
-            console.log('backend each error: ', error)
-            resError[error.path] = error.message
-        })
+        if (e.errors) {
+            e.errors.forEach(error => {
+                console.log('backend each error: ', error)
+                resError[error.path] = error.message
+            })
+            const err = new Error();
+            err.status = 403;
+            err.errors = resError;
+            next(err);
+        } else {
+            const err = new Error();
+            err.status = 403;
+            err.errors = e.parent;
+            next(err);
+        }
         console.log('backend resError: ', resError);
-        const err = new Error();
-        err.status = 403;
-        err.errors = resError;
-        next(err);
     }
     
 });
