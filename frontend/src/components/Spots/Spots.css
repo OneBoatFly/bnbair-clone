@@ -1,5 +1,7 @@
 .all-spots-wrapper {
-    margin: 24px 0px;
+    max-width: 1760px;
+    width: 100%;
+    margin: 24px auto;
 }
 
 .all-spots-sub-wrapper {
@@ -10,6 +12,7 @@
     box-sizing: content-box;
 }
 
+/* this is for screen 1880px higher, from here goes down */
 .link-wrapper {
     box-sizing: border-box;
     max-width: calc((100% - 80px) / 6);
@@ -176,4 +179,45 @@
 .booking-form {
     outline: 1px solid greenyellow;
     height:  100%;
+}
+
+@media (max-width: 1880px) {
+    .link-wrapper {
+        max-width: calc((100% - 64px) / 5);
+        flex-basis: calc((100% - 64px) / 5);
+    }
+}
+
+@media (max-width: 1640px) {
+    .link-wrapper {
+        max-width: calc((100% - 48px) / 4);
+        flex-basis: calc((100% - 48px) / 4);
+    }
+}
+
+@media (max-width: 1128px) {
+    .link-wrapper {
+        max-width: calc((100% - 32px) / 3);
+        flex-basis: calc((100% - 32px) / 3);
+    }
+
+    .airbnb-text-air,
+    .airbnb-text-bnb {
+        outline: 1px solid salmon;
+        display: none;
+    }
+}
+
+@media (max-width: 950px) {
+    .link-wrapper {
+        max-width: calc((100% - 16px) / 2);
+        flex-basis: calc((100% - 16px) / 2);
+    }
+}
+
+@media (max-width: 550px) {
+    .link-wrapper {
+        max-width: 100%;
+        flex-basis: 100%;
+    }
 }

@@ -1,10 +1,12 @@
 .navigation-all-wrapper {
-    /* outline: 1px solid blue; */
+    /* outline: 1px solid green; */
     display: flex;
     align-items: center;
     justify-content: space-between;
     min-height: 80px;
+    max-width: 1760px;
     width: 100%;
+    margin: 0 auto;
     font-family: inherit
 }
 
@@ -33,12 +35,16 @@
 .airbnb-icon {
     color: #ff385c;
     position: relative;
+    display: flex;
+    align-items: center;
 }
 
 .airbnb-logo {
     width: 30px;
     height: 32px;
     transform: rotate(45deg);
+    position: absolute;
+    left: 4px;
 }
 
 .airbnb-text-air {
@@ -46,7 +52,7 @@
     height: 32px;
     position: absolute;
     left: 36px;
-    top: 6px
+    top: -7px
 }
 
 .airbnb-text-bnb {
@@ -55,7 +61,7 @@
     height: 32px;
     position: absolute;
     left: -31px;
-    top: 6px
+    top: -7px
 }
 
 .navBar-button {
@@ -127,4 +133,26 @@
     text-decoration: none;
     color: inherit;
     font-size: inherit;
+}
+
+@media (max-width: 950px) {
+    .navigation-all-wrapper,
+    .navigation-sub-wrapper.center {
+        justify-content: left;
+    }
+
+    .navigation-sub-wrapper.side1 {
+        flex: 0 0 45px;
+    }
+
+    .navigation-sub-wrapper.side2 {
+        flex: 1 0 auto;
+    }
+}
+
+@media (max-width: 744px) {
+    .navigation-sub-wrapper.side2,
+    .navigation-sub-wrapper.side1 {
+        display: none;
+    }
 }
