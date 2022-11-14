@@ -32,7 +32,7 @@ export default function Spots({ spots }) {
                                     <span className='cityState'>{city}, {state}</span>
                                     {/* {console.log(distance)} */}
                                     {!isNaN(distance) && <span style={{ color: '#717171'}}>{distance} miles away</span>}
-                                    <span style={{ color: '#717171' }}><b>${price}</b> night</span>
+                                    <span style={{ color: '#717171' }}><span style={{ fontWeight: '500' }}>${price}</span> night</span>
                                     <span className='rating-wrapper'>
                                         <i className="fa-solid fa-star" />
                                         {/* {console.log(avgRating)} */}

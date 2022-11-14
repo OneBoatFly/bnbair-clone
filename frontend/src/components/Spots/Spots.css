@@ -4,6 +4,12 @@
     margin: 24px auto;
 }
 
+.single-spot-wrapper {
+    max-width: 1120px;
+    width: 100%;
+    margin: 24px auto;
+}
+
 .all-spots-sub-wrapper {
     display: flex;
     column-gap: 16px;
@@ -54,11 +60,11 @@
     display: flex;
     flex-direction: column;
     row-gap: 4px;
-    font-size: 0.8rem;
+    /* font-size: 0.8rem; */
 }
 
 .cityState {
-    font-weight: 600;
+    font-weight: 500;
     color: #222222;
 }
 
@@ -163,6 +169,12 @@
     border-top: 1px solid #dddddd;
 }
 
+.info-detail-wrapper p {
+    width: 100%;
+    word-wrap: break-word;
+    white-space: normal
+}
+
 .booking-form-wrapper {
     outline: 1px solid seagreen;
     margin-left: 8.33%;
@@ -172,7 +184,7 @@
 
 .booking-form-sub-wrapper {
     position: sticky;
-    z-index: 1;
+    z-index: 0;
     top: 80px
 }
 
