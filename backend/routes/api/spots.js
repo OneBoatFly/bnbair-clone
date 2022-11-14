@@ -323,13 +323,14 @@ router.post('/', requireAuth, validateSpot, async (req, res, next) => {
     
         res.json(spot);
     } catch(e) {
-        // console.log(e.errors)
+        console.log('backend error: ', e)
+        console.log('backend e.errors: ', e.errors)
         const resError = {}
         e.errors.forEach(error => {
-            // console.log(error)
+            console.log('backend each error: ', error)
             resError[error.path] = error.message
         })
-        console.log(resError);
+        console.log('backend resError: ', resError);
         const err = new Error();
         err.status = 403;
         err.errors = resError;

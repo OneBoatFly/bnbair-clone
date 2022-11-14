@@ -77,10 +77,13 @@ export const createOneSpot = (spotInfo) => async () => {
     };
 
     const response = await csrfFetch('/api/spots', options);
+    console.log('----------after create a spot fetch----------')
+    console.log(response)
 
     if (response.ok) {
         console.log('-------------reached reponse ok-------------')
         const spot = await response.json();
+        console.log(spot)
         return spot;
     }
 };
