@@ -24,7 +24,6 @@ export default function CreateSpot({ setShowSpotFormModal }) {
   const [descriptionErrors, setDescriptionErrors] = useState('');
   const [priceErrors, setPriceErrors] = useState('');
   const [validationErrors, setValidationErrors] = useState({});
-  const [sqlErrors, setSqlErrors] = useState([]);
   const [hasSubmitted, setHasSubmitted] = useState(false);
 
   const [newSpot, setNewSpot] = useState({});
@@ -32,71 +31,70 @@ export default function CreateSpot({ setShowSpotFormModal }) {
   const dispatch = useDispatch();
   const sessionUser = useSelector(state => state.session.user);
 
+  // {streetEmpty: 'sth', streetLength: 'sth', cityEmpty: 'sth', cityLength: 'sth'}
+
   useEffect(() => {
-    if (!address.length) setAddressErrors(curr => {
-      curr.push('Street is required.')
-      return curr
-    });
-    else {
-      const idx = addressErrors.indexOf('Street is required.');
-      setAddressErrors(curr => {
-        curr.splice(idx, 1);
-        return curr;
-      });
-    }
+    const hasAddressErrors = {};
 
-    if (!city.length) setAddressErrors(curr => {
-      curr.push('City is required.');
-      return curr;
-    });
-    else {
-      const idx = addressErrors.indexOf('City is required.');
-      setAddressErrors(curr => {
-        curr.splice(idx, 1);
-        return curr;
-      });
-    }
+    if (!address.length) hasAddressErrors.street = 'Street is required.';
+    else if (address.length > 255) hasAddressErrors.street = 'Street must be less than 255 characters.';
+    else delete hasAddressErrors.street;
 
-    if (!province.length) setAddressErrors(curr => {
-      curr.push('State is required.');
-      return curr;
-    });
-    else {
-      const idx = addressErrors.indexOf('State is required.');
-      setAddressErrors(curr => {
-        curr.splice(idx, 1);
-        return curr;
-      });
-    }
+    if (!city.length) hasAddressErrors.city = 'City is required.';
+    else if (city.length > 255) hasAddressErrors.city = 'City must be less than 255 characters.';
+    else delete hasAddressErrors.city;
 
-    if (!country.length) setAddressErrors(curr => {
-      curr.push('Country is required.');
-      return curr;
-    });
-    else {
-      const idx = addressErrors.indexOf('Country is required.');
-      setAddressErrors(curr => {
-        curr.splice(idx, 1);
-        return curr;
-      });
-    }
+    if (!province.length) hasAddressErrors.province = 'State is required.';
+    else if (province.length > 255) hasAddressErrors.province = 'State must be less than 255 characters.';
+    else delete hasAddressErrors.province;
 
+    console.log(country, country.length > 255)
+    if (!country.length) hasAddressErrors.country = 'Country is required.';
+    else if (country.length > 255) hasAddressErrors.country = 'Country must be less than 255 characters.';
+    else delete hasAddressErrors.country;
+
+    // console.log(name)
+    // console.log(titleErrors);
     if (!name.length) setTitleErrors('Title is required.');
+    else if (name.length > 50) setTitleErrors('Title must be less than 50 characters.');
     else setTitleErrors('');
 
     if (!description.length) setDescriptionErrors('Description is required.');
+    else if (description.length > 500) setDescriptionErrors('Description must be less than 500 characters.');
     else setDescriptionErrors('');
 
     if (price <= 0 || !price) setPriceErrors('Valid price is required.');
     else setPriceErrors('');
 
-    // console.log(description)
-    // console.log('description error', descriptionErrors)
-    if (addressErrors.length || titleErrors || descriptionErrors || priceErrors) {
-      setErrors(() => [...addressErrors, titleErrors, descriptionErrors, priceErrors]);
+    // set addressErrors expecting []:
+    console.log('hasAddressErrors', hasAddressErrors)
+    if (Object.values(hasAddressErrors).length) {
+      setAddressErrors(Object.values(hasAddressErrors));
     } else {
-      setErrors([]);
+      setAddressErrors([]);
     }
+
+    console.log('addressErrors', addressErrors);
+    console.log('titleErrors', titleErrors);
+    console.log('descriptionErrors', descriptionErrors);
+    console.log('priceErrors', priceErrors);
+
+    // // set errors regardless of type:
+    // if (addressErrors.length) {
+    //   setErrors((currErrors) => [...currErrors, ...addressErrors]);
+    // }
+    // else if (titleErrors.length) {
+    //   setErrors((currErrors) => [...currErrors, titleErrors]);
+    // }
+    // else if (descriptionErrors.length) {
+    //   setErrors((currErrors) => [...currErrors, descriptionErrors]);
+    // }
+    // else if (priceErrors.length) {
+    //   setErrors((currErrors) => [...currErrors, priceErrors]);
+    // }        
+    // else setErrors([]);
+
+    // console.log('errors regardless of type ', errors)
 
   }, [address, city, province, country, name, description, price]);
 
@@ -106,8 +104,12 @@ export default function CreateSpot({ setShowSpotFormModal }) {
     console.log('handleSubmit fired')
     // setErrors([]);
 
-    if (errors.length) {
-      console.log('has errors, returned,', errors)
+    if (addressErrors.length || titleErrors.length || descriptionErrors.length || priceErrors.length) {
+      console.log('has errors, returned,')
+      console.log('addressErrors', addressErrors);
+      console.log('titleErrors', titleErrors);
+      console.log('descriptionErrors', descriptionErrors);
+      console.log('priceErrors', priceErrors);
       return;
     }
 
@@ -124,7 +126,9 @@ export default function CreateSpot({ setShowSpotFormModal }) {
         const data = await res.json();
         console.log('data returned: ', data)
         console.log('data.errors', data.errors)
-        if (data && data.errors) {
+        if (data && data.message) {
+          setAddressErrors([data.message]);
+        } else if (data && data.errors) {
           setAddressErrors((errors) => {
             if (data.errors.address) errors.push(data.errors.address);
             if (data.errors.city) errors.push(data.errors.city);
