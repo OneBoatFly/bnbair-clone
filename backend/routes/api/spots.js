@@ -324,7 +324,9 @@ router.post('/', requireAuth, validateSpot, async (req, res, next) => {
         res.json(spot);
     } catch(e) {
         console.log('backend error: ', e)
-        console.log('backend e.errors: ', e.errors)
+        console.log('backend error: ', typeof e)
+        console.log('backend e.parent: ', e.parent)
+        console.log('backend e.parent.error: ', e.parent.error)
         const resError = {}
         e.errors.forEach(error => {
             console.log('backend each error: ', error)
