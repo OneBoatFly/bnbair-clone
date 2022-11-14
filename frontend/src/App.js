@@ -31,7 +31,7 @@ function App() {
 
   return (
     <div className='root-wrapper'>
-      <div className='root-sub-wrapper'>
+      <div className='root-sub-wrapper navigation'>
         <Navigation isLoaded={isLoaded} setIsLoaded={setIsLoaded} />
       </div>
       <Switch>

@@ -9,6 +9,7 @@ body {
     display: flex;
     justify-content: center;
     flex-direction: column;
+    position: relative;
 }
 
 .root-sub-wrapper {
@@ -35,4 +36,12 @@ span.error-messages {
     font-size: 12px;
     margin: 0px;
     padding: 0px;
+}
+
+.root-sub-wrapper.navigation {
+    /* outline: 1px solid palevioletred; */
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 1;
 }

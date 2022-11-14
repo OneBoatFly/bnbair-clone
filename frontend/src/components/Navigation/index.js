@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import { useSelector } from "react-redux";
+import './Navigation.css';
 
 // import LoginFormModal from '../LoginFormModal'; // delete this? doesn't look like needed. Modal is in MenuButton
 import ProfileButton from './ProfileButton';
