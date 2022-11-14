@@ -6,6 +6,7 @@ import './Spots.css';
 import * as spotsActions from '../../store/spots';
 
 export default function SpotDetails() {
+    // console.log('Spot Details Compoment')
     const spot = useSelector(state => state.spots.spotDetails);
     const {spotId} = useParams();
     const dispatch = useDispatch();

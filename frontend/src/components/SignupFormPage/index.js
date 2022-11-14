@@ -26,9 +26,11 @@ export default function SignupFormPage({ setShowSignUpModal, setIsLoaded }) {
     useEffect(() => {
         const hasErrors = {};
         if (!firstName.length) hasErrors.firstName = 'First name is required.';
+        else if (firstName.length > 255) hasErrors.firstName = 'Please provide a first name with less than 255 characters.';
         else delete hasErrors.firstName;
 
         if (!lastName.length) hasErrors.lastName = 'Last name is required.';
+        else if (lastName.length > 255) hasErrors.lastName = 'Please provide a last name with less than 255 characters.';
         else delete hasErrors.lastName;
 
         // 2022-11-23 string
@@ -48,10 +50,12 @@ export default function SignupFormPage({ setShowSignUpModal, setIsLoaded }) {
 
         if (!username.length) hasErrors.username = 'Username is required.';
         else if (username.length < 4) hasErrors.username = 'Please provide a username with at least 4 characters.';
+        else if (username.length > 30) hasErrors.username = 'Please provide a username with less than 30 characters.';
         else delete hasErrors.username;
         
         const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (!email.length || !email.match(emailRegex)) hasErrors.email = 'Enter a valid email.';
+        else if (email.length > 255) hasErrors.email = 'Please provide an email with less than 255 characters.'
         else delete hasErrors.email;
 
         if (!password.length) hasErrors.password = 'Password is required.';

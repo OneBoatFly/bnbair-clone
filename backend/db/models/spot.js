@@ -74,7 +74,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     description: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(500),
       allowNull: false
     },
     price: {
@@ -86,13 +86,14 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
   }, {
-    indexes: [{
-      fields: ['address', 'city', 'state', 'country'],
-      unique: true,
-      validate: true,
-    }],
     sequelize,
     modelName: 'Spot',
   });
   return Spot;
 };
+
+// indexes: [{
+//   fields: ['address', 'city', 'state', 'country'],
+//   unique: true,
+//   validate: true,
+// }],
