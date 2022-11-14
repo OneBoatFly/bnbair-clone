@@ -8,12 +8,33 @@
 .owner-spots-sub-wrapper {
     /* outline: 1px solid yellowgreen; */
     width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.header-div {
+    /* outline: 1px solid purple; */
+    display: 'flex';
+    justify-content: 'space-between'
+}
+
+.header-create-wrapper {
+    /* outline: 1px solid black; */
+    display: flex;
+    align-items: center;
+    column-gap: 20px;
 }
 
 .owner-spots-sub-wrapper h4 {
-    margin: 0;
-    padding-bottom: 16px;
+    /* outline: 1px solid salmon; */
     padding-left: 10px;
+}
+
+.modify-buttons.create {
+    /* outline: 1px solid salmon; */
+    height: fit-content;
+    border: 1px solid #222222;
+    border-radius: 8px;
 }
 
 .modify-button-div {

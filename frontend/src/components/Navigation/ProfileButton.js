@@ -58,7 +58,7 @@ export default function ProfileButton({ user, setIsLoaded }) {
                     <button onClick={() => setShowSpotFormModal(true)}>Create a new listing</button>
                 </div>                    
                 <div className="menu-dropdown">
-                    <NavLink to='/spots/current'>Listing</NavLink>
+                    <NavLink to='/spots/current'>Listings</NavLink>
                 </div>
                   <div className="menu-dropdown logout-button"><button onClick={logout}>Log Out</button></div>
             </div>

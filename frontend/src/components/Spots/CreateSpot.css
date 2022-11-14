@@ -1,5 +1,5 @@
 .create-spot-wrapper {
-    outline: 2px solid yellow;
+    /* outline: 2px solid yellow; */
     background: white;
     display: flex;
     justify-content: center;
@@ -12,7 +12,7 @@
 }
 
 .create-spot-sub-wrapper {
-    outline: 1px solid red;
+    /* outline: 1px solid red; */
     max-height: 500px;
     overflow: scroll;
     background: white;
@@ -25,23 +25,32 @@
 
 .create-spot-address {
     border: 1px solid #B0B0B0;
+    border-bottom: 0px;
     border-radius: 8px 8px 0px 0px;
-    padding: 12px;
-}
-
-.create-spot-country {
-    border: 1px solid #B0B0B0;
-    border-radius: 0px 0px 8px 8px;
-    padding: 12px;
-    border-top: 0px;
+    padding: 2px 2px;
+    min-height: 56px;
+    box-sizing: border-box;
+    position: relative;
 }
 
 .create-spot-aptNum,
 .create-spot-city,
 .create-spot-province {
     border: 1px solid #B0B0B0;
-    padding: 12px;
-    border-top: 0px;
+    border-bottom: 0px;
+    padding: 2px 2px;
+    min-height: 56px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.create-spot-country {
+    border: 1px solid #B0B0B0;
+    border-radius: 0px 0px 8px 8px;
+    padding: 2px 2px;
+    min-height: 56px;
+    box-sizing: border-box;
+    position: relative;
 }
 
 .create-spot-name,
@@ -60,10 +69,60 @@
     width: 100%;
 }
 
+/* on focus set */
+.create-spot-address label, 
+.create-spot-aptNum label,
+.create-spot-city label,
+.create-spot-province label,
+.create-spot-country label {
+    /* border: 1px solid salmon; */
+    text-align: left;
+    vertical-align: top;
+    font-size: inherit;
+}
+
+.label-div {
+    /* border: 1px solid salmon; */
+    padding-left: 12px;
+    padding-top: 12px;
+    font-size: 1rem;
+    color: rgb(113, 113, 113);
+}
+
+.input-div {
+    /* outline: 1px solid greenyellow; */
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: calc(100% - 14px);
+    width: calc(100% - 14px);
+    min-height: 1px;
+    appearance: none;
+    padding-left: 14px;
+    /* padding: 12px; */
+    padding-top: 12px;
+    font-size: 1rem;
+    font-family: inherit;
+    color: rgb(34, 34, 34);    
+}
+
+#address,
+#city,
+#province,
+#country {
+    color: inherit;
+}
+
 .outline-wrapper input,
 .outline-wrapper textarea {
     width: 100%;
     height: 100%;
+}
+
+.create-spot-name input,
+.create-spot-price input {
+    font-family: inherit;
+    font-size: inherit;
 }
 
 textarea {
@@ -73,6 +132,8 @@ textarea {
     min-height: 100px;
     max-height: 100px;
     resize: none;
+    font-family: inherit;
+    font-size: 1rem;
 }
 
 textarea:focus {

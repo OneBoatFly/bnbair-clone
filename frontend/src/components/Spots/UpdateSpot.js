@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import './CreateSpot.css';
 import MyButton from '../FormElements/MyButton';
 
-export default function UpdateSpot({ setShowSpotFormModal, spot }) {
+export default function UpdateSpot({ setShowUpdateSpotModal, spot }) {
   const [address, setAddress] = useState(spot.address);
   const [aptNum, setAptNum] = useState(spot.aptNum);
   const [city, setCity] = useState(spot.city);
@@ -99,7 +99,7 @@ export default function UpdateSpot({ setShowSpotFormModal, spot }) {
         setHasSubmitted(false);
         setNewSpot(spot);
         setSuccess(true);
-        setShowSpotFormModal(false);
+        setShowUpdateSpotModal(false);
       })
       .catch(async (res) => {
         const data = await res.json();
@@ -142,7 +142,7 @@ export default function UpdateSpot({ setShowSpotFormModal, spot }) {
   return (
     <div className='create-spot-wrapper'>
       <div className='create-spot exit-button-wrapper'>
-        <div className='login exit-button-div' onClick={() => setShowSpotFormModal(false)}>
+        <div className='login exit-button-div' onClick={() => setShowUpdateSpotModal(false)}>
           <i className="fa-solid fa-xmark"></i>
         </div>
       </div>
