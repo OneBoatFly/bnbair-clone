@@ -18,7 +18,7 @@ export default function CreateSpot({ setShowSpotFormModal }) {
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState(4500);
 
-  const [errors, setErrors] = useState([]);
+  // const [errors, setErrors] = useState([]);
   const [addressErrors, setAddressErrors] = useState([]);
   const [titleErrors, setTitleErrors] = useState('');
   const [descriptionErrors, setDescriptionErrors] = useState('');
@@ -53,8 +53,6 @@ export default function CreateSpot({ setShowSpotFormModal }) {
     else if (country.length > 255) hasAddressErrors.country = 'Country must be less than 255 characters.';
     else delete hasAddressErrors.country;
 
-    // console.log(name)
-    // console.log(titleErrors);
     if (!name.length) setTitleErrors('Title is required.');
     else if (name.length > 50) setTitleErrors('Title must be less than 50 characters.');
     else setTitleErrors('');
@@ -79,30 +77,12 @@ export default function CreateSpot({ setShowSpotFormModal }) {
     console.log('descriptionErrors', descriptionErrors);
     console.log('priceErrors', priceErrors);
 
-    // // set errors regardless of type:
-    // if (addressErrors.length) {
-    //   setErrors((currErrors) => [...currErrors, ...addressErrors]);
-    // }
-    // else if (titleErrors.length) {
-    //   setErrors((currErrors) => [...currErrors, titleErrors]);
-    // }
-    // else if (descriptionErrors.length) {
-    //   setErrors((currErrors) => [...currErrors, descriptionErrors]);
-    // }
-    // else if (priceErrors.length) {
-    //   setErrors((currErrors) => [...currErrors, priceErrors]);
-    // }        
-    // else setErrors([]);
-
-    // console.log('errors regardless of type ', errors)
-
   }, [address, city, province, country, name, description, price]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setHasSubmitted(true);
     console.log('handleSubmit fired')
-    // setErrors([]);
 
     if (addressErrors.length || titleErrors.length || descriptionErrors.length || priceErrors.length) {
       console.log('has errors, returned,')
