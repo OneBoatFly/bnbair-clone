@@ -32,3 +32,10 @@
     padding-bottom: 40px;
     text-overflow: ellipsis;
 }
+
+@media (max-width: 1128px) {
+.single-reviews-wrapper {
+        /* outline: 1px solid salmon; */
+        width: 100%;
+    }
+}
