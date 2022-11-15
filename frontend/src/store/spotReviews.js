@@ -2,10 +2,18 @@ import { csrfFetch } from './csrf';
 
 // regular actions
 const LOAD_SPOT_REVIEWS = 'spots/:id/loadSpotReviews';
+const LOAD_USER_REVIEWS = 'spots/:id/loadUserReviews';
 
 const loadSpotReviews = (reviews) => {
     return {
         type: LOAD_SPOT_REVIEWS,
+        reviews
+    }
+};
+
+const loadUserReviews = (reviews) => {
+    return {
+        type: LOAD_USER_REVIEWS,
         reviews
     }
 };
@@ -39,6 +47,26 @@ export const getSpotReviews = (spotId) => async (dispatch) => {
     }
 }
 
+export const getUserReviews = () => async (dispatch) => {
+    console.log('getUserReviews thunk ---- ')
+
+    const response = await csrfFetch(`/api/reviews/current`);
+    if (response.ok) {
+        const data = await response.json();
+        console.log('response ok - data', data)
+
+        if (data.Reviews) {
+            const reviewsNormal = normalizeArray(data.Reviews);
+            console.log('user reviews --- ', reviewsNormal)
+            dispatch(loadUserReviews(reviewsNormal));
+
+            return data.Reviews;
+        } else {
+            return data;
+        }
+    }
+}
+
 const initalState = {};
 
 const spotsReviewReducer = (state = initalState, action) => {
@@ -50,6 +78,12 @@ const spotsReviewReducer = (state = initalState, action) => {
             console.log('LOAD_SPOT_REVIEWS')
             newState = { ...state }
             newState.spotAllReviews = action.reviews
+            return newState;
+        }
+        case LOAD_USER_REVIEWS: {
+            console.log('LOAD_USER_REVIEWS')
+            newState = { ...state }
+            newState.userAllReviews = action.reviews
             return newState;
         }
         default: {

@@ -112,6 +112,10 @@
     row-gap: 6px;
 }
 
+.menu-dropdown.middle {
+    padding: 0px 16px 12px;
+}
+
 .menu-dropdown.logout-button {
     border-top: 1px solid #dddddd;
 }

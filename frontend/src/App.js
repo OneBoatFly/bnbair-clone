@@ -7,6 +7,7 @@ import * as sessionActions from "./store/session";
 import * as spotsActions from './store/spots';
 import Navigation from './components/Navigation';
 import { Spots, SpotDetails, OwnerSpots } from './components/Spots';
+import UserReviews from './components/Reviews/UserReviews';
 
 function App() {
   // console.log('0. App component rendered')
@@ -48,6 +49,11 @@ function App() {
         <Route path='/spots/:spotId'>
           <div className='root-sub-wrapper'>
             <SpotDetails isLoaded={isLoaded}></SpotDetails>
+          </div>
+        </Route>
+        <Route path='/reviews/current'>
+          <div className='root-sub-wrapper'>
+            <UserReviews isLoaded={isLoaded} />
           </div>
         </Route>
         <Route>Page not found.</Route>
