@@ -13,8 +13,6 @@ import * as spotsActions from '../../store/spots';
 export default function SpotDetails() {
     // console.log('Spot Details Compoment')
     const spot = useSelector(state => state.spots.spotDetails);
-    // const sessionUser = useSelector(state => state.session.user);
-
     const [showReviewModal, setShowReviewModal] = useState(false);
 
     const {spotId} = useParams();

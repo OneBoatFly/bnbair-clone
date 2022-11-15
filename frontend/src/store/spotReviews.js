@@ -47,6 +47,7 @@ export const getSpotReviews = (spotId) => async (dispatch) => {
     }
 }
 
+// get all current users reviews
 export const getUserReviews = () => async (dispatch) => {
     console.log('getUserReviews thunk ---- ')
 
@@ -56,14 +57,38 @@ export const getUserReviews = () => async (dispatch) => {
         console.log('response ok - data', data)
 
         if (data.Reviews) {
-            const reviewsNormal = normalizeArray(data.Reviews);
-            console.log('user reviews --- ', reviewsNormal)
+            const reviews = data.Reviews;
+            const reviewsModified = reviews.map((review) => {
+                const date = new Date(review.updatedAt);
+                const month = date.toLocaleString('en-US', { month: 'long' });
+                const year = date.getFullYear();
+                return { ...review, updatedAt: `${month} ${year}` }
+            })
+            
+            const reviewsNormal = normalizeArray(reviewsModified);
+            console.log('user reviews --- ', reviewsNormal);
+
             dispatch(loadUserReviews(reviewsNormal));
 
             return data.Reviews;
         } else {
             return data;
         }
+    }
+}
+
+// delete a review given a reviewId
+export const deleteReview = (reviewId) => async (dispatch) => {
+    console.log('deleteReview thunk ---- ')
+    const options = {method: 'DELETE'};
+
+    const response = await csrfFetch(`/api/reviews/${reviewId}`, options);
+    if (response.ok) {
+        const data = await response.json();
+        console.log('response ok - data', data);
+
+        dispatch(getUserReviews());
+        return data.message;
     }
 }
 
