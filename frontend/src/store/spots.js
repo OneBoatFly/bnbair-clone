@@ -36,7 +36,7 @@ export const removeOwnerSpots = () => {
 
 // thunk actions
 export const getAllSpots = (userCoord) => async (dispatch) => {
-    // console.log('getAllSpots thunk')
+    console.log('getAllSpots thunk')
     const response = await csrfFetch('/api/spots');
 
     if (response.ok) {
@@ -139,7 +139,7 @@ const spotsReducer = (state = initalState, action) => {
     let newState;
     switch (action.type) {
         case LOAD_SPOTS: {
-            // console.log('LOAD_SPOTS')
+            console.log('LOAD_SPOTS')
             newState = {...state}
             newState.allSpots = action.spots
             return newState;

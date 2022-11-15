@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import './OwnerSpots.css';
 
 import * as spotsActions from '../../store/spots';
+import { NavLink } from 'react-router-dom';
 
 export default function OwnerSpotsTR({ setShowUpdateSpotModal, spot, setCurrSpot, setDeleteMessage, setShowDelete }) {
     const { previewImage, city, state, name, updatedAt } = spot;
@@ -30,9 +31,11 @@ export default function OwnerSpotsTR({ setShowUpdateSpotModal, spot, setCurrSpot
         <tr>
             <td>
                 <div className="table-image-wrapper" style={{ display: 'flex' }}>
-                    <div className='table-image-div' >
-                        <img src={`${previewImage}`} alt='preview' />
-                    </div>
+                    <NavLink to={`/spots/${spot.id}`}>
+                        <div className='table-image-div' >
+                            <img src={`${previewImage}`} alt='preview' />
+                        </div>
+                    </NavLink>
                     <span><b>{name}</b></span>
                 </div>
             </td>

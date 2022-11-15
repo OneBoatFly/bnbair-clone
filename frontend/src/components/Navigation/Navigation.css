@@ -112,6 +112,10 @@
     row-gap: 6px;
 }
 
+.menu-dropdown.middle {
+    padding: 0px 16px 12px;
+}
+
 .menu-dropdown.logout-button {
     border-top: 1px solid #dddddd;
 }
@@ -141,6 +145,7 @@
     .navigation-all-wrapper,
     .navigation-sub-wrapper.center {
         justify-content: left;
+        min-width: unset;
     }
 
     .navigation-sub-wrapper.side1 {
@@ -153,7 +158,6 @@
 }
 
 @media (max-width: 744px) {
-    .navigation-sub-wrapper.side2,
     .navigation-sub-wrapper.side1 {
         display: none;
     }

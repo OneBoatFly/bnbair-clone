@@ -60,7 +60,10 @@ export default function ProfileButton({ user, setIsLoaded }) {
                 <div className="menu-dropdown">
                     <NavLink to='/spots/current'>Listings</NavLink>
                 </div>
-                  <div className="menu-dropdown logout-button"><button onClick={logout}>Log Out</button></div>
+                <div className="menu-dropdown middle">
+                    <NavLink to='/reviews/current'>My reviews</NavLink>
+                </div>                
+                <div className="menu-dropdown logout-button"><button onClick={logout}>Log Out</button></div>
             </div>
         )}      
         {showSpotFormModal && (

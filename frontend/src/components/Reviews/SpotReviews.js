@@ -1,20 +1,11 @@
-import React, {useEffect, useState} from 'react'
+import React, {useState} from 'react'
 import './SpotReviews.css';
-import {useSelector, useDispatch} from 'react-redux';
 
-import * as spotImagesActions from '../../store/spotReviews';
-
-export default function SpotReviews({spotId}) {
-  console.log(spotId);
-  const spotReviews = useSelector(state => state.spotReviews.spotAllReviews);
+export default function SpotReviews({ spotReviews }) {
+  console.log('SpotReviews', spotReviews);
   // spotReviews []
 
   const [showAllReviews, setShowAllReviews] = useState(false);
-
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(spotImagesActions.getSpotReviews(spotId));
-  }, [dispatch]);
 
   return (
     <>

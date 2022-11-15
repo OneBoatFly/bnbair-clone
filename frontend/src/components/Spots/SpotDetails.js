@@ -6,28 +6,36 @@ import './SpotDetails.css';
 // import AddSpotImages from './AddSpotImages';
 import SpotReviews from '../Reviews/SpotReviews';
 import SpotReviewsModal from '../Reviews/SpotReviewsModal';
-import {Modal} from '../../context/Modal';
+import AddReview from '../Reviews/AddReview';
+import { Modal } from '../../context/Modal';
 
 import * as spotsActions from '../../store/spots';
+import * as spotReviewsActions from '../../store/spotReviews';
 
 export default function SpotDetails() {
-    // console.log('Spot Details Compoment')
+    console.log('Spot Details Compoment')
     const spot = useSelector(state => state.spots.spotDetails);
-    // const sessionUser = useSelector(state => state.session.user);
-
+    const spotReviews = useSelector(state => state.spotReviews.spotAllReviews);
     const [showReviewModal, setShowReviewModal] = useState(false);
+    const [showAddReviewForm, setShowAddReviewForm] = useState(false);
 
     const {spotId} = useParams();
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(spotsActions.getOneSpot(spotId));
+        dispatch(spotReviewsActions.getSpotReviews(spotId));
     }, [dispatch]);
 
   return (
     <div className='single-spot-wrapper'>
         {spot &&
             <div className='single-spot-sub-wrapper'>
-                <div><h3>{spot.name}</h3></div>
+                <div style={{display:'flex', alignItems:'center', columnGap:'8px'}}>
+                    <h3>{spot.name}</h3>
+                    <div className='review-modify-buttons' style={{ marginTop: '10px' }} >
+                          <button className='modify-buttons' onClick={() => setShowAddReviewForm(true)} ><i class="fa-solid fa-plus" style={{ marginRight: '7px' }}></i><span>Add a review</span></button>
+                    </div>                    
+                </div>
                 <div className='title-div-wrapper'>
                     <i className="fa-solid fa-star" />
                     {spot.avgStarRating && <span className='rating-span'>{spot.avgStarRating.toFixed(1)}</span>}
@@ -107,7 +115,7 @@ export default function SpotDetails() {
                             </div>
                         </h4>
                     </div>
-                    <SpotReviews spotId={spot.id}/>
+                    <SpotReviews spotReviews={spotReviews}/>
                 </div>
             </div>          
         }
@@ -115,7 +123,12 @@ export default function SpotDetails() {
             <Modal onClose={() => setShowReviewModal(false)} >
                 <SpotReviewsModal setShowReviewModal={setShowReviewModal} />
             </Modal>
-        )}  
+        )}
+        {showAddReviewForm &&
+            <Modal onClose={() => setShowAddReviewForm(false)}>
+                <AddReview setShowAddReviewForm={setShowAddReviewForm} spotId={spot.id} />
+            </Modal>
+        }  
     </div>
   )
 }

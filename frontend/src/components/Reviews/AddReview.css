@@ -1,0 +1,39 @@
+.add-review-modal {
+    background-color: white;
+    border-radius: 16px;
+    overflow: hidden;
+    color: #222222;
+}
+
+.add-review-wrapper {
+    padding: 24px;
+}
+
+.add-review-sub {
+    margin-bottom: 24px;
+}
+
+.add-review-sub label {
+    font-weight: 500;
+}
+
+.content-wrapper {
+    display: flex;
+    flex-direction: column;
+    row-gap: 12px;
+}
+
+.content-wrapper textarea {
+    padding: 16px;
+    border: 1px solid #B0B0B0;
+    max-width: 100%;
+    min-width: unset;
+    border-radius: 8px;
+}
+
+.select-rating-wrapper select {
+    border-radius: 8px;
+    padding: 8px;
+    border: 1px solid #B0B0B0;
+    color: inherit;
+}
