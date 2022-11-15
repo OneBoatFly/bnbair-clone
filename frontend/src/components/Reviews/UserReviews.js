@@ -3,6 +3,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import { Redirect, NavLink } from 'react-router-dom';
 
 import * as spotReviewsActions from '../../store/spotReviews';
+import AddReview from './AddReview';
+import { Modal } from '../../context/Modal';
 import './UserReviews.css';
 
 export default function UserReviews({ isLoaded }) {
@@ -11,6 +13,8 @@ export default function UserReviews({ isLoaded }) {
     let userReviewsArr = [];
     if (userReviews) userReviewsArr = Object.values(userReviews);
     
+    const [showAddReviewForm, setShowAddReviewForm] = useState(false);
+
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(spotReviewsActions.getUserReviews());
@@ -27,7 +31,12 @@ export default function UserReviews({ isLoaded }) {
   return (
       <div className='all-reviews-wrapper'>
           <div className='all-reviews-sub-wrapper'>
-              <h3>Past reviews you’ve written</h3>
+            <div className='all-reviews-header-wrapper'>
+              <h4>Past reviews you’ve written</h4>
+                <div className='review-modify-buttons'>
+                      <button className='modify-buttons' onClick={() => setShowAddReviewForm(true)}><i class="fa-solid fa-plus" style={{marginRight:'7px'}}></i><span>Add a review</span></button>
+                </div>
+            </div>
               {
                   userReviewsArr?.map(review => {
                       const { previewImage, city, state, name } = review.Spot
@@ -55,6 +64,11 @@ export default function UserReviews({ isLoaded }) {
                   })
               }
           </div>
+          {showAddReviewForm && 
+              <Modal onClose={() => setShowAddReviewForm(false)}>
+                  <AddReview setShowAddReviewForm={setShowAddReviewForm} />
+              </Modal>
+          }
       </div>
   )
 }

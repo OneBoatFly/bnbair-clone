@@ -19,6 +19,7 @@ const loadUserReviews = (reviews) => {
 };
 
 // thunk actions
+// get all reviews given a spotId
 export const getSpotReviews = (spotId) => async (dispatch) => {
     console.log('getSpotReviews thunk ---- ')
     console.log('spotid', spotId)
@@ -90,6 +91,11 @@ export const deleteReview = (reviewId) => async (dispatch) => {
         dispatch(getUserReviews());
         return data.message;
     }
+}
+
+// add a review given a spotId
+export const addUserReview = (spotId, { review, stars }) => async (dispatch) => {
+    
 }
 
 const initalState = {};

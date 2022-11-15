@@ -145,6 +145,7 @@
     .navigation-all-wrapper,
     .navigation-sub-wrapper.center {
         justify-content: left;
+        min-width: unset;
     }
 
     .navigation-sub-wrapper.side1 {
@@ -157,7 +158,6 @@
 }
 
 @media (max-width: 744px) {
-    .navigation-sub-wrapper.side2,
     .navigation-sub-wrapper.side1 {
         display: none;
     }

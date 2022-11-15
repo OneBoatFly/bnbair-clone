@@ -1,5 +1,5 @@
 .all-reviews-wrapper {
-    margin-top: 16px;
+    margin-top: 24px;
 }
 
 .all-reviews-sub-wrapper {
@@ -9,6 +9,12 @@
     row-gap: 24px;
     overflow: hidden;
     max-width: 80%;
+}
+
+.all-reviews-header-wrapper {
+    display: flex;
+    align-items: center;
+    column-gap: 16px;
 }
 
 .spot-image-spot-wrapper {
@@ -32,6 +38,7 @@
     border: 1px solid #222222;
     border-radius: 8px;
     overflow: hidden;
+    width: fit-content;
 }
 
 .spot-image-user-reviews {
