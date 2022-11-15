@@ -3,7 +3,7 @@ import './SpotReviews.css';
 import './SpotReviewsModal.css';
 import {useSelector, useDispatch} from 'react-redux';
 
-import * as spotImagesActions from '../../store/spotReviews';
+import * as spotReviewsActions from '../../store/spotReviews';
 
 export default function SpotReviewsModal({ spotId, setShowReviewModal }) {
   console.log(spotId);
@@ -12,7 +12,7 @@ export default function SpotReviewsModal({ spotId, setShowReviewModal }) {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(spotImagesActions.getSpotReviews(spotId));
+    dispatch(spotReviewsActions.getSpotReviews(spotId));
   }, [dispatch]);
 
   return (
