@@ -1,13 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
 import './Spots.css';
+
+import AddSpotImages from './AddSpotImages';
 
 import * as spotsActions from '../../store/spots';
 
 export default function SpotDetails() {
     // console.log('Spot Details Compoment')
     const spot = useSelector(state => state.spots.spotDetails);
+    const sessionUser = useSelector(state => state.session.user);
     const {spotId} = useParams();
     const dispatch = useDispatch();
 
@@ -28,30 +31,31 @@ export default function SpotDetails() {
                 </div>
                 {spot.SpotImages.length > 0 ?
                     <div className='pictures-div-wrapper'>
-                            <div className='pictures-big'>
-                                <div className='image-div'>
+                        <div className='pictures-big'>
+                            <div className='image-div'>
                                 {spot.SpotImages[0] && <img src={`${spot.SpotImages[0].url}`} alt='room'></img>}
-                                </div>
                             </div>
-                            <div className='pictures-small'>
+                        </div>
+                        <div className='pictures-small'>
                             <div className='image-div'>
                                 {spot.SpotImages[1] && <img src={`${spot.SpotImages[1].url}`} alt='room'></img>}
                             </div>
                             <div className='image-div'>
                                 {spot.SpotImages[2] && <img src={`${spot.SpotImages[2].url}`} alt='room'></img>}
                             </div>
-                            <div className='image-div'> 
+                            <div className='image-div'>
                                 {spot.SpotImages[3] && <img src={`${spot.SpotImages[3].url}`} alt='room'></img>}
                             </div>
                             <div className='image-div'>
                                 {spot.SpotImages[4] && <img src={`${spot.SpotImages[4].url}`} alt='room'></img>}
                             </div>
-                            </div>
-                        {/* </div> */}
-                    </div>
-                    :
-                    <div>No Images</div>
+                        </div>
+                    </div> : <div>This listing has no image.</div>
                 }
+
+                {/* {spot.ownerId === sessionUser.id && 
+                    <AddSpotImages spotid={spotId} />
+                } */}
                 <div className='info-booking-wrapper'>
                     <div className='spot-info-wrapper'>
                         <div className='hostName'>{spot.Owner && <h4>Hosted by {spot.Owner.firstName}</h4>}</div>

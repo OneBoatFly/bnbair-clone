@@ -414,7 +414,7 @@ router.delete('/:spotId', requireAuth, async (req, res, next) => {
 const validateImage = [
     check('url')
         .exists({checkFalsy: true})
-        .isURL()
+        .isURL({require_tld:false})
         .withMessage('Must provide a valid URL.'),
     check('preview')
         .exists()
@@ -434,6 +434,7 @@ router.post('/:spotId/images', requireAuth, validateImage, async (req, res, next
         next(err);
     } else {
         if (spot.ownerId == req.user.id) {
+            console.log('passed express validation--------')
             const image = await spot.createSpotImage({
                 url: req.body.url,
                 preview: req.body.preview,

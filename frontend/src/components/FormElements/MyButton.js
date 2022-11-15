@@ -3,10 +3,11 @@ import { handleMouseMove } from '../styles';
 
 import './MyButton.css';
 
-export default function MyButton({name}) {
+export default function MyButton({ name, disabled }) {
+  console.log(disabled)
   return (
     <div className='button-div'>
-        <button>
+      <button disabled={disabled}>
             <span onMouseMove={handleMouseMove} className='outer-span'><span className='inner-span'></span></span>
             <span className='lower-span'>{name}</span>
         </button>
