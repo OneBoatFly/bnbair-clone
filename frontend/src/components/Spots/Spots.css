@@ -142,57 +142,6 @@
     flex-shrink: 1;
 }
 
-/* ------------ Spot Info ------------ */
-.info-booking-wrapper {
-    /* outline: 1px solid blue; */
-    display: flex;
-    box-sizing: border-box;
-    padding: 1.5rem 0px;
-    border-bottom: 1px solid #dddddd;
-}
-
-.spot-info-wrapper {
-    max-width: 58.33%;
-}
-
-.spot-info-wrapper .hostName {
-    outline: 1px solid salmon;
-}
-
-.spot-info-wrapper .hostName h4 {
-    padding-bottom: 1rem;
-    margin: 0;
-}
-
-.info-detail-wrapper {
-    padding: 1rem 0;
-    border-top: 1px solid #dddddd;
-}
-
-.info-detail-wrapper p {
-    width: 100%;
-    word-wrap: break-word;
-    white-space: normal
-}
-
-.booking-form-wrapper {
-    outline: 1px solid seagreen;
-    margin-left: 8.33%;
-    width: 33.33%;
-    position: relative;
-}
-
-.booking-form-sub-wrapper {
-    position: sticky;
-    z-index: 0;
-    top: 80px
-}
-
-.booking-form {
-    outline: 1px solid greenyellow;
-    height:  100%;
-}
-
 @media (max-width: 1880px) {
     .link-wrapper {
         max-width: calc((100% - 64px) / 5);

@@ -30,7 +30,7 @@
     padding-left: 10px;
 }
 
-.modify-buttons.create {
+.modify-buttons.single-button {
     /* outline: 1px solid salmon; */
     height: fit-content;
     border: 1px solid #222222;
