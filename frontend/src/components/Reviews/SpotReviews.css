@@ -1,0 +1,34 @@
+.spot-reviews-wrapper {
+    /* outline: 1px solid yellowgreen; */
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.single-reviews-wrapper {
+    /* outline: 1px solid salmon; */
+    width: 41%;
+    margin-right: 9%;
+    /* padding: 0px 8px; */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.reviewer-name {
+    font-size: 1rem;
+    color: #222222;
+    font-weight: 500;
+}
+
+.reviewer-date {
+    font-size: 0.9rem;
+    color: #717171;
+    margin-bottom: 16px;
+}
+
+.reviewer-review {
+    font-size: 1rem;
+    color: #222222;
+    padding-bottom: 40px;
+    text-overflow: ellipsis;
+}

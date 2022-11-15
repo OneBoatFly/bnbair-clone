@@ -48,10 +48,10 @@ export default function OwnerSpots({ isLoaded }) {
             <h4>
               {ownerSpotsArr.length > 0 ? `${ownerSpotsArr.length} listings` : 'No listing'}
             </h4>
-            <button onClick={() => setShowSpotFormModal(true)} className='modify-buttons create'>
+            <button onClick={() => setShowSpotFormModal(true)} className='modify-buttons single-button'>
               <i className="fa-solid fa-plus"></i>
               <span> Create a listing</span>
-              </button>
+            </button>
           </div>
           <h5 id='delete-message' className={showDelete ? 'fadeIn' : 'fadeOut'}>
             {deleteMessage.length > 0 && `${deleteMessage}.`}

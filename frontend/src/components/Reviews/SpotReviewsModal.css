@@ -1,0 +1,16 @@
+.spot-reviews-modal {
+    background-color: white;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.spot-reviews-modal .spot-reviews-wrapper {
+    /* border: 1px solid red; */
+    padding: 24px 24px 0px;
+    overflow: scroll;
+    max-height: 500px;
+}
+
+.spot-reviews-modal .single-reviews-wrapper {
+    width: 100%;
+}
