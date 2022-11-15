@@ -45,6 +45,7 @@
     border-radius: 8px;
     overflow: hidden;
     width: 85%;
+    max-width: 100px;
 }
 
 .modify-buttons {
@@ -137,4 +138,10 @@
 .fadeIn {
     opacity: 1;
     transition: opacity 1s;
+}
+
+@media (min-width: 1128px) {
+    .table-div {
+        max-width: 67%;
+    }
 }
