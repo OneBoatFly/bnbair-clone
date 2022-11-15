@@ -45,19 +45,19 @@ function App() {
           </div>      
         </Route>
         {isLoaded && sessionUser &&
-          <>
-            <Route path='/spots/current'>
-              <div className='root-sub-wrapper'>
-                <OwnerSpots isLoaded={isLoaded}></OwnerSpots>
-              </div>
-            </Route>
-            <Route path='/reviews/current'>
-              <div className='root-sub-wrapper'>
-                <UserReviews isLoaded={isLoaded} />
-              </div>
-            </Route>
-          </>
+          <Route path='/spots/current'>
+            <div className='root-sub-wrapper'>
+              <OwnerSpots isLoaded={isLoaded}></OwnerSpots>
+            </div>
+          </Route>
         }
+        {isLoaded && sessionUser &&
+          <Route path='/reviews/current'>
+            <div className='root-sub-wrapper'>
+              <UserReviews isLoaded={isLoaded} />
+            </div>
+          </Route>
+        }        
         <Route path='/spots/:spotId'>
           <div className='root-sub-wrapper'>
             <SpotDetails isLoaded={isLoaded}></SpotDetails>

@@ -2,16 +2,16 @@ import React, { startTransition, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
 
 import * as spotReviewsActions from '../../store/spotReviews';
-
 import MyButton from '../FormElements/MyButton';
+import './AddReview.css';
 
 export default function AddReview({spotId, setShowAddReviewForm}) {
-    console.log(spotId);
+    // console.log(spotId);
     // const userReviews = useSelector(state => state.spotReviews.userAllReviews);
     // userReviews []
 
     const [review, setReview] = useState('');
-    const [stars, setStars] = useState(5);
+    const [stars, setStars] = useState('');
     const [reviewError, setReviewError] = useState('');
     const [starsError, setStarsError] = useState('');
     const [errors, setErrors] = useState('');
@@ -41,12 +41,15 @@ export default function AddReview({spotId, setShowAddReviewForm}) {
         }
 
         dispatch(spotReviewsActions.addUserReview(spotId, {review, stars}))
-            .then((review) => {
+            .then((newReview) => {
+                console.log('review added successfully ---', newReview)
                 setHasSubmitted(false);
                 setShowAddReviewForm(false);
             })
-            .catch((message) => {
-                setErrors(message);
+            .catch(async (response) => {
+                const e = await response.json();
+                console.log('review add errors ---', e.message)
+                setErrors(e.message);
             })
     }
 
@@ -64,17 +67,22 @@ export default function AddReview({spotId, setShowAddReviewForm}) {
                             <label htmlFor='review'>Your review</label>
                             <textarea id="review" placeholder='An awesone place' value={review} onChange={(e) => setReview(e.target.value)} ></textarea>
                         </div>
+                        <div className='login errors' style={{ marginTop: '4px', marginBottom: '4px' }}>
+                            {
+                                hasSubmitted && reviewError.length > 0 && (
+                                    <div className='error-messages-wrapper'>
+                                        <i className="fa-sharp fa-solid fa-circle-exclamation"></i>
+                                        <span className='error-messages'>{reviewError}</span>
+                                    </div>
+                                )
+                            }
+                        </div>                    
                     </div>
-                    <div className='login errors' style={{ marginTop: '4px', marginBottom: '4px' }}>
-                        {
-                            hasSubmitted && reviewError.length > 0 && (<span className='error-messages'>{reviewError}</span>)
-                        }
-                    </div>                    
-                    <div className='add-review-sub'>
-                        <div className='rating-wrapper'>
-                            <label htmlFor='stars'>Rating</label>
+                    <div className='add-review-sub second'>
+                        <div className='select-rating-wrapper'>
+                            {/* <label htmlFor='stars'>Rating</label> */}
                             <select value={stars} onChange={(e) => setStars(e.target.value)}>
-                                <option value=''>Please selecting a rating...</option>
+                                <option value='' disabled>Please selecting a rating...</option>
                                 <option>1</option>
                                 <option>2</option>
                                 <option>3</option>
@@ -82,16 +90,26 @@ export default function AddReview({spotId, setShowAddReviewForm}) {
                                 <option>5</option>
                             </select>
                         </div>
-                    </div>
-                    <div className='errors' style={{ marginTop: '4px', marginBottom: '4px' }}>
-                        {
-                            hasSubmitted && starsError.length > 0 && (<span className='error-messages'>{starsError}</span>)
-                        }
+                        <div className='errors' style={{ marginTop: '4px', marginBottom: '4px' }}>
+                            {
+                                hasSubmitted && starsError.length > 0 && (
+                                    <div className='error-messages-wrapper'>
+                                        <i className="fa-sharp fa-solid fa-circle-exclamation"></i>
+                                        <span className='error-messages'>{starsError}</span>
+                                    </div>
+                                )
+                            }
+                        </div>
                     </div>
                     <MyButton name={'Add review'} />
                     <div className='errors' style={{ marginTop: '4px', marginBottom: '4px' }}>
                         {
-                            hasSubmitted && errors.length > 0 && (<span className='error-messages'>{errors}</span>)
+                            hasSubmitted && errors.length > 0 && (
+                                <div className='error-messages-wrapper'>
+                                    <i className="fa-sharp fa-solid fa-circle-exclamation"></i>
+                                    <span className='error-messages'>{errors}</span>
+                                </div>
+                            )
                         }
                     </div>
                 </form>

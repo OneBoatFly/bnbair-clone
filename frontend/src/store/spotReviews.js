@@ -1,4 +1,5 @@
 import { csrfFetch } from './csrf';
+import * as spotsActions from './spots';
 
 // regular actions
 const LOAD_SPOT_REVIEWS = 'spots/:id/loadSpotReviews';
@@ -94,8 +95,26 @@ export const deleteReview = (reviewId) => async (dispatch) => {
 }
 
 // add a review given a spotId
-export const addUserReview = (spotId, { review, stars }) => async (dispatch) => {
-    
+export const addUserReview = (spotId, reviewBody) => async (dispatch) => {
+    console.log('addUserReview thunk ---- ')
+    const options = { 
+        method: 'POST',
+        body: JSON.stringify(reviewBody)
+    };
+
+    const response = await csrfFetch(`/api/spots/${spotId}/reviews`, options);
+    if (response.ok) {
+        const data = await response.json();
+        console.log('response ok - data', data);
+
+        dispatch(getSpotReviews(spotId));
+        dispatch(spotsActions.getOneSpot(spotId));
+        return data;
+    }
+
+    // console.log('response not ok - response');
+    // console.log(response.json());
+    // return response;
 }
 
 const initalState = {};
