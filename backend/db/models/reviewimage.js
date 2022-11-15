@@ -33,11 +33,6 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
   }, {
-    indexes: [{
-      fields: ['reviewId', 'url'],
-      unique: true,
-      validate: true      
-    }],
     defaultScope: {
       attributes: ['id', 'url'],
     },
@@ -46,3 +41,9 @@ module.exports = (sequelize, DataTypes) => {
   });
   return ReviewImage;
 };
+
+// indexes: [{
+//   fields: ['reviewId', 'url'],
+//   unique: true,
+//   validate: true
+// }],

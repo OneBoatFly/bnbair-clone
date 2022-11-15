@@ -37,11 +37,11 @@ module.exports = {
       }
     });
 
-    await queryInterface.addIndex('SpotImages', {
-      fields: ['spotId', 'url'],
-      unique: true,
-      name: 'uniqueSpotImage'
-    })
+    // await queryInterface.addIndex('SpotImages', {
+    //   fields: ['spotId', 'url'],
+    //   unique: true,
+    //   name: 'uniqueSpotImage'
+    // })
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('SpotImages');

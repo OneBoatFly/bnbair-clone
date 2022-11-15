@@ -8,7 +8,7 @@ const airBnBImages = require('../SpotImagesAirBnB.json');
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    const spots = await Spot.findAll({limit: 12});
+    const spots = await Spot.findAll({limit: 24});
 
     for (let i = 0; i < spots.length; i++) {
       const spot = spots[i];
