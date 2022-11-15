@@ -305,7 +305,7 @@ export default function CreateSpot({ setShowSpotFormModal }) {
             })
           }
 
-          <MyButton name={'Publish your listing'} disabled={buttonDisabled}/>
+          <MyButton name={'Publish your listing'} />
         </form>
       </div>
     </div>

@@ -1,7 +1,8 @@
 .owner-spots-wrapper {
     /* outline: 1px solid rebeccapurple; */
     width: 100%;
-    margin: 24px 0px;
+    margin: 24px auto;
+    max-width: 1760px;
     font-family: inherit;
 }
 
@@ -14,8 +15,8 @@
 
 .header-div {
     /* outline: 1px solid purple; */
-    display: 'flex';
-    justify-content: 'space-between'
+    display: flex;
+    justify-content: space-between;
 }
 
 .header-create-wrapper {
@@ -125,6 +126,7 @@
 }
 
 #delete-message {
+    /* outline: 1px solid salmon; */
     margin: 0;
     padding-bottom: 16px;
     padding-left: 10px;

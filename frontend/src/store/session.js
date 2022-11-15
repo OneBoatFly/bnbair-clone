@@ -39,11 +39,12 @@ export const login = (userCredentials) => async (dispatch) => {
 };
 
 export const restoreUser = () => async (dispatch) => {
+    console.log('in restoreUser thunk')
     const response = await csrfFetch('/api/session');
-
+    console.log(response, response.ok)
     if (response.ok) {
         const user = await response.json();
-        // console.log('user', user)
+        console.log('user', user)
         dispatch(setUser(user));
         return user;
     }

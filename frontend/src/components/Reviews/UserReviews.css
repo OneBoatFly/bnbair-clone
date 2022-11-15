@@ -1,5 +1,6 @@
 .all-reviews-wrapper {
-    margin-top: 24px;
+    margin: 24px auto;
+    max-width: 1760px;
 }
 
 .all-reviews-sub-wrapper {
@@ -28,7 +29,7 @@
 }
 
 .review-buttons-wrapper {
-    /* margin: 0px 0px; */
+    margin: 10px 16px;
     /* flex-basis: 1; */
 }
 

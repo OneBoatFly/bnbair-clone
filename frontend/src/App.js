@@ -24,6 +24,7 @@ function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => {
+      console.log('session user restured???????????')
       setIsLoaded(true);
     });
 
@@ -44,20 +45,30 @@ function App() {
             <Spots spots={spots} ></Spots>
           </div>      
         </Route>
-        {isLoaded && sessionUser &&
+        {isLoaded &&
           <Route path='/spots/current'>
             <div className='root-sub-wrapper'>
               <OwnerSpots isLoaded={isLoaded}></OwnerSpots>
             </div>
           </Route>
         }
-        {isLoaded && sessionUser &&
+        {isLoaded &&
           <Route path='/reviews/current'>
             <div className='root-sub-wrapper'>
               <UserReviews isLoaded={isLoaded} />
             </div>
           </Route>
-        }        
+        }
+        {!isLoaded &&
+          <Route path='/spots/current'>
+            Login
+          </Route>
+        }
+        {!isLoaded &&
+          <Route path='/reviews/current'>
+            Login
+          </Route>
+        }  
         <Route path='/spots/:spotId'>
           <div className='root-sub-wrapper'>
             <SpotDetails isLoaded={isLoaded}></SpotDetails>
