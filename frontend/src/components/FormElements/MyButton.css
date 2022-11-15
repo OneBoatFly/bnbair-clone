@@ -18,6 +18,10 @@
     border-radius: 8px;
 }
 
+.button-div button:disabled {
+    background: rgb(113, 113, 113)
+}
+
 .outer-span {
     /* border: 1px solid black; */
     position: absolute;

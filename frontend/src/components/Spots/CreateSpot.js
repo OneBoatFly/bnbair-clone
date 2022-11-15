@@ -8,6 +8,7 @@ import './CreateSpot.css';
 import { handleLabelSmall, handleLabelBig } from '../styles';
 import MyButton from '../FormElements/MyButton';
 
+
 export default function CreateSpot({ setShowSpotFormModal }) {
   const [address, setAddress] = useState('');
   const [aptNum, setAptNum] = useState('');
@@ -17,6 +18,7 @@ export default function CreateSpot({ setShowSpotFormModal }) {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState(4500);
+  const [buttonDisabled, setbuttonDisabled] = useState(true);
 
   // const [errors, setErrors] = useState([]);
   const [addressErrors, setAddressErrors] = useState([]);
@@ -86,6 +88,13 @@ export default function CreateSpot({ setShowSpotFormModal }) {
     // console.log('titleErrors', titleErrors);
     // console.log('descriptionErrors', descriptionErrors);
     // console.log('priceErrors', priceErrors);
+
+    if (!addressErrors.length && !titleErrors.length && !descriptionErrors.length && !priceErrors.length) {
+      console.log('!! no errors')
+      setbuttonDisabled(false);
+    } else {
+      setbuttonDisabled(true);
+    }
 
   }, [address, city, province, country, name, description, price]);
 
@@ -296,7 +305,7 @@ export default function CreateSpot({ setShowSpotFormModal }) {
             })
           }
 
-          <MyButton name={'Publish your listing'} />
+          <MyButton name={'Publish your listing'} disabled={buttonDisabled}/>
         </form>
       </div>
     </div>
