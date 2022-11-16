@@ -7,6 +7,8 @@ import AddSpotImages from './AddSpotImages';
 import SpotReviews from '../Reviews/SpotReviews';
 import SpotReviewsModal from '../Reviews/SpotReviewsModal';
 import AddReview from '../Reviews/AddReview';
+import RatingNumReview from '../Reviews/RatingNumReview';
+import CreateBooking from '../Bookings/CreateBooking';
 import { Modal } from '../../context/Modal';
 
 import * as spotsActions from '../../store/spots';
@@ -16,6 +18,7 @@ export default function SpotDetails() {
     console.log('Spot Details Compoment')
     const sessionUser = useSelector(state => state.session.user);
     const spot = useSelector(state => state.spots.spotDetails);
+    console.log('spot', spot)
     const spotReviews = useSelector(state => state.spotReviews.spotAllReviews);
     const [showReviewModal, setShowReviewModal] = useState(false);
     const [showAddReviewForm, setShowAddReviewForm] = useState(false);
@@ -36,44 +39,48 @@ export default function SpotDetails() {
                     <h3>{spot.name}</h3>
                     <div style={{display:'flex', alignItems:'center', columnGap:'8px'}}>
                         <div className='review-modify-buttons' style={{ marginTop: '10px' }} >
-                            <button className='modify-buttons' onClick={() => setShowAddReviewForm(true)} ><i class="fa-solid fa-plus" style={{ marginRight: '7px' }}></i><span>Add a review</span></button>
+                            <button className='modify-buttons' onClick={() => setShowAddReviewForm(true)} >
+                                <i className="fa-solid fa-plus" style={{ marginRight: '7px' }}></i>
+                                <span>Add a review</span>
+                            </button>
                         </div>
                         {spot.ownerId === sessionUser.id &&
                             <div className='review-modify-buttons' style={{ marginTop: '10px' }} >
-                                <button className='modify-buttons' onClick={() => setShowAddImageForm(true)} ><i class="fa-solid fa-plus" style={{ marginRight: '7px' }}></i><span>Add images</span></button>
+                                <button className='modify-buttons' onClick={() => setShowAddImageForm(true)} >
+                                    <i className="fa-solid fa-plus" style={{ marginRight: '7px' }}></i>
+                                    <span>Add images</span>
+                                </button>
                             </div>  
                         }
                     </div>
                 </div>
                 <div className='title-div-wrapper'>
-                    <i className="fa-solid fa-star" />
-                    {spot.avgStarRating && <span className='rating-span'>{spot.avgStarRating.toFixed(1)}</span>}
-                    <span> · </span>
-                    <span onClick={() => setShowReviewModal(true)} style={{textDecoration:'underline', cursor: 'pointer'}}>{spot.numReviews} reviews</span>
+                    <RatingNumReview spot={spot} setShowReviewModal={setShowReviewModal} />
                 </div>
-                    <div className='pictures-div-wrapper'>
-                        <div className='pictures-big'>
-                            <div className='image-div'>
-                                {spot.SpotImages[0] ? 
-                                    <img src={`${spot.SpotImages[0].url}`} alt='room'></img> : <div className='no-image-div'>No Image</div>
-                                }
-                            </div>
-                        </div>
-                        <div className='pictures-small'>
-                            <div className='image-div'>
-                                {spot.SpotImages[1] ? <img src={`${spot.SpotImages[1].url}`} alt='room'></img> : <div className='no-image-div'>No Image</div>}
-                            </div>
-                            <div className='image-div'>
-                                {spot.SpotImages[2] ? <img src={`${spot.SpotImages[2].url}`} alt='room'></img> : <div className='no-image-div'>No Image</div>}
-                            </div>
-                            <div className='image-div'>
-                                {spot.SpotImages[3] ? <img src={`${spot.SpotImages[3].url}`} alt='room'></img> : <div className='no-image-div'>No Image</div>}
-                            </div>
-                            <div className='image-div'>
-                                {spot.SpotImages[4] ? <img src={`${spot.SpotImages[4].url}`} alt='room'></img> : <div className='no-image-div'>No Image</div>}
-                            </div>
+
+                <div className='pictures-div-wrapper'>
+                    <div className='pictures-big'>
+                        <div className='image-div'>
+                            {spot.SpotImages[0] ? 
+                                <img src={`${spot.SpotImages[0].url}`} alt='room'></img> : <div className='no-image-div'>No Image</div>
+                            }
                         </div>
                     </div>
+                    <div className='pictures-small'>
+                        <div className='image-div'>
+                            {spot.SpotImages[1] ? <img src={`${spot.SpotImages[1].url}`} alt='room'></img> : <div className='no-image-div'>No Image</div>}
+                        </div>
+                        <div className='image-div'>
+                            {spot.SpotImages[2] ? <img src={`${spot.SpotImages[2].url}`} alt='room'></img> : <div className='no-image-div'>No Image</div>}
+                        </div>
+                        <div className='image-div'>
+                            {spot.SpotImages[3] ? <img src={`${spot.SpotImages[3].url}`} alt='room'></img> : <div className='no-image-div'>No Image</div>}
+                        </div>
+                        <div className='image-div'>
+                            {spot.SpotImages[4] ? <img src={`${spot.SpotImages[4].url}`} alt='room'></img> : <div className='no-image-div'>No Image</div>}
+                        </div>
+                    </div>
+                </div>
 
                 <div className='info-booking-wrapper'>
                     <div className='spot-info-wrapper'>
@@ -100,7 +107,7 @@ export default function SpotDetails() {
                     <div className='booking-form-wrapper'>
                         <div className='booking-form-sub-wrapper'>
                             <div className='booking-form'>
-                                placholder for booking
+                                  <CreateBooking spot={spot} setShowReviewModal={setShowReviewModal} />
                             </div>
                             <div>
                                 <p>
@@ -113,12 +120,7 @@ export default function SpotDetails() {
                 <div className='reviews-wrapper'>
                     <div className='reviews-sub-wrapper'>
                         <h4>
-                            <div className='review-title-wrapper'>
-                                <i className="fa-solid fa-star" />
-                                {spot.avgStarRating && <span className='rating-span'>{spot.avgStarRating.toFixed(1)}</span>}
-                                <span> · </span>
-                                <span>{spot.numReviews} reviews</span>
-                            </div>
+                            <RatingNumReview spot={spot} />
                         </h4>
                     </div>
                     <SpotReviews spotReviews={spotReviews}/>
@@ -132,12 +134,12 @@ export default function SpotDetails() {
         )}
         {showAddReviewForm &&
             <Modal onClose={() => setShowAddReviewForm(false)}>
-                <AddReview setShowAddReviewForm={setShowAddReviewForm} spotId={spot.id} />
+                <AddReview setShowAddReviewForm={setShowAddReviewForm} spotId={spotId} />
             </Modal>
         }
         {showAddImageForm &&
             <Modal onClose={() => setShowAddImageForm(false)}>
-                <AddSpotImages setShowAddImageForm={setShowAddImageForm} spotId={spot.id} />
+                <AddSpotImages setShowAddImageForm={setShowAddImageForm} spotId={spotId} />
             </Modal>
         }
     </div>

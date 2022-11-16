@@ -58,7 +58,7 @@
 }
 
 .booking-form-wrapper {
-    outline: 1px solid seagreen;
+    /* outline: 1px solid seagreen; */
     margin-left: 8.33%;
     width: 33.33%;
     position: relative;
@@ -71,8 +71,12 @@
 }
 
 .booking-form {
-    outline: 1px solid greenyellow;
+    /* outline: 1px solid greenyellow; */
+    border: 1px solid rgb(221, 221, 221);
+    border-radius: 12px;
+    box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px;
     height: 100%;
+    margin-bottom: 24px;
 }
 
 .aircover-img {

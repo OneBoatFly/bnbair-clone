@@ -1,0 +1,38 @@
+.dates-input-wrapper {
+    /* outline: 1px solid salmon; */
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.dates-input {
+    width: 50%;
+    box-sizing: border-box;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-family: inherit;
+}
+
+.dates-input input {
+    font-family: inherit;
+}
+
+.check-inout-label {
+    font-size: 10px;
+    font-weight: 600;
+    padding-bottom: 2px;
+}
+
+.dates-input.startDate {
+    border-right: 1px solid rgb(176, 176, 176);
+}
+
+.dates-input [type="date"]::-webkit-inner-spin-button {
+    display: none;
+}
+
+.dates-input [type="date"]::-webkit-calendar-picker-indicator {
+    display: none;
+}
