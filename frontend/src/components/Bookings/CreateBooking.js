@@ -15,6 +15,11 @@ export default function CreateBooking({ spot, setShowReviewModal }) {
     const [endDate, setEndDate] = useState(endDateStr);
     const [dateErrors, setDateErrors] = useState({});
 
+    const [totalDays, setTotayDays] = useState(1);
+    const totalPrice = nf.format(spot.price * totalDays);
+    const serviceFee = nf.format(Math.ceil(spot.price * totalDays * 0.1));
+    const totalFinal = nf.format(Math.ceil(spot.price * totalDays * 1.1));
+
   return (
     <form className='create-booking-wrapper'>
         <div className='price-rating-wrapper'>
@@ -33,18 +38,18 @@ export default function CreateBooking({ spot, setShowReviewModal }) {
         <span>You won't be charged yet</span>
         <div className='itemized-price-wrapper'>
             <div className='total-price'>
-                <span>${price} x # night p</span>
-                <span>$calc p</span>
+                <span>${price} x {totalDays} night</span>
+                <span>${totalPrice}</span>
             </div>
             <div className='total-price'>
                 <span>Service fee</span>
-                <span>$calc p</span>
+                <span>${serviceFee}</span>
             </div>            
         </div>
         <div className='total-price-wrapper'>
             <div className='total-price'>
                 <span>Total before taxes</span>
-                <span>$calc p</span>
+                <span>${totalFinal}</span>
             </div>              
         </div>
     </form>
