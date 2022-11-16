@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Redirect } from 'react-router-dom';
+import validator from 'validator';
 
 import * as spotsActions from '../../store/spots';
 import { useDispatch, useSelector } from 'react-redux';
@@ -18,6 +19,7 @@ export default function CreateSpot({ setShowSpotFormModal }) {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState(4500);
+  const [previewImage, setPreviewImage] = useState('');
   const [buttonDisabled, setbuttonDisabled] = useState(true);
 
   // const [errors, setErrors] = useState([]);
@@ -25,6 +27,7 @@ export default function CreateSpot({ setShowSpotFormModal }) {
   const [titleErrors, setTitleErrors] = useState('');
   const [descriptionErrors, setDescriptionErrors] = useState('');
   const [priceErrors, setPriceErrors] = useState('');
+  const [imageUrlErrors, setImageUrlErrors] = useState('');
   const [validationErrors, setValidationErrors] = useState({});
   const [hasSubmitted, setHasSubmitted] = useState(false);
 
@@ -76,6 +79,9 @@ export default function CreateSpot({ setShowSpotFormModal }) {
     if (price <= 0 || !price) setPriceErrors('Valid price is required.');
     else setPriceErrors('');
 
+    if (!previewImage.length || !validator.isURL(previewImage) ) setImageUrlErrors('A valid preview image url is required');
+    else setImageUrlErrors('');
+
     // set addressErrors expecting []:
     // console.log('hasAddressErrors', hasAddressErrors)
     if (Object.values(hasAddressErrors).length) {
@@ -89,7 +95,7 @@ export default function CreateSpot({ setShowSpotFormModal }) {
     // console.log('descriptionErrors', descriptionErrors);
     // console.log('priceErrors', priceErrors);
 
-    if (!addressErrors.length && !titleErrors.length && !descriptionErrors.length && !priceErrors.length) {
+    if (!addressErrors.length && !titleErrors.length && !descriptionErrors.length && !priceErrors.length && !imageUrlErrors.length) {
       console.log('!! no errors')
       setbuttonDisabled(false);
     } else {
@@ -103,18 +109,19 @@ export default function CreateSpot({ setShowSpotFormModal }) {
     setHasSubmitted(true);
     console.log('handleSubmit fired')
 
-    if (addressErrors.length || titleErrors.length || descriptionErrors.length || priceErrors.length) {
+    if (addressErrors.length || titleErrors.length || descriptionErrors.length || priceErrors.length || imageUrlErrors) {
       console.log('has errors, returned,')
       console.log('addressErrors', addressErrors);
       console.log('titleErrors', titleErrors);
       console.log('descriptionErrors', descriptionErrors);
       console.log('priceErrors', priceErrors);
+      console.log('imageUrlErrors', imageUrlErrors);
       return;
     }
 
     dispatch(spotsActions.createOneSpot({
       address, city, state: province, country, name, description, price, lat: 37.7645358, lng: -122.4730327
-    }))
+    }, previewImage))
       .then((spot) => {
         console.log('in dispatch success - checking spot', spot)
         setHasSubmitted(false);
@@ -156,6 +163,15 @@ export default function CreateSpot({ setShowSpotFormModal }) {
   const countryLabel = useRef(null);
   const countryInput = useRef(null);
   // css related //
+
+  // check valid price //
+  const handleKeyDown = (e) => {
+    // console.log(e.key, typeof e.key, e.key === 'Backspace', /[0-9]/.test(e.key), (e.key === 'Backspace') || /0-9/.test(e.key))
+    const valid = (e.key === 'Backspace') || /[0-9]/.test(e.key) || (e.key === 'ArrowLeft') || (e.key === 'ArrowRight') || (e.key === 'ArrowDown') || (e.key === 'ArrowUp') || (e.key === 'Tab')
+    if (!valid) {
+      e.preventDefault();
+    }
+  }
 
   if (newSpot.id) return (
     <Redirect to={`/spots/${newSpot.id}`}/>
@@ -279,10 +295,7 @@ export default function CreateSpot({ setShowSpotFormModal }) {
             <div className='outline-wrapper'>
               <div className='create-spot-price'>
                 {/* <label htmlFor='price'>Price</label> */}
-                <input type='number' id="price" value={price} onChange={(e) => {
-                  const value = Math.max(0, Number(e.target.value));
-                  setPrice(value);                  
-                }} />
+                <input type='text' id="price" value={price} onChange={(e) => setPrice(e.target.value)} onKeyDown={handleKeyDown} />
               </div>
             </div>
           </div>
@@ -293,6 +306,25 @@ export default function CreateSpot({ setShowSpotFormModal }) {
               <span className='error-messages'>{priceErrors}</span>
             </div>
           }
+
+          <div className='create-spot-headers'>
+            <h3>Set a preview image</h3>
+          </div>
+          <div className='create-spot previewImage-wrapper'>
+            <div className='outline-wrapper'>
+              <div className='create-spot-previewImage'>
+                {/* <label htmlFor='previewImage'>previewImage</label> */}
+                <input type='text' id="previewImage" value={previewImage} onChange={(e) => setPreviewImage(e.target.value)} />
+              </div>
+            </div>
+          </div>
+          {/* {console.log('price', priceErrors)} */}
+          {hasSubmitted && imageUrlErrors &&
+            <div className='error-messages-wrapper'>
+              <i className="fa-sharp fa-solid fa-circle-exclamation"></i>
+              <span className='error-messages'>{imageUrlErrors}</span>
+            </div>
+          }          
           {
             hasSubmitted && Object.values(validationErrors) &&
             Object.values(validationErrors).map((err, idx) => {

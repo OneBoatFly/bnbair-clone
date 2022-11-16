@@ -1,5 +1,6 @@
 import { csrfFetch } from './csrf';
-import coordinatesDistance from '../components/Spots/spotDistance';
+// import coordinatesDistance from '../components/Spots/spotDistance';
+import { addImages } from './spotImages';
 
 // regular actions
 const LOAD_SPOTS = 'spots/loadSpots';
@@ -115,7 +116,7 @@ export const getOneSpot = (spotId) => async (dispatch) => {
     }
 };
 
-export const createOneSpot = (spotInfo) => async (dispatch) => {
+export const createOneSpot = (spotInfo, imageUrl) => async (dispatch) => {
     // console.log('----------reached creating a spot thunk----------')
     const options = {
         method: 'POST',
@@ -129,7 +130,12 @@ export const createOneSpot = (spotInfo) => async (dispatch) => {
     if (response.ok) {
         // console.log('-------------reached reponse ok-------------')
         const spot = await response.json();
-        console.log(spot)
+        console.log(spot);
+        const imageUrls = [{
+            url: imageUrl,
+            preview: true
+        }];
+        dispatch(addImages(imageUrls, spot.id))
         dispatch(getOneSpot(spot.id));
         return spot;
     }

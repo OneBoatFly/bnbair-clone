@@ -20,7 +20,7 @@ export const addImages = (imageUrls, spotId) => async () => {
         const options = {
             method: 'POST',
             body: JSON.stringify({
-                url: imageUrl.url.slice(5),
+                url: imageUrl.url,
                 preview: imageUrl.preview
             })
         }
