@@ -214,7 +214,8 @@ router.get('/', validateQuery, async (req, res, next) => {
     // });
     // this works on sqlite but gets an error message in postres
     // "column \"Reviews.id\" must appear in the GROUP BY clause or be used in an aggregate function"
-    
+    console.log('-------------------------------------------------------------------')
+    // GET /api/spots?page=1&minPrice=10&maxPrice=200
     let { page, size, maxLat, minLat, maxLng, minLng, maxPrice, minPrice } = req.query;
     if (!page) page = 1;
     if (!size) size = 20;
@@ -238,6 +239,11 @@ router.get('/', validateQuery, async (req, res, next) => {
     if (maxPrice || minPrice) where.price = { [Op.and]: priceOp };
 
     // console.log('****************', where)
+    const totalSpots = await Spot.findAll({ where, 
+        attributes: [[sequelize.fn('COUNT', sequelize.col('id')), 'totalNumSpots']],
+    });
+
+    console.log(totalSpots[0].toJSON())
     const spots = await Spot.findAll({ where, limit: size, offset });
 
     const spotsArr = [];
@@ -276,7 +282,8 @@ router.get('/', validateQuery, async (req, res, next) => {
     res.json({ 
         Spots: spotsArr,
         page,
-        size
+        size,
+        spotsFound: totalSpots[0].toJSON().totalNumSpots
     });
 });
 

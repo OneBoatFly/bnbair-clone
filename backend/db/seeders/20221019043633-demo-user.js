@@ -12,8 +12,8 @@ module.exports = {
     while (counter < 10) {
       const username = `DemoUser${counter + 1}`;
       const email = `user${counter + 1}@demo.com`;
-      const firstName = 'DemoFirst';
-      const lastName = 'DemoLast';
+      const firstName = `DemoFirst ${counter}`;
+      const lastName = `DemoLast ${counter}`;
       const hashedPassword = bcrypt.hashSync('password');
       await User.create({
         username,

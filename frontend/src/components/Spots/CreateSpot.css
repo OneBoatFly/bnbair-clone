@@ -55,7 +55,8 @@
 
 .create-spot-name,
 .create-spot-price,
-.create-spot-description {
+.create-spot-description,
+.create-spot-previewImage {
     border: 1px solid #B0B0B0;
     border-radius: 8px;
     padding: 12px;
@@ -120,7 +121,8 @@
 }
 
 .create-spot-name input,
-.create-spot-price input {
+.create-spot-price input,
+.create-spot-previewImage input {
     font-family: inherit;
     font-size: inherit;
 }

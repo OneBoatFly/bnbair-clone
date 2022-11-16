@@ -43,8 +43,8 @@ export default function OwnerSpots({ isLoaded }) {
   return (
     <div className='owner-spots-wrapper'>
       <div className='owner-spots-sub-wrapper'>
-        <div style={{}} className='header-div'>
-          <div style={{ }} className='header-create-wrapper'>
+        <div className='header-div'>
+          <div className='header-create-wrapper'>
             <h4>
               {ownerSpotsArr.length > 0 ? `${ownerSpotsArr.length} listings` : 'No listing'}
             </h4>

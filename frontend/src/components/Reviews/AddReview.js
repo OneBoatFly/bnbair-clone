@@ -19,7 +19,7 @@ export default function AddReview({spotId, setShowAddReviewForm}) {
 
     useEffect(() => {
         if (!review.length) setReviewError('Review is required.');
-        else if (review.length > 255) setReviewError('Please provide a first name with less than 255 characters.');
+        else if (review.length > 255) setReviewError('Please provide review with less than 255 characters.');
         else setReviewError('');
 
         if (!stars.length) setStarsError('Rating is required.');

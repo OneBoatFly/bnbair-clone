@@ -22,13 +22,13 @@ const loadUserReviews = (reviews) => {
 // thunk actions
 // get all reviews given a spotId
 export const getSpotReviews = (spotId) => async (dispatch) => {
-    console.log('getSpotReviews thunk ---- ')
-    console.log('spotid', spotId)
+    // console.log('getSpotReviews thunk ---- ')
+    // console.log('spotid', spotId)
     
     const response = await csrfFetch(`/api/spots/${spotId}/reviews`);
     if (response.ok) {
         const data = await response.json();
-        console.log('response ok - data', data)
+        // console.log('response ok - data', data)
 
         if (data.Reviews) {
             // const reviewsNormal = normalizeArray(data.Reviews);
@@ -51,12 +51,12 @@ export const getSpotReviews = (spotId) => async (dispatch) => {
 
 // get all current users reviews
 export const getUserReviews = () => async (dispatch) => {
-    console.log('getUserReviews thunk ---- ')
+    // console.log('getUserReviews thunk ---- ')
 
     const response = await csrfFetch(`/api/reviews/current`);
     if (response.ok) {
         const data = await response.json();
-        console.log('response ok - data', data)
+        // console.log('response ok - data', data)
 
         if (data.Reviews) {
             const reviews = data.Reviews;
@@ -68,7 +68,7 @@ export const getUserReviews = () => async (dispatch) => {
             })
             
             const reviewsNormal = normalizeArray(reviewsModified);
-            console.log('user reviews --- ', reviewsNormal);
+            // console.log('user reviews --- ', reviewsNormal);
 
             dispatch(loadUserReviews(reviewsNormal));
 
@@ -81,13 +81,13 @@ export const getUserReviews = () => async (dispatch) => {
 
 // delete a review given a reviewId
 export const deleteReview = (reviewId) => async (dispatch) => {
-    console.log('deleteReview thunk ---- ')
+    // console.log('deleteReview thunk ---- ')
     const options = {method: 'DELETE'};
 
     const response = await csrfFetch(`/api/reviews/${reviewId}`, options);
     if (response.ok) {
         const data = await response.json();
-        console.log('response ok - data', data);
+        // console.log('response ok - data', data);
 
         dispatch(getUserReviews());
         return data.message;
@@ -96,7 +96,7 @@ export const deleteReview = (reviewId) => async (dispatch) => {
 
 // add a review given a spotId
 export const addUserReview = (spotId, reviewBody) => async (dispatch) => {
-    console.log('addUserReview thunk ---- ')
+    // console.log('addUserReview thunk ---- ')
     const options = { 
         method: 'POST',
         body: JSON.stringify(reviewBody)
@@ -105,7 +105,7 @@ export const addUserReview = (spotId, reviewBody) => async (dispatch) => {
     const response = await csrfFetch(`/api/spots/${spotId}/reviews`, options);
     if (response.ok) {
         const data = await response.json();
-        console.log('response ok - data', data);
+        // console.log('response ok - data', data);
 
         dispatch(getSpotReviews(spotId));
         dispatch(spotsActions.getOneSpot(spotId));
@@ -121,17 +121,17 @@ const initalState = {};
 
 const spotsReviewReducer = (state = initalState, action) => {
     // console.log(action)
-    console.log('*spotReview reducer: current state ------------ ', state)
+    // console.log('*spotReview reducer: current state ------------ ', state)
     let newState;
     switch (action.type) {
         case LOAD_SPOT_REVIEWS: {
-            console.log('LOAD_SPOT_REVIEWS')
+            // console.log('LOAD_SPOT_REVIEWS')
             newState = { ...state }
             newState.spotAllReviews = action.reviews
             return newState;
         }
         case LOAD_USER_REVIEWS: {
-            console.log('LOAD_USER_REVIEWS')
+            // console.log('LOAD_USER_REVIEWS')
             newState = { ...state }
             newState.userAllReviews = action.reviews
             return newState;
