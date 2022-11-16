@@ -4,7 +4,7 @@ import { handleMouseMove } from '../styles';
 import './MyButton.css';
 
 export default function MyButton({ name, disabled }) {
-  console.log('MyButton disabled?', disabled)
+  // console.log('MyButton disabled?', disabled)
   return (
     <div className='button-div'>
       <button disabled={disabled}>

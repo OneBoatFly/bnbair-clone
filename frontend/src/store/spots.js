@@ -8,10 +8,10 @@ const LOAD_SPOT_DETAIL = 'spots/getOneSpot';
 const LOAD_OWNER_SPOTS = 'spots/ownerSpots';
 const REMOVE_OWNER_SPOTS = 'spots/removeOwnerSpots';
 
-const loadSpots = (spots) => {
+const loadSpots = (spots, page) => {
     return {
         type: LOAD_SPOTS,
-        spots
+        payload: {spots, page}
     }
 };
 
@@ -79,18 +79,21 @@ export const getAllSpots = (userCoord) => async (dispatch) => {
 
 // get all spots with query
 export const getAllSpotsWithQuery = (query) => async (dispatch) => {
-    console.log('getAllSpotsWithQuery thunk')
+    // console.log('getAllSpotsWithQuery thunk')
     // let url = new URL('/api/spots');
     // console.log(url)
     const searchParams = new URLSearchParams(query);
-    console.log('------------- url with query', searchParams.toString())
+    // console.log('query ----', query)
+    // console.log('------------- url with query', searchParams.toString())
     const response = await csrfFetch('/api/spots?' + searchParams.toString());
 
     if (response.ok) {
         const spots = await response.json();
-
+        // console.log(spots)
         const normalSpots = normalizeArray(spots.Spots)
-        dispatch(loadSpots(normalSpots));
+        let page = 1;
+        if (query) page = query.page;
+        dispatch(loadSpots(normalSpots, page));
 
         const pagination = {
             page: spots.page,
@@ -113,18 +116,18 @@ export const getOneSpot = (spotId) => async (dispatch) => {
 };
 
 export const createOneSpot = (spotInfo) => async (dispatch) => {
-    console.log('----------reached creating a spot thunk----------')
+    // console.log('----------reached creating a spot thunk----------')
     const options = {
         method: 'POST',
         body: JSON.stringify(spotInfo)
     };
 
     const response = await csrfFetch('/api/spots', options);
-    console.log('----------after create a spot fetch----------')
+    // console.log('----------after create a spot fetch----------')
     console.log(response)
 
     if (response.ok) {
-        console.log('-------------reached reponse ok-------------')
+        // console.log('-------------reached reponse ok-------------')
         const spot = await response.json();
         console.log(spot)
         dispatch(getOneSpot(spot.id));
@@ -133,7 +136,7 @@ export const createOneSpot = (spotInfo) => async (dispatch) => {
 };
 
 export const updateOneSpot = (spotInfo, spotId) => async (dispatch) => {
-    console.log('----------reached update a spot thunk----------')
+    // console.log('----------reached update a spot thunk----------')
     const options = {
         method: 'PUT',
         body: JSON.stringify(spotInfo)
@@ -142,7 +145,7 @@ export const updateOneSpot = (spotInfo, spotId) => async (dispatch) => {
     const response = await csrfFetch(`/api/spots/${spotId}`, options);
 
     if (response.ok) {
-        console.log('-------------reached reponse ok-------------')
+        // console.log('-------------reached reponse ok-------------')
         const spot = await response.json();
         dispatch(getOneSpot(spot.id));
         return spot;
@@ -150,7 +153,7 @@ export const updateOneSpot = (spotInfo, spotId) => async (dispatch) => {
 };
 
 export const getOwnerSpots = () => async (dispatch) => {
-    console.log('getOwnerSpots thunk')
+    // console.log('getOwnerSpots thunk')
     const response = await csrfFetch('/api/spots/current');
 
     if (response.ok) {
@@ -162,7 +165,7 @@ export const getOwnerSpots = () => async (dispatch) => {
 };
 
 export const deleteOneSpot = (spotId) => async (dispatch) => {
-    console.log('deleteOneSpot thunk')
+    // console.log('deleteOneSpot thunk')
     const options = {
         method: 'DELETE'
     }
@@ -184,7 +187,12 @@ const spotsReducer = (state = initalState, action) => {
         case LOAD_SPOTS: {
             // console.log('LOAD_SPOTS')
             newState = {...state}
-            newState.allSpots = { ...newState.allSpots, ...action.spots}
+            if (action.payload.page === 1) {
+                // console.log('*************', action.payload.spots)
+                newState.allSpots = action.payload.spots;
+            } else {
+                newState.allSpots = { ...newState.allSpots, ...action.payload.spots}
+            }
             return newState;
         }
         case LOAD_SPOT_DETAIL: {

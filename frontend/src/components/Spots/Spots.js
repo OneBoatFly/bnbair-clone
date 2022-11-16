@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useState, useEffect, useRef, useCallback} from 'react';
+import {useSelector} from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import './Spots.css';
 
-export default function Spots({ spots, lastSpotElementRef, getSpotsErrors }) {
+import useSearchFetch from '../Navigation/useSearchFetch';
+
+export default function Spots({ lastSpotElementRef, getSpotsErrors }) {
+    const spots = useSelector(state => state.spots.allSpots);
     let spotsArr = [];
     if (spots) spotsArr = Object.values(spots);
 
@@ -20,6 +24,51 @@ export default function Spots({ spots, lastSpotElementRef, getSpotsErrors }) {
     //     dispatch(spotsActions.getAllSpots());
     // }, [dispatch]);
 
+//     const [page, setPage] = useState(1);
+//     console.log('page', page)
+//     const [query, setQuery] = useState({});
+//     console.log('query', query)
+//     const { loading, getSpotsErrors, hasMore } = useSearchFetch(query);
+//     // console.log('query', query)
+//     console.log(loading, getSpotsErrors, hasMore)
+//     console.log('__________________________________________________')
+
+//     useEffect(() => {
+//         setQuery((query => {
+//             const newQuery = { ...query };
+//             newQuery.page = page;
+//             return newQuery;
+//         }))
+//     }, [page])
+
+//     const observer = useRef();
+//     const lastSpotElementRef = useCallback(node => {
+//         if (loading) {
+//             // console.log('is loading? ', loading);
+//             return;
+//         }
+
+//         if (observer.current) {
+//             // console.log('there is an observer: ', observer.current);
+//             observer.current.disconnect();
+//         }
+
+//         observer.current = new IntersectionObserver(entries => {
+//             if (entries[0].isIntersecting && hasMore) {
+//                 // console.log('Visible -----------------')
+//                 setPage(prev => prev + 1);
+//             }
+//         })
+
+//         if (node) {
+//             // console.log('lastSpotElementRef')
+//             // console.log(node)
+//             observer.current.observe(node)
+//         }
+
+//     }, [loading, hasMore])
+
+//   // end of infinite scroll setting
   return (
     <div className='all-spots-wrapper'>
         <div>

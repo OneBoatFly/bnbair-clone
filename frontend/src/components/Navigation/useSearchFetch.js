@@ -5,9 +5,6 @@ import * as spotsActions from '../../store/spots';
 export default function useSearchFetch(query) {
     const [loading, setLoading] = useState(true);
     const [getSpotsErrors, setGetSpotsErrors] = useState({});
-    
-    // const spots = useSelector(state => state.spots.allSpots);
-    const pagination = useSelector(state => state.spots.pagination);
 
     const dispatch = useDispatch();
     const sendQuery = useCallback(async () => {
@@ -27,8 +24,5 @@ export default function useSearchFetch(query) {
         sendQuery(query);
     }, [query, sendQuery]);
 
-    let hasMore = false;
-    if (pagination) hasMore = pagination.spotsFound - pagination.page * pagination.size > 0;
-
-    return { loading, getSpotsErrors, hasMore };
+    return { loading, getSpotsErrors };
 }

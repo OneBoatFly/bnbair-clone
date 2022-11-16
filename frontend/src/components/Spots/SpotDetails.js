@@ -3,7 +3,7 @@ import { NavLink, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
 import './SpotDetails.css';
 
-// import AddSpotImages from './AddSpotImages';
+import AddSpotImages from './AddSpotImages';
 import SpotReviews from '../Reviews/SpotReviews';
 import SpotReviewsModal from '../Reviews/SpotReviewsModal';
 import AddReview from '../Reviews/AddReview';
@@ -14,6 +14,7 @@ import * as spotReviewsActions from '../../store/spotReviews';
 
 export default function SpotDetails() {
     console.log('Spot Details Compoment')
+    const sessionUser = useSelector(state => state.session.user);
     const spot = useSelector(state => state.spots.spotDetails);
     const spotReviews = useSelector(state => state.spotReviews.spotAllReviews);
     const [showReviewModal, setShowReviewModal] = useState(false);
@@ -66,9 +67,9 @@ export default function SpotDetails() {
                     </div> : <div>This listing has no image.</div>
                 }
 
-                {/* {spot.ownerId === sessionUser.id && 
+                {spot.ownerId === sessionUser.id && 
                     <AddSpotImages spotid={spotId} />
-                } */}
+                }
                 <div className='info-booking-wrapper'>
                     <div className='spot-info-wrapper'>
                         <div className='hostName'>{spot.Owner && <h4>Hosted by {spot.Owner.firstName}</h4>}</div>

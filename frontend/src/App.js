@@ -13,18 +13,23 @@ import useSearchFetch from './components/Navigation/useSearchFetch';
 function App() {
   console.log('0. App component rendered')
   const [isLoaded, setIsLoaded] = useState(false);
+  console.log('isLoaded', isLoaded)
   // const sessionUser = useSelector(state => state.session.user);
   
-  const spots = useSelector(state => state.spots.allSpots);
+  // const spots = useSelector(state => state.spots.allSpots);
+  const pagination = useSelector(state => state.spots.pagination);
+
+  let hasMore = false;
+  if (pagination) hasMore = pagination.spotsFound - pagination.page * pagination.size > 0;
 
   const [page, setPage] = useState(1);
+  console.log('page', page)
   const [query, setQuery] = useState({});
-  const { loading, getSpotsErrors, hasMore } = useSearchFetch(query);
-
-  // this should be on navigation component.
-  // const handleQuerySubmit = (e) => {
-  //   setQuery(e.target.value);
-  // };
+  console.log('query', query)
+  const { loading, getSpotsErrors } = useSearchFetch(query);
+  // console.log('query', query)
+  console.log(loading, getSpotsErrors, hasMore)
+  console.log('__________________________________________________')
 
   useEffect(() => {
     setQuery((query => {
@@ -37,25 +42,25 @@ function App() {
   const observer = useRef();
   const lastSpotElementRef = useCallback(node => {
     if (loading) {
-        console.log('is loading? ', loading);
+        // console.log('is loading? ', loading);
         return;
     }
 
     if (observer.current) {
-      console.log('there is an observer: ', observer.current);
+      // console.log('there is an observer: ', observer.current);
       observer.current.disconnect();
     }
 
     observer.current = new IntersectionObserver(entries => {
       if (entries[0].isIntersecting && hasMore) {
-        console.log('Visible -----------------')
+        // console.log('Visible -----------------')
         setPage(prev => prev + 1);
       }
     })
 
     if (node) {
-      console.log('lastSpotElementRef')
-      console.log(node)
+      // console.log('lastSpotElementRef')
+      // console.log(node)
       observer.current.observe(node)
     }
 
@@ -75,12 +80,13 @@ function App() {
   return (
     <div className='root-wrapper'>
       <div className='root-sub-wrapper-navigation'>
-        <Navigation isLoaded={isLoaded} setIsLoaded={setIsLoaded} setQuery={setQuery} />
+        <Navigation isLoaded={isLoaded} setIsLoaded={setIsLoaded} setQuery={setQuery} query={query} />
       </div>
       <Switch>
         <Route exact path='/'>
           <div className='root-sub-wrapper'>
-            <Spots spots={spots} lastSpotElementRef={lastSpotElementRef} getSpotsErrors={getSpotsErrors} ></Spots>
+            {/* <Spots ></Spots> */}
+            <Spots lastSpotElementRef={lastSpotElementRef} getSpotsErrors={getSpotsErrors} ></Spots>
           </div>      
         </Route>
         {isLoaded &&
