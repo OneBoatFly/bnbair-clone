@@ -9,6 +9,7 @@
     border-radius: 12px;
     overflow: hidden;
     box-shadow: rgb(0 0 0 / 28%) 0px 8px 28px;
+    width: 100%;
 }
 
 .create-spot-sub-wrapper {

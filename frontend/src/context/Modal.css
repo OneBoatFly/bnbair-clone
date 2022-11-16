@@ -25,4 +25,6 @@
     width: 100%;
     max-width: 568px;
     /* background-color: white; */
+    display: flex;
+    justify-content: center;
 }

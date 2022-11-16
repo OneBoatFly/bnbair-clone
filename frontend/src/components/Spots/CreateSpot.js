@@ -79,6 +79,7 @@ export default function CreateSpot({ setShowSpotFormModal }) {
     if (price <= 0 || !price) setPriceErrors('Valid price is required.');
     else setPriceErrors('');
 
+    console.log('valid url', validator.isURL(previewImage))
     if (!previewImage.length || !validator.isURL(previewImage) ) setImageUrlErrors('A valid preview image url is required');
     else setImageUrlErrors('');
 
@@ -102,7 +103,7 @@ export default function CreateSpot({ setShowSpotFormModal }) {
       setbuttonDisabled(true);
     }
 
-  }, [address, city, province, country, name, description, price]);
+  }, [address, city, province, country, name, description, price, previewImage]);
 
   const handleSubmit = (e) => {
     e.preventDefault();

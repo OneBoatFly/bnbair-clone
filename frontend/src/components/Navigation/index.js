@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
 
 import { useSelector, useDispatch } from "react-redux";
 import './Navigation.css';
@@ -10,34 +10,27 @@ import MenuButton from './MenuButton';
 import Icon from './Icon';
 import SearchBar from './SearchBar';
 
-import * as spotsReducerActions from '../../store/spots';
+// import * as spotsReducerActions from '../../store/spots';
 
 export default function Navigation({ isLoaded, setIsLoaded, setQuery }) {
     const sessionUser = useSelector(state => state.session.user);
 
-    const dispatch = useDispatch();
     const handleRefresh = () => {
-        // console.log('clicked')
-        dispatch(spotsReducerActions.getAllSpotsWithQuery({page: 1}));
+        return (
+            <Redirect to='/'></Redirect>
+        )
     }
 
     let sessionLinks;
     if (sessionUser) {
-        sessionLinks = (
-            <ProfileButton user={sessionUser} setIsLoaded={setIsLoaded} isLoaded={isLoaded} />
-        );
+        sessionLinks = (<ProfileButton user={sessionUser} setIsLoaded={setIsLoaded} isLoaded={isLoaded} />);
     } else {
-        sessionLinks = (
-            <>
-                <MenuButton setIsLoaded={setIsLoaded} ></MenuButton>
-            </>
-        );
+        sessionLinks = (<MenuButton setIsLoaded={setIsLoaded} ></MenuButton>);
     }
 
     return (
         <div className='navigation-all-wrapper'>
             <div className='navigation-sub-wrapper side1'>
-                <div ></div>
                 <NavLink exact to="/" onClick={handleRefresh}><Icon /></NavLink>
             </div>
             <div className='navigation-sub-wrapper center'>

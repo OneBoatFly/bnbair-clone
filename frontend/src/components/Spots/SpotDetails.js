@@ -19,6 +19,7 @@ export default function SpotDetails() {
     const spotReviews = useSelector(state => state.spotReviews.spotAllReviews);
     const [showReviewModal, setShowReviewModal] = useState(false);
     const [showAddReviewForm, setShowAddReviewForm] = useState(false);
+    const [showAddImageForm, setShowAddImageForm] = useState(false);
 
     const {spotId} = useParams();
     const dispatch = useDispatch();
@@ -31,11 +32,18 @@ export default function SpotDetails() {
     <div className='single-spot-wrapper'>
         {spot &&
             <div className='single-spot-sub-wrapper'>
-                <div style={{display:'flex', alignItems:'center', columnGap:'8px'}}>
+                <div style={{display:'flex', alignItems:'center', justifyContent:'space-between'}}>
                     <h3>{spot.name}</h3>
-                    <div className='review-modify-buttons' style={{ marginTop: '10px' }} >
-                          <button className='modify-buttons' onClick={() => setShowAddReviewForm(true)} ><i class="fa-solid fa-plus" style={{ marginRight: '7px' }}></i><span>Add a review</span></button>
-                    </div>                    
+                    <div style={{display:'flex', alignItems:'center', columnGap:'8px'}}>
+                        <div className='review-modify-buttons' style={{ marginTop: '10px' }} >
+                            <button className='modify-buttons' onClick={() => setShowAddReviewForm(true)} ><i class="fa-solid fa-plus" style={{ marginRight: '7px' }}></i><span>Add a review</span></button>
+                        </div>
+                        {spot.ownerId === sessionUser.id &&
+                            <div className='review-modify-buttons' style={{ marginTop: '10px' }} >
+                                <button className='modify-buttons' onClick={() => setShowAddImageForm(true)} ><i class="fa-solid fa-plus" style={{ marginRight: '7px' }}></i><span>Add images</span></button>
+                            </div>  
+                        }
+                    </div>
                 </div>
                 <div className='title-div-wrapper'>
                     <i className="fa-solid fa-star" />
@@ -43,33 +51,30 @@ export default function SpotDetails() {
                     <span> · </span>
                     <span onClick={() => setShowReviewModal(true)} style={{textDecoration:'underline', cursor: 'pointer'}}>{spot.numReviews} reviews</span>
                 </div>
-                {spot.SpotImages.length > 0 ?
                     <div className='pictures-div-wrapper'>
                         <div className='pictures-big'>
                             <div className='image-div'>
-                                {spot.SpotImages[0] && <img src={`${spot.SpotImages[0].url}`} alt='room'></img>}
+                                {spot.SpotImages[0] ? 
+                                    <img src={`${spot.SpotImages[0].url}`} alt='room'></img> : <div className='no-image-div'>No Image</div>
+                                }
                             </div>
                         </div>
                         <div className='pictures-small'>
                             <div className='image-div'>
-                                {spot.SpotImages[1] && <img src={`${spot.SpotImages[1].url}`} alt='room'></img>}
+                                {spot.SpotImages[1] ? <img src={`${spot.SpotImages[1].url}`} alt='room'></img> : <div className='no-image-div'>No Image</div>}
                             </div>
                             <div className='image-div'>
-                                {spot.SpotImages[2] && <img src={`${spot.SpotImages[2].url}`} alt='room'></img>}
+                                {spot.SpotImages[2] ? <img src={`${spot.SpotImages[2].url}`} alt='room'></img> : <div className='no-image-div'>No Image</div>}
                             </div>
                             <div className='image-div'>
-                                {spot.SpotImages[3] && <img src={`${spot.SpotImages[3].url}`} alt='room'></img>}
+                                {spot.SpotImages[3] ? <img src={`${spot.SpotImages[3].url}`} alt='room'></img> : <div className='no-image-div'>No Image</div>}
                             </div>
                             <div className='image-div'>
-                                {spot.SpotImages[4] && <img src={`${spot.SpotImages[4].url}`} alt='room'></img>}
+                                {spot.SpotImages[4] ? <img src={`${spot.SpotImages[4].url}`} alt='room'></img> : <div className='no-image-div'>No Image</div>}
                             </div>
                         </div>
-                    </div> : <div>This listing has no image.</div>
-                }
+                    </div>
 
-                {spot.ownerId === sessionUser.id && 
-                    <AddSpotImages spotid={spotId} />
-                }
                 <div className='info-booking-wrapper'>
                     <div className='spot-info-wrapper'>
                         <div className='hostName'>{spot.Owner && <h4>Hosted by {spot.Owner.firstName}</h4>}</div>
@@ -129,7 +134,12 @@ export default function SpotDetails() {
             <Modal onClose={() => setShowAddReviewForm(false)}>
                 <AddReview setShowAddReviewForm={setShowAddReviewForm} spotId={spot.id} />
             </Modal>
-        }  
+        }
+        {showAddImageForm &&
+            <Modal onClose={() => setShowAddImageForm(false)}>
+                <AddSpotImages setShowAddImageForm={setShowAddImageForm} spotId={spot.id} />
+            </Modal>
+        }
     </div>
   )
 }

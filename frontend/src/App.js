@@ -11,9 +11,9 @@ import UserReviews from './components/Reviews/UserReviews';
 import useSearchFetch from './components/Navigation/useSearchFetch';
 
 function App() {
-  console.log('0. App component rendered')
+  // console.log('0. App component rendered')
   const [isLoaded, setIsLoaded] = useState(false);
-  console.log('isLoaded', isLoaded)
+  // console.log('isLoaded', isLoaded)
   // const sessionUser = useSelector(state => state.session.user);
   
   // const spots = useSelector(state => state.spots.allSpots);
@@ -23,13 +23,13 @@ function App() {
   if (pagination) hasMore = pagination.spotsFound - pagination.page * pagination.size > 0;
 
   const [page, setPage] = useState(1);
-  console.log('page', page)
+  // console.log('page', page)
   const [query, setQuery] = useState({});
-  console.log('query', query)
+  // console.log('query', query)
   const { loading, getSpotsErrors } = useSearchFetch(query);
   // console.log('query', query)
-  console.log(loading, getSpotsErrors, hasMore)
-  console.log('__________________________________________________')
+  // console.log(loading, getSpotsErrors, hasMore)
+  // console.log('__________________________________________________')
 
   useEffect(() => {
     setQuery((query => {
