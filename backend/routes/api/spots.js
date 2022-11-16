@@ -238,6 +238,11 @@ router.get('/', validateQuery, async (req, res, next) => {
     if (maxPrice || minPrice) where.price = { [Op.and]: priceOp };
 
     // console.log('****************', where)
+    const totalSpots = await Spot.findAll({ where, 
+        attributes: [[sequelize.fn('COUNT', sequelize.col('id')), 'totalNumSpots']],
+    });
+
+    console.log(totalSpots[0].toJSON())
     const spots = await Spot.findAll({ where, limit: size, offset });
 
     const spotsArr = [];
@@ -276,7 +281,8 @@ router.get('/', validateQuery, async (req, res, next) => {
     res.json({ 
         Spots: spotsArr,
         page,
-        size
+        size,
+        spotsFound: totalSpots[0].toJSON().totalNumSpots
     });
 });
 

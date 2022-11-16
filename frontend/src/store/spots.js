@@ -3,6 +3,7 @@ import coordinatesDistance from '../components/Spots/spotDistance';
 
 // regular actions
 const LOAD_SPOTS = 'spots/loadSpots';
+const LOAD_SPOTS_PAGINATION = 'spots/loadSpotsPagination'
 const LOAD_SPOT_DETAIL = 'spots/getOneSpot';
 const LOAD_OWNER_SPOTS = 'spots/ownerSpots';
 const REMOVE_OWNER_SPOTS = 'spots/removeOwnerSpots';
@@ -13,6 +14,13 @@ const loadSpots = (spots) => {
         spots
     }
 };
+
+const loadSpotsPagination = (pagination) => {
+    return {
+        type: LOAD_SPOTS_PAGINATION,
+        pagination
+    }
+}
 
 const loadSpotDetail = (spot) => {
     return {
@@ -35,13 +43,17 @@ export const removeOwnerSpots = () => {
 }
 
 // thunk actions
+// get all spots
 export const getAllSpots = (userCoord) => async (dispatch) => {
     console.log('getAllSpots thunk')
     const response = await csrfFetch('/api/spots');
 
     if (response.ok) {
         const spots = await response.json();
-
+        // console.log('******** page and size, spotsFound ********')
+        // console.log(spots.page);
+        // console.log(spots.size);
+        // console.log(spots.spotsFound);
         // const userLat = userCoord.latitude;
         // const userLon = userCoord.longitude;
         // // console.log(userCoord)
@@ -55,6 +67,37 @@ export const getAllSpots = (userCoord) => async (dispatch) => {
 
         const normalSpots = normalizeArray(spots.Spots)
         dispatch(loadSpots(normalSpots));
+        
+        const pagination = {
+            page: spots.page,
+            size: spots.size,
+            spotsFound: spots.spotsFound
+        }
+        dispatch(loadSpotsPagination(pagination));
+    }
+};
+
+// get all spots with query
+export const getAllSpotsWithQuery = (query) => async (dispatch) => {
+    console.log('getAllSpotsWithQuery thunk')
+    // let url = new URL('/api/spots');
+    // console.log(url)
+    const searchParams = new URLSearchParams(query);
+    console.log('------------- url with query', searchParams.toString())
+    const response = await csrfFetch('/api/spots?' + searchParams.toString());
+
+    if (response.ok) {
+        const spots = await response.json();
+
+        const normalSpots = normalizeArray(spots.Spots)
+        dispatch(loadSpots(normalSpots));
+
+        const pagination = {
+            page: spots.page,
+            size: spots.size,
+            spotsFound: spots.spotsFound
+        }
+        dispatch(loadSpotsPagination(pagination));
     }
 };
 
@@ -139,9 +182,9 @@ const spotsReducer = (state = initalState, action) => {
     let newState;
     switch (action.type) {
         case LOAD_SPOTS: {
-            console.log('LOAD_SPOTS')
+            // console.log('LOAD_SPOTS')
             newState = {...state}
-            newState.allSpots = action.spots
+            newState.allSpots = { ...newState.allSpots, ...action.spots}
             return newState;
         }
         case LOAD_SPOT_DETAIL: {
@@ -159,6 +202,11 @@ const spotsReducer = (state = initalState, action) => {
         case REMOVE_OWNER_SPOTS: {
             newState = { ...state }
             delete newState.ownerSpots;
+            return newState;
+        }
+        case LOAD_SPOTS_PAGINATION: {
+            newState = { ...state }
+            newState.pagination = action.pagination;
             return newState;
         }
         default: {

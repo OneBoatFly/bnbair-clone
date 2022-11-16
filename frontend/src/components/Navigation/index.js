@@ -8,6 +8,7 @@ import './Navigation.css';
 import ProfileButton from './ProfileButton';
 import MenuButton from './MenuButton';
 import Icon from './Icon';
+import SearchBar from './SearchBar';
 
 export default function Navigation({ isLoaded, setIsLoaded }) {
     const sessionUser = useSelector(state => state.session.user);
@@ -31,7 +32,7 @@ export default function Navigation({ isLoaded, setIsLoaded }) {
                 <NavLink exact to="/"><Icon /></NavLink>
             </div>
             <div className='navigation-sub-wrapper center'>
-                <span>Placeholder for search form</span>
+                <SearchBar />
             </div>
             <div className='navigation-sub-wrapper side2'>
                 {sessionLinks}

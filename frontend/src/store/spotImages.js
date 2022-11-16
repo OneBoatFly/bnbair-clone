@@ -13,9 +13,9 @@ const Add_IMAGES = 'spots/:id/addImages';
 
 // thunk actions
 export const addImages = (imageUrls, spotId) => async () => {
-    console.log('add image thunk ---- ')
-    console.log('imageUrls', imageUrls)
-    console.log('spotid', spotId)
+    // console.log('add image thunk ---- ')
+    // console.log('imageUrls', imageUrls)
+    // console.log('spotid', spotId)
     imageUrls.forEach(async (imageUrl) => {
         const options = {
             method: 'POST',
@@ -39,7 +39,7 @@ const initalState = {};
 
 const spotsImageReducer = (state = initalState, action) => {
     // console.log(action)
-    console.log('*spotImage reducer: current state ------------ ', state)
+    // console.log('*spotImage reducer: current state ------------ ', state)
     let newState;
     switch (action.type) {
         // case HOLD_IMAGES: {
