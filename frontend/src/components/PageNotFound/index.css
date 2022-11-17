@@ -1,0 +1,41 @@
+.page-not-found-wrapper {
+    display: flex;
+    flex-direction: row;
+    padding: 48px 96px;
+    column-gap: 24px;
+    font-family: inherit;
+    color: inherit;
+    height: 100%;
+}
+
+.page-not-found-wrapper h1 {
+    font-size: 145px;
+    font-family: inherit;
+    color: inherit;
+    font-weight: 800;
+    margin-top: 0px;
+}
+
+.page-not-found-wrapper h2 {
+    font-size: 32px;
+    font-family: inherit;
+    color: inherit;
+    font-weight: 400;
+}
+
+.page-not-found-wrapper h6 {
+    font-size: 14px;
+    font-family: inherit;
+    color: rgb(118, 118, 118);
+    font-weight: 700;
+}
+
+.page-not-found-wrapper span {
+    font-size: 14px;
+    font-family: inherit;
+}
+
+.page-not-found-wrapper a {
+    text-decoration: none;
+    color: rgb(0, 132, 137);
+}
