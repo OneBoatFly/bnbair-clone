@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as sessionActions from '../../store/session';
 
 import './LoginFormPage.css';
-import { handleMouseMove, handleDivTopBorder, handleDivTopBorderOut } from '../styles';
+import { handleMouseMove, handleDivBottomBorder, handleDivBottomBorderOut } from '../styles';
 
 export default function LoginFormPage({ setShowSignInModal, setIsLoaded }) {
     const [credential, setCredential] = useState('');
@@ -75,13 +75,13 @@ export default function LoginFormPage({ setShowSignInModal, setIsLoaded }) {
                     </div>
                     <form onSubmit={handleSubmit}>
                         <div className='login inputs'>
-                            <div className='login credential' ref={credentialRef} onFocus={() => handleDivTopBorder(credentialRef)} onBlur={() => handleDivTopBorderOut(credentialRef)}>
+                            <div className='login credential' ref={credentialRef} onFocus={() => handleDivBottomBorder(credentialRef)} onBlur={() => handleDivBottomBorderOut(credentialRef)}>
                                 <div className='signup radius-wrapper'>
                                     <label htmlFor='credential'>Username or email</label>
                                     <input type='text' id="credential" value={credential} onChange={(e) => setCredential(e.target.value)} />
                                 </div>
                             </div>
-                            <div className='login password' onFocus={() => handleDivTopBorder(credentialRef)} onBlur={() => handleDivTopBorderOut(credentialRef)}>
+                            <div className='login password' onFocus={() => handleDivBottomBorder(credentialRef)} onBlur={() => handleDivBottomBorderOut(credentialRef)}>
                                 <div className='signup radius-wrapper'>
                                     <label htmlFor='password'>Password</label>
                                     <input type='password' id='password' value={password} onChange={(e) => setPassword(e.target.value)} />

@@ -10,15 +10,26 @@ export const handleMouseMove = (e) => {
 }
 
 // unset and set the bottom border for form
-export const handleDivTopBorder = (divRef) => {
+export const handleDivBottomBorder = (divRef) => {
     // console.log(divRef)
     if (divRef.current) divRef.current.style.setProperty('border-bottom', '0px')
 }
 
-export const handleDivTopBorderOut = (divRef) => {
-    if (divRef.current) divRef.current.style.setProperty('border-bottom', '1px solid rgb(113, 113, 113)')
+export const handleDivBottomBorderOut = (divRef) => {
+    if (divRef.current) divRef.current.style.setProperty('border-bottom', '1px solid #B0B0B0')
 }
 
+// unset and set the top border for form
+export const handleDivTopBorder = (divRef) => {
+    console.log(divRef)
+    if (divRef.current) divRef.current.style.setProperty('border-top', '0px')
+}
+
+export const handleDivTopBorderOut = (divRef) => {
+    if (divRef.current) divRef.current.style.setProperty('border-top', '1px solid rgb(113, 113, 113)')
+}
+
+// label center or out
 export const handleLabelSmall = (labelRef) => {
     if (labelRef.current) labelRef.current.style.setProperty('font-size', '0.8rem')
     if (labelRef.current) labelRef.current.style.setProperty('padding-top', '2px')

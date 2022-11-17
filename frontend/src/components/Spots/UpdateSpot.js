@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Redirect } from 'react-router-dom';
 
 import * as spotsActions from '../../store/spots';
 import { useDispatch, useSelector } from 'react-redux';
 
 import './CreateSpot.css';
+import { handleLabelSmall, handleLabelBig, handleDivBottomBorder, handleDivBottomBorderOut } from '../styles';
 import MyButton from '../FormElements/MyButton';
 
 export default function UpdateSpot({ setShowUpdateSpotModal, spot }) {
@@ -17,7 +18,7 @@ export default function UpdateSpot({ setShowUpdateSpotModal, spot }) {
   const [description, setDescription] = useState(spot.description);
   const [price, setPrice] = useState(spot.price);
 
-  const [errors, setErrors] = useState([]);
+  // const [errors, setErrors] = useState([]);
   const [addressErrors, setAddressErrors] = useState([]);
   const [titleErrors, setTitleErrors] = useState('');
   const [descriptionErrors, setDescriptionErrors] = useState('');
@@ -125,12 +126,33 @@ export default function UpdateSpot({ setShowUpdateSpotModal, spot }) {
       });
   }
 
-  
   // css related //
-  // const firstNameDiv = useRef(null);
-  // const userNameDiv = useRef(null);
-  // const passwordDiv = useRef(null);
+  const streetLabel = useRef(null);
+  const streetInput = useRef(null);
+  const cityLabel = useRef(null);
+  const cityInput = useRef(null);
+  const provinceLabel = useRef(null);
+  const provinceInput = useRef(null);
+  const countryLabel = useRef(null);
+  const countryInput = useRef(null);
+
+  const streetDivRef = useRef(null);
+  const cityDivRef = useRef(null);
+  const provinceDivRef = useRef(null);
+  const countryDivRef = useRef(null);
+
   // css related //
+
+  // check valid price //
+  const handleKeyDown = (e) => {
+    // console.log(e.key, typeof e.key, e.key === 'Backspace', /[0-9]/.test(e.key), (e.key === 'Backspace') || /0-9/.test(e.key))
+    const valid = (e.key === 'Backspace') || /[0-9]/.test(e.key) || (e.key === 'ArrowLeft') || (e.key === 'ArrowRight') || (e.key === 'ArrowDown') || (e.key === 'ArrowUp') || (e.key === 'Tab')
+    if (!valid) {
+      e.preventDefault();
+    }
+  }
+
+
   if (success) return (
     <Redirect to={`/spots/${newSpot.id}`}/>
   )
@@ -152,36 +174,67 @@ export default function UpdateSpot({ setShowUpdateSpotModal, spot }) {
             <h3>Confirm your address</h3>
           </div>          
           <div className='create-spot fullAddress-wrapper'>
-            <div className='outline-wrapper'>
-              <div className='create-spot-address'>
-                  <label htmlFor='address'>Street</label>
+
+            <div className='outline-wrapper street-wrapper' ref={streetDivRef}
+              onFocus={() => handleDivBottomBorder(streetDivRef)} onBlur={() => handleDivBottomBorderOut(streetDivRef)}>
+              <div className='create-spot-address' onFocus={() => handleLabelSmall(streetLabel)} onBlur={() => handleLabelBig(streetLabel, streetInput)}>
+                <div className='label-div update-label-div' ref={streetLabel}>
+                  <label htmlFor='address' >Street</label>
+                </div>
+                <div className='input-div' ref={streetInput} >
                   <input type='text' id="address" value={address} onChange={(e) => setAddress(e.target.value)} />
+                </div>
               </div>
             </div>
-            <div className='outline-wrapper'>
-              <div className='create-spot-aptNum'>
-                <label htmlFor='aptNum'>Apt, suite, etc. (Optional)</label>
-                <input type='text' id="aptNum" value={aptNum} onChange={(e) => setAptNum(e.target.value)} />
-              </div>
-            </div>            
-            <div className='outline-wrapper'>
-                <div className='create-spot-city'>
+
+            <div className='outline-wrapper city-wrapper' ref={cityDivRef} onFocus={() => {
+              handleDivBottomBorder(streetDivRef);
+              handleDivBottomBorder(cityDivRef);
+            }} onBlur={() => {
+              handleDivBottomBorderOut(streetDivRef);
+              handleDivBottomBorderOut(cityDivRef);
+            }}>
+              <div className='create-spot-city' onFocus={() => handleLabelSmall(cityLabel)} onBlur={() => handleLabelBig(cityLabel, cityInput)}>
+                <div className='label-div update-label-div' ref={cityLabel}>
                   <label htmlFor='city'>City</label>
+                </div>
+                <div className='input-div' ref={cityInput}>
                   <input type='text' id="city" value={city} onChange={(e) => setCity(e.target.value)} />
                 </div>
-            </div>
-            <div className='outline-wrapper'>
-              <div className='create-spot-province'>
-                <label htmlFor='province'>State</label>
-                <input type='text' id="province" value={province} onChange={(e) => setProvince(e.target.value)} />
               </div>
             </div>
-            <div className='outline-wrapper'>
-              <div className='create-spot-country'>
-                <label htmlFor='country'>Country</label>
-                <input type='text' id="country" value={country} onChange={(e) => setCountry(e.target.value)} />
+
+            <div className='outline-wrapper state-wrapper' ref={provinceDivRef} onFocus={() => {
+              handleDivBottomBorder(cityDivRef);
+              handleDivBottomBorder(provinceDivRef);
+            }} onBlur={() => {
+              handleDivBottomBorderOut(cityDivRef);
+              handleDivBottomBorderOut(provinceDivRef);
+            }}>
+              <div className='create-spot-province' onFocus={() => handleLabelSmall(provinceLabel)} onBlur={() => handleLabelBig(provinceLabel, provinceInput)}>
+                <div className='label-div update-label-div' ref={provinceLabel}>
+                  <label htmlFor='province'>State</label>
+                </div>
+                <div className='input-div' ref={provinceInput}>
+                  <input type='text' id="province" value={province} onChange={(e) => setProvince(e.target.value)} />
+                </div>
               </div>
-            </div>       
+            </div>
+
+            <div className='outline-wrapper country-wrapper' ref={countryDivRef} onFocus={() => {
+              handleDivBottomBorder(provinceDivRef);
+            }} onBlur={() => {
+              handleDivBottomBorderOut(provinceDivRef);
+            }}>
+              <div className='create-spot-country' onFocus={() => handleLabelSmall(countryLabel)} onBlur={() => handleLabelBig(countryLabel, countryInput)}>
+                <div className='label-div update-label-div' ref={countryLabel}>
+                  <label htmlFor='country'>Country</label>
+                </div>
+                <div className='input-div' ref={countryInput}>
+                  <input type='text' id="country" value={country} onChange={(e) => setCountry(e.target.value)} />
+                </div>
+              </div>
+            </div>
           </div>
           {hasSubmitted && addressErrors.map((err, idx) => {
             return (
@@ -195,8 +248,8 @@ export default function UpdateSpot({ setShowUpdateSpotModal, spot }) {
           <div className='create-spot-headers'>
             <h3>Create your title</h3>
           </div>
-          <div className='create-spot name-wrapper'>
-            <div className='outline-wrapper'>
+          <div className='create-spot '>
+            <div className='outline-wrapper name-wrapper'>
               <div className='create-spot-name'>
                 <input type='text' placeholder="An Aawesome Place" id="name" value={name} onChange={(e) => setName(e.target.value)} />
               </div>
@@ -212,13 +265,13 @@ export default function UpdateSpot({ setShowUpdateSpotModal, spot }) {
           <div className='create-spot-headers'>
             <h3>Create your description</h3>
           </div>
-          <div className='create-spot description-wrapper'>
-            <div className='outline-wrapper'>
+          <div className='create-spot'>
+            <div className='outline-wrapper description-wrapper'>
               <div className='create-spot-description'>
                 <textarea id="description" placeholder='An awesone place' value={description} onChange={(e) => setDescription(e.target.value)} ></textarea>
               </div>
             </div>
-          </div>      
+          </div>         
           {hasSubmitted && descriptionErrors &&
             <div className='error-messages-wrapper'>
               <i className="fa-sharp fa-solid fa-circle-exclamation"></i>
@@ -229,14 +282,11 @@ export default function UpdateSpot({ setShowUpdateSpotModal, spot }) {
           <div className='create-spot-headers'>
             <h3>Set your price</h3>
           </div>
-          <div className='create-spot price-wrapper'>
-            <div className='outline-wrapper'>
-              <div className='create-spot-price'>
-                <label htmlFor='price'>Price</label>
-                <input type='number' id="price" value={price} onChange={(e) => {
-                  const value = Math.max(0, Number(e.target.value));
-                  setPrice(value);                  
-                }} />
+          <div className='create-spot'>
+            <div className='outline-wrapper price-wrapper'>
+              <div className='create-spot-price' style={{ display: 'flex' }}>
+                {/* <label htmlFor='price'>Price</label> */}
+                <span>$</span><input type='text' id="price" value={price} onChange={(e) => setPrice(e.target.value)} onKeyDown={handleKeyDown} />
               </div>
             </div>
           </div>
@@ -259,7 +309,7 @@ export default function UpdateSpot({ setShowUpdateSpotModal, spot }) {
             })
           }
 
-          <MyButton name={'Publish your listing'} />
+          <MyButton name={'Update your listing'} />
         </form>
       </div>
     </div>

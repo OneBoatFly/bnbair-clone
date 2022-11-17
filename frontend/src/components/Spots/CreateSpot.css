@@ -20,25 +20,19 @@
     padding: 24px;
 }
 
-.fullAddress-wrapper {
-    /* outline: 1px solid salmon; */
-}
-
 .create-spot-address {
-    border: 1px solid #B0B0B0;
-    border-bottom: 0px;
-    border-radius: 8px 8px 0px 0px;
+    /* border: 1px solid #B0B0B0; */
+    /* border-radius: 8px 8px 0px 0px; */
     padding: 2px 2px;
     min-height: 56px;
     box-sizing: border-box;
     position: relative;
 }
 
-.create-spot-aptNum,
 .create-spot-city,
 .create-spot-province {
-    border: 1px solid #B0B0B0;
-    border-bottom: 0px;
+    /* border-left: 1px solid #B0B0B0;
+    border-right: 1px solid #B0B0B0; */
     padding: 2px 2px;
     min-height: 56px;
     box-sizing: border-box;
@@ -46,7 +40,7 @@
 }
 
 .create-spot-country {
-    border: 1px solid #B0B0B0;
+    /* border: 1px solid #B0B0B0; */
     border-radius: 0px 0px 8px 8px;
     padding: 2px 2px;
     min-height: 56px;
@@ -58,17 +52,48 @@
 .create-spot-price,
 .create-spot-description,
 .create-spot-previewImage {
-    border: 1px solid #B0B0B0;
+    /* border: 1px solid #B0B0B0; */
     border-radius: 8px;
     padding: 12px;
 }
 
-.outline-wrapper:focus-within {
-    outline: 2px solid #222222;
-    outline-offset: -2px;
+.street-wrapper {
+    border: 1px solid #B0B0B0;
+    border-radius: 8px 8px 0px 0px;
+}
+
+.city-wrapper,
+.state-wrapper {
+    border: 1px solid #B0B0B0;
+    border-top: 0px;
+    border-radius: unset;
+}
+
+.country-wrapper {
+    border: 1px solid #B0B0B0;
+    border-top: 0px;
+    border-radius: 0px 0px 8px 8px;
+}
+
+.name-wrapper,
+.description-wrapper,
+.price-wrapper,
+.previewImage-wrapper {
+    border: 1px solid #B0B0B0;
     border-radius: 8px;
-    height: 100%;
-    width: 100%;
+}
+
+.create-spot-city:focus-within,
+.create-spot-province:focus-within,
+.create-spot-address:focus-within,
+.create-spot-country:focus-within,
+.create-spot-name:focus-within,
+.create-spot-description:focus-within,
+.create-spot-price:focus-within,
+.create-spot-previewImage:focus-within {
+    outline: 2px solid #222222;
+    outline-offset: -1px;
+    border-radius: 8px;
 }
 
 /* on focus set */
@@ -89,6 +114,11 @@
     padding-top: 12px;
     font-size: 1rem;
     color: rgb(113, 113, 113);
+}
+
+.label-div.update-label-div {
+    padding-top: 0px;
+    font-size: 0.8rem;
 }
 
 .input-div {
