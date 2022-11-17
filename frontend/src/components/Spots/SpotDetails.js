@@ -14,6 +14,8 @@ import { Modal } from '../../context/Modal';
 import * as spotsActions from '../../store/spots';
 import * as spotReviewsActions from '../../store/spotReviews';
 
+import { getStartDateStr, getEndDateStr, getMMMDDYYYStr } from '../Spots/SpotCalcs/spotDates';
+
 export default function SpotDetails() {
     console.log('Spot Details Compoment')
     const sessionUser = useSelector(state => state.session.user);
@@ -30,6 +32,27 @@ export default function SpotDetails() {
         dispatch(spotsActions.getOneSpot(spotId));
         dispatch(spotReviewsActions.getSpotReviews(spotId));
     }, [dispatch]);
+    
+    // date related
+    const startDateStr = getStartDateStr();
+    const endDateStr = getEndDateStr();
+
+    const [startDate, setStartDate] = useState(startDateStr);
+    const [endDate, setEndDate] = useState(endDateStr);
+    const [dateErrors, setDateErrors] = useState({});
+
+    const [totalDays, setTotayDays] = useState(1);
+
+    useEffect(() => {
+        if (startDate >= endDate) return;
+
+        const startDateFormat = new Date(startDate);
+        const endDateFormat = new Date(endDate);
+
+        setTotayDays((endDateFormat - startDateFormat) / 86400000)
+    }, [startDate, endDate])
+
+    // date related end
 
   return (
     <div className='single-spot-wrapper'>
@@ -44,7 +67,7 @@ export default function SpotDetails() {
                                 <span>Add a review</span>
                             </button>
                         </div>
-                        {spot.ownerId === sessionUser.id &&
+                        {sessionUser && spot.ownerId === sessionUser.id &&
                             <div className='review-modify-buttons' style={{ marginTop: '10px' }} >
                                 <button className='modify-buttons' onClick={() => setShowAddImageForm(true)} >
                                     <i className="fa-solid fa-plus" style={{ marginRight: '7px' }}></i>
@@ -95,9 +118,9 @@ export default function SpotDetails() {
                             <p>{spot.description}</p>
                         </div>
                         <div className='info-detail-wrapper'>
-                            <h4>5 nights in {spot.city}</h4>
-                            <div className='date-calendar-wrapper'>placeholder for date and calendar
-                                <span>placeholder for dates</span>
+                            <h4>{totalDays} nights in {spot.city}</h4>
+                            <div className='date-calendar-wrapper'>
+                                  <span>{`${getMMMDDYYYStr(startDate)}`} - {`${getMMMDDYYYStr(endDate)}`}</span>
                                 <div>
                                     placeholder for calendar
                                 </div>
@@ -107,7 +130,7 @@ export default function SpotDetails() {
                     <div className='booking-form-wrapper'>
                         <div className='booking-form-sub-wrapper'>
                             <div className='booking-form'>
-                                  <CreateBooking spot={spot} setShowReviewModal={setShowReviewModal} />
+                                  <CreateBooking spot={spot} setShowReviewModal={setShowReviewModal} startDate={startDate} setStartDate={setStartDate} endDate={endDate} setEndDate={setEndDate} setDateErrors={setDateErrors} totalDays={totalDays} />
                             </div>
                             <div>
                                 <p>

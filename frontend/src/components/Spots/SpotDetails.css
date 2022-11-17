@@ -153,3 +153,8 @@
     justify-content: center;
     align-items: center;
 }
+
+.date-calendar-wrapper {
+    font-size: 0.9rem;
+    color: #717171;
+}

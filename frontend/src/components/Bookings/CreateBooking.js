@@ -4,18 +4,12 @@ import MyButton from '../FormElements/MyButton';
 import CalendarDates from './CalendarDates';
 import './CreateBooking.css';
 
-export default function CreateBooking({ spot, setShowReviewModal }) {
+import { getStartDateStr, getEndDateStr } from '../Spots/SpotCalcs/spotDates';
+
+export default function CreateBooking({ spot, setShowReviewModal, startDate, setStartDate, endDate, setEndDate, setDateErrors, totalDays }) {
     const nf = new Intl.NumberFormat();
     const price = nf.format(spot.price);
 
-    const startDateStr = getStartDateStr();
-    const endDateStr = getEndDateStr();
-
-    const [startDate, setStartDate] = useState(startDateStr);
-    const [endDate, setEndDate] = useState(endDateStr);
-    const [dateErrors, setDateErrors] = useState({});
-
-    const [totalDays, setTotayDays] = useState(1);
     const totalPrice = nf.format(spot.price * totalDays);
     const serviceFee = nf.format(Math.ceil(spot.price * totalDays * 0.1));
     const totalFinal = nf.format(Math.ceil(spot.price * totalDays * 1.1));
@@ -54,26 +48,4 @@ export default function CreateBooking({ spot, setShowReviewModal }) {
         </div>
     </form>
   )
-}
-
-function getStartDateStr() {
-    const todayDate = new Date();
-    const todayPlusDate = new Date(todayDate.setDate(todayDate.getDate() + 1)); // next day for now. need to check bookings later
-
-    return dateToString(todayPlusDate);
-}
-
-function getEndDateStr() {
-    const todayPlus = new Date();
-    const todayPlusDate = new Date(todayPlus.setDate(todayPlus.getDate() + 3)); // adding 3 days for now
-
-    return dateToString(todayPlusDate);
-}
-
-function dateToString(date) {
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
-    const year = date.getFullYear();
-
-    return `${year}-${month}-${day}`;
-}
+};
