@@ -6,13 +6,12 @@ import * as spotsActions from '../../store/spots';
 import { useDispatch, useSelector } from 'react-redux';
 
 import './CreateSpot.css';
-import { handleLabelSmall, handleLabelBig } from '../styles';
+import { handleLabelSmall, handleLabelBig, handleDivBottomBorder, handleDivBottomBorderOut } from '../styles';
 import MyButton from '../FormElements/MyButton';
 
 
 export default function CreateSpot({ setShowSpotFormModal }) {
   const [address, setAddress] = useState('');
-  const [aptNum, setAptNum] = useState('');
   const [city, setCity] = useState('');
   const [province, setProvince] = useState('');
   const [country, setCountry] = useState('');
@@ -20,7 +19,7 @@ export default function CreateSpot({ setShowSpotFormModal }) {
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState(4500);
   const [previewImage, setPreviewImage] = useState('');
-  const [buttonDisabled, setbuttonDisabled] = useState(true);
+  // const [buttonDisabled, setbuttonDisabled] = useState(true);
 
   // const [errors, setErrors] = useState([]);
   const [addressErrors, setAddressErrors] = useState([]);
@@ -79,7 +78,7 @@ export default function CreateSpot({ setShowSpotFormModal }) {
     if (price <= 0 || !price) setPriceErrors('Valid price is required.');
     else setPriceErrors('');
 
-    console.log('valid url', validator.isURL(previewImage))
+    // console.log('valid url', validator.isURL(previewImage))
     if (!previewImage.length || !validator.isURL(previewImage) ) setImageUrlErrors('A valid preview image url is required');
     else setImageUrlErrors('');
 
@@ -96,27 +95,27 @@ export default function CreateSpot({ setShowSpotFormModal }) {
     // console.log('descriptionErrors', descriptionErrors);
     // console.log('priceErrors', priceErrors);
 
-    if (!addressErrors.length && !titleErrors.length && !descriptionErrors.length && !priceErrors.length && !imageUrlErrors.length) {
-      console.log('!! no errors')
-      setbuttonDisabled(false);
-    } else {
-      setbuttonDisabled(true);
-    }
+    // if (!addressErrors.length && !titleErrors.length && !descriptionErrors.length && !priceErrors.length && !imageUrlErrors.length) {
+    //   // console.log('!! no errors')
+    //   setbuttonDisabled(false);
+    // } else {
+    //   setbuttonDisabled(true);
+    // }
 
   }, [address, city, province, country, name, description, price, previewImage]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setHasSubmitted(true);
-    console.log('handleSubmit fired')
+    // console.log('handleSubmit fired')
 
     if (addressErrors.length || titleErrors.length || descriptionErrors.length || priceErrors.length || imageUrlErrors) {
-      console.log('has errors, returned,')
-      console.log('addressErrors', addressErrors);
-      console.log('titleErrors', titleErrors);
-      console.log('descriptionErrors', descriptionErrors);
-      console.log('priceErrors', priceErrors);
-      console.log('imageUrlErrors', imageUrlErrors);
+      // console.log('has errors, returned,')
+      // console.log('addressErrors', addressErrors);
+      // console.log('titleErrors', titleErrors);
+      // console.log('descriptionErrors', descriptionErrors);
+      // console.log('priceErrors', priceErrors);
+      // console.log('imageUrlErrors', imageUrlErrors);
       return;
     }
 
@@ -124,15 +123,15 @@ export default function CreateSpot({ setShowSpotFormModal }) {
       address, city, state: province, country, name, description, price, lat: 37.7645358, lng: -122.4730327
     }, previewImage))
       .then((spot) => {
-        console.log('in dispatch success - checking spot', spot)
+        // console.log('in dispatch success - checking spot', spot)
         setHasSubmitted(false);
         setNewSpot(spot);
         setShowSpotFormModal(false);
       })
       .catch(async (res) => {
         const data = await res.json();
-        console.log('data returned: ', data)
-        console.log('data.errors', data.errors)
+        // console.log('data returned: ', data)
+        // console.log('data.errors', data.errors)
         if (data && data.message) {
           setAddressErrors([data.message]);
         } else if (data && data.errors) {
@@ -163,6 +162,12 @@ export default function CreateSpot({ setShowSpotFormModal }) {
   const provinceInput = useRef(null);
   const countryLabel = useRef(null);
   const countryInput = useRef(null);
+  
+  const streetDivRef = useRef(null);
+  const cityDivRef = useRef(null);
+  const provinceDivRef = useRef(null);
+  const countryDivRef = useRef(null);
+
   // css related //
 
   // check valid price //
@@ -195,7 +200,9 @@ export default function CreateSpot({ setShowSpotFormModal }) {
             <h3>Confirm your address</h3>
           </div>          
           <div className='create-spot fullAddress-wrapper'>
-            <div className='outline-wrapper'>
+
+            <div className='outline-wrapper street-wrapper' ref={streetDivRef} 
+              onFocus={() => handleDivBottomBorder(streetDivRef)} onBlur={() => handleDivBottomBorderOut(streetDivRef)}>
               <div className='create-spot-address' onFocus={() => handleLabelSmall(streetLabel)} onBlur={() => handleLabelBig(streetLabel, streetInput)}>
                 <div className='label-div' ref={streetLabel}>
                   <label htmlFor='address' >Street</label>
@@ -205,17 +212,14 @@ export default function CreateSpot({ setShowSpotFormModal }) {
                 </div>
               </div>
             </div>
-            {/* <div className='outline-wrapper'>
-              <div className='create-spot-aptNum' onFocus={() => handleLabelSmall(aptLabel)} onBlur={() => handleLabelBig(aptLabel, aptInput)}>
-                <div className='label-div' ref={aptLabel}>
-                  <label htmlFor='aptNum'>Apt, suite, etc. (Optional)</label>
-                </div>
-                <div className='input-div' ref={aptInput}>
-                  <input type='text' id="aptNum" value={aptNum} onChange={(e) => setAptNum(e.target.value)} />
-                </div>
-              </div>
-            </div>             */}
-            <div className='outline-wrapper'>
+
+            <div className='outline-wrapper city-wrapper' ref={cityDivRef} onFocus={() => {
+              handleDivBottomBorder(streetDivRef);
+              handleDivBottomBorder(cityDivRef);
+            }} onBlur={() => {
+              handleDivBottomBorderOut(streetDivRef);
+              handleDivBottomBorderOut(cityDivRef);
+              }}>
               <div className='create-spot-city' onFocus={() => handleLabelSmall(cityLabel)} onBlur={() => handleLabelBig(cityLabel, cityInput)}>
                 <div className='label-div' ref={cityLabel}>
                   <label htmlFor='city'>City</label>
@@ -225,7 +229,14 @@ export default function CreateSpot({ setShowSpotFormModal }) {
                 </div>
               </div>
             </div>
-            <div className='outline-wrapper'>
+
+            <div className='outline-wrapper state-wrapper' ref={provinceDivRef} onFocus={() => {
+              handleDivBottomBorder(cityDivRef);
+              handleDivBottomBorder(provinceDivRef);
+            }} onBlur={() => {
+              handleDivBottomBorderOut(cityDivRef);
+              handleDivBottomBorderOut(provinceDivRef);
+            }}>
               <div className='create-spot-province' onFocus={() => handleLabelSmall(provinceLabel)} onBlur={() => handleLabelBig(provinceLabel, provinceInput)}>
                 <div className='label-div' ref={provinceLabel}>
                   <label htmlFor='province'>State</label>
@@ -235,7 +246,12 @@ export default function CreateSpot({ setShowSpotFormModal }) {
                 </div>
               </div>
             </div>
-            <div className='outline-wrapper'>
+
+            <div className='outline-wrapper country-wrapper' ref={countryDivRef} onFocus={() => {
+              handleDivBottomBorder(provinceDivRef);
+            }} onBlur={() => {
+              handleDivBottomBorderOut(provinceDivRef);
+            }}>
               <div className='create-spot-country' onFocus={() => handleLabelSmall(countryLabel)} onBlur={() => handleLabelBig(countryLabel, countryInput)}>
                 <div className='label-div' ref={countryLabel}>
                   <label htmlFor='country'>Country</label>
@@ -258,8 +274,8 @@ export default function CreateSpot({ setShowSpotFormModal }) {
           <div className='create-spot-headers'>
             <h3>Create your title</h3>
           </div>
-          <div className='create-spot name-wrapper'>
-            <div className='outline-wrapper'>
+          <div className='create-spot '>
+            <div className='outline-wrapper name-wrapper'>
               <div className='create-spot-name'>
                 <input type='text' placeholder="An Aawesome Place" id="name" value={name} onChange={(e) => setName(e.target.value)} />
               </div>
@@ -275,8 +291,8 @@ export default function CreateSpot({ setShowSpotFormModal }) {
           <div className='create-spot-headers'>
             <h3>Create your description</h3>
           </div>
-          <div className='create-spot description-wrapper'>
-            <div className='outline-wrapper'>
+          <div className='create-spot'>
+            <div className='outline-wrapper description-wrapper'>
               <div className='create-spot-description'>
                 <textarea id="description" placeholder='An awesone place' value={description} onChange={(e) => setDescription(e.target.value)} ></textarea>
               </div>
@@ -292,11 +308,11 @@ export default function CreateSpot({ setShowSpotFormModal }) {
           <div className='create-spot-headers'>
             <h3>Set your price</h3>
           </div>
-          <div className='create-spot price-wrapper'>
-            <div className='outline-wrapper'>
-              <div className='create-spot-price'>
+          <div className='create-spot'>
+            <div className='outline-wrapper price-wrapper'>
+              <div className='create-spot-price' style={{display:'flex'}}>
                 {/* <label htmlFor='price'>Price</label> */}
-                <input type='text' id="price" value={price} onChange={(e) => setPrice(e.target.value)} onKeyDown={handleKeyDown} />
+                <span>$</span><input type='text' id="price" value={price} onChange={(e) => setPrice(e.target.value)} onKeyDown={handleKeyDown} />
               </div>
             </div>
           </div>
@@ -311,8 +327,8 @@ export default function CreateSpot({ setShowSpotFormModal }) {
           <div className='create-spot-headers'>
             <h3>Set a preview image</h3>
           </div>
-          <div className='create-spot previewImage-wrapper'>
-            <div className='outline-wrapper'>
+          <div className='create-spot'>
+            <div className='outline-wrapper previewImage-wrapper'>
               <div className='create-spot-previewImage'>
                 {/* <label htmlFor='previewImage'>previewImage</label> */}
                 <input type='text' id="previewImage" value={previewImage} onChange={(e) => setPreviewImage(e.target.value)} />

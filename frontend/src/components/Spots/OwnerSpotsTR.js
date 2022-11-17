@@ -18,9 +18,9 @@ export default function OwnerSpotsTR({ setShowUpdateSpotModal, spot, setCurrSpot
 
     const dispatch = useDispatch();
     const handleDelete = async () => {
-        console.log('in handleDelete')
+        // console.log('in handleDelete')
         const message = await dispatch(spotsActions.deleteOneSpot(spot.id));
-        console.log('handleDelete thunk returning...', message)
+        // console.log('handleDelete thunk returning...', message)
         setDeleteMessage(message);
         setShowDelete(true);
 

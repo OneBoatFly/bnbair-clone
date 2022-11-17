@@ -6,7 +6,7 @@ import * as spotReviewsActions from '../../store/spotReviews';
 import './UserReviews.css';
 
 export default function UserReviews({ isLoaded }) {
-    console.log('isLoaded? ', isLoaded)
+    // console.log('isLoaded? ', isLoaded)
     const userReviews = useSelector(state => state.spotReviews.userAllReviews);
     let userReviewsArr = [];
     if (userReviews) userReviewsArr = Object.values(userReviews);
@@ -18,10 +18,10 @@ export default function UserReviews({ isLoaded }) {
 
     const handleDeleteReview = (e) => {
         console.log('handleDeleteReview')
-        console.log(e.target)
-        console.log(e.target.id);
+        console.log(e.currentTarget)
+        console.log(e.currentTarget.id);
 
-        dispatch(spotReviewsActions.deleteReview(e.target.id));
+        dispatch(spotReviewsActions.deleteReview(e.currentTarget.id));
     }
 
   return (
@@ -44,16 +44,19 @@ export default function UserReviews({ isLoaded }) {
                                 </div>
                                 {/* <span className='title'>{name}</span> */}
                             </NavLink>
-                            <div className='review-buttons-wrapper'>
+                            {/* <div className='review-buttons-wrapper'>
                                 <div className='review-modify-buttons'>
-                                    <button className='modify-buttons first' >Add images</button>
-                                    <button className='modify-buttons' id={review.id} onClick={handleDeleteReview}>Delete</button>
+                                    <button className='modify-buttons first' disabled >Add images</button>
+                                    
                                 </div>
-                            </div>
+                            </div> */}
                             <div key={review.id} className='single-reviews-wrapper my-reviews'>
                                 {review.User && <span className='reviewer-name'>{review.User.firstName}</span>}
                                 <span className='reviewer-date'>{review.updatedAt}</span>
                                 <span className='reviewer-review' >{review.review}</span>
+                            </div>
+                            <div>
+                                  <button className='review-delete' id={review.id} onClick={handleDeleteReview}><i className="fa-solid fa-xmark"></i></button>
                             </div>
                         </div>
                       )

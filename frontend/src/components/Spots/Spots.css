@@ -55,12 +55,11 @@
 }
 
 .short-info-wrapper {
-    padding: 6px 0px;
+    padding-top: 12px;
     position: relative;
     display: flex;
     flex-direction: column;
-    row-gap: 4px;
-    /* font-size: 0.8rem; */
+    font-size: 0.9rem;
 }
 
 .cityState {
@@ -68,12 +67,18 @@
     color: #222222;
 }
 
+.priceNight {
+    color: #717171;
+    margin-top: 6px;
+}
+
 .rating-wrapper {
     position: absolute;
-    top: 6px;
+    top: 12px;
     right: 0;
     display: flex;
     align-items: center;
+    column-gap: 5px;
 }
 
 .rating-wrapper > i,

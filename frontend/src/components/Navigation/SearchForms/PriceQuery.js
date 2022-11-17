@@ -52,7 +52,7 @@ export default function PriceQuery({ query, setQuery, setShowDropDown }) {
 
       dispatch(spotsReducerActions.getAllSpotsWithQuery(query))
         .then(() => {
-          console.log('gets here')
+          // console.log('gets here')
           setShowDropDown(false);
         })
     }

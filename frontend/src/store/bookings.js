@@ -7,12 +7,12 @@ import { csrfFetch } from './csrf';
 
 // get all current users reviews
 export const getUserBookings = () => async (dispatch) => {
-    console.log('getUserBookings thunk ---- ')
+    // console.log('getUserBookings thunk ---- ')
 
     const response = await csrfFetch(`/api/bookings/current`);
     if (response.ok) {
         const data = await response.json();
-        console.log('response ok - data', data)
+        // console.log('response ok - data', data)
 
         if (data.Bookings) {
             const bookings = data.Bookings;

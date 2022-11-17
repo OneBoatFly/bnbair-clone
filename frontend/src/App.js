@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef }  from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect, NavLink } from 'react-router-dom';
 
 import { useDispatch, useSelector } from "react-redux";
 
@@ -8,11 +8,14 @@ import * as sessionActions from "./store/session";
 import Navigation from './components/Navigation';
 import { Spots, SpotDetails, OwnerSpots } from './components/Spots';
 import UserReviews from './components/Reviews/UserReviews';
+import PageNotFound from './components/PageNotFound';
 import useSearchFetch from './components/Navigation/useSearchFetch';
 
 function App() {
-  // console.log('0. App component rendered')
-  const [isLoaded, setIsLoaded] = useState(false);
+  console.log('0. App component rendered')
+  const prevLoaded = window.localStorage.getItem('isLoaded');
+  const [isLoaded, setIsLoaded] = useState(prevLoaded);
+  
   // console.log('isLoaded', isLoaded)
   // const sessionUser = useSelector(state => state.session.user);
   
@@ -105,12 +108,12 @@ function App() {
         }
         {!isLoaded &&
           <Route path='/spots/current'>
-            Login
+            <Redirect to='/' />
           </Route>
         }
         {!isLoaded &&
           <Route path='/reviews/current'>
-            Login
+            <Redirect to='/' />
           </Route>
         }  
         <Route path='/spots/:spotId'>
@@ -118,7 +121,11 @@ function App() {
             <SpotDetails isLoaded={isLoaded}></SpotDetails>
           </div>
         </Route>
-        <Route>Page not found.</Route>
+        <Route>
+          <div className='root-sub-wrapper'>
+            <PageNotFound />
+          </div>
+        </Route>
       </Switch>
     </div>
   );

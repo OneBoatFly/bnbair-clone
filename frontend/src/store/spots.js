@@ -106,13 +106,19 @@ export const getAllSpotsWithQuery = (query) => async (dispatch) => {
 };
 
 export const getOneSpot = (spotId) => async (dispatch) => {
+    // console.log('--------------- getOneSpot thunk', spotId)
     const response = await csrfFetch(`/api/spots/${spotId}`);
-
+    // console.log('-------------------------------------response:', response)
     if (response.ok) {
         const spot = await response.json();
-        console.log('getOneSpot thunk: ', spot)
+        // console.log('response.ok and spot', spot)
 
         dispatch(loadSpotDetail(spot));
+        return spot
+    } else {
+        const data = await response.json();
+        // console.log('*******', data, "*******")
+        return data
     }
 };
 
@@ -130,7 +136,7 @@ export const createOneSpot = (spotInfo, imageUrl) => async (dispatch) => {
     if (response.ok) {
         // console.log('-------------reached reponse ok-------------')
         const spot = await response.json();
-        console.log(spot);
+        // console.log(spot);
         const imageUrls = [{
             url: imageUrl,
             preview: true
@@ -179,7 +185,7 @@ export const deleteOneSpot = (spotId) => async (dispatch) => {
 
     if (response.ok) {
         const data = await response.json();
-        console.log('deleteOneSpot thunk', data)
+        // console.log('deleteOneSpot thunk', data)
         return data.message;
     }
 };

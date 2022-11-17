@@ -6,7 +6,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import * as spotReviewsActions from '../../store/spotReviews';
 
 export default function SpotReviewsModal({ spotId, setShowReviewModal }) {
-  console.log(spotId);
+  // console.log(spotId);
   const spotReviews = useSelector(state => state.spotReviews.spotAllReviews);
   // spotReviews []
 

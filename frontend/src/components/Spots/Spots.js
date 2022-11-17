@@ -95,8 +95,8 @@ export default function Spots({ lastSpotElementRef, getSpotsErrors }) {
                                     <div className='short-info-wrapper'>
                                         <span className='cityState'>{city}, {state}</span>
                                         {/* {console.log(distance)} */}
-                                        {!isNaN(distance) && <span style={{ color: '#717171' }}>{distance} miles away</span>}
-                                        <span style={{ color: '#717171' }}><span style={{ fontWeight: '500' }}>${price}</span> night</span>
+                                        {/* {!isNaN(distance) && <span style={{ color: '#717171' }}>{distance} miles away</span>} */}
+                                        <span className="priceNight" ><span style={{ fontWeight: '500' }}>${price}</span> night</span>
                                         <span className='rating-wrapper'>
                                             <i className="fa-solid fa-star" />
                                             {/* {console.log(avgRating)} */}
@@ -117,7 +117,7 @@ export default function Spots({ lastSpotElementRef, getSpotsErrors }) {
                                         <span className='cityState'>{city}, {state}</span>
                                         {/* {console.log(distance)} */}
                                         {!isNaN(distance) && <span style={{ color: '#717171' }}>{distance} miles away</span>}
-                                        <span style={{ color: '#717171' }}><span style={{ fontWeight: '500' }}>${price}</span> night</span>
+                                        <span className="priceNight" ><span style={{ fontWeight: '500' }}>${price}</span> night</span>
                                         <span className='rating-wrapper'>
                                             <i className="fa-solid fa-star" />
                                             {/* {console.log(avgRating)} */}

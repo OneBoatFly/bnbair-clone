@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { NavLink, Redirect } from 'react-router-dom';
 
 import { useSelector, useDispatch } from "react-redux";
+import DemoUserButton from './DemoUserButton';
 import './Navigation.css';
 
 // import LoginFormModal from '../LoginFormModal'; // delete this? doesn't look like needed. Modal is in MenuButton
@@ -25,7 +26,10 @@ export default function Navigation({ isLoaded, setIsLoaded, setQuery }) {
     if (sessionUser) {
         sessionLinks = (<ProfileButton user={sessionUser} setIsLoaded={setIsLoaded} isLoaded={isLoaded} />);
     } else {
-        sessionLinks = (<MenuButton setIsLoaded={setIsLoaded} ></MenuButton>);
+        sessionLinks = (<>
+            <DemoUserButton setIsLoaded={setIsLoaded} />
+            <MenuButton setIsLoaded={setIsLoaded} />
+        </>);
     }
 
     return (

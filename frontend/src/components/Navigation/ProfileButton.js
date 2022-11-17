@@ -35,7 +35,7 @@ export default function ProfileButton({ user, setIsLoaded }) {
         dispatch(sessionActions.logout());
         dispatch(spotsActions.removeOwnerSpots());
         setIsLoaded(false);
-
+        window.localStorage.setItem('isLoaded', false);
         return (
             <Redirect to='/' />
         )
@@ -50,20 +50,30 @@ export default function ProfileButton({ user, setIsLoaded }) {
         </button>
         {showMenu && (
             <div className="navlinks" style={{background:'white', zIndex:'2'}}>
-                <div className="menu-dropdown">
-                    <span><b>{user.username}</b></span>
-                    <span>{user.email}</span>
+                <div className="profile-wrapper">
+                    <div className="profile-wrapper-sub">
+                        <span><b>{user.username}</b></span>
+                        <span>{user.email}</span>
+                    </div>
                 </div>
-                <div className="menu-dropdown creat-listing">
-                    <button onClick={() => setShowSpotFormModal(true)}>Create a new listing</button>
-                </div>                    
+
                 <div className="menu-dropdown">
-                    <NavLink to='/spots/current'>Listings</NavLink>
+                    <div className="menu-dropdown-sub">
+                        <button className="create-listing-button" onClick={() => setShowSpotFormModal(true)}>Create a new listing</button>
+                    </div>                    
+                    <div className="menu-dropdown-sub">
+                        <NavLink to='/spots/current'>Listings</NavLink>
+                    </div>
+                    <div className="menu-dropdown-sub">
+                        <NavLink to='/reviews/current'>My reviews</NavLink>
+                    </div>
                 </div>
-                <div className="menu-dropdown middle">
-                    <NavLink to='/reviews/current'>My reviews</NavLink>
-                </div>                
-                <div className="menu-dropdown logout-button"><button onClick={logout}>Log Out</button></div>
+
+                <div className="logout-button-wrapper">
+                    <div className="logout-button-sub">
+                        <button onClick={logout}>Log Out</button>
+                    </div>
+                </div>
             </div>
         )}      
         {showSpotFormModal && (

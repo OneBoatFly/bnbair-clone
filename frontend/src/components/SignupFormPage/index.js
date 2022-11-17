@@ -5,7 +5,7 @@ import * as sessionActions from '../../store/session';
 import { useDispatch, useSelector } from 'react-redux';
 
 import './SignupFormPage.css';
-import { handleMouseMove, handleDivTopBorder, handleDivTopBorderOut } from '../styles';
+import { handleMouseMove, handleDivBottomBorder, handleDivBottomBorderOut } from '../styles';
 
 export default function SignupFormPage({ setShowSignUpModal, setIsLoaded }) {
     const [firstName, setFirstName] = useState('');
@@ -76,6 +76,10 @@ export default function SignupFormPage({ setShowSignUpModal, setIsLoaded }) {
             setErrors([]);
         }
 
+        return () => {
+            setErrorsObj({});
+            setErrors([]);
+        }
     }, [firstName, lastName, birthday, username, email, password, passwordConfirm])
 
     const handleSubmit = (e) => {
@@ -96,6 +100,7 @@ export default function SignupFormPage({ setShowSignUpModal, setIsLoaded }) {
         .then(() => {
             setHasSubmitted(false);
             setIsLoaded(true);
+            window.localStorage.setItem('isLoaded', true);
         })
         .catch(async (res) => {
             const data = await res.json();
@@ -134,13 +139,13 @@ export default function SignupFormPage({ setShowSignUpModal, setIsLoaded }) {
                 {console.log('from component - errorsObj', errorsObj)}                 */}
                 <form onSubmit={handleSubmit}>
                     <div className='signup fullName-wrapper'>
-                        <div className='signup firstName' ref={firstNameDiv} onFocus={() => handleDivTopBorder(firstNameDiv)} onBlur={() => handleDivTopBorderOut(firstNameDiv)}>
+                        <div className='signup firstName' ref={firstNameDiv} onFocus={() => handleDivBottomBorder(firstNameDiv)} onBlur={() => handleDivBottomBorderOut(firstNameDiv)}>
                             <div className='signup radius-wrapper'>
                                 <label htmlFor='firstName'>First name</label>
                                 <input type='text' id="firstName" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
                             </div>
                         </div>
-                        <div className='signup lastName' onFocus={() => handleDivTopBorder(firstNameDiv)} onBlur={() => handleDivTopBorderOut(firstNameDiv)}>
+                        <div className='signup lastName' onFocus={() => handleDivBottomBorder(firstNameDiv)} onBlur={() => handleDivBottomBorderOut(firstNameDiv)}>
                             <div className='signup radius-wrapper'>
                                 <label htmlFor='lastName'>Last name</label>
                                 <input type='text' id='lastName' value={lastName} onChange={(e) => setLastName(e.target.value)} />
@@ -188,13 +193,13 @@ export default function SignupFormPage({ setShowSignUpModal, setIsLoaded }) {
                         </div>                      
                     </div>
                     <div className='signup email-username-wrapper'>
-                        <div className='signup username' ref={userNameDiv} onFocus={() => handleDivTopBorder(userNameDiv)} onBlur={() => handleDivTopBorderOut(userNameDiv)}>
+                        <div className='signup username' ref={userNameDiv} onFocus={() => handleDivBottomBorder(userNameDiv)} onBlur={() => handleDivBottomBorderOut(userNameDiv)}>
                             <div className='signup radius-wrapper'>
                                 <label htmlFor='username'>Username</label>
                                 <input type='text' id='username' value={username} onChange={(e) => setUsername(e.target.value)} />
                             </div>
                         </div>                        
-                        <div className='signup email' onFocus={() => handleDivTopBorder(userNameDiv)} onBlur={() => handleDivTopBorderOut(userNameDiv)}>
+                        <div className='signup email' onFocus={() => handleDivBottomBorder(userNameDiv)} onBlur={() => handleDivBottomBorderOut(userNameDiv)}>
                             <div className='signup radius-wrapper'>
                                 <label htmlFor='email'>Email</label>
                                 <input type='text' id='email' value={email} onChange={(e) => setEmail(e.target.value)} />
@@ -219,13 +224,13 @@ export default function SignupFormPage({ setShowSignUpModal, setIsLoaded }) {
                         </div>                                               
                     </div>
                     <div className='signup password-wrapper'>
-                        <div className='signup password' ref={passwordDiv} onFocus={() => handleDivTopBorder(passwordDiv)} onBlur={() => handleDivTopBorderOut(passwordDiv)} >
+                        <div className='signup password' ref={passwordDiv} onFocus={() => handleDivBottomBorder(passwordDiv)} onBlur={() => handleDivBottomBorderOut(passwordDiv)} >
                             <div className='signup radius-wrapper'>
                                 <label htmlFor='password'>Password</label>
                                 <input type='password' id='password' value={password} onChange={(e) => setPassword(e.target.value)} />
                             </div>
                         </div>
-                        <div className='signup passwordConfirm' onFocus={() => handleDivTopBorder(passwordDiv)} onBlur={() => handleDivTopBorderOut(passwordDiv)} >
+                        <div className='signup passwordConfirm' onFocus={() => handleDivBottomBorder(passwordDiv)} onBlur={() => handleDivBottomBorderOut(passwordDiv)} >
                             <div className='signup radius-wrapper'>
                                 <label htmlFor='passwordConfirm'>Confirm Password</label>
                                 <input type='password' id='passwordConfirm' value={passwordConfirm} onChange={(e) => setPasswordConfirm(e.target.value)} />

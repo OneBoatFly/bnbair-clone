@@ -34,21 +34,21 @@ export default function AddReview({spotId, setShowAddReviewForm}) {
         setHasSubmitted(true);
 
         if (reviewError || starsError) {
-            console.log('has errors, returned')
-            console.log('reviewError', reviewError)
-            console.log('starsError', starsError)
+            // console.log('has errors, returned')
+            // console.log('reviewError', reviewError)
+            // console.log('starsError', starsError)
             return;
         }
 
         dispatch(spotReviewsActions.addUserReview(spotId, {review, stars}))
             .then((newReview) => {
-                console.log('review added successfully ---', newReview)
+                // console.log('review added successfully ---', newReview)
                 setHasSubmitted(false);
                 setShowAddReviewForm(false);
             })
             .catch(async (response) => {
                 const e = await response.json();
-                console.log('review add errors ---', e.message)
+                // console.log('review add errors ---', e.message)
                 setErrors(e.message);
             })
     }
