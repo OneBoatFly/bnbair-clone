@@ -30,6 +30,7 @@
 .navigation-sub-wrapper.side2 {
     display: flex;
     justify-content: right;
+    column-gap: 12px;
 }
 
 .airbnb-icon {

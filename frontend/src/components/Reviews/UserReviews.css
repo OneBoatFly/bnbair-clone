@@ -21,30 +21,35 @@
 .spot-image-spot-wrapper {
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     overflow: hidden;
     column-gap: 16px;
     padding: 24px;
     border-bottom: 1px solid #dddddd;
+    max-height: 200px;
+    text-overflow: ellipsis;
 }
 
-.review-buttons-wrapper {
+/* .review-buttons-wrapper {
     margin: 10px 16px;
-    /* flex-basis: 1; */
-}
+    flex-basis: 1;
+    flex-basis: 20%;
+} */
 
-.review-modify-buttons {
+/* .review-modify-buttons {
     display: flex;
     flex-direction: column;
     border: 1px solid #222222;
     border-radius: 8px;
     overflow: hidden;
     width: fit-content;
-}
+} */
 
 .spot-image-user-reviews {
     /* outline: 1px solid black; */
-    width: 8%;
+    /* width: 8%; */
+    max-width: 75px;
+    flex-basis: 15%;
 }
 
 .spot-image-user-reviews .image-div {
@@ -53,6 +58,24 @@
 }
 
 .single-reviews-wrapper.my-reviews {
-    width: unset;
     margin-right: unset;
+    text-overflow: ellipsis;
+}
+
+.reviewer-review {
+    text-overflow: ellipsis;
+}
+
+.review-delete {
+    padding-top: 0px;
+    background: white;
+    border: none;
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+@media (max-width: 375px) {
+    .spot-image-user-reviews {
+        display: none;
+    }
 }

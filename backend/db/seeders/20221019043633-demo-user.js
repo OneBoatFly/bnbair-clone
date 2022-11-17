@@ -9,6 +9,14 @@ module.exports = {
   async up (queryInterface, Sequelize) {
     let counter = 0;
 
+    await User.create({
+      username: 'DemoUser',
+      email: 'demo.user@example.com',
+      firstName: 'Demo',
+      lastName: 'User',
+      hashedPassword: bcrypt.hashSync('password')
+    });
+
     while (counter < 10) {
       const username = `DemoUser${counter + 1}`;
       const email = `user${counter + 1}@demo.com`;
