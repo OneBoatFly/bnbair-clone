@@ -133,7 +133,7 @@ export default function SpotDetails() {
                             </div>
                             <div>
                                 <p>
-                                    Good price.Your dates are $392 less than the avg. nightly rate over the last 3 months.
+                                    
                                 </p>
                             </div>
                         </div>
