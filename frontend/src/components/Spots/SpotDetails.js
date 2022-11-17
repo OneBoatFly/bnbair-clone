@@ -22,17 +22,26 @@ export default function SpotDetails() {
     console.log('Spot Details Compoment')
     const sessionUser = useSelector(state => state.session.user);
     const spot = useSelector(state => state.spots.spotDetails);
-    console.log('spot', spot)
+    // console.log('spot', spot)
     const spotReviews = useSelector(state => state.spotReviews.spotAllReviews);
     const [showReviewModal, setShowReviewModal] = useState(false);
     const [showAddReviewForm, setShowAddReviewForm] = useState(false);
     const [showAddImageForm, setShowAddImageForm] = useState(false);
+    const [backendErrors, setBackendErrors] = useState('');
 
     const {spotId} = useParams();
+    // console.log('---------- spotId', spotId)
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(spotsActions.getOneSpot(spotId));
-        dispatch(spotReviewsActions.getSpotReviews(spotId));
+        console.log('-------------- dispatching getonespot')
+        dispatch(spotsActions.getOneSpot(spotId))
+            .then(() => {
+                dispatch(spotReviewsActions.getSpotReviews(spotId));
+            })
+            .catch(() => {
+                // console.log('!!!!!!', e.status)
+                setBackendErrors('Listing not found.')
+            })
     }, [dispatch]);
     
     // date related
@@ -148,6 +157,17 @@ export default function SpotDetails() {
                     <SpotReviews spotReviews={spotReviews}/>
                 </div>
             </div>          
+        }
+        {backendErrors.length > 0 &&
+            <div className='page-not-found-wrapper'>
+                <div>
+                    <h3>This listing is not found.</h3>
+                    <span>Back to <NavLink to='/'>home page</NavLink>.</span>
+                </div>
+                <div>
+                    <img src='https://a0.muscache.com/airbnb/static/error_pages/404-Airbnb_final-d652ff855b1335dd3eedc3baa8dc8b69.gif' alt='page-not-found'></img>
+                </div>
+            </div>
         }
         {showReviewModal && (
             <Modal onClose={() => setShowReviewModal(false)} >

@@ -106,13 +106,19 @@ export const getAllSpotsWithQuery = (query) => async (dispatch) => {
 };
 
 export const getOneSpot = (spotId) => async (dispatch) => {
+    console.log('--------------- getOneSpot thunk', spotId)
     const response = await csrfFetch(`/api/spots/${spotId}`);
-
+    console.log('-------------------------------------response:', response)
     if (response.ok) {
         const spot = await response.json();
-        console.log('getOneSpot thunk: ', spot)
+        console.log('response.ok and spot', spot)
 
         dispatch(loadSpotDetail(spot));
+        return spot
+    } else {
+        const data = await response.json();
+        console.log('*******', data, "*******")
+        return data
     }
 };
 
