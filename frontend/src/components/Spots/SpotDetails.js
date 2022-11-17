@@ -19,7 +19,7 @@ import * as spotReviewsActions from '../../store/spotReviews';
 import { getStartDateStr, getEndDateStr, getMMMDDYYYStr } from '../Spots/SpotCalcs/spotDates';
 
 export default function SpotDetails() {
-    console.log('Spot Details Compoment')
+    // console.log('Spot Details Compoment')
     const sessionUser = useSelector(state => state.session.user);
     const spot = useSelector(state => state.spots.spotDetails);
     // console.log('spot', spot)
@@ -33,7 +33,7 @@ export default function SpotDetails() {
     // console.log('---------- spotId', spotId)
     const dispatch = useDispatch();
     useEffect(() => {
-        console.log('-------------- dispatching getonespot')
+        // console.log('-------------- dispatching getonespot')
         dispatch(spotsActions.getOneSpot(spotId))
             .then(() => {
                 dispatch(spotReviewsActions.getSpotReviews(spotId));

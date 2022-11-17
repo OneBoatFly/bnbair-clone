@@ -25,7 +25,7 @@ export default function OwnerSpots({ isLoaded }) {
 
   useEffect(() => {
     if (deleteMessage === '') return;
-    console.log('deleteMessage change detected')
+    // console.log('deleteMessage change detected')
     const toDelete = setTimeout(() => setShowDelete(false), 2000)
 
     return () => clearTimeout(toDelete);

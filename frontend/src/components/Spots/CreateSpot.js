@@ -97,7 +97,7 @@ export default function CreateSpot({ setShowSpotFormModal }) {
     // console.log('priceErrors', priceErrors);
 
     if (!addressErrors.length && !titleErrors.length && !descriptionErrors.length && !priceErrors.length && !imageUrlErrors.length) {
-      console.log('!! no errors')
+      // console.log('!! no errors')
       setbuttonDisabled(false);
     } else {
       setbuttonDisabled(true);
@@ -108,15 +108,15 @@ export default function CreateSpot({ setShowSpotFormModal }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     setHasSubmitted(true);
-    console.log('handleSubmit fired')
+    // console.log('handleSubmit fired')
 
     if (addressErrors.length || titleErrors.length || descriptionErrors.length || priceErrors.length || imageUrlErrors) {
-      console.log('has errors, returned,')
-      console.log('addressErrors', addressErrors);
-      console.log('titleErrors', titleErrors);
-      console.log('descriptionErrors', descriptionErrors);
-      console.log('priceErrors', priceErrors);
-      console.log('imageUrlErrors', imageUrlErrors);
+      // console.log('has errors, returned,')
+      // console.log('addressErrors', addressErrors);
+      // console.log('titleErrors', titleErrors);
+      // console.log('descriptionErrors', descriptionErrors);
+      // console.log('priceErrors', priceErrors);
+      // console.log('imageUrlErrors', imageUrlErrors);
       return;
     }
 
@@ -124,15 +124,15 @@ export default function CreateSpot({ setShowSpotFormModal }) {
       address, city, state: province, country, name, description, price, lat: 37.7645358, lng: -122.4730327
     }, previewImage))
       .then((spot) => {
-        console.log('in dispatch success - checking spot', spot)
+        // console.log('in dispatch success - checking spot', spot)
         setHasSubmitted(false);
         setNewSpot(spot);
         setShowSpotFormModal(false);
       })
       .catch(async (res) => {
         const data = await res.json();
-        console.log('data returned: ', data)
-        console.log('data.errors', data.errors)
+        // console.log('data returned: ', data)
+        // console.log('data.errors', data.errors)
         if (data && data.message) {
           setAddressErrors([data.message]);
         } else if (data && data.errors) {

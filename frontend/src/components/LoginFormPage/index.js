@@ -30,6 +30,9 @@ export default function LoginFormPage({ setShowSignInModal, setIsLoaded }) {
             setErrors([]);
         }
 
+        return () => {
+            setErrors([]);
+        }
     }, [credential, password])
 
     const handleSubmit = async (e) => {
@@ -42,6 +45,7 @@ export default function LoginFormPage({ setShowSignInModal, setIsLoaded }) {
             .then(() => {
                 setHasSubmitted(false);
                 setIsLoaded(true);
+                window.localStorage.setItem('isLoaded', true);
             })
             .catch(async (res) => {
                 const data = await res.json();

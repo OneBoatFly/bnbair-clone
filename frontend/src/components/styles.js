@@ -26,7 +26,7 @@ export const handleLabelSmall = (labelRef) => {
 
 export const handleLabelBig = (labelRef, inputRef) => {
     if (inputRef.current) {
-        console.log('input value', inputRef.current.children[0].value)
+        // console.log('input value', inputRef.current.children[0].value)
         if (!inputRef.current.children[0].value) {
             if (labelRef.current) labelRef.current.style.setProperty('font-size', 'unset')
             if (labelRef.current) labelRef.current.style.setProperty('padding-top', '12px')

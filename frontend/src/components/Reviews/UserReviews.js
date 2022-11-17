@@ -6,7 +6,7 @@ import * as spotReviewsActions from '../../store/spotReviews';
 import './UserReviews.css';
 
 export default function UserReviews({ isLoaded }) {
-    console.log('isLoaded? ', isLoaded)
+    // console.log('isLoaded? ', isLoaded)
     const userReviews = useSelector(state => state.spotReviews.userAllReviews);
     let userReviewsArr = [];
     if (userReviews) userReviewsArr = Object.values(userReviews);
@@ -17,9 +17,9 @@ export default function UserReviews({ isLoaded }) {
     }, [dispatch]);
 
     const handleDeleteReview = (e) => {
-        console.log('handleDeleteReview')
-        console.log(e.target)
-        console.log(e.target.id);
+        // console.log('handleDeleteReview')
+        // console.log(e.target)
+        // console.log(e.target.id);
 
         dispatch(spotReviewsActions.deleteReview(e.target.id));
     }

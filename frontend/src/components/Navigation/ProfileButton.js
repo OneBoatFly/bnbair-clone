@@ -35,7 +35,7 @@ export default function ProfileButton({ user, setIsLoaded }) {
         dispatch(sessionActions.logout());
         dispatch(spotsActions.removeOwnerSpots());
         setIsLoaded(false);
-
+        window.localStorage.setItem('isLoaded', false);
         return (
             <Redirect to='/' />
         )

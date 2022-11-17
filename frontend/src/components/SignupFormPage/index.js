@@ -76,6 +76,10 @@ export default function SignupFormPage({ setShowSignUpModal, setIsLoaded }) {
             setErrors([]);
         }
 
+        return () => {
+            setErrorsObj({});
+            setErrors([]);
+        }
     }, [firstName, lastName, birthday, username, email, password, passwordConfirm])
 
     const handleSubmit = (e) => {
@@ -96,6 +100,7 @@ export default function SignupFormPage({ setShowSignUpModal, setIsLoaded }) {
         .then(() => {
             setHasSubmitted(false);
             setIsLoaded(true);
+            window.localStorage.setItem('isLoaded', true);
         })
         .catch(async (res) => {
             const data = await res.json();

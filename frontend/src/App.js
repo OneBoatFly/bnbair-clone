@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef }  from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect, NavLink } from 'react-router-dom';
 
 import { useDispatch, useSelector } from "react-redux";
 
@@ -12,8 +12,10 @@ import PageNotFound from './components/PageNotFound';
 import useSearchFetch from './components/Navigation/useSearchFetch';
 
 function App() {
-  // console.log('0. App component rendered')
-  const [isLoaded, setIsLoaded] = useState(false);
+  console.log('0. App component rendered')
+  const prevLoaded = window.localStorage.getItem('isLoaded');
+  const [isLoaded, setIsLoaded] = useState(prevLoaded);
+  
   // console.log('isLoaded', isLoaded)
   // const sessionUser = useSelector(state => state.session.user);
   
@@ -106,12 +108,12 @@ function App() {
         }
         {!isLoaded &&
           <Route path='/spots/current'>
-            You've logged out.
+            <Redirect to='/' />
           </Route>
         }
         {!isLoaded &&
           <Route path='/reviews/current'>
-            You've logged out.
+            <Redirect to='/' />
           </Route>
         }  
         <Route path='/spots/:spotId'>
