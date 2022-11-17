@@ -27,7 +27,7 @@ export default function Navigation({ isLoaded, setIsLoaded, setQuery }) {
         sessionLinks = (<ProfileButton user={sessionUser} setIsLoaded={setIsLoaded} isLoaded={isLoaded} />);
     } else {
         sessionLinks = (<>
-            <DemoUserButton />
+            <DemoUserButton setIsLoaded={setIsLoaded} />
             <MenuButton setIsLoaded={setIsLoaded} />
         </>);
     }

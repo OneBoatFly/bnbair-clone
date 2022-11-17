@@ -71,14 +71,14 @@ export default function SpotDetails() {
                 <div style={{display:'flex', alignItems:'center', justifyContent:'space-between'}}>
                     <h3>{spot.name}</h3>
                     <div style={{display:'flex', alignItems:'center', columnGap:'8px'}}>
-                        <div className='review-modify-buttons' style={{ marginTop: '10px' }} >
+                        <div className='review-modify-buttons' style={{ marginTop: '10px', border:'1px solid #222222', borderRadius: '8px', overflow: 'hidden' }} >
                             <button className='modify-buttons' onClick={() => setShowAddReviewForm(true)} >
                                 <i className="fa-solid fa-plus" style={{ marginRight: '7px' }}></i>
                                 <span>Add a review</span>
                             </button>
                         </div>
                         {sessionUser && spot.ownerId === sessionUser.id &&
-                            <div className='review-modify-buttons' style={{ marginTop: '10px' }} >
+                              <div className='review-modify-buttons' style={{ marginTop: '10px', border: '1px solid #222222', borderRadius: '8px', overflow: 'hidden' }} >
                                 <button className='modify-buttons' onClick={() => setShowAddImageForm(true)} >
                                     <i className="fa-solid fa-plus" style={{ marginRight: '7px' }}></i>
                                     <span>Add images</span>
