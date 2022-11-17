@@ -1,0 +1,163 @@
+.calendar-datepicker-wrapper {
+    /* outline: 1px solid salmon; */
+    background-color: white;
+}
+
+.fa-solid.fa-chevron-left {
+    /* outline: 1px solid salmon; */
+    border: none;
+    position: absolute;
+    top: 18px;
+    left: 12px;
+    padding: 6px 9px;
+    border-radius: 50%;
+}
+
+.fa-solid.fa-chevron-right {
+    border: none;
+    position: absolute;
+    top: 18px;
+    right: 12px;
+    padding: 6px 9px;
+    border-radius: 50%;
+}
+
+.fa-solid.fa-chevron-left:hover,
+.fa-solid.fa-chevron-right:hover {
+    background-color: rgb(243, 243, 243);
+}
+
+/* day settings --- not sure how to set background outside of round border */
+
+.CalendarDay {
+    border: none;
+    font-weight: 500;
+    /* border-radius: 50%; */
+}
+
+.CalendarDay:hover {
+    background-color: white;
+    border: none;
+    border-radius: 50%;
+    outline: 1px solid #222222;
+    overflow: visible;
+}
+
+.CalendarDay__selected_span {
+    background: rgb(243, 243, 243);
+    border-radius: none;
+    color: #222222;
+}
+
+.CalendarDay__selected_end,
+.CalendarDay__selected_start {
+    border-radius: 50%;
+    border: none;
+    position: relative;
+    z-index: 0;
+    background: #222222;
+    color: white;
+}
+
+.CalendarDay__selected_start::before {
+    /* outline: 1px solid red; */
+    display: block;
+    position: absolute;
+    content: '';
+    left: 50%;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    background: rgb(243, 243, 243);
+    z-index: -1;
+}
+
+.CalendarDay__selected_start::after {
+    /* outline: 1px solid red; */
+    border: none;
+    display: block;
+    position: absolute;
+    content: '';
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    background: #222222;
+    z-index: -1;
+    border-radius: 50%;
+}
+
+.CalendarDay__selected_end::before {
+    /* outline: 1px solid red; */
+    display: block;
+    position: absolute;
+    content: '';
+    left: 0;
+    right: 50%;
+    bottom: 0;
+    top: 0;
+    background: rgb(243, 243, 243);
+    z-index: -1;
+}
+
+.CalendarDay__selected_end::after {
+    /* outline: 1px solid red; */
+    border: none;
+    display: block;
+    position: absolute;
+    content: '';
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    background: #222222;
+    z-index: -1;
+    border-radius: 50%;
+}
+
+.CalendarDay__selected_span:hover {
+    background: rgb(243, 243, 243);
+    color: #222222;
+    border: none;
+    outline: 1px solid #222222;
+    overflow: visible;
+}
+
+.CalendarDay__selected_end:hover,
+.CalendarDay__selected_start:hover {
+    background: #222222;
+    color: white;
+    border: none;
+}
+
+.CalendarDay__hovered_span {
+    background: rgb(243, 243, 243);
+    border-radius: unset;
+    color: #222222;
+}
+
+.CalendarDay__hovered_span:hover {
+    outline: 1px solid #222222;
+    border: none;
+    color: #222222;
+    background-color: rgb(243, 243, 243);
+    border-radius: 50%;
+}
+
+/* .CalendarDay__hovered_span:last-of-type::before {
+    outline: 1px solid salmon;
+    display: block;
+    position: absolute;
+    content: '';
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    background: rgb(243, 243, 243);
+    z-index: -1;
+} */
+
+
+.DayPickerKeyboardShortcuts_buttonReset {
+    display: none;
+}

@@ -6,7 +6,7 @@ import './CreateBooking.css';
 
 import { getStartDateStr, getEndDateStr } from '../Spots/SpotCalcs/spotDates';
 
-export default function CreateBooking({ spot, setShowReviewModal, startDate, setStartDate, endDate, setEndDate, setDateErrors, totalDays }) {
+export default function CreateBooking({ spot, setShowReviewModal, dates, setDates, setDateErrors, totalDays }) {
     const nf = new Intl.NumberFormat();
     const price = nf.format(spot.price);
 
@@ -21,14 +21,14 @@ export default function CreateBooking({ spot, setShowReviewModal, startDate, set
             <RatingNumReview spot={spot} setShowReviewModal={setShowReviewModal} />
         </div>
         <div className='choose-date-wrapper'>
-              <CalendarDates startDate={startDate} setStartDate={setStartDate} endDate={endDate} setEndDate={setEndDate} setDateErrors={setDateErrors} />
+              <CalendarDates dates={dates} setDates={setDates} setDateErrors={setDateErrors} />
         </div>
         <div className='choose-guest-wrapper'>
             <div>
                   Guest feature to come
             </div>
         </div>        
-        <MyButton name='Reserve' />
+        <MyButton name='Booking feature to come' disabled={true} />
         <span>You won't be charged yet</span>
         <div className='itemized-price-wrapper'>
             <div className='total-price'>

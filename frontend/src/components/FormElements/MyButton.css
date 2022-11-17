@@ -19,7 +19,8 @@
 }
 
 .button-div button:disabled {
-    background: rgb(113, 113, 113)
+    background: rgb(113, 113, 113);
+    pointer-events: none;
 }
 
 .outer-span {

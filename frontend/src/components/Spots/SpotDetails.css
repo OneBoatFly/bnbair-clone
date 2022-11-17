@@ -154,7 +154,9 @@
     align-items: center;
 }
 
-.date-calendar-wrapper {
+.date-calendar-span {
     font-size: 0.9rem;
     color: #717171;
+    margin-top: 8px;
+    margin-bottom: 16px;
 }

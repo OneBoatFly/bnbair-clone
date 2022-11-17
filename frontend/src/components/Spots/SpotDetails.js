@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { NavLink, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
 import './SpotDetails.css';
+import moment from 'moment';
 
 import AddSpotImages from './AddSpotImages';
 import SpotReviews from '../Reviews/SpotReviews';
@@ -9,6 +10,7 @@ import SpotReviewsModal from '../Reviews/SpotReviewsModal';
 import AddReview from '../Reviews/AddReview';
 import RatingNumReview from '../Reviews/RatingNumReview';
 import CreateBooking from '../Bookings/CreateBooking';
+import ShowCalendar from '../Bookings/ShowCalendar';
 import { Modal } from '../../context/Modal';
 
 import * as spotsActions from '../../store/spots';
@@ -36,21 +38,20 @@ export default function SpotDetails() {
     // date related
     const startDateStr = getStartDateStr();
     const endDateStr = getEndDateStr();
-
     const [startDate, setStartDate] = useState(startDateStr);
     const [endDate, setEndDate] = useState(endDateStr);
+
+    const [dates, setDates] = useState({ startDate: moment(startDateStr), endDate: moment(endDateStr) });
     const [dateErrors, setDateErrors] = useState({});
 
     const [totalDays, setTotayDays] = useState(1);
 
     useEffect(() => {
-        if (startDate >= endDate) return;
-
-        const startDateFormat = new Date(startDate);
-        const endDateFormat = new Date(endDate);
-
-        setTotayDays((endDateFormat - startDateFormat) / 86400000)
-    }, [startDate, endDate])
+        if (dates.endDate <= dates.startDate) return; 
+        setTotayDays((dates.endDate - dates.startDate) / 86400000);
+        setStartDate(dates.startDate);
+        setEndDate(dates.endDate)
+    }, [dates])
 
     // date related end
 
@@ -119,18 +120,16 @@ export default function SpotDetails() {
                         </div>
                         <div className='info-detail-wrapper'>
                             <h4>{totalDays} nights in {spot.city}</h4>
-                            <div className='date-calendar-wrapper'>
-                                  <span>{`${getMMMDDYYYStr(startDate)}`} - {`${getMMMDDYYYStr(endDate)}`}</span>
-                                <div>
-                                    placeholder for calendar
-                                </div>
+                            <div className='date-calendar-span'>
+                                <span>{`${getMMMDDYYYStr(startDate)}`} - {`${getMMMDDYYYStr(endDate)}`}</span>
                             </div>
+                              <ShowCalendar dates={dates} setDates={setDates} setDateErrors={setDateErrors} />
                         </div>
                     </div>
                     <div className='booking-form-wrapper'>
                         <div className='booking-form-sub-wrapper'>
                             <div className='booking-form'>
-                                  <CreateBooking spot={spot} setShowReviewModal={setShowReviewModal} startDate={startDate} setStartDate={setStartDate} endDate={endDate} setEndDate={setEndDate} setDateErrors={setDateErrors} totalDays={totalDays} />
+                                  <CreateBooking spot={spot} setShowReviewModal={setShowReviewModal} dates={dates} setDates={setDates} setEndDate={setEndDate} setDateErrors={setDateErrors} totalDays={totalDays} />
                             </div>
                             <div>
                                 <p>
