@@ -1,3 +1,45 @@
-.upload-delete {
-    cursor: pointer;
+.image-wrapper {
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    min-width: 90%;
+    max-width: 90%;
+    max-height: 90%;
+    min-height: 90%;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: rgb(0 0 0 / 28%) 0px 8px 28px;
+}
+
+.image-form-wrapper {
+    /* border: 1px solid red; */
+    padding: 24px;
+    overflow: scroll;
+}
+
+.upload-image-header h3 {
+    /* border: 1px solid red; */
+    margin-top: unset;
+}
+
+.image-input-wrapper {
+    border: 1px solid #B0B0B0;
+    border-radius: 12px;
+    background: white;
+    padding: 12px;
+    font-size: inherit;
+    font-family: inherit;
+    color: inherit;
+}
+
+.image-input-wrapper:focus-within {
+    outline: 1px solid #222222;
+}
+
+.image-input-wrapper input {
+    width: 100%;
+    font-size: inherit;
+    font-family: inherit;
+    color: inherit;
 }

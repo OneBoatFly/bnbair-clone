@@ -78,8 +78,8 @@
 
 .rating-wrapper > i,
 .title-div-wrapper > i {
-    font-size: 0.7rem;
-    margin-right: 4px;
+    /* font-size: 0.7rem; */
+    /* margin-right: 4px; */
 }
 
 /* ------------- Spot Details -------------- */
@@ -93,53 +93,6 @@
 
 .title-div-wrapper > a {
     color: inherit;
-}
-
-.pictures-div-wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    box-sizing: border-box;
-    column-gap: 16px;
-    overflow: hidden;
-}
-
-.pictures-big,
-.pictures-small {
-    max-width: calc((100% - 16px) / 2);
-    flex-basis: calc((100% - 16px) / 2);
-    flex-grow: 1;
-    flex-shrink: 1;
-    overflow: hidden;
-}
-
-.pictures-big {
-    border-top-left-radius: 12px;
-    border-bottom-left-radius: 12px;
-}
-
-.pictures-small {
-    display: flex;
-    flex-wrap: wrap;
-    box-sizing: border-box;
-    column-gap: 16px;
-    row-gap: 16px;
-    border-top-right-radius: 12px;
-    border-bottom-right-radius: 12px;
-}
-
-.pictures-div-wrapper .image-div {
-    /* outline: 1px solid salmon; */
-    border-radius: unset;
-    overflow: hidden;
-    width: 100%;
-    aspect-ratio: 1/1;
-}
-
-.pictures-small .image-div {
-    max-width: calc((100% - 16px) / 2);
-    flex-basis: calc((100% - 16px) / 2);
-    flex-grow: 1;
-    flex-shrink: 1;
 }
 
 @media (max-width: 1880px) {

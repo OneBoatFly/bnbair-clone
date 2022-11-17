@@ -1,18 +1,10 @@
 import { csrfFetch } from './csrf';
+import * as spotsActions from './spots';
 
 // regular actions
-const Add_IMAGES = 'spots/:id/addImages';
-
-// const addImages = (imageUrls, spotId) => {
-//     return {
-//         type: HOLD_IMAGES,
-//         payload: { imageUrls, spotId}
-//     }
-// };
-
 
 // thunk actions
-export const addImages = (imageUrls, spotId) => async () => {
+export const addImages = (imageUrls, spotId) => async (dispatch) => {
     // console.log('add image thunk ---- ')
     // console.log('imageUrls', imageUrls)
     // console.log('spotid', spotId)
@@ -29,7 +21,8 @@ export const addImages = (imageUrls, spotId) => async () => {
 
         if (response.ok) {
             const data = await response.json();
-            console.log('response ok - data', data)
+            // console.log('response ok - data', data)
+            dispatch(spotsActions.getOneSpot(spotId));
             return data;
         }
     })

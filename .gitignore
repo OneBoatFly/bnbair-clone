@@ -6,3 +6,4 @@ build
 *.sh
 z__draft-cmd-fetches.md
 airbnb-test-files
+package-lock.json

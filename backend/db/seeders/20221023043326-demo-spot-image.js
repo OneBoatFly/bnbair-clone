@@ -1,19 +1,19 @@
 'use strict';
 const { Spot } = require('../models');
-const {Op} = require('sequelize');
+const {Op, json} = require('sequelize');
 
 const airBnBImages = require('../SpotImagesAirBnB.json');
-// console.log('________________________', airBnBImages)
+// []
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    const spots = await Spot.findAll({limit: 24});
+    const spots = await Spot.findAll({limit: 48});
 
     for (let i = 0; i < spots.length; i++) {
       const spot = spots[i];
-      // console.log('spot', spot);
-      const images = Object.values(airBnBImages[i + 1]);
+  
+      const images = Object.values(airBnBImages[i])
       // console.log('images', images)
       for (let image of images) {
         const { url, preview } = image;

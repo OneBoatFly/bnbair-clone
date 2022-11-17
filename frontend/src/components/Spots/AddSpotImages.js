@@ -1,128 +1,81 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import validator from 'validator';
+
 import './AddSpotImages.css';
 
 import MyButton from '../FormElements/MyButton';
 
 import * as spotIamgesActions from '../../store/spotImages';
 
-export default function AddSpotImages({spotid}) {
-    const [images, setImages] = useState({});
-    const [imageUrls, setImageUrls] = useState({});
-    const [imageUrlArr, setImageUrlArr] = useState([]);
-
-    const [previewId, setPreviewId] = useState('');
-
-    const handleImageUpload = (e) => {
-        console.log(e.target.files, typeof e.target.files)
-        const images = Object.values(e.target.files);
-
-        const imageObj = {};
-
-        images.forEach((img) => {
-            console.log('img from e.target.file')
-            console.log(img, typeof img)
-            console.log(img.name)
-            imageObj[img.name] = img
-        });
-
-        setImages(imageObj);
-    }
-
-    // const handleDelete = (e) => {
-    //     console.log('handleDelete event.target >>>', e.target, e.target.id);
-    //     console.log('handleDelete event.currentTarget >>>', e.currentTarget, e.currentTarget.id);
-    //     console.log('images', images)
-    //     setImages((images) => {
-    //         delete images[e.currentTarget.id];
-    //     })
-    //     // console.log('imageUrls', imageUrls)
-    //     // setImageUrls((imageUrls) => {
-    //     //     delete imageUrls[e.currentTarget.id];
-    //     // })
-    // }
+export default function AddSpotImages({ spotId, setShowAddImageForm }) {
+    // console.log('AddSpotImages')
+    
+    const [imageUrl, setImageUrl] = useState('');
+    const [errors, setErrors] = useState('');
+    const [hasSubmitted, setHasSubmitted] = useState(false);
 
     const dispatch = useDispatch();
-    useEffect(() => {
-        if (!images) return;
-        if (!Object.values(images).length) return;
-
-        const newImageUrls = {};
-        console.log('images ---', images)
-
-        for (let name in images) {
-            const image = images[name];
-            console.log('each image ---', image)
-            newImageUrls[name] = {
-                imgUrl: URL.createObjectURL(image),
-                name: name
-            };
-        }
-
-        console.log('imageUrls ---', newImageUrls);
-        setImageUrls(newImageUrls);
-        // window.localStorage.setItem('images', images);
-    }, [images])
 
     useEffect(() => {
-        if (imageUrls) {
-            const imageUrlsOnly = Object.values(imageUrls);
-            const imageUrlswithPreview = imageUrlsOnly.map((image, idx) => {
-                console.log(idx)
-                return {
-                    url: image.imgUrl,
-                    preview: previewId == idx + 1
-                }
-            })
+        // console.log(imageUrl)
+        // console.log('valid url', validator.isURL(imageUrl))
+        if (!imageUrl.length || !validator.isURL(imageUrl)) setErrors('A valid preview image url is required');
+        else setErrors('');
 
-            setImageUrlArr(imageUrlswithPreview);
-        }
-        else setImageUrlArr([]);
+    }, [imageUrl])
 
-    }, [imageUrls]);
 
-    // console.log('AddSpotImages watch on images', images);
-    // console.log('AddSpotImages watch on imageUrls', imageUrls);
-    console.log('AddSpotImages urls to map', imageUrlArr);
-    console.log('previewId', previewId)
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('submit image fired', imageUrlArr, spotid)
-        dispatch(spotIamgesActions.addImages(imageUrlArr, spotid));
+        setHasSubmitted(true)
+        if (errors) {
+            console.log('has errors', errors);
+            return;
+        }
+
+        const imageUrlArr = [
+            {
+                url: imageUrl,
+                preview: false
+            }
+        ]
+
+        // console.log(spotId)
+        dispatch(spotIamgesActions.addImages(imageUrlArr, spotId))
+            .then(() => {
+                setHasSubmitted(false);
+                setShowAddImageForm(false);
+            })
     }
 
   return (
     <div className='image-wrapper'>
+        <div className='login exit-button-wrapper'>
+            <div className='login exit-button-div' onClick={() => setShowAddImageForm(false)}>
+                <i className="fa-solid fa-xmark"></i>
+            </div>
+        </div>
         <div className='image-form-wrapper'>
+            <div className='upload-image-header'>
+                <h3>Upload images url</h3>
+            </div>
             <form onSubmit={handleSubmit}>
                 <div className='image-input-wrapper'>
-                    <label htmlFor='image'>Upload Images</label>
-                    <input id='image' type='file' multiple accept='image/*' onChange={handleImageUpload} />
+                    <input id='image-url' type='text' value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} />
                 </div>
-                {imageUrlArr.length > 0 &&
-                    <select name='preview-image' value={previewId} onChange={(e) => setPreviewId(e.target.value)}>
-                        <option value=''>Please select a preview image...</option>
-                        {imageUrlArr.map((image, idx) => {
-                            return (
-                                <option key={idx + 1} value={idx + 1}>{idx + 1}</option>
-                            )
-                        })}
-                    </select>
-                }
-                <button>Add images</button>
-            </form>
-        </div>
-        <div className='loaded-images-wrapper'>
-            {imageUrlArr.length > 0 && 
-                imageUrlArr.map((image, idx) => {
-                    return (
-                        <div key={idx}>
-                            <img src={image.url} alt='uploads' />
-                            {/* <span className='upload-delete' id={image.name} onClick={(e) => handleDelete(e)}><i className="fa-solid fa-trash"></i></span> */}
+                <div className='errors' style={{ marginTop: '4px', marginBottom: '4px' }}>
+                {
+                    hasSubmitted && errors.length > 0 && (
+                        <div className='error-messages-wrapper'>
+                            <i className="fa-sharp fa-solid fa-circle-exclamation"></i>
+                            <span className='error-messages'>{errors}</span>
                         </div>
                     )
-                })
-            }
+                }
+                </div>
+                <MyButton name='Upload images'></MyButton>
+            </form>
         </div>
     </div>
   )

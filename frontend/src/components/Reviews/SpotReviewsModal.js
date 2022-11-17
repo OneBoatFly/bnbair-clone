@@ -34,6 +34,7 @@ export default function SpotReviewsModal({ spotId, setShowReviewModal }) {
             )
           })
         }
+        {spotReviews.length === 0 && <span className='reviewer-date'>This listing has no reviews.</span>}
       </div>
     </div>
   )

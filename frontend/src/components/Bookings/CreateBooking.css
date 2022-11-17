@@ -1,0 +1,88 @@
+.create-booking-wrapper {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 0.9rem;
+    font-family: inherit;
+}
+
+.create-booking-wrapper .button-div{
+    width: 100%;
+}
+
+.price-rating-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    color: #222222;
+    font-family: inherit;
+    font-weight: 500;
+    margin-bottom: 24px;
+}
+
+@media (max-width: 900px) {
+    .price-rating-wrapper {
+        flex-direction: column;
+        align-items: start;
+        row-gap: 8px;
+    }
+}
+
+.price-rating-wrapper .number-of-review {
+    color: #717171;
+}
+
+.price-rating-wrapper>div {
+    font-size: 0.7rem;
+}
+
+.top-price {
+    font-size: 1.3rem;
+    font-weight: 500;
+}
+
+.choose-guest-wrapper,
+.choose-date-wrapper {
+    width: 100%;
+}
+
+.choose-guest-wrapper {
+    border: 1px solid rgb(176, 176, 176);
+    border-radius: 0px 0px 8px 8px;
+}
+
+.choose-guest-wrapper>div {
+    padding: 12px;
+}
+
+.choose-date-wrapper {
+    border: 1px solid rgb(176, 176, 176);
+    border-bottom: 0px;
+    border-radius: 8px 8px 0px 0px;
+}
+
+.itemized-price-wrapper {
+    width: 100%;
+    margin-top: 24px;
+    margin-bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 16px;
+}
+
+.total-price-wrapper {
+    width: 100%;
+    padding-top: 24px;
+    border-top: 1px solid rgb(221, 221, 221);
+    font-weight: 500;
+}
+
+.total-price {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}

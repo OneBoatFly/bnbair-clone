@@ -2,23 +2,31 @@ import React, { useEffect, useState } from 'react';
 import { NavLink, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
 import './SpotDetails.css';
+import moment from 'moment';
 
 import AddSpotImages from './AddSpotImages';
 import SpotReviews from '../Reviews/SpotReviews';
 import SpotReviewsModal from '../Reviews/SpotReviewsModal';
 import AddReview from '../Reviews/AddReview';
+import RatingNumReview from '../Reviews/RatingNumReview';
+import CreateBooking from '../Bookings/CreateBooking';
+import ShowCalendar from '../Bookings/ShowCalendar';
 import { Modal } from '../../context/Modal';
 
 import * as spotsActions from '../../store/spots';
 import * as spotReviewsActions from '../../store/spotReviews';
 
+import { getStartDateStr, getEndDateStr, getMMMDDYYYStr } from '../Spots/SpotCalcs/spotDates';
+
 export default function SpotDetails() {
     console.log('Spot Details Compoment')
     const sessionUser = useSelector(state => state.session.user);
     const spot = useSelector(state => state.spots.spotDetails);
+    console.log('spot', spot)
     const spotReviews = useSelector(state => state.spotReviews.spotAllReviews);
     const [showReviewModal, setShowReviewModal] = useState(false);
     const [showAddReviewForm, setShowAddReviewForm] = useState(false);
+    const [showAddImageForm, setShowAddImageForm] = useState(false);
 
     const {spotId} = useParams();
     const dispatch = useDispatch();
@@ -26,50 +34,78 @@ export default function SpotDetails() {
         dispatch(spotsActions.getOneSpot(spotId));
         dispatch(spotReviewsActions.getSpotReviews(spotId));
     }, [dispatch]);
+    
+    // date related
+    const startDateStr = getStartDateStr();
+    const endDateStr = getEndDateStr();
+    const [startDate, setStartDate] = useState(startDateStr);
+    const [endDate, setEndDate] = useState(endDateStr);
+
+    const [dates, setDates] = useState({ startDate: moment(startDateStr), endDate: moment(endDateStr) });
+    const [dateErrors, setDateErrors] = useState({});
+
+    const [totalDays, setTotayDays] = useState(1);
+
+    useEffect(() => {
+        if (dates.endDate <= dates.startDate) return; 
+        setTotayDays((dates.endDate - dates.startDate) / 86400000);
+        setStartDate(dates.startDate);
+        setEndDate(dates.endDate)
+    }, [dates])
+
+    // date related end
 
   return (
     <div className='single-spot-wrapper'>
         {spot &&
             <div className='single-spot-sub-wrapper'>
-                <div style={{display:'flex', alignItems:'center', columnGap:'8px'}}>
+                <div style={{display:'flex', alignItems:'center', justifyContent:'space-between'}}>
                     <h3>{spot.name}</h3>
-                    <div className='review-modify-buttons' style={{ marginTop: '10px' }} >
-                          <button className='modify-buttons' onClick={() => setShowAddReviewForm(true)} ><i class="fa-solid fa-plus" style={{ marginRight: '7px' }}></i><span>Add a review</span></button>
-                    </div>                    
+                    <div style={{display:'flex', alignItems:'center', columnGap:'8px'}}>
+                        <div className='review-modify-buttons' style={{ marginTop: '10px' }} >
+                            <button className='modify-buttons' onClick={() => setShowAddReviewForm(true)} >
+                                <i className="fa-solid fa-plus" style={{ marginRight: '7px' }}></i>
+                                <span>Add a review</span>
+                            </button>
+                        </div>
+                        {sessionUser && spot.ownerId === sessionUser.id &&
+                            <div className='review-modify-buttons' style={{ marginTop: '10px' }} >
+                                <button className='modify-buttons' onClick={() => setShowAddImageForm(true)} >
+                                    <i className="fa-solid fa-plus" style={{ marginRight: '7px' }}></i>
+                                    <span>Add images</span>
+                                </button>
+                            </div>  
+                        }
+                    </div>
                 </div>
                 <div className='title-div-wrapper'>
-                    <i className="fa-solid fa-star" />
-                    {spot.avgStarRating && <span className='rating-span'>{spot.avgStarRating.toFixed(1)}</span>}
-                    <span> · </span>
-                    <span onClick={() => setShowReviewModal(true)} style={{textDecoration:'underline', cursor: 'pointer'}}>{spot.numReviews} reviews</span>
+                    <RatingNumReview spot={spot} setShowReviewModal={setShowReviewModal} />
                 </div>
-                {spot.SpotImages.length > 0 ?
-                    <div className='pictures-div-wrapper'>
-                        <div className='pictures-big'>
-                            <div className='image-div'>
-                                {spot.SpotImages[0] && <img src={`${spot.SpotImages[0].url}`} alt='room'></img>}
-                            </div>
-                        </div>
-                        <div className='pictures-small'>
-                            <div className='image-div'>
-                                {spot.SpotImages[1] && <img src={`${spot.SpotImages[1].url}`} alt='room'></img>}
-                            </div>
-                            <div className='image-div'>
-                                {spot.SpotImages[2] && <img src={`${spot.SpotImages[2].url}`} alt='room'></img>}
-                            </div>
-                            <div className='image-div'>
-                                {spot.SpotImages[3] && <img src={`${spot.SpotImages[3].url}`} alt='room'></img>}
-                            </div>
-                            <div className='image-div'>
-                                {spot.SpotImages[4] && <img src={`${spot.SpotImages[4].url}`} alt='room'></img>}
-                            </div>
-                        </div>
-                    </div> : <div>This listing has no image.</div>
-                }
 
-                {spot.ownerId === sessionUser.id && 
-                    <AddSpotImages spotid={spotId} />
-                }
+                <div className='pictures-div-wrapper'>
+                    <div className='pictures-big'>
+                        <div className='image-div'>
+                            {spot.SpotImages[0] ? 
+                                <img src={`${spot.SpotImages[0].url}`} alt='room'></img> : <div className='no-image-div'>No Image</div>
+                            }
+                        </div>
+                    </div>
+                    <div className='pictures-small'>
+                        <div className='image-div'>
+                            {spot.SpotImages[1] ? <img src={`${spot.SpotImages[1].url}`} alt='room'></img> : <div className='no-image-div'>No Image</div>}
+                        </div>
+                        <div className='image-div'>
+                            {spot.SpotImages[2] ? <img src={`${spot.SpotImages[2].url}`} alt='room'></img> : <div className='no-image-div'>No Image</div>}
+                        </div>
+                        <div className='image-div'>
+                            {spot.SpotImages[3] ? <img src={`${spot.SpotImages[3].url}`} alt='room'></img> : <div className='no-image-div'>No Image</div>}
+                        </div>
+                        <div className='image-div'>
+                            {spot.SpotImages[4] ? <img src={`${spot.SpotImages[4].url}`} alt='room'></img> : <div className='no-image-div'>No Image</div>}
+                        </div>
+                    </div>
+                </div>
+
                 <div className='info-booking-wrapper'>
                     <div className='spot-info-wrapper'>
                         <div className='hostName'>{spot.Owner && <h4>Hosted by {spot.Owner.firstName}</h4>}</div>
@@ -83,23 +119,21 @@ export default function SpotDetails() {
                             <p>{spot.description}</p>
                         </div>
                         <div className='info-detail-wrapper'>
-                            <h4>5 nights in {spot.city}</h4>
-                            <div className='date-calendar-wrapper'>placeholder for date and calendar
-                                <span>placeholder for dates</span>
-                                <div>
-                                    placeholder for calendar
-                                </div>
+                            <h4>{totalDays} nights in {spot.city}</h4>
+                            <div className='date-calendar-span'>
+                                <span>{`${getMMMDDYYYStr(startDate)}`} - {`${getMMMDDYYYStr(endDate)}`}</span>
                             </div>
+                              <ShowCalendar dates={dates} setDates={setDates} setDateErrors={setDateErrors} />
                         </div>
                     </div>
                     <div className='booking-form-wrapper'>
                         <div className='booking-form-sub-wrapper'>
                             <div className='booking-form'>
-                                placholder for booking
+                                  <CreateBooking spot={spot} setShowReviewModal={setShowReviewModal} dates={dates} setDates={setDates} setEndDate={setEndDate} setDateErrors={setDateErrors} totalDays={totalDays} />
                             </div>
                             <div>
                                 <p>
-                                    Good price.Your dates are $392 less than the avg. nightly rate over the last 3 months.
+                                    
                                 </p>
                             </div>
                         </div>
@@ -108,12 +142,7 @@ export default function SpotDetails() {
                 <div className='reviews-wrapper'>
                     <div className='reviews-sub-wrapper'>
                         <h4>
-                            <div className='review-title-wrapper'>
-                                <i className="fa-solid fa-star" />
-                                {spot.avgStarRating && <span className='rating-span'>{spot.avgStarRating.toFixed(1)}</span>}
-                                <span> · </span>
-                                <span>{spot.numReviews} reviews</span>
-                            </div>
+                            <RatingNumReview spot={spot} />
                         </h4>
                     </div>
                     <SpotReviews spotReviews={spotReviews}/>
@@ -127,9 +156,14 @@ export default function SpotDetails() {
         )}
         {showAddReviewForm &&
             <Modal onClose={() => setShowAddReviewForm(false)}>
-                <AddReview setShowAddReviewForm={setShowAddReviewForm} spotId={spot.id} />
+                <AddReview setShowAddReviewForm={setShowAddReviewForm} spotId={spotId} />
             </Modal>
-        }  
+        }
+        {showAddImageForm &&
+            <Modal onClose={() => setShowAddImageForm(false)}>
+                <AddSpotImages setShowAddImageForm={setShowAddImageForm} spotId={spotId} />
+            </Modal>
+        }
     </div>
   )
 }

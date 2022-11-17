@@ -441,7 +441,7 @@ router.post('/:spotId/images', requireAuth, validateImage, async (req, res, next
         next(err);
     } else {
         if (spot.ownerId == req.user.id) {
-            console.log('passed express validation--------')
+            // console.log('passed express validation--------')
             const image = await spot.createSpotImage({
                 url: req.body.url,
                 preview: req.body.preview,

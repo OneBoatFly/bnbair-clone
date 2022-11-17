@@ -1,4 +1,4 @@
-import React, { startTransition, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
 
 import * as spotReviewsActions from '../../store/spotReviews';
@@ -23,7 +23,7 @@ export default function AddReview({spotId, setShowAddReviewForm}) {
         else setReviewError('');
 
         if (!stars.length) setStarsError('Rating is required.');
-        else if (stars < 1 || startTransition > 5 || !Number.isInteger(parseInt(stars, 10))) setStarsError("Stars must be an integer from 1 to 5");
+        else if (stars < 1 || stars > 5 || !Number.isInteger(parseInt(stars, 10))) setStarsError("Stars must be an integer from 1 to 5");
         else setStarsError('');
 
     }, [review, stars]);

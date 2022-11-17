@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import './SpotReviews.css';
 
 export default function SpotReviews({ spotReviews }) {
-  console.log('SpotReviews', spotReviews);
+  // console.log('SpotReviews', spotReviews);
   // spotReviews []
 
   const [showAllReviews, setShowAllReviews] = useState(false);
