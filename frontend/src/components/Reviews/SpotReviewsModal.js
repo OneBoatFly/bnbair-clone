@@ -12,7 +12,7 @@ export default function SpotReviewsModal({ spotId, setShowReviewModal }) {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(spotReviewsActions.getSpotReviews(spotId));
+    if (spotId) dispatch(spotReviewsActions.getSpotReviews(spotId));
   }, [dispatch]);
 
   return (

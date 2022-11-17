@@ -12,7 +12,7 @@ import PageNotFound from './components/PageNotFound';
 import useSearchFetch from './components/Navigation/useSearchFetch';
 
 function App() {
-  console.log('0. App component rendered')
+  // console.log('0. App component rendered')
   const prevLoaded = window.localStorage.getItem('isLoaded');
   const [isLoaded, setIsLoaded] = useState(prevLoaded);
   

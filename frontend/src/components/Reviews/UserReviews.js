@@ -17,9 +17,9 @@ export default function UserReviews({ isLoaded }) {
     }, [dispatch]);
 
     const handleDeleteReview = (e) => {
-        console.log('handleDeleteReview')
-        console.log(e.currentTarget)
-        console.log(e.currentTarget.id);
+        // console.log('handleDeleteReview')
+        // console.log(e.currentTarget)
+        // console.log(e.currentTarget.id);
 
         dispatch(spotReviewsActions.deleteReview(e.currentTarget.id));
     }

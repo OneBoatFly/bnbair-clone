@@ -17,13 +17,13 @@ export default function SearchBar({ query, setQuery }) {
         <form className='search-form'>
             <div className='search-element-div-wrapper'>
                 <div className='search-element-div'>
-                    <button>Location</button>
+                    <button>Feature</button>
                 </div>
                 <div className='search-element-div middle'>
-                    <button>Dates</button>
+                    <button>To</button>
                 </div>
-                <div className='search-element-div' onClick={handlePrice}>
-                      <button>Price</button>
+                <div className='search-element-div'>
+                      <button>Come</button>
                 </div>
             </div>
             <button className='search-form-submit'>

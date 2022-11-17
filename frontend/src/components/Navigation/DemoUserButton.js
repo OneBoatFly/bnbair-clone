@@ -14,7 +14,7 @@ export default function DemoUserButton({ setIsLoaded }) {
     const password = 'password';
 
     const handleDemoUser = () => {
-        console.log('clicked');
+        // console.log('clicked');
 
         dispatch(sessionActions.login({ credential, password }))
             .then(() => {
