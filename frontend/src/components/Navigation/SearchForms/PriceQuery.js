@@ -3,7 +3,7 @@ import './PriceQuery.css';
 // import MyButton from '../../FormElements/MyButton';
 
 
-export default function PriceQuery({ setQuery, hasSubmitted, setHasSubmitted, errors, setErrors, minPrice, setMinPrice, maxPrice, setMaxPrice}) {
+export default function PriceQuery({ hasSubmitted, errors, setErrors, minPrice, setMinPrice, maxPrice, setMaxPrice}) {
     // const [minPrice, setMinPrice] = useState(10);
     // const [maxPrice, setMaxPrice] = useState(300);
   let priceErrors = {};

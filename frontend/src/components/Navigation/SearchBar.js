@@ -76,7 +76,7 @@ export default function SearchBar({ setQuery, showDropDown, setShowDropDown }) {
 
             {showMenu && 
                 <div className='search-drop-down'>
-                    <PriceQuery setQuery={setQuery} hasSubmitted={hasSubmitted} setHasSubmitted={setHasSubmitted} errors={errors} setErrors={setErrors} minPrice={minPrice} setMinPrice={setMinPrice} maxPrice={maxPrice} setMaxPrice={setMaxPrice} />
+                    <PriceQuery hasSubmitted={hasSubmitted} setHasSubmitted={setHasSubmitted} errors={errors} setErrors={setErrors} minPrice={minPrice} setMinPrice={setMinPrice} maxPrice={maxPrice} setMaxPrice={setMaxPrice} />
                     <MyButton name="Search" ></MyButton>
                 </div>
             }
