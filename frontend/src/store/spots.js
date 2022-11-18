@@ -148,7 +148,7 @@ export const createOneSpot = (spotInfo, imageUrl) => async (dispatch) => {
         }];
         dispatch(addImages(imageUrls, spot.id))
         dispatch(getOneSpot(spot.id));
-        dispatch(getAllSpotsWithQuery({}));
+        dispatch(getAllSpotsWithQuery({page: 1}));
         return spot;
     }
 };
@@ -166,7 +166,7 @@ export const updateOneSpot = (spotInfo, spotId) => async (dispatch) => {
         // console.log('-------------reached reponse ok-------------')
         const spot = await response.json();
         dispatch(getOneSpot(spot.id));
-        dispatch(getAllSpotsWithQuery({}));
+        dispatch(getAllSpotsWithQuery({page: 1}));
         return spot;
     }
 };
