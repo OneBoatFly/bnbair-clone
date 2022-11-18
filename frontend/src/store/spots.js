@@ -79,7 +79,7 @@ export const getAllSpots = (userCoord) => async (dispatch) => {
 
 // get all spots with query
 export const getAllSpotsWithQuery = (query) => async (dispatch) => {
-    // console.log('getAllSpotsWithQuery thunk')
+    console.log('getAllSpotsWithQuery thunk')
     const searchParams = new URLSearchParams(query);
     const response = await csrfFetch('/api/spots?' + searchParams.toString());
 
@@ -88,7 +88,7 @@ export const getAllSpotsWithQuery = (query) => async (dispatch) => {
         // console.log(spots)
 
         const spotsModified = spots.Spots.map((spot) => {
-            console.log(spot)
+            // console.log(spot)
             const date = new Date(spot.createdAt);
             const month = date.toLocaleString('en-US', { month: 'short' });
             const year = date.getFullYear();
@@ -98,6 +98,7 @@ export const getAllSpotsWithQuery = (query) => async (dispatch) => {
         const normalSpots = normalizeArray(spotsModified)
         let page = 1;
         if (query) page = query.page;
+        console.log(normalSpots)
         dispatch(loadSpots(normalSpots, page));
 
         const pagination = {
@@ -147,6 +148,7 @@ export const createOneSpot = (spotInfo, imageUrl) => async (dispatch) => {
         }];
         dispatch(addImages(imageUrls, spot.id))
         dispatch(getOneSpot(spot.id));
+        dispatch(getAllSpotsWithQuery({}));
         return spot;
     }
 };
@@ -164,6 +166,7 @@ export const updateOneSpot = (spotInfo, spotId) => async (dispatch) => {
         // console.log('-------------reached reponse ok-------------')
         const spot = await response.json();
         dispatch(getOneSpot(spot.id));
+        dispatch(getAllSpotsWithQuery({}));
         return spot;
     }
 };
@@ -181,7 +184,7 @@ export const getOwnerSpots = () => async (dispatch) => {
 };
 
 export const deleteOneSpot = (spotId) => async (dispatch) => {
-    // console.log('deleteOneSpot thunk')
+    console.log('deleteOneSpot thunk')
     const options = {
         method: 'DELETE'
     }
@@ -189,7 +192,9 @@ export const deleteOneSpot = (spotId) => async (dispatch) => {
 
     if (response.ok) {
         const data = await response.json();
-        // console.log('deleteOneSpot thunk', data)
+        console.log('deleteOneSpot thunk', data)
+
+        dispatch(getAllSpotsWithQuery({page: 1}));
         return data.message;
     }
 };
@@ -201,12 +206,14 @@ const spotsReducer = (state = initalState, action) => {
     let newState;
     switch (action.type) {
         case LOAD_SPOTS: {
-            // console.log('LOAD_SPOTS')
+            console.log('LOAD_SPOTS')
+            console.log('*************', action.payload.spots)
             newState = {...state}
             if (action.payload.page === 1) {
-                // console.log('*************', action.payload.spots)
-                newState.allSpots = action.payload.spots;
+                console.log('page 1 replace')
+                newState.allSpots = { ...action.payload.spots };
             } else {
+                console.log('page later, append')
                 newState.allSpots = { ...newState.allSpots, ...action.payload.spots}
             }
             return newState;

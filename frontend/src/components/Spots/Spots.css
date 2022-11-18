@@ -70,8 +70,9 @@
 .distance-dates-noDistance {
     color: #717171;
     margin-top: 2px;
+    padding-left: 2px;
     font-family: inherit;
-    background-color: #bbbbbb;
+    background-color: rgb(245, 245, 245);
     border-radius: 4px;
 }
 

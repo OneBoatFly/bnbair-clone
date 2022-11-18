@@ -1,14 +1,16 @@
 import React, { useState, useEffect, useRef, useCallback} from 'react';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import './Spots.css';
+import * as spotsActions from '../../store/spots';
 
 import coordinatesDistance from './SpotCalcs/spotDistance';
 
-export default function Spots({ lastSpotElementRef, getSpotsErrors }) {
+export default function Spots({ lastSpotElementRef }) {
     const spots = useSelector(state => state.spots.allSpots);
     const userLocation = useSelector(state => state.session.userLocation);
     // console.log('&&&',userLocation)
+
     let spotsArr = [];
     if (spots) spotsArr = Object.values(spots);
 
@@ -32,7 +34,7 @@ export default function Spots({ lastSpotElementRef, getSpotsErrors }) {
                     const { previewImage, city, state, avgRating, price, id, lat, lng, createdAt } = spot;
                     const nf = new Intl.NumberFormat();
                     let distance = nf.format(coordinatesDistance(lat, lng, userLocation.lat, userLocation.lng));
-                    console.log(city, state, typeof distance, distance)
+                    // console.log(city, state, typeof distance, distance)
                     const priceFormatted = nf.format(price);
                     if (spotsArr.length === idx + 1) {
                         return (
@@ -43,7 +45,7 @@ export default function Spots({ lastSpotElementRef, getSpotsErrors }) {
                                     </div>
                                     <div className='short-info-wrapper'>
                                         <span className='cityState'>{city}, {state}</span>
-                                        {distance !== 'NaN' ? <span className="distance-dates">{distance} miles away</span> : <span className="distance-dates-noDistance">loading</span>}
+                                        {distance !== 'NaN' ? <span className="distance-dates">{distance} miles away</span> : <span className="distance-dates-noDistance">...loading</span>}
                                         <span className="distance-dates">Listed in {createdAt}</span>
                                         <span className="priceNight" ><span style={{ fontWeight: '500' }}>${priceFormatted}</span> night</span>
                                         <span className='rating-wrapper'>
@@ -64,7 +66,7 @@ export default function Spots({ lastSpotElementRef, getSpotsErrors }) {
                                     </div>
                                     <div className='short-info-wrapper'>
                                         <span className='cityState'>{city}, {state}</span>
-                                        {distance !== 'NaN' ? <span className="distance-dates">{distance} miles away</span> : <span className="distance-dates-noDistance">loading</span>}
+                                        {distance !== 'NaN' ? <span className="distance-dates">{distance} miles away</span> : <span className="distance-dates-noDistance">...loading</span>}
                                         <span className="distance-dates">Listed in {createdAt}</span>
                                         <span className="priceNight" ><span style={{ fontWeight: '500' }}>${priceFormatted}</span> night</span>
                                         <span className='rating-wrapper'>
