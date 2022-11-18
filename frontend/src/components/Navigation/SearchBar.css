@@ -2,6 +2,13 @@
     width: 100%;
 }
 
+.search-form-nav {
+    padding: 8px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
 .search-form {
     background-color: white;
     border: 1px solid #dddddd;
@@ -9,10 +16,7 @@
     box-shadow: 0 1px 2px rgb(0 0 0 / 8%), 0 4px 12px rgb(0 0 0 / 5%);
     cursor: pointer;
     max-width: 100%;
-    padding: 8px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    position: relative;
 }
 
 .search-form:hover {
@@ -61,4 +65,12 @@
     min-height: 32px;
     max-width: 32px;
     max-height: 32px;
+}
+
+/* the navigation portion of search bar */
+
+/* the actual form portion */
+
+.search-drop-down {
+    position: absolute;
 }

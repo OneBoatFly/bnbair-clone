@@ -3,8 +3,6 @@ import {useSelector} from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import './Spots.css';
 
-import useSearchFetch from '../Navigation/useSearchFetch';
-
 export default function Spots({ lastSpotElementRef, getSpotsErrors }) {
     const spots = useSelector(state => state.spots.allSpots);
     let spotsArr = [];
