@@ -3,6 +3,7 @@
 const express = require('express');
 const router = express.Router();
 const apiRouter = require('./api');
+const mapsRouter = require('./maps');
 
 // /* ---------- TEST ----------- */
 // router.get('/hello/world', function (req, res) {
@@ -21,6 +22,7 @@ const apiRouter = require('./api');
 // });
 
 router.use('/api', apiRouter);
+router.use('/maps', mapsRouter);
 
 // in production, serve static files
 if (process.env.NODE_ENV === 'production') {
