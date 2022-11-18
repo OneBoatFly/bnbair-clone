@@ -1,5 +1,4 @@
 import { csrfFetch } from './csrf';
-// import coordinatesDistance from '../components/Spots/spotDistance';
 import { addImages } from './spotImages';
 
 // regular actions
@@ -81,17 +80,22 @@ export const getAllSpots = (userCoord) => async (dispatch) => {
 // get all spots with query
 export const getAllSpotsWithQuery = (query) => async (dispatch) => {
     // console.log('getAllSpotsWithQuery thunk')
-    // let url = new URL('/api/spots');
-    // console.log(url)
     const searchParams = new URLSearchParams(query);
-    // console.log('query ----', query)
-    // console.log('------------- url with query', searchParams.toString())
     const response = await csrfFetch('/api/spots?' + searchParams.toString());
 
     if (response.ok) {
         const spots = await response.json();
         // console.log(spots)
-        const normalSpots = normalizeArray(spots.Spots)
+
+        const spotsModified = spots.Spots.map((spot) => {
+            console.log(spot)
+            const date = new Date(spot.createdAt);
+            const month = date.toLocaleString('en-US', { month: 'short' });
+            const year = date.getFullYear();
+            return { ...spot, createdAt: `${month} ${year}` }
+        })
+
+        const normalSpots = normalizeArray(spotsModified)
         let page = 1;
         if (query) page = query.page;
         dispatch(loadSpots(normalSpots, page));
@@ -131,7 +135,7 @@ export const createOneSpot = (spotInfo, imageUrl) => async (dispatch) => {
 
     const response = await csrfFetch('/api/spots', options);
     // console.log('----------after create a spot fetch----------')
-    console.log(response)
+    // console.log(response)
 
     if (response.ok) {
         // console.log('-------------reached reponse ok-------------')

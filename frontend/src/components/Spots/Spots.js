@@ -3,70 +3,17 @@ import {useSelector} from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import './Spots.css';
 
+import coordinatesDistance from './SpotCalcs/spotDistance';
+
 export default function Spots({ lastSpotElementRef, getSpotsErrors }) {
     const spots = useSelector(state => state.spots.allSpots);
+    const userLocation = useSelector(state => state.session.userLocation);
+    // console.log('&&&',userLocation)
     let spotsArr = [];
     if (spots) spotsArr = Object.values(spots);
 
     let getSpotErrorsArr = [];
     if (getSpotErrorsArr) getSpotErrorsArr = Object.values(getSpotErrorsArr);
-
-    // console.log('spts array >>> ', spotsArr)
-    // const dispatch = useDispatch();
-    
-    // const [userCoord, setUserCoord] = useState({});
-    // navigator.geolocation.getCurrentPosition((location) => setUserCoord(location.coords))
-    // console.log('userCoord', userCoord)
-    // useEffect(() => {
-    //     // dispatch(spotsActions.getAllSpots(userCoord));
-    //     dispatch(spotsActions.getAllSpots());
-    // }, [dispatch]);
-
-//     const [page, setPage] = useState(1);
-//     console.log('page', page)
-//     const [query, setQuery] = useState({});
-//     console.log('query', query)
-//     const { loading, getSpotsErrors, hasMore } = useSearchFetch(query);
-//     // console.log('query', query)
-//     console.log(loading, getSpotsErrors, hasMore)
-//     console.log('__________________________________________________')
-
-//     useEffect(() => {
-//         setQuery((query => {
-//             const newQuery = { ...query };
-//             newQuery.page = page;
-//             return newQuery;
-//         }))
-//     }, [page])
-
-//     const observer = useRef();
-//     const lastSpotElementRef = useCallback(node => {
-//         if (loading) {
-//             // console.log('is loading? ', loading);
-//             return;
-//         }
-
-//         if (observer.current) {
-//             // console.log('there is an observer: ', observer.current);
-//             observer.current.disconnect();
-//         }
-
-//         observer.current = new IntersectionObserver(entries => {
-//             if (entries[0].isIntersecting && hasMore) {
-//                 // console.log('Visible -----------------')
-//                 setPage(prev => prev + 1);
-//             }
-//         })
-
-//         if (node) {
-//             // console.log('lastSpotElementRef')
-//             // console.log(node)
-//             observer.current.observe(node)
-//         }
-
-//     }, [loading, hasMore])
-
-//   // end of infinite scroll setting
   return (
     <div className='all-spots-wrapper'>
         <div>
@@ -82,7 +29,11 @@ export default function Spots({ lastSpotElementRef, getSpotsErrors }) {
         <div className='all-spots-sub-wrapper'>
             {
                 spotsArr?.map((spot, idx) => {
-                    const { previewImage, city, state, avgRating, price, id, distance } = spot;
+                    const { previewImage, city, state, avgRating, price, id, lat, lng, createdAt } = spot;
+                    const nf = new Intl.NumberFormat();
+                    let distance = nf.format(coordinatesDistance(lat, lng, userLocation.lat, userLocation.lng));
+                    console.log(city, state, typeof distance, distance)
+                    const priceFormatted = nf.format(price);
                     if (spotsArr.length === idx + 1) {
                         return (
                             <NavLink ref={lastSpotElementRef} key={id} to={`/spots/${id}`} className='link-wrapper'>
@@ -92,9 +43,9 @@ export default function Spots({ lastSpotElementRef, getSpotsErrors }) {
                                     </div>
                                     <div className='short-info-wrapper'>
                                         <span className='cityState'>{city}, {state}</span>
-                                        {/* {console.log(distance)} */}
-                                        {/* {!isNaN(distance) && <span style={{ color: '#717171' }}>{distance} miles away</span>} */}
-                                        <span className="priceNight" ><span style={{ fontWeight: '500' }}>${price}</span> night</span>
+                                        {distance !== 'NaN' ? <span className="distance-dates">{distance} miles away</span> : <span className="distance-dates-noDistance">loading</span>}
+                                        <span className="distance-dates">Listed in {createdAt}</span>
+                                        <span className="priceNight" ><span style={{ fontWeight: '500' }}>${priceFormatted}</span> night</span>
                                         <span className='rating-wrapper'>
                                             <i className="fa-solid fa-star" />
                                             {/* {console.log(avgRating)} */}
@@ -113,9 +64,9 @@ export default function Spots({ lastSpotElementRef, getSpotsErrors }) {
                                     </div>
                                     <div className='short-info-wrapper'>
                                         <span className='cityState'>{city}, {state}</span>
-                                        {/* {console.log(distance)} */}
-                                        {!isNaN(distance) && <span style={{ color: '#717171' }}>{distance} miles away</span>}
-                                        <span className="priceNight" ><span style={{ fontWeight: '500' }}>${price}</span> night</span>
+                                        {distance !== 'NaN' ? <span className="distance-dates">{distance} miles away</span> : <span className="distance-dates-noDistance">loading</span>}
+                                        <span className="distance-dates">Listed in {createdAt}</span>
+                                        <span className="priceNight" ><span style={{ fontWeight: '500' }}>${priceFormatted}</span> night</span>
                                         <span className='rating-wrapper'>
                                             <i className="fa-solid fa-star" />
                                             {/* {console.log(avgRating)} */}
