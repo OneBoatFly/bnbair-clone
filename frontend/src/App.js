@@ -10,6 +10,7 @@ import { Spots, SpotDetails, OwnerSpots } from './components/Spots';
 import UserReviews from './components/Reviews/UserReviews';
 import PageNotFound from './components/PageNotFound';
 import useSearchFetch from './components/Navigation/useSearchFetch';
+import MapContainer from './components/Maps';
 
 function App() {
   // console.log('0. App component rendered')
@@ -89,9 +90,11 @@ function App() {
       <Switch>
         <Route exact path='/'>
           <div className='root-sub-wrapper'>
-            {/* <Spots ></Spots> */}
-            <Spots lastSpotElementRef={lastSpotElementRef} getSpotsErrors={getSpotsErrors} ></Spots>
-          </div>      
+            <div className='map-allSpots-wrapper'>
+              <Spots lastSpotElementRef={lastSpotElementRef} getSpotsErrors={getSpotsErrors} ></Spots>
+              <MapContainer />
+            </div>
+          </div>
         </Route>
         {isLoaded &&
           <Route path='/spots/current'>

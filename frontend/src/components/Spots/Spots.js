@@ -13,60 +13,27 @@ export default function Spots({ lastSpotElementRef, getSpotsErrors }) {
 
     // console.log('spts array >>> ', spotsArr)
     // const dispatch = useDispatch();
-    
+    const successGeo = (position) => {
+        console.log(position)
+    }
+
+    const errorGeo = (error) => {
+        console.log(error);
+    };
+
+    const options = {
+        enableHighAccuracy: true,
+        timeout: 3000,
+    }
+
     // const [userCoord, setUserCoord] = useState({});
-    // navigator.geolocation.getCurrentPosition((location) => setUserCoord(location.coords))
+    navigator.geolocation.getCurrentPosition(successGeo, errorGeo, options)
     // console.log('userCoord', userCoord)
     // useEffect(() => {
     //     // dispatch(spotsActions.getAllSpots(userCoord));
     //     dispatch(spotsActions.getAllSpots());
     // }, [dispatch]);
 
-//     const [page, setPage] = useState(1);
-//     console.log('page', page)
-//     const [query, setQuery] = useState({});
-//     console.log('query', query)
-//     const { loading, getSpotsErrors, hasMore } = useSearchFetch(query);
-//     // console.log('query', query)
-//     console.log(loading, getSpotsErrors, hasMore)
-//     console.log('__________________________________________________')
-
-//     useEffect(() => {
-//         setQuery((query => {
-//             const newQuery = { ...query };
-//             newQuery.page = page;
-//             return newQuery;
-//         }))
-//     }, [page])
-
-//     const observer = useRef();
-//     const lastSpotElementRef = useCallback(node => {
-//         if (loading) {
-//             // console.log('is loading? ', loading);
-//             return;
-//         }
-
-//         if (observer.current) {
-//             // console.log('there is an observer: ', observer.current);
-//             observer.current.disconnect();
-//         }
-
-//         observer.current = new IntersectionObserver(entries => {
-//             if (entries[0].isIntersecting && hasMore) {
-//                 // console.log('Visible -----------------')
-//                 setPage(prev => prev + 1);
-//             }
-//         })
-
-//         if (node) {
-//             // console.log('lastSpotElementRef')
-//             // console.log(node)
-//             observer.current.observe(node)
-//         }
-
-//     }, [loading, hasMore])
-
-//   // end of infinite scroll setting
   return (
     <div className='all-spots-wrapper'>
         <div>

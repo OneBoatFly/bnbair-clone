@@ -1,28 +1,40 @@
 .all-spots-wrapper {
-    max-width: 1760px;
-    width: 100%;
-    margin: 24px auto;
+    /* max-width: 1760px; */
+    width: calc(50% - 12px);
+    height: 100%;
+    box-sizing: border-box;
+    overflow: scroll;
+    /* margin: 24px auto; */
+}
+
+.all-spots-wrapper::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+    /* make scrollbar transparent */
 }
 
 .single-spot-wrapper {
     max-width: 1120px;
     width: 100%;
     margin: 24px auto;
+    /* outline: 1px solid salmon; */
 }
 
 .all-spots-sub-wrapper {
     display: flex;
-    column-gap: 16px;
+    /* column-gap: 16px; */
+    column-gap: 32px;
     row-gap: 32px;
     flex-wrap: wrap;
     box-sizing: content-box;
 }
 
 /* this is for screen 1880px higher, from here goes down */
+/* calc((100% - 80px) / 6) if not including map, use this. and update to 16px gap */
 .link-wrapper {
     box-sizing: border-box;
-    max-width: calc((100% - 80px) / 6);
-    flex-basis: calc((100% - 80px) / 6);
+    max-width: calc((100% - 32px) / 2);
+    flex-basis: calc((100% - 32px) / 2);
     flex-grow: 1;
     flex-shrink: 1;
     text-decoration: none;
@@ -102,22 +114,22 @@
 
 @media (max-width: 1880px) {
     .link-wrapper {
-        max-width: calc((100% - 64px) / 5);
-        flex-basis: calc((100% - 64px) / 5);
+        /* max-width: calc((100% - 64px) / 5); */
+        /* flex-basis: calc((100% - 64px) / 5); */
     }
 }
 
 @media (max-width: 1640px) {
     .link-wrapper {
-        max-width: calc((100% - 48px) / 4);
-        flex-basis: calc((100% - 48px) / 4);
+        /* max-width: calc((100% - 48px) / 4);
+        flex-basis: calc((100% - 48px) / 4); */
     }
 }
 
 @media (max-width: 1128px) {
     .link-wrapper {
-        max-width: calc((100% - 32px) / 3);
-        flex-basis: calc((100% - 32px) / 3);
+        /* max-width: calc((100% - 32px) / 3); */
+        /* flex-basis: calc((100% - 32px) / 3); */
     }
 
     .airbnb-text-air,
@@ -129,8 +141,8 @@
 
 @media (max-width: 950px) {
     .link-wrapper {
-        max-width: calc((100% - 16px) / 2);
-        flex-basis: calc((100% - 16px) / 2);
+        /* max-width: calc((100% - 16px) / 2); */
+        /* flex-basis: calc((100% - 16px) / 2); */
     }
 }
 

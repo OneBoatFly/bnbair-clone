@@ -1,0 +1,11 @@
+.home-page-map-container {
+    width: calc(50% - 12px);
+    box-sizing: border-box;
+}
+
+.google-map {
+    /* outline: 1px solid salmon; */
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
