@@ -13,7 +13,7 @@ import SearchBar from './SearchBar';
 
 // import * as spotsReducerActions from '../../store/spots';
 
-export default function Navigation({ isLoaded, setIsLoaded, setQuery }) {
+export default function Navigation({ isLoaded, setIsLoaded, setQuery, query, showDropDown, setShowDropDown }) {
     const sessionUser = useSelector(state => state.session.user);
 
     const handleRefresh = () => {
@@ -38,7 +38,7 @@ export default function Navigation({ isLoaded, setIsLoaded, setQuery }) {
                 <NavLink exact to="/" onClick={handleRefresh}><Icon /></NavLink>
             </div>
             <div className='navigation-sub-wrapper center'>
-                <SearchBar setQuery={setQuery} />
+                <SearchBar setQuery={setQuery} showDropDown={showDropDown} setShowDropDown={setShowDropDown} />
             </div>
             <div className='navigation-sub-wrapper side2'>
                 {sessionLinks}

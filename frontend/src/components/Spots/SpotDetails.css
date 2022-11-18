@@ -97,6 +97,7 @@
 /* // images */
 
 .pictures-div-wrapper {
+    position: relative;
     display: flex;
     flex-wrap: wrap;
     box-sizing: border-box;
@@ -159,4 +160,19 @@
     color: #717171;
     margin-top: 8px;
     margin-bottom: 16px;
+}
+
+/* // all images */
+.show-all-images {
+    position: absolute;
+    bottom: 24px;
+    right: 24px;
+}
+
+.fa-solid.fa-ellipsis-vertical {
+    margin-right: 1px;
+}
+
+.fa-solid.fa-ellipsis-vertical.last-dots {
+    margin-right: 7px;
 }

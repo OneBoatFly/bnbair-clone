@@ -29,7 +29,8 @@ function App() {
   // console.log('page', page)
   const [query, setQuery] = useState({});
   // console.log('query', query)
-  const { loading, getSpotsErrors } = useSearchFetch(query);
+  const [showDropDown, setShowDropDown] = useState(false);
+  const { loading, getSpotsErrors } = useSearchFetch(query, setShowDropDown);
   // console.log('query', query)
   // console.log(loading, getSpotsErrors, hasMore)
   // console.log('__________________________________________________')
@@ -83,7 +84,7 @@ function App() {
   return (
     <div className='root-wrapper'>
       <div className='root-sub-wrapper-navigation'>
-        <Navigation isLoaded={isLoaded} setIsLoaded={setIsLoaded} setQuery={setQuery} query={query} />
+        <Navigation isLoaded={isLoaded} setIsLoaded={setIsLoaded} setQuery={setQuery} query={query} showDropDown={showDropDown} setShowDropDown={setShowDropDown} />
       </div>
       <Switch>
         <Route exact path='/'>

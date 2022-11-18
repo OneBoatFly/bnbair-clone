@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 // import { NavLink } from 'react-router-dom';
 
 import { Modal } from '../../context/Modal';
@@ -17,13 +17,14 @@ export default function MenuButton({ setIsLoaded }) {
         setShowMenu(true);
     };
 
+    const showDropDownMenuRef = useRef(null);
     useEffect(() => {
         if (!showMenu) return;
 
         const closeMenu = (e) => {
             // console.log(e.target)
             // console.log(e.target.classList)
-            if (!e.target.classList.contains('menu-dropdown')) setShowMenu(false);
+            if (showDropDownMenuRef.current && !showDropDownMenuRef.current.contains(e.target)) setShowMenu(false);
         };
 
         document.addEventListener('click', closeMenu);
@@ -40,7 +41,7 @@ export default function MenuButton({ setIsLoaded }) {
                 {/* <div><span>Menu</span></div> */}
             </button>
             {showMenu && (
-                <div className="navlinks">
+                <div className="navlinks" ref={showDropDownMenuRef}>
                     <div className="menu-dropdown">
                         <div className="menu-dropdown-sub">
                             <button onClick={() => setShowSignInModal(true)}><b>Log In</b></button>
