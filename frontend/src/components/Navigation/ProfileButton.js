@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useDispatch } from 'react-redux';
 import { NavLink, Redirect } from "react-router-dom";
 import * as sessionActions from '../../store/session';
@@ -18,11 +18,12 @@ export default function ProfileButton({ user, setIsLoaded }) {
         setShowMenu(true);
     };
 
+    const showDropDownMenuRef = useRef(null);
     useEffect(() => {
         if (!showMenu) return;
 
-        const closeMenu = () => {
-            setShowMenu(false);
+        const closeMenu = (e) => {
+            if (showDropDownMenuRef.current && !showDropDownMenuRef.current.contains(e.target)) setShowMenu(false);
         };
 
         document.addEventListener('click', closeMenu);
@@ -49,7 +50,7 @@ export default function ProfileButton({ user, setIsLoaded }) {
             </div>
         </button>
         {showMenu && (
-            <div className="navlinks" style={{background:'white', zIndex:'2'}}>
+            <div className="navlinks" style={{background:'white', zIndex:'2'}} ref={showDropDownMenuRef}>
                 <div className="profile-wrapper">
                     <div className="profile-wrapper-sub">
                         <span><b>{user.username}</b></span>
@@ -70,8 +71,8 @@ export default function ProfileButton({ user, setIsLoaded }) {
                 </div>
 
                 <div className="logout-button-wrapper">
-                    <div className="logout-button-sub">
-                        <button onClick={logout}>Log Out</button>
+                    <div className="logout-button-sub"onClick={logout}>
+                        <button>Log Out</button>
                     </div>
                 </div>
             </div>
