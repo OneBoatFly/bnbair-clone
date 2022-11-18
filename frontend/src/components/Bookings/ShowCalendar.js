@@ -36,7 +36,7 @@ export default function ShowCalendar({ dates, setDates }) {
     };
 
     const leftArrow = (
-        <i className="fa-solid fa-chevron-left"></i>
+        <i className="fa-solid fa-chevron-left in-calendar"></i>
     )
 
     const rightArrow = (

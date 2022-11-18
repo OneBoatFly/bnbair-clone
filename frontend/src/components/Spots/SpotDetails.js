@@ -11,7 +11,9 @@ import AddReview from '../Reviews/AddReview';
 import RatingNumReview from '../Reviews/RatingNumReview';
 import CreateBooking from '../Bookings/CreateBooking';
 import ShowCalendar from '../Bookings/ShowCalendar';
+import ShowAllPhotos from './ShowAllPhotos';
 import { Modal } from '../../context/Modal';
+import { ModalWhole } from '../../context/ModalWhole';
 
 import * as spotsActions from '../../store/spots';
 import * as spotReviewsActions from '../../store/spotReviews';
@@ -28,6 +30,7 @@ export default function SpotDetails() {
     const [showAddReviewForm, setShowAddReviewForm] = useState(false);
     const [showAddImageForm, setShowAddImageForm] = useState(false);
     const [backendErrors, setBackendErrors] = useState('');
+    const [showAllImages, setShowAllImages] = useState(false);
 
     const {spotId} = useParams();
     // console.log('---------- spotId', spotId)
@@ -113,6 +116,17 @@ export default function SpotDetails() {
                             {spot.SpotImages[4] ? <img src={`${spot.SpotImages[4].url}`} alt='room'></img> : <div className='no-image-div'>No Image</div>}
                         </div>
                     </div>
+                    <div className='review-modify-buttons show-all-images' style={{ marginTop: '10px', border: '1px solid #222222', borderRadius: '8px', overflow: 'hidden' }} >
+                        <button className='modify-buttons' onClick={() => setShowAllImages(true)} style={{color: '#222222'}} >
+                            <i className="fa-solid fa-ellipsis-vertical"></i><i className="fa-solid fa-ellipsis-vertical"></i><i className="fa-solid fa-ellipsis-vertical last-dots"></i>
+                            <span>Show all photos</span>
+                        </button>
+                    </div>
+                    {showAllImages &&
+                        <ModalWhole>
+                            <ShowAllPhotos spotImages={spot.SpotImages} setShowAllImages={setShowAllImages} />
+                        </ModalWhole>
+                    }
                 </div>
 
                 <div className='info-booking-wrapper'>
