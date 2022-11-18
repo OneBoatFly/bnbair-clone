@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef }  from 'react';
 import { Switch, Route, Redirect, NavLink } from 'react-router-dom';
-
 import { useDispatch, useSelector } from "react-redux";
 
 import * as sessionActions from "./store/session";
@@ -15,11 +14,18 @@ function App() {
   // console.log('0. App component rendered')
   const prevLoaded = window.localStorage.getItem('isLoaded');
   const [isLoaded, setIsLoaded] = useState(prevLoaded);
-  
-  // console.log('isLoaded', isLoaded)
-  // const sessionUser = useSelector(state => state.session.user);
-  
-  // const spots = useSelector(state => state.spots.allSpots);
+  // console.log(location)
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(sessionActions.userLocation())
+    dispatch(sessionActions.restoreUser()).then(() => {
+      setIsLoaded(true);
+    });
+
+  }, [dispatch]);
+
+  // infinite scroll
   const pagination = useSelector(state => state.spots.pagination);
 
   let hasMore = false;
@@ -31,10 +37,7 @@ function App() {
   // console.log('query', query)
   const [showDropDown, setShowDropDown] = useState(false);
   const { loading, getSpotsErrors } = useSearchFetch(query, setShowDropDown);
-  // console.log('query', query)
-  // console.log(loading, getSpotsErrors, hasMore)
-  // console.log('__________________________________________________')
-
+  
   useEffect(() => {
     setQuery((query => {
       const newQuery = {...query};
@@ -71,15 +74,6 @@ function App() {
   }, [loading, hasMore])
 
   // end of infinite scroll setting
-
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(sessionActions.restoreUser()).then(() => {
-      setIsLoaded(true);
-    });
-
-    // dispatch(spotsActions.getAllSpots());
-  }, [dispatch]);
   
   return (
     <div className='root-wrapper'>

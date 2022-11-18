@@ -1,5 +1,4 @@
 import { csrfFetch } from './csrf';
-// import coordinatesDistance from '../components/Spots/spotDistance';
 import { addImages } from './spotImages';
 
 // regular actions
@@ -80,20 +79,26 @@ export const getAllSpots = (userCoord) => async (dispatch) => {
 
 // get all spots with query
 export const getAllSpotsWithQuery = (query) => async (dispatch) => {
-    // console.log('getAllSpotsWithQuery thunk')
-    // let url = new URL('/api/spots');
-    // console.log(url)
+    console.log('getAllSpotsWithQuery thunk')
     const searchParams = new URLSearchParams(query);
-    // console.log('query ----', query)
-    // console.log('------------- url with query', searchParams.toString())
     const response = await csrfFetch('/api/spots?' + searchParams.toString());
 
     if (response.ok) {
         const spots = await response.json();
         // console.log(spots)
-        const normalSpots = normalizeArray(spots.Spots)
+
+        const spotsModified = spots.Spots.map((spot) => {
+            // console.log(spot)
+            const date = new Date(spot.createdAt);
+            const month = date.toLocaleString('en-US', { month: 'short' });
+            const year = date.getFullYear();
+            return { ...spot, createdAt: `${month} ${year}` }
+        })
+
+        const normalSpots = normalizeArray(spotsModified)
         let page = 1;
         if (query) page = query.page;
+        console.log(normalSpots)
         dispatch(loadSpots(normalSpots, page));
 
         const pagination = {
@@ -131,7 +136,7 @@ export const createOneSpot = (spotInfo, imageUrl) => async (dispatch) => {
 
     const response = await csrfFetch('/api/spots', options);
     // console.log('----------after create a spot fetch----------')
-    console.log(response)
+    // console.log(response)
 
     if (response.ok) {
         // console.log('-------------reached reponse ok-------------')
@@ -143,6 +148,7 @@ export const createOneSpot = (spotInfo, imageUrl) => async (dispatch) => {
         }];
         dispatch(addImages(imageUrls, spot.id))
         dispatch(getOneSpot(spot.id));
+        dispatch(getAllSpotsWithQuery({}));
         return spot;
     }
 };
@@ -160,6 +166,7 @@ export const updateOneSpot = (spotInfo, spotId) => async (dispatch) => {
         // console.log('-------------reached reponse ok-------------')
         const spot = await response.json();
         dispatch(getOneSpot(spot.id));
+        dispatch(getAllSpotsWithQuery({}));
         return spot;
     }
 };
@@ -177,7 +184,7 @@ export const getOwnerSpots = () => async (dispatch) => {
 };
 
 export const deleteOneSpot = (spotId) => async (dispatch) => {
-    // console.log('deleteOneSpot thunk')
+    console.log('deleteOneSpot thunk')
     const options = {
         method: 'DELETE'
     }
@@ -185,7 +192,9 @@ export const deleteOneSpot = (spotId) => async (dispatch) => {
 
     if (response.ok) {
         const data = await response.json();
-        // console.log('deleteOneSpot thunk', data)
+        console.log('deleteOneSpot thunk', data)
+
+        dispatch(getAllSpotsWithQuery({page: 1}));
         return data.message;
     }
 };
@@ -197,12 +206,14 @@ const spotsReducer = (state = initalState, action) => {
     let newState;
     switch (action.type) {
         case LOAD_SPOTS: {
-            // console.log('LOAD_SPOTS')
+            console.log('LOAD_SPOTS')
+            console.log('*************', action.payload.spots)
             newState = {...state}
             if (action.payload.page === 1) {
-                // console.log('*************', action.payload.spots)
-                newState.allSpots = action.payload.spots;
+                console.log('page 1 replace')
+                newState.allSpots = { ...action.payload.spots };
             } else {
+                console.log('page later, append')
                 newState.allSpots = { ...newState.allSpots, ...action.payload.spots}
             }
             return newState;

@@ -9,7 +9,7 @@ export default function coordinatesDistance(lat1, lon1, lat2, lon2) {
 
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     var distance = earthRadius * c; // Distance in km
-    return distance * 0.621371;
+    return Math.round(distance * 0.621371);
 }
 
 function deg2rad(deg) {

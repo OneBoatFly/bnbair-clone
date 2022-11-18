@@ -7,6 +7,7 @@ const reviewsRouter = require('./reviews');
 const spotImagesRouter = require('./spot-images');
 const bookingsRouter = require('./bookings');
 const reviewImagesRouter = require('./review-images');
+const mapsRouter = require('./maps');
 
 router.use(restoreUser);
 router.use('/session', sessionRouter);
@@ -16,6 +17,7 @@ router.use('/reviews', reviewsRouter);
 router.use('/spot-images', spotImagesRouter);
 router.use('/bookings', bookingsRouter);
 router.use('/review-images', reviewImagesRouter);
+router.use('/maps', mapsRouter);
 
 // router.post('/test', (req, res) => {
 //     console.log('getting to post - /test endpoint')
