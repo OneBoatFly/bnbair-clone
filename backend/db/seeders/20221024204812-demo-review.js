@@ -6,7 +6,7 @@ const { Op } = require('sequelize');
 module.exports = {
   async up (queryInterface, Sequelize) {
     const users = await User.findAll({limit: 5, offset: 0});
-    const spots = await Spot.findAll({limit: 24});
+    const spots = await Spot.findAll({limit: 12});
 
     for (let i = 0; i < users.length; i++) {
       const user = users[i];

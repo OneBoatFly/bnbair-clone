@@ -28,7 +28,8 @@ export default function UserReviews({ isLoaded }) {
       <div className='all-reviews-wrapper'>
           <div className='all-reviews-sub-wrapper'>
             <div className='all-reviews-header-wrapper'>
-              <h4>Past reviews you’ve written</h4>
+                {userReviewsArr.length > 0 ? <h4>Past reviews you’ve written</h4> : <h4>You have no reviews</h4>}
+              
                 {/* <div className='review-modify-buttons'>
                       <button className='modify-buttons' onClick={() => setShowAddReviewForm(true)}><i class="fa-solid fa-plus" style={{marginRight:'7px'}}></i><span>Add a review</span></button>
                 </div> */}

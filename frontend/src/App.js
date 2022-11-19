@@ -78,7 +78,7 @@ function App() {
   return (
     <div className='root-wrapper'>
       <div className='root-sub-wrapper-navigation'>
-        <Navigation isLoaded={isLoaded} setIsLoaded={setIsLoaded} setQuery={setQuery} query={query} showDropDown={showDropDown} setShowDropDown={setShowDropDown} />
+        <Navigation setPage={setPage} isLoaded={isLoaded} setIsLoaded={setIsLoaded} setQuery={setQuery} query={query} showDropDown={showDropDown} setShowDropDown={setShowDropDown} />
       </div>
       <Switch>
         <Route exact path='/'>
@@ -88,30 +88,30 @@ function App() {
           </div>      
         </Route>
         {isLoaded &&
-          <Route path='/spots/current'>
+          <Route exact path='/spots/current'>
             <div className='root-sub-wrapper'>
-              <OwnerSpots isLoaded={isLoaded}></OwnerSpots>
+              <OwnerSpots isLoaded={isLoaded} setPage={setPage}></OwnerSpots>
             </div>
           </Route>
         }
         {isLoaded &&
-          <Route path='/reviews/current'>
+          <Route exact path='/reviews/current'>
             <div className='root-sub-wrapper'>
-              <UserReviews isLoaded={isLoaded} />
+              <UserReviews isLoaded={isLoaded} setPage={setPage}/>
             </div>
           </Route>
         }
         {!isLoaded &&
-          <Route path='/spots/current'>
+          <Route exact path='/spots/current'>
             <Redirect to='/' />
           </Route>
         }
         {!isLoaded &&
-          <Route path='/reviews/current'>
+          <Route exact path='/reviews/current'>
             <Redirect to='/' />
           </Route>
         }  
-        <Route path='/spots/:spotId'>
+        <Route exact path='/spots/:spotId'>
           <div className='root-sub-wrapper'>
             <SpotDetails isLoaded={isLoaded}></SpotDetails>
           </div>

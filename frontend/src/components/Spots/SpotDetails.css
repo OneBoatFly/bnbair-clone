@@ -176,3 +176,28 @@
 .fa-solid.fa-ellipsis-vertical.last-dots {
     margin-right: 7px;
 }
+
+.signle-spot-header-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+@media (max-width: 375px) {
+    .signle-spot-header-wrapper {
+        flex-wrap: wrap;
+        margin-bottom: 12px;
+    }
+
+    .signle-spot-header-wrapper h3 {
+        margin-bottom: 0px;
+    }
+
+    .booking-form-wrapper {
+        display: none;
+    }
+
+    .spot-info-wrapper {
+        max-width: 100%;
+    }
+}

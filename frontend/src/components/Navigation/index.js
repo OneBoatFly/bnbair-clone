@@ -13,14 +13,8 @@ import SearchBar from './SearchBar';
 
 // import * as spotsReducerActions from '../../store/spots';
 
-export default function Navigation({ isLoaded, setIsLoaded, setQuery, query, showDropDown, setShowDropDown }) {
+export default function Navigation({ setPage, isLoaded, setIsLoaded, setQuery, query, showDropDown, setShowDropDown }) {
     const sessionUser = useSelector(state => state.session.user);
-
-    const handleRefresh = () => {
-        return (
-            <Redirect to='/'></Redirect>
-        )
-    }
 
     let sessionLinks;
     if (sessionUser) {
@@ -35,7 +29,7 @@ export default function Navigation({ isLoaded, setIsLoaded, setQuery, query, sho
     return (
         <div className='navigation-all-wrapper'>
             <div className='navigation-sub-wrapper side1'>
-                <NavLink exact to="/" onClick={handleRefresh}><Icon /></NavLink>
+                <NavLink to='/'><Icon setPage={setPage} /></NavLink>
             </div>
             <div className='navigation-sub-wrapper center'>
                 <SearchBar setQuery={setQuery} showDropDown={showDropDown} setShowDropDown={setShowDropDown} />

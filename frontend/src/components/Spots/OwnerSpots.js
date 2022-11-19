@@ -10,7 +10,7 @@ import CreateSpot from './CreateSpot';
 
 import './OwnerSpots.css';
 
-export default function OwnerSpots({ isLoaded }) {
+export default function OwnerSpots({ isLoaded, setPage }) {
   const ownerSpots = useSelector(state => state.spots.ownerSpots);
   const [showSpotFormModal, setShowSpotFormModal] = useState(false);
   const [showUpdateSpotModal, setShowUpdateSpotModal] = useState(false);
@@ -79,12 +79,12 @@ export default function OwnerSpots({ isLoaded }) {
       </div>
       {showSpotFormModal && (
         <Modal onClose={() => setShowSpotFormModal(false)} >
-          <CreateSpot setShowSpotFormModal={setShowSpotFormModal} />
+          <CreateSpot setShowSpotFormModal={setShowSpotFormModal} setPage={setPage} />
         </Modal>
       )}  
       {showUpdateSpotModal && (
         <Modal onClose={() => setShowUpdateSpotModal(false)} >
-          <UpdateSpot setShowUpdateSpotModal={setShowUpdateSpotModal} spot={currSpot} />
+          <UpdateSpot setShowUpdateSpotModal={setShowUpdateSpotModal} spot={currSpot} setPage={setPage} />
         </Modal>
       )}
     </div>

@@ -60,7 +60,7 @@ export default function SpotDetails() {
 
     useEffect(() => {
         if (dates.endDate <= dates.startDate) return; 
-        setTotayDays((dates.endDate - dates.startDate) / 86400000);
+        setTotayDays(Math.round((dates.endDate - dates.startDate) / 86400000));
         setStartDate(dates.startDate);
         setEndDate(dates.endDate)
     }, [dates])
@@ -71,7 +71,7 @@ export default function SpotDetails() {
     <div className='single-spot-wrapper'>
         {spot &&
             <div className='single-spot-sub-wrapper'>
-                <div style={{display:'flex', alignItems:'center', justifyContent:'space-between'}}>
+                <div className='signle-spot-header-wrapper'>
                     <h3>{spot.name}</h3>
                     <div style={{display:'flex', alignItems:'center', columnGap:'8px'}}>
                         <div className='review-modify-buttons' style={{ marginTop: '10px', border:'1px solid #222222', borderRadius: '8px', overflow: 'hidden' }} >
@@ -168,7 +168,7 @@ export default function SpotDetails() {
                             <RatingNumReview spot={spot} />
                         </h4>
                     </div>
-                    <SpotReviews spotReviews={spotReviews}/>
+                    <SpotReviews spotReviews={spotReviews} />
                 </div>
             </div>          
         }
@@ -185,7 +185,7 @@ export default function SpotDetails() {
         }
         {showReviewModal && (
             <Modal onClose={() => setShowReviewModal(false)} >
-                <SpotReviewsModal setShowReviewModal={setShowReviewModal} />
+                <SpotReviewsModal spotId={spotId} setShowReviewModal={setShowReviewModal} spot={spot} />
             </Modal>
         )}
         {showAddReviewForm &&

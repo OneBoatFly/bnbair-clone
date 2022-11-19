@@ -54,22 +54,24 @@ export default function SearchBar({ setQuery, showDropDown, setShowDropDown }) {
         }
     }
 
+    // onClick={openMenu}
+
   return (
-    <div className='search-bar-wrapper' ref={dropDownFormRef}>
-          <form className='search-form' onSubmit={handleSearch} onClick={openMenu}>
+    <div className='search-bar-wrapper' ref={dropDownFormRef} >
+          <form className='search-form' onSubmit={handleSearch}>
             <div className='search-form-nav'>
                 <div className='search-element-div-wrapper'>
                     <div className='search-element-div'>
                         <button>Feature</button>
                     </div>
                     <div className='search-element-div middle'>
-                        <button>To come</button>
+                        <button>To</button>
                     </div>
                     <div className='search-element-div'>
-                        <button>Any price</button>
+                        <button>Come</button>
                     </div>
                 </div>
-                <button className='search-form-submit'>
+                <button className='search-form-submit' disabled>
                     <i className="fa-solid fa-magnifying-glass"></i>
                 </button>
             </div>

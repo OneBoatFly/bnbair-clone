@@ -8,9 +8,9 @@ import './CreateSpot.css';
 import { handleLabelSmall, handleLabelBig, handleDivBottomBorder, handleDivBottomBorderOut } from '../styles';
 import MyButton from '../FormElements/MyButton';
 
-export default function UpdateSpot({ setShowUpdateSpotModal, spot }) {
+export default function UpdateSpot({ setShowUpdateSpotModal, spot, setPage }) {
   const [address, setAddress] = useState(spot.address);
-  const [aptNum, setAptNum] = useState(spot.aptNum);
+  // const [aptNum, setAptNum] = useState(spot.aptNum);
   const [city, setCity] = useState(spot.city);
   const [province, setProvince] = useState(spot.state);
   const [country, setCountry] = useState(spot.country);
@@ -100,6 +100,7 @@ export default function UpdateSpot({ setShowUpdateSpotModal, spot }) {
         setHasSubmitted(false);
         setNewSpot(spot);
         setSuccess(true);
+        // setPage(1);
         setShowUpdateSpotModal(false);
       })
       .catch(async (res) => {
@@ -146,7 +147,7 @@ export default function UpdateSpot({ setShowUpdateSpotModal, spot }) {
   // check valid price //
   const handleKeyDown = (e) => {
     // console.log(e.key, typeof e.key, e.key === 'Backspace', /[0-9]/.test(e.key), (e.key === 'Backspace') || /0-9/.test(e.key))
-    const valid = (e.key === 'Backspace') || /[0-9]/.test(e.key) || (e.key === 'ArrowLeft') || (e.key === 'ArrowRight') || (e.key === 'ArrowDown') || (e.key === 'ArrowUp') || (e.key === 'Tab')
+    const valid = (e.key === 'Backspace') || /[0-9]/.test(e.key) || (e.key === 'ArrowLeft') || (e.key === 'ArrowRight') || (e.key === 'ArrowDown') || (e.key === 'ArrowUp') || (e.key === 'Tab') || (e.key === 'Delete')
     if (!valid) {
       e.preventDefault();
     }

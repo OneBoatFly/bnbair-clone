@@ -10,7 +10,7 @@ import { handleLabelSmall, handleLabelBig, handleDivBottomBorder, handleDivBotto
 import MyButton from '../FormElements/MyButton';
 
 
-export default function CreateSpot({ setShowSpotFormModal }) {
+export default function CreateSpot({ setShowSpotFormModal, setPage }) {
   const [address, setAddress] = useState('');
   const [city, setCity] = useState('');
   const [province, setProvince] = useState('');
@@ -126,11 +126,12 @@ export default function CreateSpot({ setShowSpotFormModal }) {
         // console.log('in dispatch success - checking spot', spot)
         setHasSubmitted(false);
         setNewSpot(spot);
+        // setPage(1);
         setShowSpotFormModal(false);
       })
       .catch(async (res) => {
+        // console.log('res returned: ', res)
         const data = await res.json();
-        // console.log('data returned: ', data)
         // console.log('data.errors', data.errors)
         if (data && data.message) {
           setAddressErrors([data.message]);
@@ -173,7 +174,7 @@ export default function CreateSpot({ setShowSpotFormModal }) {
   // check valid price //
   const handleKeyDown = (e) => {
     // console.log(e.key, typeof e.key, e.key === 'Backspace', /[0-9]/.test(e.key), (e.key === 'Backspace') || /0-9/.test(e.key))
-    const valid = (e.key === 'Backspace') || /[0-9]/.test(e.key) || (e.key === 'ArrowLeft') || (e.key === 'ArrowRight') || (e.key === 'ArrowDown') || (e.key === 'ArrowUp') || (e.key === 'Tab')
+    const valid = (e.key === 'Backspace') || /[0-9]/.test(e.key) || (e.key === 'ArrowLeft') || (e.key === 'ArrowRight') || (e.key === 'ArrowDown') || (e.key === 'ArrowUp') || (e.key === 'Tab') || (e.key === 'Delete')
     if (!valid) {
       e.preventDefault();
     }
