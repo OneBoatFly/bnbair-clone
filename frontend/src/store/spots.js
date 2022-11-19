@@ -44,42 +44,42 @@ export const removeOwnerSpots = () => {
 
 // thunk actions
 // get all spots
-export const getAllSpots = (userCoord) => async (dispatch) => {
-    console.log('getAllSpots thunk')
-    const response = await csrfFetch('/api/spots');
+// export const getAllSpots = (userCoord) => async (dispatch) => {
+//     // console.log('getAllSpots thunk')
+//     const response = await csrfFetch('/api/spots');
 
-    if (response.ok) {
-        const spots = await response.json();
-        // console.log('******** page and size, spotsFound ********')
-        // console.log(spots.page);
-        // console.log(spots.size);
-        // console.log(spots.spotsFound);
-        // const userLat = userCoord.latitude;
-        // const userLon = userCoord.longitude;
-        // // console.log(userCoord)
-        // // console.log(spots)
-        // for (let id in spots.Spots) {
-        //     const spot = spots.Spots[id];
-        //     const { lat, lng } = spot;
-        //     const distance = coordinatesDistance(userLat, userLon, lat, lng);
-        //     spot.distance = Math.round(distance);
-        // }
+//     if (response.ok) {
+//         const spots = await response.json();
+//         // console.log('******** page and size, spotsFound ********')
+//         // console.log(spots.page);
+//         // console.log(spots.size);
+//         // console.log(spots.spotsFound);
+//         // const userLat = userCoord.latitude;
+//         // const userLon = userCoord.longitude;
+//         // // console.log(userCoord)
+//         // // console.log(spots)
+//         // for (let id in spots.Spots) {
+//         //     const spot = spots.Spots[id];
+//         //     const { lat, lng } = spot;
+//         //     const distance = coordinatesDistance(userLat, userLon, lat, lng);
+//         //     spot.distance = Math.round(distance);
+//         // }
 
-        const normalSpots = normalizeArray(spots.Spots)
-        dispatch(loadSpots(normalSpots));
+//         const normalSpots = normalizeArray(spots.Spots)
+//         dispatch(loadSpots(normalSpots));
         
-        const pagination = {
-            page: spots.page,
-            size: spots.size,
-            spotsFound: spots.spotsFound
-        }
-        dispatch(loadSpotsPagination(pagination));
-    }
-};
+//         const pagination = {
+//             page: spots.page,
+//             size: spots.size,
+//             spotsFound: spots.spotsFound
+//         }
+//         dispatch(loadSpotsPagination(pagination));
+//     }
+// };
 
 // get all spots with query
 export const getAllSpotsWithQuery = (query) => async (dispatch) => {
-    console.log('getAllSpotsWithQuery thunk')
+    // console.log('getAllSpotsWithQuery thunk')
     const searchParams = new URLSearchParams(query);
     const response = await csrfFetch('/api/spots?' + searchParams.toString());
 
@@ -98,7 +98,7 @@ export const getAllSpotsWithQuery = (query) => async (dispatch) => {
         const normalSpots = normalizeArray(spotsModified)
         let page = 1;
         if (query) page = query.page;
-        console.log(normalSpots)
+        // console.log(normalSpots)
         dispatch(loadSpots(normalSpots, page));
 
         const pagination = {
@@ -184,7 +184,7 @@ export const getOwnerSpots = () => async (dispatch) => {
 };
 
 export const deleteOneSpot = (spotId) => async (dispatch) => {
-    console.log('deleteOneSpot thunk')
+    // console.log('deleteOneSpot thunk')
     const options = {
         method: 'DELETE'
     }
@@ -192,7 +192,7 @@ export const deleteOneSpot = (spotId) => async (dispatch) => {
 
     if (response.ok) {
         const data = await response.json();
-        console.log('deleteOneSpot thunk', data)
+        // console.log('deleteOneSpot thunk', data)
 
         dispatch(getAllSpotsWithQuery({page: 1}));
         return data.message;
@@ -206,14 +206,15 @@ const spotsReducer = (state = initalState, action) => {
     let newState;
     switch (action.type) {
         case LOAD_SPOTS: {
-            console.log('LOAD_SPOTS')
-            console.log('*************', action.payload.spots)
+            // console.log('LOAD_SPOTS')
+            // console.log('*************', action.payload.spots)
             newState = {...state}
+            // newState.allSpots = { ...newState.allSpots, ...action.payload.spots }
             if (action.payload.page === 1) {
-                console.log('page 1 replace')
+                // console.log('page 1 replace')
                 newState.allSpots = { ...action.payload.spots };
             } else {
-                console.log('page later, append')
+                // console.log('page later, append')
                 newState.allSpots = { ...newState.allSpots, ...action.payload.spots}
             }
             return newState;

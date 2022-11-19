@@ -65,6 +65,11 @@
 .cityState {
     font-weight: 500;
     color: #222222;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 70%;
+    display: block;
 }
 
 .distance-dates-noDistance {
@@ -80,12 +85,22 @@
     color: #717171;
     margin-top: 2px;
     font-family: inherit;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 70%;
+    display: block;
 }
 
 .priceNight {
     color: #717171;
     margin-top: 6px;
     font-family: inherit;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 70%;
+    display: block;
 }
 
 .rating-wrapper {

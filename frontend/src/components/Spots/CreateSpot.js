@@ -10,7 +10,7 @@ import { handleLabelSmall, handleLabelBig, handleDivBottomBorder, handleDivBotto
 import MyButton from '../FormElements/MyButton';
 
 
-export default function CreateSpot({ setShowSpotFormModal }) {
+export default function CreateSpot({ setShowSpotFormModal, setPage }) {
   const [address, setAddress] = useState('');
   const [city, setCity] = useState('');
   const [province, setProvince] = useState('');
@@ -126,11 +126,12 @@ export default function CreateSpot({ setShowSpotFormModal }) {
         // console.log('in dispatch success - checking spot', spot)
         setHasSubmitted(false);
         setNewSpot(spot);
+        // setPage(1);
         setShowSpotFormModal(false);
       })
       .catch(async (res) => {
+        // console.log('res returned: ', res)
         const data = await res.json();
-        // console.log('data returned: ', data)
         // console.log('data.errors', data.errors)
         if (data && data.message) {
           setAddressErrors([data.message]);

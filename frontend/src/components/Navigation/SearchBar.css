@@ -67,6 +67,10 @@
     max-height: 32px;
 }
 
+.search-form-nav {
+    pointer-events: none;
+}
+
 /* the navigation portion of search bar */
 
 /* the actual form portion */

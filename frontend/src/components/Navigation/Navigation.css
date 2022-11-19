@@ -178,10 +178,16 @@
 }
 
 @media (max-width: 950px) {
-    .navigation-all-wrapper,
-    .navigation-sub-wrapper.center {
+    .navigation-all-wrapper {
         justify-content: left;
         min-width: unset;
+    }
+
+    .navigation-sub-wrapper.center {
+        justify-content: left;
+        min-width: 100px;
+        padding: 0px;
+        padding-right: 6px
     }
 
     .navigation-sub-wrapper.side1 {
@@ -190,6 +196,7 @@
 
     .navigation-sub-wrapper.side2 {
         flex: 1 0 auto;
+        column-gap: 6px;
     }
 }
 
