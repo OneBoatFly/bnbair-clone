@@ -71,7 +71,7 @@ export default function SearchBar({ setQuery, showDropDown, setShowDropDown }) {
                         <button>Come</button>
                     </div>
                 </div>
-                <button className='search-form-submit'>
+                <button className='search-form-submit' disabled>
                     <i className="fa-solid fa-magnifying-glass"></i>
                 </button>
             </div>

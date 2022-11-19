@@ -31,7 +31,7 @@ export default function Spots({ lastSpotElementRef }) {
         <div className='all-spots-sub-wrapper'>
             {
                 spotsArr?.map((spot, idx) => {
-                    const { previewImage, city, state, avgRating, price, id, lat, lng, createdAt } = spot;
+                    const { previewImage, city, state, avgRating, price, id, lat, lng, weekPast } = spot;
                     const nf = new Intl.NumberFormat();
                     let distance = nf.format(coordinatesDistance(lat, lng, userLocation.lat, userLocation.lng));
                     // console.log(city, state, typeof distance, distance)
@@ -45,8 +45,8 @@ export default function Spots({ lastSpotElementRef }) {
                                     </div>
                                     <div className='short-info-wrapper'>
                                         <span className='cityState'>{city}, {state}</span>
-                                        {distance !== 'NaN' ? <span className="distance-dates">{distance} miles away</span> : <span className="distance-dates-noDistance">...loading</span>}
-                                        <span className="distance-dates">Listed in {createdAt}</span>
+                                        {distance !== 'NaN' ? <span className="distance-dates">{distance} miles away</span> : <span className="distance-dates-noDistance">1 click away</span>}
+                                        <span className="distance-dates">Added {weekPast} week ago</span>
                                         <span className="priceNight" ><span style={{ fontWeight: '500' }}>${priceFormatted}</span> night</span>
                                         <span className='rating-wrapper'>
                                             <i className="fa-solid fa-star" />
@@ -66,8 +66,8 @@ export default function Spots({ lastSpotElementRef }) {
                                     </div>
                                     <div className='short-info-wrapper'>
                                         <span className='cityState'>{city}, {state}</span>
-                                        {distance !== 'NaN' ? <span className="distance-dates">{distance} miles away</span> : <span className="distance-dates-noDistance">...loading</span>}
-                                        <span className="distance-dates">Listed in {createdAt}</span>
+                                        {distance !== 'NaN' ? <span className="distance-dates">{distance} miles away</span> : <span className="distance-dates-noDistance">1 click away</span>}
+                                        <span className="distance-dates">Added {weekPast} week{weekPast > 1 ? 's' : ''} ago</span>
                                         <span className="priceNight" ><span style={{ fontWeight: '500' }}>${priceFormatted}</span> night</span>
                                         <span className='rating-wrapper'>
                                             <i className="fa-solid fa-star" />

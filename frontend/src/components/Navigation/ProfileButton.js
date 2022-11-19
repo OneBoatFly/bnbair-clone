@@ -45,7 +45,8 @@ export default function ProfileButton({ user, setIsLoaded }) {
   return (
     <div className="menu-all-wrapper">
         <button className="navBar-button" onClick={openMenu}>
-            <div>
+            <div style={{display:'flex', flexDirection:'row', verticalAlign:'center', justifyContent:'space-between', width:'70%'}}>
+                <i className="fa-solid fa-bars"></i>
                 <i className="fa-solid fa-user"></i>
             </div>
         </button>
@@ -71,7 +72,7 @@ export default function ProfileButton({ user, setIsLoaded }) {
                 </div>
 
                 <div className="logout-button-wrapper">
-                    <div className="logout-button-sub"onClick={logout}>
+                    <div className="logout-button-sub" onClick={logout}>
                         <button>Log Out</button>
                     </div>
                 </div>

@@ -89,10 +89,13 @@ export const getAllSpotsWithQuery = (query) => async (dispatch) => {
 
         const spotsModified = spots.Spots.map((spot) => {
             // console.log(spot)
+            const today = new Date();
             const date = new Date(spot.createdAt);
-            const month = date.toLocaleString('en-US', { month: 'short' });
-            const year = date.getFullYear();
-            return { ...spot, createdAt: `${month} ${year}` }
+            // const month = date.toLocaleString('en-US', { month: 'short' });
+            // const year = date.getFullYear();
+            // createdAt: `${month} ${year}`
+            const weekPast = Math.ceil((today - date) / (604800000))
+            return { ...spot, weekPast }
         })
 
         const normalSpots = normalizeArray(spotsModified)

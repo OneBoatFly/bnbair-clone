@@ -131,6 +131,7 @@
     /* background-color: rebeccapurple; */
     color: #222222;
     padding: 8px 16px;
+    cursor: pointer;
 }
 
 .logout-button-sub:hover,

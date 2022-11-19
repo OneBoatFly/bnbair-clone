@@ -4,8 +4,9 @@ import './SpotReviewsModal.css';
 import {useSelector, useDispatch} from 'react-redux';
 
 import * as spotReviewsActions from '../../store/spotReviews';
+import RatingNumReview from './RatingNumReview';
 
-export default function SpotReviewsModal({ spotId, setShowReviewModal }) {
+export default function SpotReviewsModal({ spotId, setShowReviewModal, spot }) {
   // console.log(spotId);
   const spotReviews = useSelector(state => state.spotReviews.spotAllReviews);
   // spotReviews []
@@ -22,6 +23,9 @@ export default function SpotReviewsModal({ spotId, setShowReviewModal }) {
           <i className="fa-solid fa-xmark"></i>
         </div>
       </div>      
+        <h2 style={{paddingLeft:'24px', marginBottom:'0px'}}>
+          {spotReviews.length > 0 && <RatingNumReview spot={spot} />}
+        </h2>
       <div className='spot-reviews-wrapper'>
         {
           spotReviews?.map((review, idx) => {
