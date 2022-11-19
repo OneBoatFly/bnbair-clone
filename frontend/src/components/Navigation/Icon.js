@@ -3,7 +3,7 @@ import { NavLink, Redirect } from 'react-router-dom';
 
 export default function Icon({ setPage }) {
   const handleRefresh = () => {
-    setPage(1);
+    // setPage(1);
   }
 
   return (
