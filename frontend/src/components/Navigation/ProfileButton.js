@@ -23,7 +23,11 @@ export default function ProfileButton({ user, setIsLoaded, setPage }) {
         if (!showMenu) return;
 
         const closeMenu = (e) => {
-            if (showDropDownMenuRef.current && !showDropDownMenuRef.current.contains(e.target)) setShowMenu(false);
+            // if (!showDropDownMenuRef.current.contains(e.target)) {
+            //     console.log('menu set to closed')
+            //     setShowMenu(false);
+            // }
+            setShowMenu(false);
         };
 
         document.addEventListener('click', closeMenu);

@@ -24,7 +24,8 @@ export default function MenuButton({ setIsLoaded }) {
         const closeMenu = (e) => {
             // console.log(e.target)
             // console.log(e.target.classList)
-            if (showDropDownMenuRef.current && !showDropDownMenuRef.current.contains(e.target)) setShowMenu(false);
+            // if (showDropDownMenuRef.current && !showDropDownMenuRef.current.contains(e.target)) setShowMenu(false);
+            setShowMenu(false);
         };
 
         document.addEventListener('click', closeMenu);
