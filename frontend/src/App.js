@@ -18,7 +18,7 @@ function App() {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(sessionActions.userLocation())
+    // dispatch(sessionActions.userLocation())
     dispatch(sessionActions.restoreUser()).then(() => {
       setIsLoaded(true);
     });
@@ -83,14 +83,13 @@ function App() {
       <Switch>
         <Route exact path='/'>
           <div className='root-sub-wrapper'>
-            {/* <Spots ></Spots> */}
             <Spots lastSpotElementRef={lastSpotElementRef} getSpotsErrors={getSpotsErrors} ></Spots>
           </div>      
         </Route>
         {isLoaded &&
           <Route exact path='/spots/current'>
             <div className='root-sub-wrapper'>
-              <OwnerSpots isLoaded={isLoaded} setPage={setPage}></OwnerSpots>
+              <OwnerSpots isLoaded={isLoaded} setPage={setPage} hasMore={hasMore}></OwnerSpots>
             </div>
           </Route>
         }
@@ -113,7 +112,7 @@ function App() {
         }  
         <Route exact path='/spots/:spotId'>
           <div className='root-sub-wrapper'>
-            <SpotDetails isLoaded={isLoaded}></SpotDetails>
+            <SpotDetails isLoaded={isLoaded} setPage={setPage}></SpotDetails>
           </div>
         </Route>
         <Route>

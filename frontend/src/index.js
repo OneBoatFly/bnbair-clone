@@ -29,7 +29,7 @@ function Root() {
     <ReduxProvider store={store}>
       <ModalProvider>
         <ModalWholeProvider>
-          <BrowserRouter forceRefresh={true}>
+          <BrowserRouter >
             <App />
           </BrowserRouter>
         </ModalWholeProvider>

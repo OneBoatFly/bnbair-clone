@@ -10,7 +10,7 @@ import { handleLabelSmall, handleLabelBig, handleDivBottomBorder, handleDivBotto
 import MyButton from '../FormElements/MyButton';
 
 
-export default function CreateSpot({ setShowSpotFormModal, setPage }) {
+export default function CreateSpot({ setShowSpotFormModal, setPage, hasMore }) {
   const [address, setAddress] = useState('');
   const [city, setCity] = useState('');
   const [province, setProvince] = useState('');
@@ -90,18 +90,6 @@ export default function CreateSpot({ setShowSpotFormModal, setPage }) {
       setAddressErrors([]);
     }
 
-    // console.log('addressErrors', addressErrors);
-    // console.log('titleErrors', titleErrors);
-    // console.log('descriptionErrors', descriptionErrors);
-    // console.log('priceErrors', priceErrors);
-
-    // if (!addressErrors.length && !titleErrors.length && !descriptionErrors.length && !priceErrors.length && !imageUrlErrors.length) {
-    //   // console.log('!! no errors')
-    //   setbuttonDisabled(false);
-    // } else {
-    //   setbuttonDisabled(true);
-    // }
-
   }, [address, city, province, country, name, description, price, previewImage]);
 
   const handleSubmit = (e) => {
@@ -126,7 +114,7 @@ export default function CreateSpot({ setShowSpotFormModal, setPage }) {
         // console.log('in dispatch success - checking spot', spot)
         setHasSubmitted(false);
         setNewSpot(spot);
-        // setPage(1);
+        setPage(1);
         setShowSpotFormModal(false);
       })
       .catch(async (res) => {
@@ -181,7 +169,7 @@ export default function CreateSpot({ setShowSpotFormModal, setPage }) {
   }
 
   if (newSpot.id) return (
-    <Redirect to={`/spots/${newSpot.id}`}/>
+    <Redirect push to={`/spots/${newSpot.id}`}/>
   )
 
   if (!sessionUser) return (

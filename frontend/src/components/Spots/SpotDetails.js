@@ -20,7 +20,7 @@ import * as spotReviewsActions from '../../store/spotReviews';
 
 import { getStartDateStr, getEndDateStr, getMMMDDYYYStr } from '../Spots/SpotCalcs/spotDates';
 
-export default function SpotDetails() {
+export default function SpotDetails({ setPage }) {
     // console.log('Spot Details Compoment')
     const sessionUser = useSelector(state => state.session.user);
     const spot = useSelector(state => state.spots.spotDetails);
@@ -45,6 +45,10 @@ export default function SpotDetails() {
                 // console.log('!!!!!!', e.status)
                 setBackendErrors('Listing not found.')
             })
+
+        return () => {
+            setBackendErrors('')
+        }
     }, [dispatch]);
     
     // date related
@@ -62,7 +66,13 @@ export default function SpotDetails() {
         if (dates.endDate <= dates.startDate) return; 
         setTotayDays(Math.round((dates.endDate - dates.startDate) / 86400000));
         setStartDate(dates.startDate);
-        setEndDate(dates.endDate)
+        setEndDate(dates.endDate);
+
+        return () => {
+            setTotayDays(1);
+            setStartDate(startDateStr);
+            setEndDate(endDateStr);
+        }
     }, [dates])
 
     // date related end
@@ -74,20 +84,20 @@ export default function SpotDetails() {
                 <div className='signle-spot-header-wrapper'>
                     <h3>{spot.name}</h3>
                     <div style={{display:'flex', alignItems:'center', columnGap:'8px'}}>
-                        <div className='review-modify-buttons' style={{ marginTop: '10px', border:'1px solid #222222', borderRadius: '8px', overflow: 'hidden' }} >
+                        {sessionUser && <div className='review-modify-buttons' style={{ marginTop: '10px', border:'1px solid #222222', borderRadius: '8px', overflow: 'hidden' }} >
                             <button className='modify-buttons' onClick={() => setShowAddReviewForm(true)} >
                                 <i className="fa-solid fa-plus" style={{ marginRight: '7px' }}></i>
                                 <span>Add a review</span>
                             </button>
-                        </div>
-                        {sessionUser && spot.ownerId === sessionUser.id &&
-                              <div className='review-modify-buttons' style={{ marginTop: '10px', border: '1px solid #222222', borderRadius: '8px', overflow: 'hidden' }} >
+                        </div>}
+                        {/* {sessionUser && spot.ownerId === sessionUser.id &&
+                            <div className='review-modify-buttons' style={{ marginTop: '10px', border: '1px solid #222222', borderRadius: '8px', overflow: 'hidden' }} >
                                 <button className='modify-buttons' onClick={() => setShowAddImageForm(true)} >
                                     <i className="fa-solid fa-plus" style={{ marginRight: '7px' }}></i>
                                     <span>Add images</span>
                                 </button>
                             </div>  
-                        }
+                        } */}
                     </div>
                 </div>
                 <div className='title-div-wrapper'>
@@ -190,14 +200,14 @@ export default function SpotDetails() {
         )}
         {showAddReviewForm &&
             <Modal onClose={() => setShowAddReviewForm(false)}>
-                <AddReview setShowAddReviewForm={setShowAddReviewForm} spotId={spotId} />
+                  <AddReview setShowAddReviewForm={setShowAddReviewForm} spotId={spotId} setPage={setPage}/>
             </Modal>
         }
-        {showAddImageForm &&
+        {/* {showAddImageForm &&
             <Modal onClose={() => setShowAddImageForm(false)}>
                 <AddSpotImages setShowAddImageForm={setShowAddImageForm} spotId={spotId} />
             </Modal>
-        }
+        } */}
     </div>
   )
 }

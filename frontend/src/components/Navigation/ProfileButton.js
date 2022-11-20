@@ -8,7 +8,7 @@ import { Modal } from '../../context/Modal';
 import CreateSpot from '../Spots/CreateSpot';
 import './Navigation.css';
 
-export default function ProfileButton({ user, setIsLoaded }) {
+export default function ProfileButton({ user, setIsLoaded, setPage }) {
     const dispatch = useDispatch();
     const [showMenu, setShowMenu] = useState(false);
     const [showSpotFormModal, setShowSpotFormModal] = useState(false);
@@ -80,7 +80,7 @@ export default function ProfileButton({ user, setIsLoaded }) {
         )}      
         {showSpotFormModal && (
             <Modal onClose={() => setShowSpotFormModal(false)} >
-                <CreateSpot setShowSpotFormModal={setShowSpotFormModal} />
+                <CreateSpot setShowSpotFormModal={setShowSpotFormModal} setPage={setPage}/>
             </Modal>
         )}  
     </div>

@@ -10,7 +10,7 @@ import CreateSpot from './CreateSpot';
 
 import './OwnerSpots.css';
 
-export default function OwnerSpots({ isLoaded, setPage }) {
+export default function OwnerSpots({ isLoaded, setPage, hasMore }) {
   const ownerSpots = useSelector(state => state.spots.ownerSpots);
   const [showSpotFormModal, setShowSpotFormModal] = useState(false);
   const [showUpdateSpotModal, setShowUpdateSpotModal] = useState(false);
@@ -48,10 +48,10 @@ export default function OwnerSpots({ isLoaded, setPage }) {
             <h4>
               {ownerSpotsArr.length > 0 ? `${ownerSpotsArr.length} listings` : 'No listing'}
             </h4>
-            <button onClick={() => setShowSpotFormModal(true)} className='modify-buttons single-button'>
+            {/* <button onClick={() => setShowSpotFormModal(true)} className='modify-buttons single-button'>
               <i className="fa-solid fa-plus"></i>
               <span> Create a listing</span>
-            </button>
+            </button> */}
           </div>
           <h5 id='delete-message' className={showDelete ? 'fadeIn' : 'fadeOut'}>
             {deleteMessage.length > 0 && `${deleteMessage}.`}
@@ -70,18 +70,18 @@ export default function OwnerSpots({ isLoaded, setPage }) {
             <tbody>
               {
                 ownerSpotsArr?.map((spot, idx) => {
-                  return <OwnerSpotsTR key={idx} setShowUpdateSpotModal={setShowUpdateSpotModal} spot={spot} setCurrSpot={setCurrSpot} setDeleteMessage={setDeleteMessage} setShowDelete={setShowDelete}/>
+                  return <OwnerSpotsTR key={idx} setShowUpdateSpotModal={setShowUpdateSpotModal} spot={spot} setCurrSpot={setCurrSpot} setDeleteMessage={setDeleteMessage} setShowDelete={setShowDelete} setPage={setPage} />
                 })
               }
             </tbody>
           </table>
         </div>
       </div>
-      {showSpotFormModal && (
+      {/* {showSpotFormModal && (
         <Modal onClose={() => setShowSpotFormModal(false)} >
-          <CreateSpot setShowSpotFormModal={setShowSpotFormModal} setPage={setPage} />
+          <CreateSpot setShowSpotFormModal={setShowSpotFormModal} setPage={setPage} hasMore={hasMore} />
         </Modal>
-      )}  
+      )}   */}
       {showUpdateSpotModal && (
         <Modal onClose={() => setShowUpdateSpotModal(false)} >
           <UpdateSpot setShowUpdateSpotModal={setShowUpdateSpotModal} spot={currSpot} setPage={setPage} />

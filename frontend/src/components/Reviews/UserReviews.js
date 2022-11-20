@@ -5,7 +5,7 @@ import { Redirect, NavLink } from 'react-router-dom';
 import * as spotReviewsActions from '../../store/spotReviews';
 import './UserReviews.css';
 
-export default function UserReviews({ isLoaded }) {
+export default function UserReviews({ isLoaded, setPage }) {
     // console.log('isLoaded? ', isLoaded)
     const userReviews = useSelector(state => state.spotReviews.userAllReviews);
     let userReviewsArr = [];
@@ -21,7 +21,10 @@ export default function UserReviews({ isLoaded }) {
         // console.log(e.currentTarget)
         // console.log(e.currentTarget.id);
 
-        dispatch(spotReviewsActions.deleteReview(e.currentTarget.id));
+        dispatch(spotReviewsActions.deleteReview(e.currentTarget.id))
+            .then(() => {
+                setPage(1);
+            })
     }
 
   return (

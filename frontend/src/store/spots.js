@@ -151,7 +151,7 @@ export const createOneSpot = (spotInfo, imageUrl) => async (dispatch) => {
         }];
         dispatch(addImages(imageUrls, spot.id))
         dispatch(getOneSpot(spot.id));
-        dispatch(getAllSpotsWithQuery({page: 1}));
+        // dispatch(getAllSpotsWithQuery({page: 1}));
         return spot;
     }
 };
@@ -169,7 +169,7 @@ export const updateOneSpot = (spotInfo, spotId) => async (dispatch) => {
         // console.log('-------------reached reponse ok-------------')
         const spot = await response.json();
         dispatch(getOneSpot(spot.id));
-        dispatch(getAllSpotsWithQuery({page: 1}));
+        // dispatch(getAllSpotsWithQuery({page: 1}));
         return spot;
     }
 };
@@ -197,7 +197,7 @@ export const deleteOneSpot = (spotId) => async (dispatch) => {
         const data = await response.json();
         // console.log('deleteOneSpot thunk', data)
 
-        dispatch(getAllSpotsWithQuery({page: 1}));
+        // dispatch(getAllSpotsWithQuery({page: 1}));
         return data.message;
     }
 };

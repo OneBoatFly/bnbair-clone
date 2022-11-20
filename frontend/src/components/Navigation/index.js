@@ -11,14 +11,19 @@ import MenuButton from './MenuButton';
 import Icon from './Icon';
 import SearchBar from './SearchBar';
 
-// import * as spotsReducerActions from '../../store/spots';
+import * as spotsReducerActions from '../../store/spots';
 
 export default function Navigation({ setPage, isLoaded, setIsLoaded, setQuery, query, showDropDown, setShowDropDown }) {
     const sessionUser = useSelector(state => state.session.user);
 
+    const dispatch = useDispatch();
+    const handleRefresh = () => {
+        setPage(1);
+    }
+
     let sessionLinks;
     if (sessionUser) {
-        sessionLinks = (<ProfileButton user={sessionUser} setIsLoaded={setIsLoaded} isLoaded={isLoaded} />);
+        sessionLinks = (<ProfileButton user={sessionUser} setIsLoaded={setIsLoaded} isLoaded={isLoaded} setPage={setPage} />);
     } else {
         sessionLinks = (<>
             <DemoUserButton setIsLoaded={setIsLoaded} />
@@ -29,7 +34,7 @@ export default function Navigation({ setPage, isLoaded, setIsLoaded, setQuery, q
     return (
         <div className='navigation-all-wrapper'>
             <div className='navigation-sub-wrapper side1'>
-                <NavLink to='/'><Icon setPage={setPage} /></NavLink>
+                <NavLink exact to='/' onClick={handleRefresh}><Icon setPage={setPage} /></NavLink>
             </div>
             <div className='navigation-sub-wrapper center'>
                 <SearchBar setQuery={setQuery} showDropDown={showDropDown} setShowDropDown={setShowDropDown} />
