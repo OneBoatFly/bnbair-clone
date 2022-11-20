@@ -8,7 +8,7 @@ import './CreateSpot.css';
 import { handleLabelSmall, handleLabelBig, handleDivBottomBorder, handleDivBottomBorderOut } from '../styles';
 import MyButton from '../FormElements/MyButton';
 
-export default function UpdateSpot({ setShowUpdateSpotModal, spot, setPage }) {
+export default function UpdateSpot({ setShowUpdateSpotModal, spot }) {
   const [address, setAddress] = useState(spot.address);
   // const [aptNum, setAptNum] = useState(spot.aptNum);
   const [city, setCity] = useState(spot.city);
@@ -100,7 +100,7 @@ export default function UpdateSpot({ setShowUpdateSpotModal, spot, setPage }) {
         setHasSubmitted(false);
         setNewSpot(spot);
         setSuccess(true);
-        setPage(1);
+        // setPage(1);
         setShowUpdateSpotModal(false);
       })
       .catch(async (res) => {
