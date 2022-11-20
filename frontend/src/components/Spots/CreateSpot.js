@@ -114,7 +114,7 @@ export default function CreateSpot({ setShowSpotFormModal, setPage, hasMore }) {
         // console.log('in dispatch success - checking spot', spot)
         setHasSubmitted(false);
         setNewSpot(spot);
-        setPage(1);
+        // setPage(1);
         setShowSpotFormModal(false);
       })
       .catch(async (res) => {

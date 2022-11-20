@@ -5,7 +5,7 @@ import * as spotReviewsActions from '../../store/spotReviews';
 import MyButton from '../FormElements/MyButton';
 import './AddReview.css';
 
-export default function AddReview({ spotId, setShowAddReviewForm, setPage }) {
+export default function AddReview({ spotId, setShowAddReviewForm }) {
     // console.log(spotId);
     // const userReviews = useSelector(state => state.spotReviews.userAllReviews);
     // userReviews []
@@ -41,9 +41,9 @@ export default function AddReview({ spotId, setShowAddReviewForm, setPage }) {
         }
 
         dispatch(spotReviewsActions.addUserReview(spotId, {review, stars}))
-            .then((newReview) => {
+            .then(() => {
                 // console.log('review added successfully ---', newReview)
-                setPage(1)
+                // setPage(1)
                 setHasSubmitted(false);
                 setShowAddReviewForm(false);
             })

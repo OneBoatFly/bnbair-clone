@@ -6,13 +6,13 @@ import * as spotsActions from '../../store/spots';
 import { Modal } from '../../context/Modal';
 import UpdateSpot from './UpdateSpot';
 import OwnerSpotsTR from './OwnerSpotsTR';
-import CreateSpot from './CreateSpot';
+// import CreateSpot from './CreateSpot';
 
 import './OwnerSpots.css';
 
-export default function OwnerSpots({ isLoaded, setPage, hasMore }) {
+export default function OwnerSpots({ isLoaded }) {
   const ownerSpots = useSelector(state => state.spots.ownerSpots);
-  const [showSpotFormModal, setShowSpotFormModal] = useState(false);
+  // const [showSpotFormModal, setShowSpotFormModal] = useState(false);
   const [showUpdateSpotModal, setShowUpdateSpotModal] = useState(false);
   const [currSpot, setCurrSpot] = useState({});
   const [deleteMessage, setDeleteMessage] = useState('');
@@ -70,7 +70,7 @@ export default function OwnerSpots({ isLoaded, setPage, hasMore }) {
             <tbody>
               {
                 ownerSpotsArr?.map((spot, idx) => {
-                  return <OwnerSpotsTR key={idx} setShowUpdateSpotModal={setShowUpdateSpotModal} spot={spot} setCurrSpot={setCurrSpot} setDeleteMessage={setDeleteMessage} setShowDelete={setShowDelete} setPage={setPage} />
+                  return <OwnerSpotsTR key={idx} setShowUpdateSpotModal={setShowUpdateSpotModal} spot={spot} setCurrSpot={setCurrSpot} setDeleteMessage={setDeleteMessage} setShowDelete={setShowDelete} />
                 })
               }
             </tbody>
@@ -84,7 +84,8 @@ export default function OwnerSpots({ isLoaded, setPage, hasMore }) {
       )}   */}
       {showUpdateSpotModal && (
         <Modal onClose={() => setShowUpdateSpotModal(false)} >
-          <UpdateSpot setShowUpdateSpotModal={setShowUpdateSpotModal} spot={currSpot} setPage={setPage} />
+          <UpdateSpot setShowUpdateSpotModal={setShowUpdateSpotModal} spot={currSpot} />
+          {/* <UpdateSpot setShowUpdateSpotModal={setShowUpdateSpotModal} spot={currSpot} setPage={setPage} /> */}
         </Modal>
       )}
     </div>

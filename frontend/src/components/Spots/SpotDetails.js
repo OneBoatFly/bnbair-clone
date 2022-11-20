@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import './SpotDetails.css';
 import moment from 'moment';
 
-import AddSpotImages from './AddSpotImages';
+// import AddSpotImages from './AddSpotImages';
 import SpotReviews from '../Reviews/SpotReviews';
 import SpotReviewsModal from '../Reviews/SpotReviewsModal';
 import AddReview from '../Reviews/AddReview';
@@ -20,7 +20,7 @@ import * as spotReviewsActions from '../../store/spotReviews';
 
 import { getStartDateStr, getEndDateStr, getMMMDDYYYStr } from '../Spots/SpotCalcs/spotDates';
 
-export default function SpotDetails({ setPage }) {
+export default function SpotDetails() {
     // console.log('Spot Details Compoment')
     const sessionUser = useSelector(state => state.session.user);
     const spot = useSelector(state => state.spots.spotDetails);
@@ -28,7 +28,7 @@ export default function SpotDetails({ setPage }) {
     const spotReviews = useSelector(state => state.spotReviews.spotAllReviews);
     const [showReviewModal, setShowReviewModal] = useState(false);
     const [showAddReviewForm, setShowAddReviewForm] = useState(false);
-    const [showAddImageForm, setShowAddImageForm] = useState(false);
+    // const [showAddImageForm, setShowAddImageForm] = useState(false);
     const [backendErrors, setBackendErrors] = useState('');
     const [showAllImages, setShowAllImages] = useState(false);
 
@@ -200,7 +200,7 @@ export default function SpotDetails({ setPage }) {
         )}
         {showAddReviewForm &&
             <Modal onClose={() => setShowAddReviewForm(false)}>
-                  <AddReview setShowAddReviewForm={setShowAddReviewForm} spotId={spotId} setPage={setPage}/>
+                  <AddReview setShowAddReviewForm={setShowAddReviewForm} spotId={spotId}/>
             </Modal>
         }
         {/* {showAddImageForm &&

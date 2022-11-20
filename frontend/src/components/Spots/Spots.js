@@ -1,15 +1,69 @@
 import React, { useState, useEffect, useRef, useCallback} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector} from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import './Spots.css';
-import * as spotsActions from '../../store/spots';
+// import * as spotsActions from '../../store/spots';
 
+import useSearchFetch from '../Navigation/useSearchFetch';
 import coordinatesDistance from './SpotCalcs/spotDistance';
 
-export default function Spots({ lastSpotElementRef }) {
+export default function Spots() {
     // window.location.reload(true);
     const spots = useSelector(state => state.spots.allSpots);
     const userLocation = useSelector(state => state.session.userLocation);
+
+    // infinite scroll
+    const pagination = useSelector(state => state.spots.pagination);
+
+    let hasMore = false;
+    if (pagination) hasMore = pagination.spotsFound - pagination.page * pagination.size > 0;
+
+    const [page, setPage] = useState(1);
+    const [query, setQuery] = useState({});
+    
+    const { loading, getSpotsErrors } = useSearchFetch(query);
+    // const { loading, getSpotsErrors } = useSearchFetch(query, setShowDropDown);
+
+    useEffect(() => {
+        setQuery({})
+    }, [])
+
+    useEffect(() => {
+        setQuery((query => {
+            const newQuery = { ...query };
+            newQuery.page = page;
+            return newQuery;
+        }))
+    }, [page])
+
+    const observer = useRef();
+    const lastSpotElementRef = useCallback(node => {
+        if (loading) {
+            // console.log('is loading? ', loading);
+            return;
+        }
+
+        if (observer.current) {
+            // console.log('there is an observer: ', observer.current);
+            observer.current.disconnect();
+        }
+
+        observer.current = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting && hasMore) {
+                // console.log('Visible -----------------')
+                setPage(prev => prev + 1);
+            }
+        })
+
+        if (node) {
+            // console.log('lastSpotElementRef')
+            // console.log(node)
+            observer.current.observe(node)
+        }
+
+    }, [loading, hasMore])
+
+  // end of infinite scroll setting
 
     let spotsArr = [];
     if (spots) spotsArr = Object.values(spots);

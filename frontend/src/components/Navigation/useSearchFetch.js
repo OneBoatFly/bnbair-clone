@@ -14,7 +14,7 @@ export default function useSearchFetch(query, setShowDropDown) {
         dispatch(spotsActions.getAllSpotsWithQuery(query))
             .then(() => {
                 setLoading(false);
-                setShowDropDown(false);
+                // setShowDropDown(false);
             })
             .catch((e) => {
                 setGetSpotsErrors(e.errors)

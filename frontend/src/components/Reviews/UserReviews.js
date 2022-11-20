@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import { Redirect, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import * as spotReviewsActions from '../../store/spotReviews';
 import './UserReviews.css';
 
-export default function UserReviews({ isLoaded, setPage }) {
+export default function UserReviews() {
     // console.log('isLoaded? ', isLoaded)
     const userReviews = useSelector(state => state.spotReviews.userAllReviews);
     let userReviewsArr = [];
@@ -21,10 +21,7 @@ export default function UserReviews({ isLoaded, setPage }) {
         // console.log(e.currentTarget)
         // console.log(e.currentTarget.id);
 
-        dispatch(spotReviewsActions.deleteReview(e.currentTarget.id))
-            .then(() => {
-                setPage(1);
-            })
+        dispatch(spotReviewsActions.deleteReview(e.currentTarget.id));
     }
 
   return (
