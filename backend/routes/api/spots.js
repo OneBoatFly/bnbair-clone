@@ -334,28 +334,28 @@ router.post('/', requireAuth, validateSpot, async (req, res, next) => {
     
         res.json(spot);
     } catch(e) {
-        console.log('backend error: ', e)
-        console.log('backend error: ', typeof e)
+        // console.log('backend error: ', e)
+        // console.log('backend error: ', typeof e)
         // console.log('backend e.parent.error: ', e.parent.error)
         
         if (e.errors) {
             const err = new Error();
             const resError = {}
             e.errors.forEach(error => {
-                console.log('backend each error: ', error)
+                // console.log('backend each error: ', error)
                 if (error.type === 'unique violation') {
-                    console.log('unique')
+                    // console.log('unique')
                     err.message = 'This address already exists.'
                 }
                 resError[error.path] = error.message
             })
             err.status = 403;
             err.errors = resError;
-            console.log('backend resError: ', resError);
+            // console.log('backend resError: ', resError);
             next(err);
         } else {
-            console.log('backend e.parent: ', e.parent)
-            console.log('backend e.parent: ', typeof e.parent)
+            // console.log('backend e.parent: ', e.parent)
+            // console.log('backend e.parent: ', typeof e.parent)
             const err = new Error();
             err.status = 403;
             err.errors = e.parent;

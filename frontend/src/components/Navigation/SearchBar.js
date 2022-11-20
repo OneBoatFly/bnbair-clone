@@ -39,7 +39,7 @@ export default function SearchBar({ setQuery, showDropDown, setShowDropDown }) {
         // console.log(e.target)
 
         if (Object.values(errors).length) {
-            console.log('errors', errors)
+            // console.log('errors', errors)
             return;
         } else {
             setQuery(query => {

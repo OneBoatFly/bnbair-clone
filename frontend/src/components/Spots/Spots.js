@@ -10,8 +10,8 @@ import coordinatesDistance from './SpotCalcs/spotDistance';
 export default function Spots() {
     // window.location.reload(true);
     const spots = useSelector(state => state.spots.allSpots);
-    console.log('spots obj')
-    console.log(spots)
+    // console.log('spots obj')
+    // console.log(spots)
     const userLocation = useSelector(state => state.session.userLocation);
 
     // infinite scroll

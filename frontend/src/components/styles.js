@@ -21,7 +21,7 @@ export const handleDivBottomBorderOut = (divRef) => {
 
 // unset and set the top border for form
 export const handleDivTopBorder = (divRef) => {
-    console.log(divRef)
+    // console.log(divRef)
     if (divRef.current) divRef.current.style.setProperty('border-top', '0px')
 }
 
