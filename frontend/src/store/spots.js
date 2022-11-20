@@ -85,8 +85,8 @@ export const getAllSpotsWithQuery = (query) => async (dispatch) => {
 
     if (response.ok) {
         const spots = await response.json();
-        console.log('spots: ')
-        console.log(spots)
+        // console.log('spots: ')
+        // console.log(spots)
 
         const spotsModified = spots.Spots.map((spot) => {
             // console.log(spot)
@@ -99,7 +99,7 @@ export const getAllSpotsWithQuery = (query) => async (dispatch) => {
             return { ...spot, weekPast }
         })
 
-        console.log('fetch returned: ', spotsModified)
+        // console.log('fetch returned: ', spotsModified)
         const normalSpots = normalizeArray(spotsModified)
         
         let page = 1;

@@ -30,7 +30,7 @@ export default function AddSpotImages({ spotId, setShowAddImageForm }) {
         e.preventDefault();
         setHasSubmitted(true)
         if (errors) {
-            console.log('has errors', errors);
+            // console.log('has errors', errors);
             return;
         }
 
