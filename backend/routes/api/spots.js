@@ -248,7 +248,7 @@ router.get('/', validateQuery, async (req, res, next) => {
     });
 
     // console.log(totalSpots[0].toJSON())
-    const spots = await Spot.findAll({ where, limit: size, offset });
+    const spots = await Spot.findAll({ where, limit: size, offset, order: ['id'] });
 
     const spotsArr = [];
     for (let i = 0; i < spots.length; i++) {
