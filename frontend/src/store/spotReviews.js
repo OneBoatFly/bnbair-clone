@@ -90,7 +90,7 @@ export const deleteReview = (reviewId) => async (dispatch) => {
         // console.log('response ok - data', data);
 
         dispatch(getUserReviews());
-        dispatch(spotsActions.getAllSpotsWithQuery({ page: 1 }))
+        // dispatch(spotsActions.getAllSpotsWithQuery({ page: 1 }))
         return data.message;
     }
 }
@@ -110,7 +110,7 @@ export const addUserReview = (spotId, reviewBody) => async (dispatch) => {
 
         dispatch(getSpotReviews(spotId));
         dispatch(spotsActions.getOneSpot(spotId));
-        dispatch(spotsActions.getAllSpotsWithQuery({page: 1}))
+        // dispatch(spotsActions.getAllSpotsWithQuery({page: 1}))
         return data;
     }
 

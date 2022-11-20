@@ -9,7 +9,6 @@ import coordinatesDistance from './SpotCalcs/spotDistance';
 export default function Spots({ lastSpotElementRef }) {
     const spots = useSelector(state => state.spots.allSpots);
     const userLocation = useSelector(state => state.session.userLocation);
-    // console.log('&&&',userLocation)
 
     let spotsArr = [];
     if (spots) spotsArr = Object.values(spots);

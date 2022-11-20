@@ -100,7 +100,7 @@ export default function UpdateSpot({ setShowUpdateSpotModal, spot, setPage }) {
         setHasSubmitted(false);
         setNewSpot(spot);
         setSuccess(true);
-        // setPage(1);
+        setPage(1);
         setShowUpdateSpotModal(false);
       })
       .catch(async (res) => {
@@ -155,7 +155,7 @@ export default function UpdateSpot({ setShowUpdateSpotModal, spot, setPage }) {
 
 
   if (success) return (
-    <Redirect to={`/spots/${newSpot.id}`}/>
+    <Redirect push to={`/spots/${newSpot.id}`}/>
   )
 
   if (!sessionUser) return (

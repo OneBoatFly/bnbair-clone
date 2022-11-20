@@ -5,7 +5,7 @@ import './OwnerSpots.css';
 import * as spotsActions from '../../store/spots';
 import { NavLink } from 'react-router-dom';
 
-export default function OwnerSpotsTR({ setShowUpdateSpotModal, spot, setCurrSpot, setDeleteMessage, setShowDelete }) {
+export default function OwnerSpotsTR({ setShowUpdateSpotModal, spot, setCurrSpot, setDeleteMessage, setShowDelete, setPage }) {
     const { previewImage, city, state, name, updatedAt } = spot;
     const date = new Date(updatedAt);
     const month = date.toLocaleString('en-US', { month: 'long' });
@@ -24,7 +24,10 @@ export default function OwnerSpotsTR({ setShowUpdateSpotModal, spot, setCurrSpot
         setDeleteMessage(message);
         setShowDelete(true);
 
-        dispatch(spotsActions.getOwnerSpots());
+        dispatch(spotsActions.getOwnerSpots())
+            .then(() => {
+                setPage(1);
+            })
     }
 
     return (
