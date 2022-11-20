@@ -85,7 +85,8 @@ export const getAllSpotsWithQuery = (query) => async (dispatch) => {
 
     if (response.ok) {
         const spots = await response.json();
-        // console.log(spots)
+        console.log('spots: ')
+        console.log(spots)
 
         const spotsModified = spots.Spots.map((spot) => {
             // console.log(spot)
@@ -98,7 +99,9 @@ export const getAllSpotsWithQuery = (query) => async (dispatch) => {
             return { ...spot, weekPast }
         })
 
+        console.log('fetch returned: ', spotsModified)
         const normalSpots = normalizeArray(spotsModified)
+        
         let page = 1;
         if (query) page = query.page;
         // console.log(normalSpots)
@@ -212,14 +215,7 @@ const spotsReducer = (state = initalState, action) => {
             // console.log('LOAD_SPOTS')
             // console.log('*************', action.payload.spots)
             newState = {...state}
-            // newState.allSpots = { ...newState.allSpots, ...action.payload.spots }
-            if (action.payload.page === 1) {
-                // console.log('page 1 replace')
-                newState.allSpots = { ...action.payload.spots };
-            } else {
-                // console.log('page later, append')
-                newState.allSpots = { ...newState.allSpots, ...action.payload.spots}
-            }
+            newState.allSpots = { ...action.payload.spots }
             return newState;
         }
         case LOAD_SPOT_DETAIL: {
@@ -254,6 +250,8 @@ const spotsReducer = (state = initalState, action) => {
 export default spotsReducer;
 
 function normalizeArray(array) {
+    // array.sort((a, b) => a.id > b.id)
+    
     const obj = {};
 
     array.forEach(element => {

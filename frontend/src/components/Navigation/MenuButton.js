@@ -24,7 +24,8 @@ export default function MenuButton({ setIsLoaded }) {
         const closeMenu = (e) => {
             // console.log(e.target)
             // console.log(e.target.classList)
-            if (showDropDownMenuRef.current && !showDropDownMenuRef.current.contains(e.target)) setShowMenu(false);
+            // if (showDropDownMenuRef.current && !showDropDownMenuRef.current.contains(e.target)) setShowMenu(false);
+            setShowMenu(false);
         };
 
         document.addEventListener('click', closeMenu);
@@ -43,11 +44,11 @@ export default function MenuButton({ setIsLoaded }) {
             {showMenu && (
                 <div className="navlinks" ref={showDropDownMenuRef}>
                     <div className="menu-dropdown">
-                        <div className="menu-dropdown-sub">
-                            <button onClick={() => setShowSignInModal(true)}><b>Log In</b></button>
+                        <div className="menu-dropdown-sub" onClick={() => setShowSignInModal(true)}>
+                            <button className="noSession-button"><b>Log In</b></button>
                         </div>
-                        <div className="menu-dropdown-sub">
-                            <button onClick={() => setShowSignUpModal(true)}>Sign up</button>
+                        <div className="menu-dropdown-sub" onClick={() => setShowSignUpModal(true)}>
+                            <button className="noSession-button">Sign up</button>
                         </div>
                     </div>
                 </div>

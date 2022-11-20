@@ -23,7 +23,11 @@ export default function ProfileButton({ user, setIsLoaded, setPage }) {
         if (!showMenu) return;
 
         const closeMenu = (e) => {
-            if (showDropDownMenuRef.current && !showDropDownMenuRef.current.contains(e.target)) setShowMenu(false);
+            // if (!showDropDownMenuRef.current.contains(e.target)) {
+            //     console.log('menu set to closed')
+            //     setShowMenu(false);
+            // }
+            setShowMenu(false);
         };
 
         document.addEventListener('click', closeMenu);
@@ -60,14 +64,16 @@ export default function ProfileButton({ user, setIsLoaded, setPage }) {
                 </div>
 
                 <div className="menu-dropdown">
-                    <div className="menu-dropdown-sub">
-                        <button className="create-listing-button" onClick={() => setShowSpotFormModal(true)}>Create a new listing</button>
+                    <div className="menu-dropdown-sub" onClick={() => setShowSpotFormModal(true)}>
+                        <button className="create-listing-button" >Create a new listing</button>
                     </div>                    
+                    
+                        <NavLink to='/spots/current' className="navLink-current">
+                            <div className="menu-dropdown-sub">Listings</div>
+                        </NavLink>
+                        
                     <div className="menu-dropdown-sub">
-                        <NavLink to='/spots/current'>Listings</NavLink>
-                    </div>
-                    <div className="menu-dropdown-sub">
-                        <NavLink to='/reviews/current'>My reviews</NavLink>
+                        <NavLink to='/reviews/current' className="navLink-current">My reviews</NavLink>
                     </div>
                 </div>
 

@@ -10,6 +10,8 @@ import coordinatesDistance from './SpotCalcs/spotDistance';
 export default function Spots() {
     // window.location.reload(true);
     const spots = useSelector(state => state.spots.allSpots);
+    console.log('spots obj')
+    console.log(spots)
     const userLocation = useSelector(state => state.session.userLocation);
 
     // infinite scroll
@@ -31,7 +33,8 @@ export default function Spots() {
     useEffect(() => {
         setQuery((query => {
             const newQuery = { ...query };
-            newQuery.page = page;
+            // newQuery.page = page;
+            newQuery.size = page * 20;
             return newQuery;
         }))
     }, [page])
@@ -67,6 +70,8 @@ export default function Spots() {
 
     let spotsArr = [];
     if (spots) spotsArr = Object.values(spots);
+    // console.log('spotArr:');
+    // console.log(spotsArr);
 
     let getSpotErrorsArr = [];
     if (getSpotErrorsArr) getSpotErrorsArr = Object.values(getSpotErrorsArr);
