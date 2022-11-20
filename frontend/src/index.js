@@ -11,6 +11,7 @@ import * as sessionActions from './store/session';
 
 import {ModalProvider} from './context/Modal';
 import {ModalWholeProvider} from './context/ModalWhole';
+import ScrollToTop from './components/ScrollToTop/ScrollToTop';
 
 const store = configureStore();
 
@@ -29,7 +30,8 @@ function Root() {
     <ReduxProvider store={store}>
       <ModalProvider>
         <ModalWholeProvider>
-          <BrowserRouter >
+          <BrowserRouter>
+            <ScrollToTop />
             <App />
           </BrowserRouter>
         </ModalWholeProvider>

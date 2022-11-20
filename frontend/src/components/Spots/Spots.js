@@ -7,6 +7,7 @@ import * as spotsActions from '../../store/spots';
 import coordinatesDistance from './SpotCalcs/spotDistance';
 
 export default function Spots({ lastSpotElementRef }) {
+    // window.location.reload(true);
     const spots = useSelector(state => state.spots.allSpots);
     const userLocation = useSelector(state => state.session.userLocation);
 
@@ -15,7 +16,8 @@ export default function Spots({ lastSpotElementRef }) {
 
     let getSpotErrorsArr = [];
     if (getSpotErrorsArr) getSpotErrorsArr = Object.values(getSpotErrorsArr);
-  return (
+  
+    return (
     <div className='all-spots-wrapper'>
         <div>
             {getSpotErrorsArr?.map(error => {
