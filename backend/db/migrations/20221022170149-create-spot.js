@@ -7,7 +7,7 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.SERIAL
+        type: Sequelize.INTEGER
       },
       ownerId: {
         type: Sequelize.INTEGER,
