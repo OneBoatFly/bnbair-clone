@@ -18,7 +18,7 @@ function App() {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(sessionActions.userLocation())
+    // dispatch(sessionActions.userLocation())
     dispatch(sessionActions.restoreUser()).then(() => {
       setIsLoaded(true);
     });
