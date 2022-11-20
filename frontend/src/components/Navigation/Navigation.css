@@ -134,11 +134,12 @@
     cursor: pointer;
 }
 
+.navLink-current:hover,
 .logout-button-sub:hover,
 .menu-dropdown-sub:hover {
     background-color: rgb(245, 245, 245);
+    cursor: pointer;
 }
-
 
 .menu-dropdown {
     /* outline: 1px solid salmon; */
@@ -149,14 +150,23 @@
 }
 
 .menu-dropdown-sub {
-    padding: 8px 16px;
+    /* padding: 8px 16px; */
     /* outline: 1px solid salmon; */
     display: flex;
     flex-direction: column;
     row-gap: 6px;
 }
 
+.noSession-button,
 .create-listing-button {
+    /* outline: 1px solid salmon; */
+    margin: 8px 16px;
+    color: #222222;
+}
+
+.navLink-current {
+    /* outline: 1px solid salmon; */
+    padding: 8px 16px;
     color: #222222;
 }
 
