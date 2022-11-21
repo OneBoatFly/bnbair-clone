@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { useDispatch } from 'react-redux';
 import { NavLink, Redirect } from "react-router-dom";
 import * as sessionActions from '../../store/session';
-import * as spotsActions from '../../store/spots'
+import * as spotsActions from '../../store/spots';
+import * as reviewsActions from '../../store/spotReviews';
 
 import { Modal } from '../../context/Modal';
 import CreateSpot from '../Spots/CreateSpot';
@@ -39,6 +40,7 @@ export default function ProfileButton({ user, setIsLoaded, setPage }) {
         e.preventDefault();
         dispatch(sessionActions.logout());
         dispatch(spotsActions.removeOwnerSpots());
+        dispatch(reviewsActions.removeUserReviews());
         setIsLoaded(false);
         window.localStorage.setItem('isLoaded', false);
         return (
