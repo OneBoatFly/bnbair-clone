@@ -51,7 +51,7 @@ export default function SpotDetails() {
             })
 
         return () => {
-            console.log('SpotDetail unmounted')
+            // console.log('SpotDetail unmounted')
             setBackendErrors('')
             // setSpot({})
             dispatch(spotsActions.unloadOneSpot());
