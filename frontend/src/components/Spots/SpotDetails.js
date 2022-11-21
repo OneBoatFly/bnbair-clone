@@ -23,7 +23,7 @@ import { getStartDateStr, getEndDateStr, getMMMDDYYYStr } from '../Spots/SpotCal
 export default function SpotDetails() {
     // console.log('Spot Details Compoment')
     const sessionUser = useSelector(state => state.session.user);
-    const spot = useSelector(state => state.spots.spotDetails);
+    // const spot = useSelector(state => state.spots.spotDetails);
     // console.log('spot', spot)
     const spotReviews = useSelector(state => state.spotReviews.spotAllReviews);
     const [showReviewModal, setShowReviewModal] = useState(false);
@@ -32,13 +32,16 @@ export default function SpotDetails() {
     const [backendErrors, setBackendErrors] = useState('');
     const [showAllImages, setShowAllImages] = useState(false);
 
+    const [spot, setSpot] = useState({});
+
     const {spotId} = useParams();
     // console.log('---------- spotId', spotId)
     const dispatch = useDispatch();
     useEffect(() => {
         // console.log('-------------- dispatching getonespot')
         dispatch(spotsActions.getOneSpot(spotId))
-            .then(() => {
+            .then((spot) => {
+                setSpot(spot)
                 dispatch(spotReviewsActions.getSpotReviews(spotId));
             })
             .catch(() => {
@@ -48,6 +51,7 @@ export default function SpotDetails() {
 
         return () => {
             setBackendErrors('')
+            setSpot({})
         }
     }, [dispatch]);
     
@@ -104,44 +108,46 @@ export default function SpotDetails() {
                     <RatingNumReview spot={spot} setShowReviewModal={setShowReviewModal} />
                 </div>
 
-                <div className='pictures-div-wrapper'>
-                    <div className='pictures-big'>
-                        <div className='image-div'>
-                            {spot.SpotImages[0] ? 
-                                <img src={`${spot.SpotImages[0].url}`} alt='room'></img> : <div className='no-image-div'>No Image</div>
-                            }
+                {spot.SpotImages && 
+                    <div className='pictures-div-wrapper'>
+                        <div className='pictures-big'>
+                            <div className='image-div'>
+                                {spot.SpotImages[0] ? 
+                                    <img src={`${spot.SpotImages[0].url}`} alt='room'></img> : <div className='no-image-div'>No Image</div>
+                                }
+                            </div>
                         </div>
+                        <div className='pictures-small'>
+                            <div className='image-div'>
+                                {spot.SpotImages[1] ? <img src={`${spot.SpotImages[1].url}`} alt='room'></img> : <div className='no-image-div'>No Image</div>}
+                            </div>
+                            <div className='image-div'>
+                                {spot.SpotImages[2] ? <img src={`${spot.SpotImages[2].url}`} alt='room'></img> : <div className='no-image-div'>No Image</div>}
+                            </div>
+                            <div className='image-div'>
+                                {spot.SpotImages[3] ? <img src={`${spot.SpotImages[3].url}`} alt='room'></img> : <div className='no-image-div'>No Image</div>}
+                            </div>
+                            <div className='image-div'>
+                                {spot.SpotImages[4] ? <img src={`${spot.SpotImages[4].url}`} alt='room'></img> : <div className='no-image-div'>No Image</div>}
+                            </div>
+                        </div>
+                        <div className='review-modify-buttons show-all-images' style={{ marginTop: '10px', border: '1px solid #222222', borderRadius: '8px', overflow: 'hidden' }} >
+                            <button className='modify-buttons' onClick={() => setShowAllImages(true)} style={{color: '#222222'}} >
+                                <i className="fa-solid fa-ellipsis-vertical"></i><i className="fa-solid fa-ellipsis-vertical"></i><i className="fa-solid fa-ellipsis-vertical last-dots"></i>
+                                <span>Show all photos</span>
+                            </button>
+                        </div>
+                        {showAllImages &&
+                            <ModalWhole>
+                                <ShowAllPhotos spotImages={spot.SpotImages} setShowAllImages={setShowAllImages} />
+                            </ModalWhole>
+                        }
                     </div>
-                    <div className='pictures-small'>
-                        <div className='image-div'>
-                            {spot.SpotImages[1] ? <img src={`${spot.SpotImages[1].url}`} alt='room'></img> : <div className='no-image-div'>No Image</div>}
-                        </div>
-                        <div className='image-div'>
-                            {spot.SpotImages[2] ? <img src={`${spot.SpotImages[2].url}`} alt='room'></img> : <div className='no-image-div'>No Image</div>}
-                        </div>
-                        <div className='image-div'>
-                            {spot.SpotImages[3] ? <img src={`${spot.SpotImages[3].url}`} alt='room'></img> : <div className='no-image-div'>No Image</div>}
-                        </div>
-                        <div className='image-div'>
-                            {spot.SpotImages[4] ? <img src={`${spot.SpotImages[4].url}`} alt='room'></img> : <div className='no-image-div'>No Image</div>}
-                        </div>
-                    </div>
-                    <div className='review-modify-buttons show-all-images' style={{ marginTop: '10px', border: '1px solid #222222', borderRadius: '8px', overflow: 'hidden' }} >
-                        <button className='modify-buttons' onClick={() => setShowAllImages(true)} style={{color: '#222222'}} >
-                            <i className="fa-solid fa-ellipsis-vertical"></i><i className="fa-solid fa-ellipsis-vertical"></i><i className="fa-solid fa-ellipsis-vertical last-dots"></i>
-                            <span>Show all photos</span>
-                        </button>
-                    </div>
-                    {showAllImages &&
-                        <ModalWhole>
-                            <ShowAllPhotos spotImages={spot.SpotImages} setShowAllImages={setShowAllImages} />
-                        </ModalWhole>
-                    }
-                </div>
+                }
 
                 <div className='info-booking-wrapper'>
                     <div className='spot-info-wrapper'>
-                        <div className='hostName'>{spot.Owner && <h4>Hosted by {spot.Owner.firstName}</h4>}</div>
+                        {spot.Owner && <div className='hostName'>{spot.Owner && <h4>Hosted by {spot.Owner.firstName}</h4>}</div>}
                         <div className='info-detail-wrapper'>
                             <div>
                                 <img className='aircover-img' src='https://a0.muscache.com/im/pictures/54e427bb-9cb7-4a81-94cf-78f19156faad.jpg' alt='aircover'></img>
