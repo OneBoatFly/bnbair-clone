@@ -23,7 +23,7 @@ import { getStartDateStr, getEndDateStr, getMMMDDYYYStr } from '../Spots/SpotCal
 export default function SpotDetails() {
     // console.log('Spot Details Compoment')
     const sessionUser = useSelector(state => state.session.user);
-    // const spot = useSelector(state => state.spots.spotDetails);
+    // const newSpot = useSelector(state => state.spots.spotDetails);
     // console.log('spot', spot)
     const spotReviews = useSelector(state => state.spotReviews.spotAllReviews);
     const [showReviewModal, setShowReviewModal] = useState(false);
@@ -53,7 +53,7 @@ export default function SpotDetails() {
             setBackendErrors('')
             setSpot({})
         }
-    }, [dispatch]);
+    }, [dispatch, spotId]);
     
     // date related
     const startDateStr = getStartDateStr();
