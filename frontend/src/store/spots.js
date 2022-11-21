@@ -7,6 +7,7 @@ const LOAD_SPOTS_PAGINATION = 'spots/loadSpotsPagination'
 const LOAD_SPOT_DETAIL = 'spots/getOneSpot';
 const LOAD_OWNER_SPOTS = 'spots/ownerSpots';
 const REMOVE_OWNER_SPOTS = 'spots/removeOwnerSpots';
+const UNLOAD_SPOT_DETAIL = 'spots/unloadOneSpot';
 
 const loadSpots = (spots, page) => {
     return {
@@ -14,6 +15,12 @@ const loadSpots = (spots, page) => {
         payload: {spots, page}
     }
 };
+
+export const unloadOneSpot = () => {
+    return {
+        type: UNLOAD_SPOT_DETAIL
+    }
+}
 
 const loadSpotsPagination = (pagination) => {
     return {
@@ -238,6 +245,11 @@ const spotsReducer = (state = initalState, action) => {
         case LOAD_SPOTS_PAGINATION: {
             newState = { ...state }
             newState.pagination = action.pagination;
+            return newState;
+        }
+        case UNLOAD_SPOT_DETAIL: {
+            newState = { ...state }
+            newState.spotDetails = {};
             return newState;
         }
         default: {

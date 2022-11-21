@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { NavLink, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
 import './SpotDetails.css';
@@ -22,8 +22,9 @@ import { getStartDateStr, getEndDateStr, getMMMDDYYYStr } from '../Spots/SpotCal
 
 export default function SpotDetails() {
     // console.log('Spot Details Compoment')
+
     const sessionUser = useSelector(state => state.session.user);
-    // const newSpot = useSelector(state => state.spots.spotDetails);
+    const spot = useSelector(state => state.spots.spotDetails);
     // console.log('spot', spot)
     const spotReviews = useSelector(state => state.spotReviews.spotAllReviews);
     const [showReviewModal, setShowReviewModal] = useState(false);
@@ -32,7 +33,7 @@ export default function SpotDetails() {
     const [backendErrors, setBackendErrors] = useState('');
     const [showAllImages, setShowAllImages] = useState(false);
 
-    const [spot, setSpot] = useState({});
+    // const [spot, setSpot] = useState({});
 
     const {spotId} = useParams();
     // console.log('---------- spotId', spotId)
@@ -41,7 +42,7 @@ export default function SpotDetails() {
         // console.log('-------------- dispatching getonespot')
         dispatch(spotsActions.getOneSpot(spotId))
             .then((spot) => {
-                setSpot(spot)
+                // setSpot(spot)
                 dispatch(spotReviewsActions.getSpotReviews(spotId));
             })
             .catch(() => {
@@ -50,10 +51,12 @@ export default function SpotDetails() {
             })
 
         return () => {
+            console.log('SpotDetail unmounted')
             setBackendErrors('')
-            setSpot({})
+            // setSpot({})
+            dispatch(spotsActions.unloadOneSpot());
         }
-    }, [dispatch, spotId]);
+    }, [dispatch]);
     
     // date related
     const startDateStr = getStartDateStr();
