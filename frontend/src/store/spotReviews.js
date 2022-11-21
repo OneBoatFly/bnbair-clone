@@ -4,6 +4,7 @@ import * as spotsActions from './spots';
 // regular actions
 const LOAD_SPOT_REVIEWS = 'spots/:id/loadSpotReviews';
 const LOAD_USER_REVIEWS = 'spots/:id/loadUserReviews';
+const REMOVE_USER_REVIEWS = '/removeUserReviews';
 
 const loadSpotReviews = (reviews) => {
     return {
@@ -18,6 +19,12 @@ const loadUserReviews = (reviews) => {
         reviews
     }
 };
+
+export const removeUserReviews = () => {
+    return {
+        type: REMOVE_USER_REVIEWS,
+    }
+} 
 
 // thunk actions
 // get all reviews given a spotId
@@ -136,6 +143,11 @@ const spotsReviewReducer = (state = initalState, action) => {
             // console.log('LOAD_USER_REVIEWS')
             newState = { ...state }
             newState.userAllReviews = action.reviews
+            return newState;
+        }
+        case REMOVE_USER_REVIEWS: {
+            newState = { ...state }
+            delete newState.userAllReviews;
             return newState;
         }
         default: {
