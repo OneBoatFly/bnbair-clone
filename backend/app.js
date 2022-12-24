@@ -48,14 +48,13 @@ app.use(
     })
 );
 
-app.use(function (request, response, next) {
-
-    if (process.env.NODE_ENV != 'development' && !request.secure) {
-        return response.redirect("https://" + request.headers.host + request.url);
+app.use(function (req, resp, next) {
+    if (req.headers['x-forwarded-proto'] == 'http') {
+        return resp.redirect(301, 'https://' + req.headers.host + '/');
+    } else {
+        return next();
     }
-
-    next();
-})
+});
 
 // connect all routes
 app.use(routes);
