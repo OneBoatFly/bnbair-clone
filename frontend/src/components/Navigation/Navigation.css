@@ -198,7 +198,8 @@
         justify-content: left;
         min-width: 100px;
         padding: 0px;
-        padding-right: 6px
+        padding-right: 6px;
+        flex-grow: 1;
     }
 
     .navigation-sub-wrapper.side1 {

@@ -49,7 +49,7 @@ app.use(
 );
 
 app.use(function (req, resp, next) {
-    if (req.headers['x-forwarded-proto'] == 'http') {
+    if (req.headers['x-forwarded-proto'] == 'http' && isProduction) {
         return resp.redirect(301, 'https://' + req.headers.host + '/');
     } else {
         return next();
