@@ -36,24 +36,20 @@ export default function SpotDetails() {
     // const [spot, setSpot] = useState({});
 
     const {spotId} = useParams();
-    // console.log('---------- spotId', spotId)
     const dispatch = useDispatch();
     useEffect(() => {
         // console.log('-------------- dispatching getonespot')
         dispatch(spotsActions.getOneSpot(spotId))
             .then((spot) => {
-                // setSpot(spot)
+                dispatch(spotsActions.getSpotBookings(spotId));
                 dispatch(spotReviewsActions.getSpotReviews(spotId));
             })
             .catch(() => {
-                // console.log('!!!!!!', e.status)
                 setBackendErrors('Listing not found.')
             })
 
         return () => {
-            // console.log('SpotDetail unmounted')
             setBackendErrors('')
-            // setSpot({})
             dispatch(spotsActions.unloadOneSpot());
         }
     }, [dispatch]);
