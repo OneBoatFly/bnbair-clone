@@ -65,22 +65,19 @@ export default function SpotDetails() {
 
     useEffect(() => {
         if (!spot) return;
-        setStartDate(spot.firstAvailableStart);
-        setEndDate(spot.firstAvailableEnd);
+        setStartDate(spot.firstAvailableStart)
+        setEndDate(spot.firstAvailableEnd)
+        setDates({
+            startDate: moment(spot.firstAvailableStart), 
+            endDate: moment(spot.firstAvailableEnd)
+        })
 
         return () => {
             setStartDate('');
             setEndDate('');
+            setDates({});
         }
     }, [spot])
-
-    useEffect(() => {
-        if (!startDate || !endDate) return;
-        if (!startDate.length || !endDate.length) return;
-        setDates({ startDate: moment(startDate), endDate: moment(endDate) })
-
-    }, [startDate, endDate])
-
 
     useEffect(() => {
         if (dates.endDate <= dates.startDate) return; 
