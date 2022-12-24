@@ -4,6 +4,8 @@ const { handleValidationErrors } = require('../../utils/validation');
 const router = require('express').Router();
 const { Spot, Review, SpotImage, User, ReviewImage, Booking, sequelize } = require('../../db/models');
 const { Op } = require('sequelize');
+const Moment = require('moment');
+const MomentRange = require('moment-range');
 
 // get all spots owned by the current user
 router.get('/current', requireAuth, async (req, res) => {
@@ -149,9 +151,46 @@ router.get('/:spotId', async (req, res, next) => {
             spotJSON.avgStarRating = Math.round(countAndAvg[0].toJSON().avgRating * 10) / 10;
         }
 
+        const bookings = await spot.getBookings();
+        // console.log('--------- bookings of a spot in spot route --------', bookings)
+        const moment = MomentRange.extendMoment(Moment);
+        let startDate = moment();
+        let endDate = moment(startDate, "DD-MM-YYYY").add(2, 'days'); // adding 3 days for now
+        bookings.sort((b1, b2) => moment(b1.startDate) - moment(b2.startDate))
+        if (bookings.length) {
+            while (!isAvailableDate(endDate, bookings, true) || !isAvailableDate(startDate, bookings, false)) {
+                endDate = moment(endDate, "DD-MM-YYYY").add(1, 'days');
+                startDate = moment(endDate, "DD-MM-YYYY").subtract(2, 'days');
+            }
+        }
+
+        console.log('firstavailable end date >>>>>>>>>>', endDate)
+        spotJSON.firstAvailableStart = moment(endDate, "DD-MM-YYYY").subtract(2, 'days')
+        spotJSON.firstAvailableEnd = endDate;
+        // console.log('Spot detail with first availability -----------', spotJSON)
+
         res.json(spotJSON);
     }
 })
+
+const isAvailableDate = (date, bookings, isEndDate) => {
+    const moment = MomentRange.extendMoment(Moment);
+    console.log('-------------------------------------------------')
+    
+    for (let booking of bookings) {
+        const bookedRange = moment.range(booking.startDate, booking.endDate);
+        if (bookedRange.contains(moment(date))) {
+            console.log(`Invalid ${isEndDate ? 'endDate' : 'startDate'}`)
+            console.log(moment(date))
+            console.log(booking.startDate, booking.endDate)
+            return false;  
+        }      
+    }
+
+    console.log(`Valid ${isEndDate ? 'endDate' : 'startDate'}`)
+    console.log(moment(date))
+    return true;
+}
 
 // get all spot with query filters
     // check query inputs

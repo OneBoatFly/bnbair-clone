@@ -17,9 +17,11 @@ export default function ShowCalendar({ dates, setDates }) {
     const defaultFocusedInput = "startDate";
     const [focusedInput, setFocusedInput] = useState(defaultFocusedInput);
     const [numberOfMonths, setnumberOfMonths] = useState(1);
+    const [bookedRanges, setBookedRanges] = useState([]);
     
     console.log('******** ShowCalendar Component ********', spotBookings)
 
+    // create event listener on window with to set months
     useEffect(() => {
         if (window.innerWidth < 1200) setnumberOfMonths(1);
         else setnumberOfMonths(2);
@@ -34,6 +36,28 @@ export default function ShowCalendar({ dates, setDates }) {
         window.addEventListener('resize', handleResize);
         return () => document.removeEventListener("resize", handleResize);
     }, []);
+
+    // check if default dates are valid given bookings
+    useEffect(() => {
+        // for (range of bookedRanges) {
+        //     while (dates.endDate)
+
+        // }
+
+    }, [bookedRanges])
+
+    // set bookedRanges
+    useEffect(() => {
+        const booked = [];
+        if (spotBookings) {
+            spotBookings.forEach(booking => {
+                const range = moment.range(booking.startDate, booking.endDate)
+                booked.push(range)
+            });
+        }
+
+        setBookedRanges(booked)
+    }, [spotBookings])
 
 
     const handleDatesChange = (dates) => {
@@ -69,8 +93,11 @@ export default function ShowCalendar({ dates, setDates }) {
         blocked = bookedRanges.find(range => range.contains(date, { excludeEnd: true }))
         // console.log('---------day and isblocked? -------', date, blocked)
         return blocked;
-        
     }
+
+    console.log('bookedRanges', bookedRanges)
+    console.log('startDate', dates.startDate)
+    console.log('endDate', dates.endDate)
 
   return (
     <div className='calendar-datepicker-wrapper'>
