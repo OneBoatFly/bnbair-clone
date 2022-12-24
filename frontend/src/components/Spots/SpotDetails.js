@@ -233,6 +233,10 @@ export default function SpotDetails() {
                     </div>
                     <SpotReviews spotReviews={spotReviews} />
                 </div>
+
+                <div className='booking-form-wrapper-mobile'>
+                    Placeholder for booking
+                </div>
             </div>          
         }
         {backendErrors.length > 0 &&

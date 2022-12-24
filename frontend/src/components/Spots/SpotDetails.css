@@ -338,8 +338,20 @@
         display: flex;
         justify-content: center;
     }
+
+    .booking-form-wrapper-mobile {
+        display: block !important;
+        height: 80px;
+        box-sizing: border-box;
+        border-radius: 8px;
+        padding: 16px;
+        background-color: lightgray;
+        position: sticky;
+        bottom: 16px;
+    }
 }
 
+.booking-form-wrapper-mobile,
 .pictures-single-mobile,
 .pictures-in-mobile,
 .title-div-wrapper-mobile,
