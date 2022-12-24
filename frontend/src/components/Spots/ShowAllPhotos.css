@@ -73,3 +73,17 @@
     max-height: 100%;
     box-sizing: border-box;
 }
+
+@media (max-width: 550px) {
+    .all-photos-wrapper {
+        padding-top: 0px !important;
+    }
+
+    .all-photos-sub {
+        width: 100%;
+    }
+
+    .fa-solid.fa-chevron-left.all-photos {
+        margin-left: 0 !important;
+    }
+}

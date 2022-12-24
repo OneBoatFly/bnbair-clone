@@ -260,11 +260,6 @@ export default function SpotDetails() {
                   <AddReview setShowAddReviewForm={setShowAddReviewForm} spotId={spotId}/>
             </Modal>
         }
-        {/* {showAddImageForm &&
-            <Modal onClose={() => setShowAddImageForm(false)}>
-                <AddSpotImages setShowAddImageForm={setShowAddImageForm} spotId={spotId} />
-            </Modal>
-        } */}
     </div>
   )
 }
