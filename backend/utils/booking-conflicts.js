@@ -1,18 +1,26 @@
 const { Booking } = require('../db/models');
 const { Op } = require('sequelize');
+const moment = require('moment');
 
 async function checkConflict(spotId, newStart, newEnd) {
     const err = new Error('Sorry, this spot is already booked for the specified dates');
     err.errors = {};
     err.status = 403;
 
-    const startConflictBooking = await Booking.findOne({
+    const potentialStartConflictBooking = await Booking.findOne({
         where: {
             startDate: {[Op.lte]: newStart},
             endDate: {[Op.gte]: newStart},
             spotId,
         }
     });
+
+    let startConflictBooking;
+    if (potentialStartConflictBooking) {
+        if (moment(potentialStartConflictBooking.endDate) > moment(newEnd)) {
+            startConflictBooking = true;
+        }
+    }
 
     const endConflictBooking = await Booking.findOne({
         where: {
@@ -36,18 +44,20 @@ async function checkConflict(spotId, newStart, newEnd) {
     // if (bothConflictBooking) console.log('both', bothConflictBooking.toJSON())
 
     if (startConflictBooking && endConflictBooking) {
-        // console.log('both conflicts by falling into a existing booking')
+        // console.log('A both conflicts')
         err.errors.startDate = "Start date conflicts with an existing booking";
         err.errors.endDate = "End date conflicts with an existing booking";
         return err;
     } else if (startConflictBooking) {
+        // console.log('B startConflictBooking')
         err.errors.startDate = "Start date conflicts with an existing booking";
         return err;
     } else if (endConflictBooking) {
+        // console.log('C endConflictBooking')
         err.errors.endDate = "End date conflicts with an existing booking";
         return err;        
     } else if (!startConflictBooking && !endConflictBooking && bothConflictBooking ) {
-        // console.log('both conflicts by wrapping a existing booking')
+        // console.log('D both conflicts by wrapping a existing booking')
         err.errors.startDate = "Start date conflicts with an existing booking";
         err.errors.endDate = "End date conflicts with an existing booking";
         return err;

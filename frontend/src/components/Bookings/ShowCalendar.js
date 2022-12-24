@@ -56,27 +56,27 @@ export default function ShowCalendar({ dates, setDates }) {
 
 
     const handleDatesChange = (dates) => {
-        console.log('handleDatesChange', dates)
-        console.log(dates.endDate, dates.startDate)
+        // console.log('handleDatesChange', dates)
+        // console.log(dates.endDate, dates.startDate)
         setDates(dates);
 
         // when dates.endDate is null
         // that means a start date is selected and need to check if any future dates should be marked as invalid
         if (!dates.endDate) {
-            console.log('logic to set cutoff date')
-            console.log(futureBookedRanges)
+            // console.log('logic to set cutoff date')
+            // console.log(futureBookedRanges)
             let newCutoffDate = dates.startDate;
             for (let booking of futureBookedRanges) {
-                console.log('comparing booking and newCutoffDate')
-                console.log(booking.start)
-                console.log(newCutoffDate)
+                // console.log('comparing booking and newCutoffDate')
+                // console.log(booking.start)
+                // console.log(newCutoffDate)
                 if (booking.start >= newCutoffDate) {
                     newCutoffDate = booking.start;
+                    setCutoffDate(newCutoffDate);
                     break;
                 }
             }
 
-            setCutoffDate(newCutoffDate);
         } else {
             setCutoffDate(moment().add(6, 'M'))
         }

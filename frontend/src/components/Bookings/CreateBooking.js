@@ -33,7 +33,7 @@ export default function CreateBooking({ spot, setShowReviewModal, dates, setDate
             // redirect to my bookings page once built.
         }).catch(async (data) => {
             const error = await data.json()
-            console.log('error --------', error)
+            // console.log('error --------', error)
             setBookingErrors(error.message)
         })
 

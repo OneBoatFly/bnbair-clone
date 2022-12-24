@@ -223,7 +223,7 @@ export const deleteOneSpot = (spotId) => async (dispatch) => {
 
 
 export const getSpotBookings = (spotId) => async (dispatch) => {
-    console.log('---------- getSpotBookings thunk ---------', spotId)
+    // console.log('---------- getSpotBookings thunk ---------', spotId)
     const response = await csrfFetch(`/api/spots/${spotId}/bookings`);
     // console.log('---------- getSpotBookings response ------', response)
     if (response.ok) {
@@ -241,23 +241,24 @@ export const getSpotBookings = (spotId) => async (dispatch) => {
 
 
 export const createSpotBooking = (spotId, dates) => async (dispatch) => {
-    console.log('---------- createSpotBooking thunk----------')
-    console.log('spotId', spotId)
-    console.log('dates', dates)
+    // console.log('---------- createSpotBooking thunk----------')
+    // console.log('spotId', spotId)
+    // console.log('dates', dates)
     const options = {
         method: 'POST',
         body: JSON.stringify(dates)
     };
 
     const response = await csrfFetch(`/api/spots/${spotId}/bookings`, options);
-    console.log('---------- createSpotBooking response ------', response)
+    // console.log('---------- createSpotBooking response ------', response)
 
     if (response.ok) {
-        console.log('-------------reached reponse ok-------------')
+        // console.log('-------------reached reponse ok-------------')
         const booking = await response.json();
         console.log(booking);
 
         dispatch(getOneSpot(spotId));
+        dispatch(getSpotBookings(spotId));
         return booking;
     }
 };
