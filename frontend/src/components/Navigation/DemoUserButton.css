@@ -18,11 +18,6 @@
     border-radius: 21px;
 }
 
-.demo-user-button-div button:disabled {
-    background: rgb(113, 113, 113);
-    pointer-events: none;
-}
-
 .demo-user-button-div-outer-span {
     position: absolute;
     top: 0px;
