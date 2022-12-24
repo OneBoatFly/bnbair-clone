@@ -172,4 +172,13 @@
         max-width: 100%;
         flex-basis: 100%;
     }
+
+    .single-spot-wrapper {
+        /* margin: 0px !important; */
+    }
+
+    .title-div-wrapper,
+    .signle-spot-header-wrapper {
+        display: none !important;
+    }
 }

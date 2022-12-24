@@ -97,14 +97,6 @@ export default function SpotDetails() {
                                 <span>Add a review</span>
                             </button>
                         </div>}
-                        {/* {sessionUser && spot.ownerId === sessionUser.id &&
-                            <div className='review-modify-buttons' style={{ marginTop: '10px', border: '1px solid #222222', borderRadius: '8px', overflow: 'hidden' }} >
-                                <button className='modify-buttons' onClick={() => setShowAddImageForm(true)} >
-                                    <i className="fa-solid fa-plus" style={{ marginRight: '7px' }}></i>
-                                    <span>Add images</span>
-                                </button>
-                            </div>  
-                        } */}
                     </div>
                 </div>
                 <div className='title-div-wrapper'>
@@ -134,6 +126,13 @@ export default function SpotDetails() {
                                 {spot.SpotImages[4] ? <img src={`${spot.SpotImages[4].url}`} alt='room'></img> : <div className='no-image-div'>No Image</div>}
                             </div>
                         </div>
+                        <div className='pictures-single-mobile'>
+                              <div className='image-div-mobile'>
+                                  {spot.SpotImages[0] ?
+                                      <img src={`${spot.SpotImages[0].url}`} alt='room'></img> : <div className='no-image-div'>No Image</div>
+                                  }
+                              </div>
+                        </div>
                         <div className='review-modify-buttons show-all-images' style={{ marginTop: '10px', border: '1px solid #222222', borderRadius: '8px', overflow: 'hidden' }} >
                             <button className='modify-buttons' onClick={() => setShowAllImages(true)} style={{color: '#222222'}} >
                                 <i className="fa-solid fa-ellipsis-vertical"></i><i className="fa-solid fa-ellipsis-vertical"></i><i className="fa-solid fa-ellipsis-vertical last-dots"></i>
@@ -148,6 +147,14 @@ export default function SpotDetails() {
                     </div>
                 }
 
+                <div className='signle-spot-header-wrapper-mobile'>
+                    <h3>{spot.name}</h3>
+                    <span>Hosted by {spot.Owner?.firstName} @{spot.city}, {spot.state}</span>
+                </div>
+                <div className='title-div-wrapper-mobile'>
+                    <RatingNumReview spot={spot} setShowReviewModal={setShowReviewModal} />
+                </div>
+
                 <div className='info-booking-wrapper'>
                     <div className='spot-info-wrapper'>
                         {spot.Owner && <div className='hostName'>{spot.Owner && <h4>Hosted by {spot.Owner.firstName}</h4>}</div>}
@@ -160,13 +167,50 @@ export default function SpotDetails() {
                         <div className='info-detail-wrapper'>
                             <p>{spot.description}</p>
                         </div>
+                        {spot.SpotImages &&
+                            <div className='pictures-in-mobile'>
+                                <div className='pictures-big-mobile upper'>
+                                    {spot.SpotImages[1] ?
+                                        <img src={`${spot.SpotImages[1].url}`} alt='room'></img> : <div className='no-image-div'>No Image</div>
+                                    }
+                                </div>
+                                <div className='pictures-small-mobile'>
+                                    <div className='image-div-mobile-middle-left'>
+                                        {spot.SpotImages[2] ? <img src={`${spot.SpotImages[2].url}`} alt='room'></img> : <div className='no-image-div'>No Image</div>}
+                                    </div>
+                                    <div className='image-div-mobile-middle-right-one'>
+                                        {spot.SpotImages[3] ? <img src={`${spot.SpotImages[3].url}`} alt='room'></img> : <div className='no-image-div'>No Image</div>}
+                                    </div>
+                                    <div className='image-div-mobile-middle-right-two'>
+                                        {spot.SpotImages[4] ? <img src={`${spot.SpotImages[4].url}`} alt='room'></img> : <div className='no-image-div'>No Image</div>}
+                                    </div>
+                                </div>
+                                <div className='pictures-big-mobile lower'>
+                                    {spot.SpotImages[5] ?
+                                        <img src={`${spot.SpotImages[5].url}`} alt='room'></img> : <div className='no-image-div'>No Image</div>
+                                    }
+                                </div>
+                                <div className='review-modify-buttons show-all-images' style={{ marginTop: '10px', border: '1px solid #222222', borderRadius: '8px', overflow: 'hidden' }} >
+                                    <button className='modify-buttons' onClick={() => setShowAllImages(true)} style={{ color: '#222222' }} >
+                                        <i className="fa-solid fa-ellipsis-vertical"></i><i className="fa-solid fa-ellipsis-vertical"></i><i className="fa-solid fa-ellipsis-vertical last-dots"></i>
+                                        <span>Show all photos</span>
+                                    </button>
+                                </div>
+                                {showAllImages &&
+                                    <ModalWhole>
+                                        <ShowAllPhotos spotImages={spot.SpotImages} setShowAllImages={setShowAllImages} />
+                                    </ModalWhole>
+                                }
+                            </div>
+                        }          
                         <div className='info-detail-wrapper'>
                             <h4>{totalDays} nights in {spot.city}</h4>
                             <div className='date-calendar-span'>
                                 <span>{`${getMMMDDYYYStr(startDate)}`} - {`${getMMMDDYYYStr(endDate)}`}</span>
                             </div>
-                              <ShowCalendar dates={dates} setDates={setDates} setDateErrors={setDateErrors} />
+                            <ShowCalendar dates={dates} setDates={setDates} setDateErrors={setDateErrors} />
                         </div>
+                      
                     </div>
                     <div className='booking-form-wrapper'>
                         <div className='booking-form-sub-wrapper'>
