@@ -179,7 +179,7 @@ router.get('/:spotId', async (req, res, next) => {
             }
         }
 
-        console.log('firstavailable end date >>>>>>>>>>', endDate)
+        // console.log('firstavailable end date >>>>>>>>>>', endDate)
         spotJSON.firstAvailableStart = moment(endDate, "DD-MM-YYYY").subtract(2, 'days')
         spotJSON.firstAvailableEnd = endDate;
         // console.log('Spot detail with first availability -----------', spotJSON)
@@ -190,20 +190,20 @@ router.get('/:spotId', async (req, res, next) => {
 
 const isAvailableDate = (date, bookings, isEndDate) => {
     const moment = MomentRange.extendMoment(Moment);
-    console.log('-------------------------------------------------')
+    // console.log('-------------------------------------------------')
     
     for (let booking of bookings) {
         const bookedRange = moment.range(booking.startDate, booking.endDate);
         if (bookedRange.contains(moment(date))) {
-            console.log(`Invalid ${isEndDate ? 'endDate' : 'startDate'}`)
-            console.log(moment(date))
-            console.log(booking.startDate, booking.endDate)
+            // console.log(`Invalid ${isEndDate ? 'endDate' : 'startDate'}`)
+            // console.log(moment(date))
+            // console.log(booking.startDate, booking.endDate)
             return false;  
         }      
     }
 
-    console.log(`Valid ${isEndDate ? 'endDate' : 'startDate'}`)
-    console.log(moment(date))
+    // console.log(`Valid ${isEndDate ? 'endDate' : 'startDate'}`)
+    // console.log(moment(date))
     return true;
 }
 

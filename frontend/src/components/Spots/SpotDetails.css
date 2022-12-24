@@ -183,7 +183,7 @@
     justify-content: space-between;
 }
 
-@media (max-width: 550px) {
+@media (max-width: 740px) {
     .signle-spot-header-wrapper {
         flex-wrap: wrap;
         margin-bottom: 12px;

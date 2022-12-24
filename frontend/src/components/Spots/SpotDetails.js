@@ -18,22 +18,19 @@ import { ModalWhole } from '../../context/ModalWhole';
 import * as spotsActions from '../../store/spots';
 import * as spotReviewsActions from '../../store/spotReviews';
 
-import { getStartDateStr, getEndDateStr, getMMMDDYYYStr } from '../Spots/SpotCalcs/spotDates';
+import { getMMMDDYYYStr } from '../Spots/SpotCalcs/spotDates';
 
 export default function SpotDetails() {
     // console.log('Spot Details Compoment')
+    // console.log('spot', spot)
 
     const sessionUser = useSelector(state => state.session.user);
     const spot = useSelector(state => state.spots.spotDetails);
-    // console.log('spot', spot)
     const spotReviews = useSelector(state => state.spotReviews.spotAllReviews);
     const [showReviewModal, setShowReviewModal] = useState(false);
     const [showAddReviewForm, setShowAddReviewForm] = useState(false);
-    // const [showAddImageForm, setShowAddImageForm] = useState(false);
     const [backendErrors, setBackendErrors] = useState('');
     const [showAllImages, setShowAllImages] = useState(false);
-
-    // const [spot, setSpot] = useState({});
 
     const {spotId} = useParams();
     const dispatch = useDispatch();
@@ -55,26 +52,18 @@ export default function SpotDetails() {
     }, [dispatch]);
     
     // date related
-    // const startDateStr = getStartDateStr();
-    // const endDateStr = getEndDateStr();
-    const [startDate, setStartDate] = useState('');
-    const [endDate, setEndDate] = useState('');
     const [dates, setDates] = useState({ startDate: moment(), endDate: moment() });
     const [dateErrors, setDateErrors] = useState({});
     const [totalDays, setTotayDays] = useState(1);
 
     useEffect(() => {
         if (!spot) return;
-        setStartDate(spot.firstAvailableStart)
-        setEndDate(spot.firstAvailableEnd)
         setDates({
             startDate: moment(spot.firstAvailableStart), 
             endDate: moment(spot.firstAvailableEnd)
         })
 
         return () => {
-            setStartDate('');
-            setEndDate('');
             setDates({});
         }
     }, [spot])
@@ -82,13 +71,9 @@ export default function SpotDetails() {
     useEffect(() => {
         if (dates.endDate <= dates.startDate) return; 
         setTotayDays(Math.round((dates.endDate - dates.startDate) / 86400000));
-        setStartDate(dates.startDate);
-        setEndDate(dates.endDate);
 
         return () => {
             setTotayDays(1);
-            setStartDate('');
-            setEndDate('');
         }
     }, [dates])
 
@@ -216,7 +201,7 @@ export default function SpotDetails() {
                         <div className='info-detail-wrapper'>
                             <h4>{totalDays} nights in {spot.city}</h4>
                             <div className='date-calendar-span'>
-                                <span>{`${getMMMDDYYYStr(startDate)}`} - {`${getMMMDDYYYStr(endDate)}`}</span>
+                                <span>{`${getMMMDDYYYStr(dates.startDate)}`} - {dates.endDate ? `${getMMMDDYYYStr(dates.endDate)}` : getMMMDDYYYStr(moment(dates.startDate, 'DD-MM-YYYY').add(1, 'day'))}</span>
                             </div>
                             <ShowCalendar dates={dates} setDates={setDates} setDateErrors={setDateErrors} />
                         </div>
@@ -225,7 +210,7 @@ export default function SpotDetails() {
                     <div className='booking-form-wrapper'>
                         <div className='booking-form-sub-wrapper'>
                             <div className='booking-form'>
-                                  <CreateBooking spot={spot} setShowReviewModal={setShowReviewModal} dates={dates} setDates={setDates} setEndDate={setEndDate} setDateErrors={setDateErrors} totalDays={totalDays} />
+                                  <CreateBooking spot={spot} setShowReviewModal={setShowReviewModal} dates={dates} setDates={setDates} setDateErrors={setDateErrors} totalDays={totalDays} />
                             </div>
                             <div>
                                 <p>

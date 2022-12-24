@@ -240,6 +240,29 @@ export const getSpotBookings = (spotId) => async (dispatch) => {
 };
 
 
+export const createSpotBooking = (spotId, dates) => async (dispatch) => {
+    console.log('---------- createSpotBooking thunk----------')
+    console.log('spotId', spotId)
+    console.log('dates', dates)
+    const options = {
+        method: 'POST',
+        body: JSON.stringify(dates)
+    };
+
+    const response = await csrfFetch(`/api/spots/${spotId}/bookings`, options);
+    console.log('---------- createSpotBooking response ------', response)
+
+    if (response.ok) {
+        console.log('-------------reached reponse ok-------------')
+        const booking = await response.json();
+        console.log(booking);
+
+        dispatch(getOneSpot(spotId));
+        return booking;
+    }
+};
+
+
 const initalState = {};
 const spotsReducer = (state = initalState, action) => {
     // console.log(action)

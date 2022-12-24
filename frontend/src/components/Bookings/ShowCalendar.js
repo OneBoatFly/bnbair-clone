@@ -4,12 +4,13 @@ import { extendMoment } from 'moment-range';
 
 import 'react-dates/initialize';
 import 'react-dates/lib/css/_datepicker.css';
-import { DayPickerRangeController, isInclusivelyBeforeDay } from 'react-dates';
+import { DayPickerRangeController, isInclusivelyBeforeDay, isInclusivelyAfterDay } from 'react-dates';
 
 import './ShowCalendar.css';
 import { useSelector } from 'react-redux';
 
 export default function ShowCalendar({ dates, setDates }) {
+    console.log('******** ShowCalendar Component ********')
     const moment = extendMoment(Moment);
 
     const spotBookings = useSelector(state => state.spots.spotBookings);
@@ -17,9 +18,9 @@ export default function ShowCalendar({ dates, setDates }) {
     const defaultFocusedInput = "startDate";
     const [focusedInput, setFocusedInput] = useState(defaultFocusedInput);
     const [numberOfMonths, setnumberOfMonths] = useState(1);
-    const [bookedRanges, setBookedRanges] = useState([]);
+    const [futureBookedRanges, setFutureBookedRanges] = useState([]);
+    const [cutoffDate, setCutoffDate] = useState(moment().add(6, 'M'));
     
-    console.log('******** ShowCalendar Component ********', spotBookings)
 
     // create event listener on window with to set months
     useEffect(() => {
@@ -37,34 +38,52 @@ export default function ShowCalendar({ dates, setDates }) {
         return () => document.removeEventListener("resize", handleResize);
     }, []);
 
-    // check if default dates are valid given bookings
-    useEffect(() => {
-        // for (range of bookedRanges) {
-        //     while (dates.endDate)
-
-        // }
-
-    }, [bookedRanges])
-
     // set bookedRanges
     useEffect(() => {
         const booked = [];
+        const today = moment();
         if (spotBookings) {
             spotBookings.forEach(booking => {
                 const range = moment.range(booking.startDate, booking.endDate)
-                booked.push(range)
+                if (range.end > today) booked.push(range)
             });
         }
 
-        setBookedRanges(booked)
+        booked.sort((b1, b2) => b1.start - b2.start);
+
+        setFutureBookedRanges(booked)
     }, [spotBookings])
 
 
     const handleDatesChange = (dates) => {
+        console.log('handleDatesChange', dates)
+        console.log(dates.endDate, dates.startDate)
         setDates(dates);
+
+        // when dates.endDate is null
+        // that means a start date is selected and need to check if any future dates should be marked as invalid
+        if (!dates.endDate) {
+            console.log('logic to set cutoff date')
+            console.log(futureBookedRanges)
+            let newCutoffDate = dates.startDate;
+            for (let booking of futureBookedRanges) {
+                console.log('comparing booking and newCutoffDate')
+                console.log(booking.start)
+                console.log(newCutoffDate)
+                if (booking.start >= newCutoffDate) {
+                    newCutoffDate = booking.start;
+                    break;
+                }
+            }
+
+            setCutoffDate(newCutoffDate);
+        } else {
+            setCutoffDate(moment().add(6, 'M'))
+        }
     };
 
     const handleFocusChange = (focusedInput) => {
+        console.log('handleFocusChange', focusedInput)
         setFocusedInput(focusedInput);
     };
 
@@ -76,7 +95,7 @@ export default function ShowCalendar({ dates, setDates }) {
         <i className="fa-solid fa-chevron-right"></i>
     )
 
-    const isDayBlocked = date => {
+    const isDayBlocked = (date) => {
         let bookings = []
         let bookedRanges = [];
         let blocked;
@@ -95,9 +114,10 @@ export default function ShowCalendar({ dates, setDates }) {
         return blocked;
     }
 
-    console.log('bookedRanges', bookedRanges)
-    console.log('startDate', dates.startDate)
-    console.log('endDate', dates.endDate)
+    console.log('futureBookedRanges', futureBookedRanges)
+    console.log('cutoffDate', cutoffDate.format("YYYY-MM-DD"))
+    // console.log('startDate', dates.startDate)
+    // console.log('endDate', dates.endDate)
 
   return (
     <div className='calendar-datepicker-wrapper'>
@@ -112,7 +132,7 @@ export default function ShowCalendar({ dates, setDates }) {
             noBorder={true}
             navPrev={leftArrow}
             navNext={rightArrow}
-            isOutsideRange={day => isInclusivelyBeforeDay(day, moment())}
+            isOutsideRange={date => isInclusivelyBeforeDay(date, moment()) || isInclusivelyAfterDay(date, cutoffDate)}
             isDayBlocked={isDayBlocked}
         />
     </div>
