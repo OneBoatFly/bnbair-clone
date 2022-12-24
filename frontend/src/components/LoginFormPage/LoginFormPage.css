@@ -108,8 +108,7 @@ input:-webkit-autofill:focus {
     border-radius: 8px;
 }
 
-.outer-span {
-    /* border: 1px solid black; */
+/* .outer-span {
     position: absolute;
     top: 0px;
     left: 0px;
@@ -119,9 +118,9 @@ input:-webkit-autofill:focus {
     height: 100%;
     overflow: hidden;
     border-radius: 8px;
-}
+} */
 
-.inner-span {
+/* .inner-span {
     display: block;
     width: 100%;
     height: 100%;
@@ -131,11 +130,11 @@ input:-webkit-autofill:focus {
     transition: opacity 1.25s ease 0s;
     background-image: radial-gradient(circle at center center, rgb(255, 56, 92) 0%, rgb(230, 30, 77) 27.5%, rgb(227, 28, 95) 40%, rgb(215, 4, 102) 57.5%, rgb(189, 30, 89) 75%, rgb(189, 30, 89) 100%);
     background-position: calc((100 - var(--mouse-x, 0)) * 1%) calc((100 - var(--mouse-y, 0)) * 1%);
-}
+} */
 
-.inner-span:hover {
+/* .inner-span:hover {
     opacity: 1;
-}
+} */
 
 .login-span,
 .signup-span,

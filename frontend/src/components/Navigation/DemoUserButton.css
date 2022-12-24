@@ -1,5 +1,6 @@
 .demo-user-button-div {
     height: 30px;
+    border-radius: 21px;
 }
 
 .demo-user-button-div button {
@@ -22,8 +23,7 @@
     pointer-events: none;
 }
 
-.demo-user-button-div .outer-span {
-    /* border: 1px solid black; */
+.demo-user-button-div-outer-span {
     position: absolute;
     top: 0px;
     left: 0px;
@@ -35,7 +35,9 @@
     border-radius: 21px;
 }
 
-.demo-user-button-div .inner-span {
+.demo-user-button-div-inner-span {
+    border-radius: 21px;
+    overflow: hidden;
     display: block;
     width: 100%;
     height: 100%;
@@ -43,15 +45,18 @@
     background-size: 200% 200%;
     opacity: 0;
     transition: opacity 1.25s ease 0s;
+    -webkit-transition-property: border-radius;
     background-image: radial-gradient(circle at center center, rgb(255, 56, 92) 0%, rgb(230, 30, 77) 27.5%, rgb(227, 28, 95) 40%, rgb(215, 4, 102) 57.5%, rgb(189, 30, 89) 75%, rgb(189, 30, 89) 100%);
     background-position: calc((100 - var(--mouse-x, 0)) * 1%) calc((100 - var(--mouse-y, 0)) * 1%);
 }
 
-.demo-user-button-div .inner-span:hover {
+.demo-user-button-div-inner-span:hover {
     opacity: 1;
+    border-radius: 21px;
+    overflow: hidden;
 }
 
-.demo-user-button-div .lower-span {
+.demo-user-button-div-lower-span {
     display: block;
     position: relative;
     pointer-events: none;

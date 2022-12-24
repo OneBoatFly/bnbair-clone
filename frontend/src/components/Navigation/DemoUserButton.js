@@ -26,8 +26,8 @@ export default function DemoUserButton({ setIsLoaded }) {
   return (
     <div className='demo-user-button-div'>
         <button onClick={handleDemoUser}>
-            <span onMouseMove={handleMouseMove} className='outer-span'><span className='inner-span'></span></span>
-            <span className='lower-span'>Demo User</span>
+            <span onMouseMove={handleMouseMove} className='demo-user-button-div-outer-span'><span className='demo-user-button-div-inner-span'></span></span>
+            <span className='demo-user-button-div-lower-span'>Demo User</span>
         </button>
     </div>
   )
