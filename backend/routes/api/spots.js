@@ -77,7 +77,8 @@ router.get('/:spotId/reviews', async (req, res, next) => {
 });
 
 // get all bookings by a spotId
-router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
+    // removed requireAuth here
+router.get('/:spotId/bookings', async (req, res, next) => {
     const spot = await Spot.findByPk(req.params.spotId);
 
     if (!spot) {
@@ -92,9 +93,7 @@ router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
             }
         });
 
-        if (req.user.id === spot.ownerId) {
-            res.json({ Bookings: bookings })
-        } else {
+        if (!req.user) {
             const bookingsJSON = [];
             for (let booking of bookings) {
                 const bookingJSON = {};
@@ -104,8 +103,24 @@ router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
                 bookingsJSON.push(bookingJSON);
             }
 
-            res.json({Bookings: bookingsJSON});
+            res.json({ Bookings: bookingsJSON });
+        } else {
+            if (req.user.id === spot.ownerId) {
+                res.json({ Bookings: bookings })
+            } else {
+                const bookingsJSON = [];
+                for (let booking of bookings) {
+                    const bookingJSON = {};
+                    bookingJSON.spotId = booking.spotId;
+                    bookingJSON.startDate = booking.startDate;
+                    bookingJSON.endDate = booking.endDate;
+                    bookingsJSON.push(bookingJSON);
+                }
+    
+                res.json({Bookings: bookingsJSON});
+            }
         }
+
     }
 
 });

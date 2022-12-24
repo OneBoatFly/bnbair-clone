@@ -55,15 +55,32 @@ export default function SpotDetails() {
     }, [dispatch]);
     
     // date related
-    const startDateStr = getStartDateStr();
-    const endDateStr = getEndDateStr();
-    const [startDate, setStartDate] = useState(startDateStr);
-    const [endDate, setEndDate] = useState(endDateStr);
-
-    const [dates, setDates] = useState({ startDate: moment(startDateStr), endDate: moment(endDateStr) });
+    // const startDateStr = getStartDateStr();
+    // const endDateStr = getEndDateStr();
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
+    const [dates, setDates] = useState({ startDate: moment(), endDate: moment() });
     const [dateErrors, setDateErrors] = useState({});
-
     const [totalDays, setTotayDays] = useState(1);
+
+    useEffect(() => {
+        if (!spot) return;
+        setStartDate(spot.firstAvailableStart);
+        setEndDate(spot.firstAvailableEnd);
+
+        return () => {
+            setStartDate('');
+            setEndDate('');
+        }
+    }, [spot])
+
+    useEffect(() => {
+        if (!startDate || !endDate) return;
+        if (!startDate.length || !endDate.length) return;
+        setDates({ startDate: moment(startDate), endDate: moment(endDate) })
+
+    }, [startDate, endDate])
+
 
     useEffect(() => {
         if (dates.endDate <= dates.startDate) return; 
@@ -73,8 +90,8 @@ export default function SpotDetails() {
 
         return () => {
             setTotayDays(1);
-            setStartDate(startDateStr);
-            setEndDate(endDateStr);
+            setStartDate('');
+            setEndDate('');
         }
     }, [dates])
 

@@ -223,7 +223,7 @@ export const deleteOneSpot = (spotId) => async (dispatch) => {
 
 
 export const getSpotBookings = (spotId) => async (dispatch) => {
-    // console.log('---------- getSpotBookings thunk ---------', spotId)
+    console.log('---------- getSpotBookings thunk ---------', spotId)
     const response = await csrfFetch(`/api/spots/${spotId}/bookings`);
     // console.log('---------- getSpotBookings response ------', response)
     if (response.ok) {
