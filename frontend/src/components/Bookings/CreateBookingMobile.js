@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import MyButton from '../FormElements/MyButton';
 import { createSpotBooking } from '../../store/spots';
@@ -11,6 +11,10 @@ export default function CreateBookingMobile({ spot, dates }) {
 
     const [bookingErrors, setBookingErrors] = useState('')
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        setBookingErrors('')
+    }, [dates])
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -38,7 +42,9 @@ export default function CreateBookingMobile({ spot, dates }) {
         <form className='create-booking-wrapper-mobile' onSubmit={handleSubmit}>
             <div className='price-rating-wrapper-mobile'>
                 <span><b>${price}</b> night</span>
-                <span className='create-booking-mobile-dates'>{dates.startDate.format('MMM D')} - {dates.endDate.month() === dates.startDate.month() ? dates.endDate.format('D') : dates.endDate.format('MMM D')}</span>
+                {dates &&
+                    <span className='create-booking-mobile-dates'>{dates.startDate?.format('MMM D')} - {dates.endDate?.month() === dates.startDate?.month() ? dates.endDate?.format('D') : dates.endDate?.format('MMM D')}</span>
+                }
             </div>
             {bookingErrors.length > 0 &&
                 <div className='error-messages-wrapper'>
