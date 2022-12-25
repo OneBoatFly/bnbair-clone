@@ -1,55 +1,48 @@
 import { csrfFetch } from './csrf';
 
 // action consts
+const LOAD_USER_BOOKINGS = 'bookings/LOAD_USER_BOOKINGS';
 
 // normal action creators
+const loadUserBookings = (data) => {
+    return {
+        type: LOAD_USER_BOOKINGS,
+        payload: data
+    }    
+}
 
 
-// get all current users reviews
+// get all current users bookings
 export const getUserBookings = () => async (dispatch) => {
-    // console.log('getUserBookings thunk ---- ')
+    console.log('---------- getUserBookings thunk --------- ')
 
     const response = await csrfFetch(`/api/bookings/current`);
     if (response.ok) {
         const data = await response.json();
-        // console.log('response ok - data', data)
-
-        if (data.Bookings) {
-            const bookings = data.Bookings;
-            // const reviewsModified = bookings.map((review) => {
-            //     const date = new Date(review.updatedAt);
-            //     const month = date.toLocaleString('en-US', { month: 'long' });
-            //     const year = date.getFullYear();
-            //     return { ...review, updatedAt: `${month} ${year}` }
-            // })
-
-            // const reviewsNormal = normalizeArray(reviewsModified);
-            // console.log('user reviews --- ', reviewsNormal);
-
-            // dispatch(loadUserReviews(reviewsNormal));
-
-            // return data.Reviews;
-        } else {
-            return data;
-        }
+        console.log('response ok - data', data)
+        dispatch(loadUserBookings(data));
     }
 }
 
-const initalState = {}
+const initalState = {
+    spotFutureBookings: [],
+    spotPastBookings: [],
+    useFutureBookings: [],
+    userPastBookings: []
+}
 
 const bookingsReducer = (state = initalState, action) => {
-    // console.log(action)
-    // console.log('booking reducer: current state --------', state)
     let newState;
     switch (action.type) {
-        // case LOGIN_USER: {
-        //     // console.log('LOGIN_USER')
-        //     newState = Object.assign({}, state);
-        //     const { id, username, email, firstName, lastName } = action.user;
-        //     // console.log(action.user)
-        //     if (id) newState.user = { id, username, email, firstName, lastName };
-        //     return newState;
-        // }
+        case LOAD_USER_BOOKINGS: {
+            // console.log('--------- payload', action.payload)
+            newState = {
+                ...state, 
+                useFutureBookings: action.payload.BookingsFuture,
+                userPastBookings: action.payload.BookingsPast
+            }
+            return newState;
+        }
         // case LOGOUT_USER: {
         //     // console.log('LOGOUT_USER')
         //     newState = Object.assign({}, state);
@@ -57,15 +50,9 @@ const bookingsReducer = (state = initalState, action) => {
         //     return newState;
         // }
         default: {
-            // console.log('session reducer DEFAULT')
             return state;
         }
     }
 };
 
 export default bookingsReducer;
-
-// {
-//     spotBookings: {}
-//     userBookings: {}
-// }

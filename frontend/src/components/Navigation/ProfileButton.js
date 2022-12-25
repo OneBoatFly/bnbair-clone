@@ -69,16 +69,16 @@ export default function ProfileButton({ user, setIsLoaded, setPage }) {
                     <div className="menu-dropdown-sub" onClick={() => setShowSpotFormModal(true)}>
                         <button className="create-listing-button" >Create a new listing</button>
                     </div>                    
-                    
-                        <NavLink to='/spots/current' className="navLink-current">
-                            <div className="menu-dropdown-sub">Listings</div>
-                        </NavLink>
-                        
+                    <NavLink to='/spots/current' className="navLink-current">
+                        <div className="menu-dropdown-sub">Listings</div>
+                    </NavLink>
                     <div className="menu-dropdown-sub">
                         <NavLink to='/reviews/current' className="navLink-current">My reviews</NavLink>
                     </div>
+                    <NavLink to='/trips' className="navLink-current">
+                        <div className="menu-dropdown-sub">Trips</div>
+                    </NavLink>                    
                 </div>
-
                 <div className="logout-button-wrapper">
                     <div className="logout-button-sub" onClick={logout}>
                         <button>Log Out</button>

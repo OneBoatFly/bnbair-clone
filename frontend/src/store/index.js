@@ -14,7 +14,7 @@ const rootReducer = combineReducers({
   spots: spotsReducer,
   spotIamges: spotsImageReducer,
   spotReviews: spotsReviewReducer,
-  // bookings: bookingsReducer,
+  bookings: bookingsReducer,
   maps: mapsReducer
 });
 

@@ -3,6 +3,7 @@ const router = require('express').Router();
 const { Booking, Spot, SpotImage } = require('../../db/models');
 const { validateBooking } = require('./spots');
 const checkConflict = require('../../utils/booking-conflicts');
+const moment = require('moment')
 
 router.get('/current', requireAuth, async (req, res) => {
     const bookings = await Booking.findAll({
@@ -19,22 +20,38 @@ router.get('/current', requireAuth, async (req, res) => {
         }
     });
 
-    let bookingsJSON = [];
+    let bookingsFutureJSON = [];
+    let bookingsPastJSON = []
     for (let booking of bookings) {
         const bookingJSON = booking.toJSON();
 
-        if (bookingJSON.Spot.SpotImages.length) {
-            bookingJSON.Spot.previewImage = bookingJSON.Spot.SpotImages[0].url;
+        console.log(moment(booking.endDate).format('YYYY-MM-DD'))
+        if (moment(booking.endDate) > moment()) {
+            if (bookingJSON.Spot.SpotImages.length) {
+                bookingJSON.Spot.previewImage = bookingJSON.Spot.SpotImages[0].url;
+            } else {
+                bookingJSON.Spot.previewImage = null;
+            }
+            
+            delete bookingJSON.Spot.SpotImages;
+    
+            bookingsFutureJSON.push(bookingJSON);
         } else {
-            bookingJSON.Spot.previewImage = null;
+            if (bookingJSON.Spot.SpotImages.length) {
+                bookingJSON.Spot.previewImage = bookingJSON.Spot.SpotImages[0].url;
+            } else {
+                bookingJSON.Spot.previewImage = null;
+            }
+
+            delete bookingJSON.Spot.SpotImages;
+
+            bookingsPastJSON.push(bookingJSON);            
         }
-        
-        delete bookingJSON.Spot.SpotImages;
-
-        bookingsJSON.push(bookingJSON);
     }
-
-    res.json({Bookings: bookingsJSON});
+    
+    bookingsFutureJSON.sort((b1, b2) => b1.endDate - b2.endDate)
+    bookingsPastJSON.sort((b1, b2) => b1.endDate - b2.endDate)
+    res.json({ BookingsFuture: bookingsFutureJSON, BookingsPast: bookingsPastJSON });
 });
 
 router.put('/:bookingId', requireAuth, validateBooking, async (req, res, next) => {

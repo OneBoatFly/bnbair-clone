@@ -8,6 +8,7 @@ import Navigation from './components/Navigation';
 import { Spots, SpotDetails, OwnerSpots } from './components/Spots';
 import UserReviews from './components/Reviews/UserReviews';
 import PageNotFound from './components/PageNotFound';
+import Trips from './components/Trips/Trips';
 // import useSearchFetch from './components/Navigation/useSearchFetch';
 
 function App() {
@@ -36,14 +37,12 @@ function App() {
         <Route exact path='/'>
           <div className='root-sub-wrapper'>
             <Spots />
-            {/* <Spots lastSpotElementRef={lastSpotElementRef} getSpotsErrors={getSpotsErrors} ></Spots> */}
           </div>      
         </Route>
         {isLoaded &&
           <Route exact path='/spots/current'>
             <div className='root-sub-wrapper'>
               <OwnerSpots isLoaded={isLoaded} />
-              {/* <OwnerSpots isLoaded={isLoaded} setPage={setPage} hasMore={hasMore}></OwnerSpots> */}
             </div>
           </Route>
         }
@@ -55,6 +54,13 @@ function App() {
             </div>
           </Route>
         }
+        {isLoaded &&
+          <Route exact path='/trips'>
+            <div className='root-sub-wrapper'>
+              <Trips />
+            </div>
+          </Route>
+        }
         {!isLoaded &&
           <Route exact path='/spots/current'>
             <Redirect to='/' />
@@ -64,7 +70,12 @@ function App() {
           <Route exact path='/reviews/current'>
             <Redirect to='/' />
           </Route>
-        }  
+        }
+        {!isLoaded &&
+          <Route exact path='/trips'>
+            <Redirect to='/' />
+          </Route>
+        }         
         <Route exact path='/spots/:spotId'>
           <div className='root-sub-wrapper'>
             <SpotDetails isLoaded={isLoaded} />
