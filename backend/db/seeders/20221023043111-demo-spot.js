@@ -7,7 +7,7 @@ const spotsDetails = require('../Spot.json');
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    const users = await User.findAll({limit: 1});
+    const users = await User.findAll({limit: 1, offset: 1});
 
     for (let i = 0; i < users.length; i++) {
       const user = users[i];

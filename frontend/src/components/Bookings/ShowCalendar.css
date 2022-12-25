@@ -161,3 +161,8 @@
 .DayPickerKeyboardShortcuts_buttonReset {
     display: none;
 }
+
+.CalendarDay__blocked_calendar {
+    background-color: unset;
+    color: #cacccd;
+}

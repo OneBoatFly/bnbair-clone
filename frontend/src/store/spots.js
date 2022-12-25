@@ -8,6 +8,7 @@ const LOAD_SPOT_DETAIL = 'spots/getOneSpot';
 const LOAD_OWNER_SPOTS = 'spots/ownerSpots';
 const REMOVE_OWNER_SPOTS = 'spots/removeOwnerSpots';
 const UNLOAD_SPOT_DETAIL = 'spots/unloadOneSpot';
+const LOAD_SPOT_BOOKINGS = 'spots/loadSpotBookings';
 
 const loadSpots = (spots, page) => {
     return {
@@ -48,6 +49,14 @@ export const removeOwnerSpots = () => {
         type: REMOVE_OWNER_SPOTS
     }
 }
+
+const loadSpotBookings = (bookings) => {
+    return {
+        type: LOAD_SPOT_BOOKINGS,
+        bookings
+    }
+};
+
 
 // thunk actions
 // get all spots
@@ -212,6 +221,49 @@ export const deleteOneSpot = (spotId) => async (dispatch) => {
     }
 };
 
+
+export const getSpotBookings = (spotId) => async (dispatch) => {
+    // console.log('---------- getSpotBookings thunk ---------', spotId)
+    const response = await csrfFetch(`/api/spots/${spotId}/bookings`);
+    // console.log('---------- getSpotBookings response ------', response)
+    if (response.ok) {
+        const data = await response.json();
+        // console.log('getSpotBookings response.ok and bookings', data.Bookings)
+
+        dispatch(loadSpotBookings(data.Bookings));
+        return null
+    } else {
+        const data = await response.json();
+        // console.log('getSpotBookings error', data, "*******")
+        return data
+    }
+};
+
+
+export const createSpotBooking = (spotId, dates) => async (dispatch) => {
+    // console.log('---------- createSpotBooking thunk----------')
+    // console.log('spotId', spotId)
+    // console.log('dates', dates)
+    const options = {
+        method: 'POST',
+        body: JSON.stringify(dates)
+    };
+
+    const response = await csrfFetch(`/api/spots/${spotId}/bookings`, options);
+    // console.log('---------- createSpotBooking response ------', response)
+
+    if (response.ok) {
+        // console.log('-------------reached reponse ok-------------')
+        const booking = await response.json();
+        console.log(booking);
+
+        dispatch(getOneSpot(spotId));
+        dispatch(getSpotBookings(spotId));
+        return booking;
+    }
+};
+
+
 const initalState = {};
 const spotsReducer = (state = initalState, action) => {
     // console.log(action)
@@ -251,6 +303,11 @@ const spotsReducer = (state = initalState, action) => {
             newState = { ...state }
             newState.spotDetails = {};
             return newState;
+        }
+        case LOAD_SPOT_BOOKINGS: {
+            newState = { ...state }
+            newState.spotBookings = action.bookings;
+            return newState
         }
         default: {
             // console.log('spots reducer DEFAULT')

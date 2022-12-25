@@ -22,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/OneBoatFly/airbnb-project/issues"
   },
-  "homepage": "https://github.com/OneBoatFly/airbnb-project#readme"
+  "homepage": "https://github.com/OneBoatFly/airbnb-project#readme",
+  "dependencies": {
+    "moment-range": "^4.0.2"
+  }
 }
