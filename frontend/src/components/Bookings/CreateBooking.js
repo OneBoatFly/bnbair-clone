@@ -20,7 +20,7 @@ export default function CreateBooking({ spot, setShowReviewModal, dates, setDate
 
     const handleSubmit =  (e) => {
         e.preventDefault();
-        console.log('CreateBooking handleSubmit')
+        // console.log('CreateBooking handleSubmit')
 
         dispatch(createSpotBooking(
             spot.id, 
@@ -29,7 +29,7 @@ export default function CreateBooking({ spot, setShowReviewModal, dates, setDate
                 'endDate': dates.endDate.format("YYYY-MM-DD")
             }
         )).then((response) => {
-            console.log('booked', response)
+            // console.log('booked', response)
             // redirect to my bookings page once built.
         }).catch(async (data) => {
             const error = await data.json()

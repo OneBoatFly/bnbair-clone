@@ -19,6 +19,7 @@ import * as spotsActions from '../../store/spots';
 import * as spotReviewsActions from '../../store/spotReviews';
 
 import { getMMMDDYYYStr } from '../Spots/SpotCalcs/spotDates';
+import CreateBookingMobile from '../Bookings/CreateBookingMobile';
 
 export default function SpotDetails() {
     // console.log('Spot Details Compoment')
@@ -212,11 +213,6 @@ export default function SpotDetails() {
                             <div className='booking-form'>
                                   <CreateBooking spot={spot} setShowReviewModal={setShowReviewModal} dates={dates} setDates={setDates} setDateErrors={setDateErrors} totalDays={totalDays} />
                             </div>
-                            <div>
-                                <p>
-                                    
-                                </p>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -230,7 +226,7 @@ export default function SpotDetails() {
                 </div>
 
                 <div className='booking-form-wrapper-mobile'>
-                    Placeholder for booking
+                      <CreateBookingMobile spot={spot} dates={dates} />
                 </div>
             </div>          
         }
