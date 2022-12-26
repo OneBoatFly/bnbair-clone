@@ -38,7 +38,7 @@ function App() {
         <Route exact path='/'>
           <div className='root-sub-wrapper'>
             <div className='map-allSpots-wrapper'>
-              <Spots setQuery={setQuery} query={query} lastSpotElementRef={lastSpotElementRef} getSpotsErrors={getSpotsErrors} ></Spots>
+              <Spots setQuery={setQuery} query={query} ></Spots>
               <MapContainer />
             </div>
           </div>
