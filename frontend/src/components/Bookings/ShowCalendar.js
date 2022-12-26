@@ -10,7 +10,7 @@ import './ShowCalendar.css';
 import { useSelector } from 'react-redux';
 
 export default function ShowCalendar({ dates, setDates }) {
-    console.log('******** ShowCalendar Component ********')
+    // console.log('******** ShowCalendar Component ********')
     const moment = extendMoment(Moment);
 
     const spotBookings = useSelector(state => state.spots.spotBookings);

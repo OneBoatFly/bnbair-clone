@@ -1,11 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import './PriceQuery.css';
-// import MyButton from '../../FormElements/MyButton';
 
 
 export default function PriceQuery({ hasSubmitted, errors, setErrors, minPrice, setMinPrice, maxPrice, setMaxPrice}) {
-    // const [minPrice, setMinPrice] = useState(10);
-    // const [maxPrice, setMaxPrice] = useState(300);
   let priceErrors = {};
   if (errors) priceErrors = { minPrice: errors.minPrice, maxPrice: errors.maxPrice};
   const priceErrorsArr = Object.values(priceErrors);
@@ -33,7 +30,6 @@ export default function PriceQuery({ hasSubmitted, errors, setErrors, minPrice, 
     // console.log('minPrice: ', minPrice)
 
   const handleKeyDown = (e) => {
-    // console.log(e.key, typeof e.key, e.key === 'Backspace', /[0-9]/.test(e.key), (e.key === 'Backspace') || /0-9/.test(e.key))
     const valid = (e.key === 'Backspace') || /[0-9]/.test(e.key) || (e.key === 'ArrowLeft') || (e.key === 'ArrowRight') || (e.key === 'ArrowDown') || (e.key === 'ArrowUp') || (e.key === 'Tab') || (e.key === 'Delete')
     if (!valid) {
       e.preventDefault();

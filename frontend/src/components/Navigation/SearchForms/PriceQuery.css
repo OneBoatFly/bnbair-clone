@@ -1,13 +1,4 @@
 .price-query-wrapper {
-    background-color: white;
     display: flex;
-    justify-content: center;
     flex-direction: column;
-    min-width: 568px;
-    max-width: 568px;
-    max-height: 568px;
-    min-height: 568px;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: rgb(0 0 0 / 28%) 0px 8px 28px;
 }

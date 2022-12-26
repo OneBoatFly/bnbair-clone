@@ -12,9 +12,10 @@ import Trips from './components/Trips/Trips';
 // import useSearchFetch from './components/Navigation/useSearchFetch';
 
 function App() {
-  // console.log('0. App component rendered')
   const prevLoaded = window.localStorage.getItem('isLoaded');
   const [isLoaded, setIsLoaded] = useState(prevLoaded);
+  const [query, setQuery] = useState({});
+  const [showDropDown, setShowDropDown] = useState(false);
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -25,17 +26,17 @@ function App() {
 
   }, [dispatch]);
 
-  const [showDropDown, setShowDropDown] = useState(false);
 
   return (
     <div className='root-wrapper'>
       <div className='root-sub-wrapper-navigation'>
-        <Navigation isLoaded={isLoaded} setIsLoaded={setIsLoaded} showDropDown={showDropDown} setShowDropDown={setShowDropDown} />
+        <Navigation setQuery={setQuery} query={query} isLoaded={isLoaded} setIsLoaded={setIsLoaded} showDropDown={showDropDown} setShowDropDown={setShowDropDown} />
+        {/* <Navigation setPage={setPage}    /> */}
       </div>
       <Switch>
         <Route exact path='/'>
           <div className='root-sub-wrapper'>
-            <Spots />
+            <Spots setQuery={setQuery} query={query} />
           </div>      
         </Route>
         {isLoaded &&
@@ -78,6 +79,7 @@ function App() {
         <Route exact path='/spots/:spotId'>
           <div className='root-sub-wrapper'>
             <SpotDetails isLoaded={isLoaded} />
+            {/* <SpotDetails isLoaded={isLoaded} setPage={setPage}></SpotDetails> */}
           </div>
         </Route>
         <Route>

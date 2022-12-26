@@ -7,11 +7,8 @@ import './Spots.css';
 import useSearchFetch from '../Navigation/useSearchFetch';
 import coordinatesDistance from './SpotCalcs/spotDistance';
 
-export default function Spots() {
-    // window.location.reload(true);
+export default function Spots({ query, setQuery }) {
     const spots = useSelector(state => state.spots.allSpots);
-    // console.log('spots obj')
-    // console.log(spots)
     const userLocation = useSelector(state => state.session.userLocation);
 
     // infinite scroll
@@ -21,19 +18,12 @@ export default function Spots() {
     if (pagination) hasMore = pagination.spotsFound - pagination.page * pagination.size > 0;
 
     const [page, setPage] = useState(1);
-    const [query, setQuery] = useState({});
     
     const { loading, getSpotsErrors } = useSearchFetch(query);
-    // const { loading, getSpotsErrors } = useSearchFetch(query, setShowDropDown);
-
-    useEffect(() => {
-        setQuery({})
-    }, [])
 
     useEffect(() => {
         setQuery((query => {
             const newQuery = { ...query };
-            // newQuery.page = page;
             newQuery.size = page * 20;
             return newQuery;
         }))
@@ -42,25 +32,20 @@ export default function Spots() {
     const observer = useRef();
     const lastSpotElementRef = useCallback(node => {
         if (loading) {
-            // console.log('is loading? ', loading);
             return;
         }
 
         if (observer.current) {
-            // console.log('there is an observer: ', observer.current);
             observer.current.disconnect();
         }
 
         observer.current = new IntersectionObserver(entries => {
             if (entries[0].isIntersecting && hasMore) {
-                // console.log('Visible -----------------')
                 setPage(prev => prev + 1);
             }
         })
 
         if (node) {
-            // console.log('lastSpotElementRef')
-            // console.log(node)
             observer.current.observe(node)
         }
 
@@ -70,8 +55,6 @@ export default function Spots() {
 
     let spotsArr = [];
     if (spots) spotsArr = Object.values(spots);
-    // console.log('spotArr:');
-    // console.log(spotsArr);
 
     let getSpotErrorsArr = [];
     if (getSpotErrorsArr) getSpotErrorsArr = Object.values(getSpotErrorsArr);
