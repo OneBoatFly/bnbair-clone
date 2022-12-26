@@ -31,7 +31,6 @@ function App() {
     <div className='root-wrapper'>
       <div className='root-sub-wrapper-navigation'>
         <Navigation isLoaded={isLoaded} setIsLoaded={setIsLoaded} showDropDown={showDropDown} setShowDropDown={setShowDropDown} />
-        {/* <Navigation setPage={setPage}  setQuery={setQuery} query={query}  /> */}
       </div>
       <Switch>
         <Route exact path='/'>
@@ -79,7 +78,6 @@ function App() {
         <Route exact path='/spots/:spotId'>
           <div className='root-sub-wrapper'>
             <SpotDetails isLoaded={isLoaded} />
-            {/* <SpotDetails isLoaded={isLoaded} setPage={setPage}></SpotDetails> */}
           </div>
         </Route>
         <Route>
