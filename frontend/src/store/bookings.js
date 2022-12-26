@@ -27,7 +27,7 @@ export const getUserBookings = () => async (dispatch) => {
 const initalState = {
     spotFutureBookings: [],
     spotPastBookings: [],
-    useFutureBookings: [],
+    userFutureBookings: [],
     userPastBookings: []
 }
 
@@ -38,7 +38,7 @@ const bookingsReducer = (state = initalState, action) => {
             // console.log('--------- payload', action.payload)
             newState = {
                 ...state, 
-                useFutureBookings: action.payload.BookingsFuture,
+                userFutureBookings: action.payload.BookingsFuture,
                 userPastBookings: action.payload.BookingsPast
             }
             return newState;

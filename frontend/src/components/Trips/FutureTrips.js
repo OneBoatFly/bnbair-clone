@@ -3,18 +3,17 @@ import moment from 'moment';
 import { dateRange, timeDiff } from './util';
 import './FutureTrips.css';
 
-export default function FutureTrips({ useFutureBookings }) {
-    console.log('-----------FutureTrips Component-------------', useFutureBookings)
+export default function FutureTrips({ userFutureBookings }) {
+    // console.log('-----------FutureTrips Component-------------', userFutureBookings)
 
   return (
     <div className='future-booking-container'>
         <span>Upcoming reservations</span>
         <div className='future-booking-all-div'>
             {
-                useFutureBookings?.map(booking => {
+                userFutureBookings?.map(booking => {
                     const inTime = timeDiff(booking.startDate)
                     const rangeStr = dateRange(booking.startDate, booking.endDate)
-                    console.log(rangeStr)
 
                     return (
                         <div key={booking.id} className='future-booking-single-div'>
@@ -49,7 +48,7 @@ export default function FutureTrips({ useFutureBookings }) {
         </div>
         <div className='future-booking-all-div-mobile'>
             {
-                useFutureBookings?.map(booking => {
+                userFutureBookings?.map(booking => {
                     const inTime = timeDiff(booking.startDate)
                     const rangeStr = dateRange(booking.startDate, booking.endDate)
 

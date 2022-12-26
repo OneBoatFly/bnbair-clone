@@ -1,0 +1,49 @@
+.past-booking-container {
+    margin: 1.5rem 0;
+    padding-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    row-gap: 2rem;
+    max-width: 1440px;
+}
+
+.past-booking-container>span {
+    font-size: 1.25rem;
+    font-weight: 500;
+}
+
+.past-booking-all-div {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1.5rem;
+}
+
+.past-booking-single-div {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.past-booking-all-div img {
+    width: 72px;
+    height: 72px;
+    border-radius: 8px;
+}
+
+.past-booking-single-right {
+    padding: 0.5rem;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    padding-left: 1rem;
+    justify-content: space-between;
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: #717171
+}
+
+.past-booking-single-right .s-city-past {
+    font-weight: 600;
+    font-size: 1rem;
+    color: #222222;
+}

@@ -2,7 +2,6 @@ import moment from 'moment';
 
 export const timeDiff = (date) => {
     const bookingDate = moment(date)
-    console.log('booking date', bookingDate)
     const dayDiff = bookingDate.diff(moment(), 'days')
     const monthDiff = bookingDate.diff(moment(), 'months')
     const yearDiff = bookingDate.diff(moment(), 'years')
