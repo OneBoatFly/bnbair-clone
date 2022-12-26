@@ -1,10 +1,14 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom'
 import moment from 'moment';
 import { dateRange, timeDiff } from './util';
 import './FutureTrips.css';
 
 export default function FutureTrips({ userFutureBookings }) {
-    // console.log('-----------FutureTrips Component-------------', userFutureBookings)
+    const history = useHistory()
+    const handleClick = (spotId) => {
+        history.push(`/spots/${spotId}`)
+    }
 
   return (
     <div className='future-booking-container'>
@@ -16,7 +20,7 @@ export default function FutureTrips({ userFutureBookings }) {
                     const rangeStr = dateRange(booking.startDate, booking.endDate)
 
                     return (
-                        <div key={booking.id} className='future-booking-single-div'>
+                        <div key={booking.id} className='future-booking-single-div' onClick={() => handleClick(booking.Spot.id)}>
                             <div className='future-booking-single-left'>
                                 <div className='future-booking-single-left-top'>
                                     <span className='s-city'>{booking.Spot.city}</span>

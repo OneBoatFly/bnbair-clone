@@ -11,6 +11,7 @@
 }
 
 .future-booking-single-div {
+    cursor: pointer;
     display: flex;
     flex-wrap: wrap;
     max-width: 1440px;
