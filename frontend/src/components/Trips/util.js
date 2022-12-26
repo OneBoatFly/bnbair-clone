@@ -23,8 +23,8 @@ export const dateRange = (startDate, endDate) => {
     const end = moment(endDate)
 
     if (start.month() === end.month()) {
-        return start.format('MMM D') + ' - ' + end.format('D')
+        return start.format('MMM') + '\n' + start.format('D') + ' –⁠ ' + end.format('D')
     } else {
-        return start.format('MMM D') + ' - ' + end.format('MMM D')
+        return start.format('MMM D') + ' –⁠ ' + end.format('MMM D')
     }
 }
