@@ -1,13 +1,21 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import moment from 'moment';
 import { dateRange, timeDiff } from './util';
 import './FutureTrips.css';
+import { deleteBooking } from '../../store/bookings';
 
 export default function FutureTrips({ userFutureBookings }) {
     const history = useHistory()
-    const handleClick = (spotId) => {
+    const handleClick = (e, spotId) => {
+        if (e.target.className.includes('fa-solid')) return;
         history.push(`/spots/${spotId}`)
+    }
+
+    const dispatch = useDispatch();
+    const handleDelete = (e, bookingId) => { 
+        dispatch(deleteBooking(bookingId))
     }
 
   return (
@@ -20,10 +28,12 @@ export default function FutureTrips({ userFutureBookings }) {
                     const rangeStr = dateRange(booking.startDate, booking.endDate)
 
                     return (
-                        <div key={booking.id} className='future-booking-single-div' onClick={() => handleClick(booking.Spot.id)}>
+                        <div key={booking.id} className='future-booking-single-div' onClick={(e) => handleClick(e, booking.Spot.id)}>
                             <div className='future-booking-single-left'>
                                 <div className='future-booking-single-left-top'>
-                                    <span className='s-city'>{booking.Spot.city}</span>
+                                    <span className='s-city'>{booking.Spot.city}
+                                        <i className="fa-solid fa-trash future-booking-delete" onClick={(e) => handleDelete(e, booking.id)}></i>
+                                    </span>
                                     <span className='s-name'>{booking.Spot.name} hosted by {booking.Spot.ownerFirstName}</span>
                                 </div>
                                 <div className='future-booking-single-left-bottom'>

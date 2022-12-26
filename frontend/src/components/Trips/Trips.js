@@ -6,7 +6,7 @@ import PastTrips from './PastTrips';
 import './Trips.css';
 
 export default function Trips() {
-    console.log('-----------Trips Component-------------')
+    // console.log('-----------Trips Component-------------')
     const dispatch = useDispatch()
     const userFutureBookings = useSelector(state => state.bookings.userFutureBookings)
     const userPastBookings = useSelector(state => state.bookings.userPastBookings)
@@ -18,7 +18,6 @@ export default function Trips() {
             })
             .catch(async (data) => {
                 const error = await data.json()
-                // console.log('error', error)
             })
     }, [])
 

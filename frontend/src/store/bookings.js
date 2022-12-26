@@ -24,6 +24,22 @@ export const getUserBookings = () => async (dispatch) => {
     }
 }
 
+
+export const deleteBooking = (bookingId) => async (dispatch) => {
+    console.log('---------- deleteBooking thunk --------- ', bookingId)
+    const options = { method: 'DELETE' };
+    const response = await csrfFetch(`/api/bookings/${bookingId}`, options);
+
+    if (response.ok) {
+        const data = await response.json();
+
+        dispatch(getUserBookings());
+        return data.message;
+    }   
+
+}
+
+
 const initalState = {
     spotFutureBookings: [],
     spotPastBookings: [],

@@ -83,7 +83,7 @@ export default function ShowCalendar({ dates, setDates }) {
     };
 
     const handleFocusChange = (focusedInput) => {
-        console.log('handleFocusChange', focusedInput)
+        // console.log('handleFocusChange', focusedInput)
         setFocusedInput(focusedInput);
     };
 
@@ -114,8 +114,8 @@ export default function ShowCalendar({ dates, setDates }) {
         return blocked;
     }
 
-    console.log('futureBookedRanges', futureBookedRanges)
-    console.log('cutoffDate', cutoffDate.format("YYYY-MM-DD"))
+    // console.log('futureBookedRanges', futureBookedRanges)
+    // console.log('cutoffDate', cutoffDate.format("YYYY-MM-DD"))
     // console.log('startDate', dates.startDate)
     // console.log('endDate', dates.endDate)
 
