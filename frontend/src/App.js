@@ -3,13 +3,14 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import { useDispatch } from "react-redux";
 
 import * as sessionActions from "./store/session";
-// import * as spotsActions from './store/spots';
 import Navigation from './components/Navigation';
 import { Spots, SpotDetails, OwnerSpots } from './components/Spots';
 import UserReviews from './components/Reviews/UserReviews';
 import PageNotFound from './components/PageNotFound';
 import Trips from './components/Trips/Trips';
-// import useSearchFetch from './components/Navigation/useSearchFetch';
+import useSearchFetch from './components/Navigation/useSearchFetch';
+import MapContainer from './components/Maps';
+
 
 function App() {
   const prevLoaded = window.localStorage.getItem('isLoaded');
@@ -36,8 +37,11 @@ function App() {
       <Switch>
         <Route exact path='/'>
           <div className='root-sub-wrapper'>
-            <Spots setQuery={setQuery} query={query} />
-          </div>      
+            <div className='map-allSpots-wrapper'>
+              <Spots setQuery={setQuery} query={query} lastSpotElementRef={lastSpotElementRef} getSpotsErrors={getSpotsErrors} ></Spots>
+              <MapContainer />
+            </div>
+          </div>
         </Route>
         {isLoaded &&
           <Route exact path='/spots/current'>

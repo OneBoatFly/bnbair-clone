@@ -58,8 +58,23 @@ export default function Spots({ query, setQuery }) {
 
     let getSpotErrorsArr = [];
     if (getSpotErrorsArr) getSpotErrorsArr = Object.values(getSpotErrorsArr);
-  
-    return (
+
+    const successGeo = (position) => {
+        console.log(position)
+    }
+
+    const errorGeo = (error) => {
+        console.log(error);
+    };
+
+    const options = {
+        enableHighAccuracy: true,
+        timeout: 3000,
+    }
+
+    navigator.geolocation.getCurrentPosition(successGeo, errorGeo, options)
+
+  return (
     <div className='all-spots-wrapper'>
         <div>
             {getSpotErrorsArr?.map(error => {
