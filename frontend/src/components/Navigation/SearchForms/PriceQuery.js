@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import './PriceQuery.css';
 // import MyButton from '../../FormElements/MyButton';
 
