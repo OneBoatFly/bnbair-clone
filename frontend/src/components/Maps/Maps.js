@@ -11,14 +11,13 @@ const containerStyle = {
     left: '0',
 };
 
-const center = {
-    lat: 47.6040349,
-    lng: -122.3007308,
-};
-
 const Maps = ({ apiKey }) => {
-    const [spotInfoArr, setSpotInfoArr] = useState([])
-    const spots = useSelector(state => state.spots.allSpots)
+    const [spotInfoArr, setSpotInfoArr] = useState([]);
+    const [center, setCenter] = useState({
+        lat: 47.6040349,
+        lng: -122.3007308,
+    })
+    const spots = useSelector(state => state.spots.allSpots);
     const [libraries] = useState(['places']);    
 
     const { isLoaded } = useJsApiLoader({
@@ -49,6 +48,22 @@ const Maps = ({ apiKey }) => {
     }
 
     // console.log('---- Maps Component ----', coordinates)
+
+
+    const successGeo = (position) => {
+        setCenter({ lat: position.coords.latitude, lng: position.coords.longitude })
+    }
+
+    const errorGeo = (error) => {
+        // console.log(error);
+    };
+
+    const options = {
+        enableHighAccuracy: true,
+        timeout: 3000,
+    }
+
+    navigator.geolocation.getCurrentPosition(successGeo, errorGeo, options)
 
     return (
         <div className='google-map'>
