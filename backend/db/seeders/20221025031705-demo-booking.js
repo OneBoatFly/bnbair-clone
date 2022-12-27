@@ -5,12 +5,12 @@ const { Op } = require('sequelize');
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    const users = await User.findAll({limit:5, offset: 5});
-    const spots = await Spot.findAll();
+    const users = await User.findAll({limit:3, offset: 5});
+    const spots = await Spot.findAll({limit:3});
 
-    for (let spot of spots) {
+    for (let user of users) {
       let now = Date.now();
-      for (let user of users) {
+      for (let spot of spots) {
         const startDate = 8.64e+7 * 3 + now;
         const endDate = 2.592e+8 + startDate;
         now = endDate;
@@ -24,7 +24,7 @@ module.exports = {
       };
 
       let next = Date.now() + 8.64e+7 * 30;
-      for (let user of users) {
+      for (let spot of spots) {
         const startDate = 8.64e+7 * 3 + next;
         const endDate = 2.592e+8 + startDate;
         next = endDate;
@@ -39,9 +39,9 @@ module.exports = {
       
     };
 
-    for (let spot of spots) {
+    for (let user of users) {
       let now = Date.now();
-      for (let user of users) {
+      for (let spot of spots) {
         const endDate = now - 8.64e+7 * 3;
         const startDate = endDate - 2.592e+8;
         now = startDate;

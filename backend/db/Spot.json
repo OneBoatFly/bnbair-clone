@@ -1,6 +1,6 @@
 [
     {
-        "address": "400 Broad St, Seattle, WA 98109",
+        "address": "400 Broad St,",
         "city": "Seattle",
         "state": "WA",
         "country": "USA",
@@ -8,7 +8,7 @@
         "lng": -122.3514661,
         "name": "Space Needle",
         "description": "Iconic, 605-ft.-tall spire at the Seattle Center, with an observation deck & a rotating restaurant.",
-        "price": 9999     
+        "price": 299     
     },
     {
         "address": "14580 NE 145th St",
@@ -130,137 +130,5 @@
         "name": "Imperial Hotel",
         "description": "The Kimpton Hotel Vintage Portland, historically known as the Imperial Hotel and also as The Plaza Hotel, is a historic hotel building in downtown Portland, Oregon, United States.",
         "price": 345
-    },
-    {
-        "address": "400 Broad St, Seattle, WA 98109",
-        "city": "Seattle",
-        "state": "WA",
-        "country": "USA",
-        "lat": 47.6205099,
-        "lng": -122.3514661,
-        "name": "2Space Needle",
-        "description": "Iconic, 605-ft.-tall spire at the Seattle Center, with an observation deck & a rotating restaurant.",
-        "price": 92999
-    },
-    {
-        "address": "14580 NE 145th St",
-        "city": "Woodinville",
-        "state": "WA",
-        "country": "USA",
-        "lat": 47.7336368,
-        "lng": -122.1496339,
-        "name": "2Willows Lodge",
-        "description": "Adjacent to the Sammamish River Trail, this posh Northwest-style lodge on 5 acres is a 10-minute walk from a handful of area wineries, breweries, tasting rooms and distilleries.",
-        "price": 2399
-    },
-    {
-        "address": "6501 Railroad Ave",
-        "city": "Snoqualmie",
-        "state": "WA",
-        "country": "USA",
-        "lat": 47.542186,
-        "lng": -121.8387412,
-        "name": "2Salish Lodge & Spa",
-        "description": "Overlooking Snoqualmie Falls, this elegant lodge is 1 mile from Northwest Railway Museum and 12 miles from Tiger Mountain State Forest.",
-        "price": 2360
-    },
-    {
-        "address": "590 U.S. Rte 2",
-        "city": "Leavenworth",
-        "state": "WA",
-        "country": "USA",
-        "lat": 47.5936188,
-        "lng": -120.6691108,
-        "name": "2Enzian Inn",
-        "description": "Filled with detailed woodwork and antiques, this family-run alpine-themed lodge is a 5-minute walk from the city center and 22 miles from Wenatchee.",
-        "price": 2259
-    },
-    {
-        "address": "307 Adams Street",
-        "city": "Seward",
-        "state": "Alaska",
-        "country": "USA",
-        "lat": 60.103056,
-        "lng": -149.441111,
-        "name": "2Enzian Inn",
-        "description": "The Van Gilder Hotel is a historic multipurpose commercial and civic building at 307 Adams Street in Seward, Alaska, United States.",
-        "price": 2879
-    },
-    {
-        "address": "333 O'Farrell Street",
-        "city": "San Francisco",
-        "state": "California",
-        "country": "USA",
-        "lat": 60.103056,
-        "lng": -149.441111,
-        "name": "2Hilton San Francisco Union Square",
-        "description": "The Hilton San Francisco Union Square is a skyscraper hotel located several blocks south-west of Union Square in San Francisco, California.",
-        "price": 2456
-    },
-    {
-        "address": "181 Third Street",
-        "city": "San Francisco",
-        "state": "California",
-        "country": "USA",
-        "lat": 37.785444,
-        "lng": -122.400444,
-        "name": "2W San Francisco",
-        "description": "W San Francisco is a 31-floor, 96 m (315 ft) highrise luxury boutique hotel in San Francisco, California located next to the San Francisco Museum of Modern Art and across from Moscone Center.",
-        "price": 2321
-    },
-    {
-        "address": "950 Mason Street",
-        "city": "San Francisco",
-        "state": "California",
-        "country": "USA",
-        "lat": 37.7924,
-        "lng": -122.4102,
-        "name": "2Fairmont San Francisco",
-        "description": "The Fairmont San Francisco is a luxury hotel at 950 Mason Street, atop Nob Hill in San Francisco, California. The hotel was named after mining magnate and U.S. Senator James Graham Fair (1831–94), by his daughters, Theresa Fair Oelrichs and Virginia Fair Vanderbilt, who built the hotel in his honor.",
-        "price": 2654
-    },
-    {
-        "address": "888 SW 3rd Ave",
-        "city": "Portland",
-        "state": "Oregon",
-        "country": "USA",
-        "lat": 45.516915,
-        "lng": -122.675901,
-        "name": "2AC Hotel Portland Downtown",
-        "description": "The AC Hotel Portland Downtown is a 204-room hotel operated by Marriott International in Portland, Oregon. Located at the intersection of Southwest 3rd Avenue and Taylor Street, the 13-floor hotel opened in 2017.",
-        "price": 2789
-    },
-    {
-        "address": "309 SW Broadway",
-        "city": "Portland",
-        "state": "Oregon",
-        "country": "USA",
-        "lat": 45.521918,
-        "lng": -122.678561,
-        "name": "2Benson Hotel",
-        "description": "The Benson Portland, Curio Collection by Hilton[3][4] is a 287-room historic hotel building in downtown Portland, Oregon, United States.",
-        "price": 2123
-    },
-    {
-        "address": "729 SW 15th Avenue",
-        "city": "Portland",
-        "state": "Oregon",
-        "country": "USA",
-        "lat": 45.520957,
-        "lng": -122.687723,
-        "name": "2Hotel deLuxe",
-        "description": "Built in 1912 as the Mallory Hotel, the hotel was commissioned by Rufus Mallory, a Portland lawyer and politician,[2] and is listed on the National Register of Historic Places under its original name.",
-        "price": 2234
-    },
-    {
-        "address": "422–426 SW Broadway",
-        "city": "Portland",
-        "state": "Oregon",
-        "country": "USA",
-        "lat": 45.52081,
-        "lng": -122.678422,
-        "name": "2Imperial Hotel",
-        "description": "The Kimpton Hotel Vintage Portland, historically known as the Imperial Hotel and also as The Plaza Hotel, is a historic hotel building in downtown Portland, Oregon, United States.",
-        "price": 2345
-    }    
+    }  
 ]

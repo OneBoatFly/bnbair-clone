@@ -1,8 +1,9 @@
 const { requireAuth } = require('../../utils/auth');
 const router = require('express').Router();
-const { Booking, Spot, SpotImage } = require('../../db/models');
+const { Booking, Spot, SpotImage, User } = require('../../db/models');
 const { validateBooking } = require('./spots');
 const checkConflict = require('../../utils/booking-conflicts');
+const moment = require('moment')
 
 router.get('/current', requireAuth, async (req, res) => {
     const bookings = await Booking.findAll({
@@ -10,31 +11,62 @@ router.get('/current', requireAuth, async (req, res) => {
         include: {
             model: Spot,
             attributes: {exclude: ['createdAt', 'updatedAt']},
-            include: {
-                model: SpotImage,
-                where: {preview: true},
-                attributes: ['url'],
-                required: false
-            },
+            include: [
+                {
+                    model: SpotImage,
+                    where: {preview: true},
+                    attributes: ['url'],
+                    required: false
+                }, 
+                {
+                    model: User,
+                    as: 'Owner',
+                    attributes: ['firstName', 'lastName'],
+                }            
+            ],
         }
     });
 
-    let bookingsJSON = [];
+    let bookingsFutureJSON = [];
+    let bookingsPastJSON = []
     for (let booking of bookings) {
         const bookingJSON = booking.toJSON();
 
-        if (bookingJSON.Spot.SpotImages.length) {
-            bookingJSON.Spot.previewImage = bookingJSON.Spot.SpotImages[0].url;
+        // console.log(moment(booking.endDate).format('YYYY-MM-DD'))
+        if (moment(booking.endDate) > moment()) {
+            if (bookingJSON.Spot.SpotImages.length) {
+                bookingJSON.Spot.previewImage = bookingJSON.Spot.SpotImages[0].url;
+            } else {
+                bookingJSON.Spot.previewImage = null;
+            }
+            
+            bookingJSON.Spot.ownerFirstName = bookingJSON.Spot.Owner.firstName;
+            bookingJSON.Spot.ownerLastName = bookingJSON.Spot.Owner.lastName;
+
+            delete bookingJSON.Spot.SpotImages;
+            delete bookingJSON.Spot.Owner;
+    
+            bookingsFutureJSON.push(bookingJSON);
         } else {
-            bookingJSON.Spot.previewImage = null;
+            if (bookingJSON.Spot.SpotImages.length) {
+                bookingJSON.Spot.previewImage = bookingJSON.Spot.SpotImages[0].url;
+            } else {
+                bookingJSON.Spot.previewImage = null;
+            }
+
+            bookingJSON.Spot.ownerFirstName = bookingJSON.Spot.Owner.firstName;
+            bookingJSON.Spot.ownerLastName = bookingJSON.Spot.Owner.lastName;
+
+            delete bookingJSON.Spot.SpotImages;
+            delete bookingJSON.Spot.Owner;
+
+            bookingsPastJSON.push(bookingJSON);            
         }
-        
-        delete bookingJSON.Spot.SpotImages;
-
-        bookingsJSON.push(bookingJSON);
     }
-
-    res.json({Bookings: bookingsJSON});
+    
+    bookingsFutureJSON.sort((b1, b2) => b1.endDate - b2.endDate)
+    bookingsPastJSON.sort((b1, b2) => b1.endDate - b2.endDate)
+    res.json({ BookingsFuture: bookingsFutureJSON, BookingsPast: bookingsPastJSON });
 });
 
 router.put('/:bookingId', requireAuth, validateBooking, async (req, res, next) => {

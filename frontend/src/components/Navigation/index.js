@@ -1,20 +1,30 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
-
+import React, { useEffect, useState } from 'react';
+import { NavLink, useLocation } from 'react-router-dom';
 import { useSelector } from "react-redux";
 import DemoUserButton from './DemoUserButton';
 import './Navigation.css';
 
-// import LoginFormModal from '../LoginFormModal'; // delete this? doesn't look like needed. Modal is in MenuButton
 import ProfileButton from './ProfileButton';
 import MenuButton from './MenuButton';
 import Icon from './Icon';
 import SearchBar from './SearchBar';
 
-// import * as spotsReducerActions from '../../store/spots';
-
-export default function Navigation({ setPage, isLoaded, setIsLoaded, setQuery, query, showDropDown, setShowDropDown }) {
+export default function Navigation({ setPage, isLoaded, setIsLoaded, setQuery, query}) {
     const sessionUser = useSelector(state => state.session.user);
+    const location = useLocation();
+    const [showSearch, setShowSearch] = useState(true);
+
+    useEffect(() => {
+        if (!location) return;
+
+        if (location.pathname !== '/') setShowSearch(false);
+        else setShowSearch(true);
+
+    }, [location])
+
+    const handleIconOnClick = () => {
+        setQuery({})
+    }
 
     let sessionLinks;
     if (sessionUser) {
@@ -29,10 +39,12 @@ export default function Navigation({ setPage, isLoaded, setIsLoaded, setQuery, q
     return (
         <div className='navigation-all-wrapper'>
             <div className='navigation-sub-wrapper side1'>
-                <NavLink exact to='/' ><Icon setPage={setPage} /></NavLink>
+                <NavLink exact to='/' onClick={handleIconOnClick} ><Icon setPage={setPage} /></NavLink>
             </div>
             <div className='navigation-sub-wrapper center'>
-                <SearchBar setQuery={setQuery} showDropDown={showDropDown} setShowDropDown={setShowDropDown} />
+                {showSearch && 
+                    <SearchBar setQuery={setQuery} query={query}/>
+                }
             </div>
             <div className='navigation-sub-wrapper side2'>
                 {sessionLinks}
