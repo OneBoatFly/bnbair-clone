@@ -57,18 +57,18 @@ const Maps = ({ apiKey, setQuery }) => {
     let spotsArr = [];
     if (spots) spotsArr = Object.values(spots);
 
-    useEffect(() => {
-        const spotInfo = []
-        for (let spot of spotsArr) {
-            spotInfo.push({ lat: spot.lat, lng:spot.lng, price:spot.price, id: spot.id })
-        }
+    // useEffect(() => {
+    //     const spotInfo = []
+    //     for (let spot of spotsArr) {
+    //         spotInfo.push({ lat: spot.lat, lng:spot.lng, price:spot.price, id: spot.id })
+    //     }
 
-        setSpotInfoArr(spotInfo)
+    //     setSpotInfoArr(spotInfo)
 
-        return () => {
-            setSpotInfoArr([])
-        }
-    }, [spots])
+    //     return () => {
+    //         setSpotInfoArr([])
+    //     }
+    // }, [spots])
     
     const history = useHistory();
     const handleClick = (spotId) => {
@@ -103,15 +103,15 @@ const Maps = ({ apiKey, setQuery }) => {
                     onLoad={handleOnLoad}
                     onCenterChanged={handleCenterChanged}
                 >
-                {spotInfoArr.map(spot => {
-                    // console.log(spot)
+                {spotsArr.map(spot => {
+                    console.log('spot.price', spot.price, typeof spot.price)
                     return (
                         <div key={spot.id} className='overlay-container'>
                             <OverlayView
                                 position={{ lat: spot.lat, lng: spot.lng }}
                                 mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
                             >
-                                <button onClick={() => handleClick(spot.id)} className='overlay-button'>${parseFloat((spot.price).toFixed(0)).toLocaleString()}</button>
+                                <button onClick={() => handleClick(spot.id)} className='overlay-button'>${(spot.price)?.toFixed(0).toLocaleString()}</button>
                             </OverlayView>
                         </div>
                     )
