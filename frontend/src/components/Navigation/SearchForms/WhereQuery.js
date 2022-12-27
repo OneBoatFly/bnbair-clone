@@ -65,6 +65,7 @@ export default function WhereQuery({apiKey, hasSubmitted, errors, setErrors, min
                     >
                         {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
                             <div className='where-search-auto-complete'>
+                                <span>Where</span>
                                 <input
                                     {...getInputProps({
                                         placeholder: 'Search destinations ...',
@@ -73,10 +74,10 @@ export default function WhereQuery({apiKey, hasSubmitted, errors, setErrors, min
                                 />
                                 <div className="autocomplete-dropdown-container" >
                                     {loading && <div>Loading...</div>}
-                                    {suggestions.map(suggestion => {
+                                    {suggestions.map((suggestion, idx) => {
                                         const className = suggestion.active
-                                            ? 'suggestion-item--active'
-                                            : 'suggestion-item';
+                                            ? `suggestion-item--active ${idx === 0 ? 'first' : ''} ${idx === suggestions.length - 1 ? 'last' : ''}`
+                                            : `suggestion-item ${idx === 0 ? 'first' : ''} ${idx === suggestions.length - 1 ? 'last' : ''}`;
                                         return (
                                             <div key={suggestion.placeId}
                                                 {...getSuggestionItemProps(suggestion, {
@@ -84,7 +85,7 @@ export default function WhereQuery({apiKey, hasSubmitted, errors, setErrors, min
                                                 })}
                                             >
                                                 <button className='auto-search-location-button'>
-                                                    <i className="fa-thin fa-location-dot"></i>
+                                                    <i className="fa-solid fa-location-dot"></i>
                                                 </button>
                                                 <span className='auto-suggest-span'>{suggestion.description}</span>
                                             </div>
