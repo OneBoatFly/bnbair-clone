@@ -104,14 +104,14 @@ const Maps = ({ apiKey, setQuery }) => {
                     onCenterChanged={handleCenterChanged}
                 >
                 {spotsArr.map(spot => {
-                    console.log('spot.price', spot.price, typeof spot.price)
+                    console.log('spot.price', spot.price, typeof spot.price, typeof parseFloat(spot.price))
                     return (
                         <div key={spot.id} className='overlay-container'>
                             <OverlayView
                                 position={{ lat: spot.lat, lng: spot.lng }}
                                 mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
                             >
-                                <button onClick={() => handleClick(spot.id)} className='overlay-button'>${(spot.price)?.toFixed(0).toLocaleString()}</button>
+                                <button onClick={() => handleClick(spot.id)} className='overlay-button'>${parseFloat(spot.price).toFixed(0).toLocaleString()}</button>
                             </OverlayView>
                         </div>
                     )
