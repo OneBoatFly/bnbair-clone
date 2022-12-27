@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
-import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
+import React, { useEffect, useState } from 'react';
+import { GoogleMap, useJsApiLoader, OverlayView } from '@react-google-maps/api';
+import { useSelector } from 'react-redux';
 
 const containerStyle = {
     width: '100%',
-    height: '100%',
+    height: 'calc(100vh - 81px + 24px)',
     position: 'absolute',
-    top: '0',
+    top: '-24px',
     left: '0',
 };
 
@@ -15,13 +16,33 @@ const center = {
 };
 
 const Maps = ({ apiKey }) => {
-    const [libraries] = useState(['places']);
+    const [spotInfoArr, setSpotInfoArr] = useState([])
+    const spots = useSelector(state => state.spots.allSpots)
+    const [libraries] = useState(['places']);    
 
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
         googleMapsApiKey: apiKey,
         libraries
     });
+
+    let spotsArr = [];
+    if (spots) spotsArr = Object.values(spots);
+
+    useEffect(() => {
+        const spotInfo = []
+        for (let spot of spotsArr) {
+            spotInfo.push({ lat: spot.lat, lng:spot.lng, price:spot.price, spotId: spot.id })
+        }
+
+        setSpotInfoArr(spotInfo)
+
+        return () => {
+            setSpotInfoArr([])
+        }
+    }, [spots])
+    
+    // console.log('---- Maps Component ----', coordinates)
 
     return (
         <div className='google-map'>
@@ -30,7 +51,21 @@ const Maps = ({ apiKey }) => {
                     mapContainerStyle={containerStyle}
                     center={center}
                     zoom={11}
-                />
+                >
+                {spotInfoArr.map(spot => {
+                    console.log(spot)
+                    return (
+                        <div key={spot.id} className='overlay-container'>
+                            <OverlayView
+                                position={{ lat: spot.lat, lng: spot.lng }}
+                                mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
+                            >
+                                <button className='overlay-button'>${parseFloat((spot.price).toFixed(0)).toLocaleString()}</button>
+                            </OverlayView>
+                        </div>
+                    )
+                })}
+                </GoogleMap>
             )}
         </div>
     );
