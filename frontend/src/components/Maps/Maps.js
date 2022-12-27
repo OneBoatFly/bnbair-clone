@@ -11,12 +11,12 @@ const containerStyle = {
     left: '0',
 };
 
-const Maps = ({ apiKey, setQuery }) => {
+const Maps = ({ apiKey, setQuery, setCenter, center }) => {
     const [libraries] = useState(['places']);
-    const [center, setCenter] = useState({
-        lat: 47.6040349,
-        lng: -122.3007308,
-    })
+    // const [center, setCenter] = useState({
+    //     lat: 47.6040349,
+    //     lng: -122.3007308,
+    // })
     const [mapref, setMapRef] = React.useState(null);
 
     const handleOnLoad = map => {
@@ -75,24 +75,6 @@ const Maps = ({ apiKey, setQuery }) => {
         history.push(`/spots/${spotId}`)
     }
 
-    const successGeo = (position) => {
-        // console.log('success')
-        setCenter({ lat: position.coords.latitude, lng: position.coords.longitude })
-    }
-
-    const errorGeo = (error) => {
-        // console.log(error);
-    };
-
-    const options = {
-        enableHighAccuracy: true,
-        timeout: 3000,
-    }
-
-    navigator.geolocation.getCurrentPosition(successGeo, errorGeo, options)
-
-    // console.log('center', center)
-
     return (
         <div className='google-map'>
             {isLoaded && (
@@ -104,7 +86,6 @@ const Maps = ({ apiKey, setQuery }) => {
                     onCenterChanged={handleCenterChanged}
                 >
                 {spotsArr.map(spot => {
-                    console.log('spot.price', spot.price, typeof spot.price, typeof parseFloat(spot.price))
                     return (
                         <div key={spot.id} className='overlay-container'>
                             <OverlayView

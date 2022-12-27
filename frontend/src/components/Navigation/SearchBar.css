@@ -82,3 +82,9 @@
 .search-drop-down {
     position: absolute;
 }
+
+@media (max-width: 550px) {
+    .search-bar-mobile-remove {
+        display: none;
+    }
+}

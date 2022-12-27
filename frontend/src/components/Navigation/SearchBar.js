@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react'
 import './SearchBar.css';
 import SearchForms from './SearchForms/SearchForms';
 
-export default function SearchBar({ setQuery, query }) {
+export default function SearchBar({ setQuery, query, setCenter, center }) {
     const dropDownFormRef = useRef(null);
     const [showMenu, setShowMenu] = useState(false);
 
@@ -18,7 +18,8 @@ export default function SearchBar({ setQuery, query }) {
             // console.log('in closememu', e.target)
             // console.log('in closememu', e.currentTarget)
             // console.log('dropDownRef', dropDownFormRef.current)
-            if (dropDownFormRef.current && !dropDownFormRef.current.contains(e.target) && !e.target.className.includes('auto-suggest-span')) {
+            // console.log('whereQueryResultRef', whereQueryResultRef.current)
+            if (dropDownFormRef.current && !dropDownFormRef.current.contains(e.target) && !e.target.className.includes('where-query-drop-down')) {
                 // console.log('here')
                 setShowMenu(false);
             }
@@ -84,10 +85,10 @@ export default function SearchBar({ setQuery, query }) {
                     <div className='search-element-div'>
                         <button>Search </button>
                     </div>
-                    <div className='search-element-div middle'>
+                    <div className='search-element-div middle search-bar-mobile-remove'>
                         <button>Any where</button>
                     </div>
-                    <div className='search-element-div'>
+                    <div className='search-element-div search-bar-mobile-remove'>
                         <button>Any price</button>
                     </div>
                 </div>
@@ -97,7 +98,7 @@ export default function SearchBar({ setQuery, query }) {
             </div>
 
             {showMenu && 
-                <SearchForms hasSubmitted={hasSubmitted} setHasSubmitted={setHasSubmitted} errors={errors} setErrors={setErrors} minPrice={minPrice} setMinPrice={setMinPrice} maxPrice={maxPrice} setMaxPrice={setMaxPrice} minLat={minLat} setMinLat={setMinLat} maxLat={maxLat} setMaxLat={setMaxLat} minLng={minLng} setMinLng={setMinLng} maxLng={maxLng} setMaxLng={setMaxLng} />
+                  <SearchForms hasSubmitted={hasSubmitted} setHasSubmitted={setHasSubmitted} errors={errors} setErrors={setErrors} minPrice={minPrice} setMinPrice={setMinPrice} maxPrice={maxPrice} setMaxPrice={setMaxPrice} minLat={minLat} setMinLat={setMinLat} maxLat={maxLat} setMaxLat={setMaxLat} minLng={minLng} setMinLng={setMinLng} maxLng={maxLng} setMaxLng={setMaxLng} setCenter={setCenter} center={center} />
             }
         </form>
     </div>

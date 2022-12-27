@@ -8,7 +8,7 @@ import { Spots, SpotDetails, OwnerSpots } from './components/Spots';
 import UserReviews from './components/Reviews/UserReviews';
 import PageNotFound from './components/PageNotFound';
 import Trips from './components/Trips/Trips';
-import useSearchFetch from './components/Navigation/useSearchFetch';
+// import useSearchFetch from './components/Navigation/useSearchFetch';
 import MapContainer from './components/Maps';
 import { getKey } from './store/maps';
 
@@ -16,6 +16,11 @@ function App() {
   const prevLoaded = window.localStorage.getItem('isLoaded');
   const [isLoaded, setIsLoaded] = useState(prevLoaded);
   const [query, setQuery] = useState({});
+  const [center, setCenter] = useState({
+    lat: 47.6040349,
+    lng: -122.3007308,
+  })
+  const [userCenter, setUserCenter] = useState({});
   const key = useSelector((state) => state.maps.key);
 
   const dispatch = useDispatch();
@@ -33,19 +38,39 @@ function App() {
     }
   }, [dispatch, key]);
 
-  console.log('App --------- query -----------', query)
+  const successGeo = (position) => {
+    console.log('success')
+    console.log({ lat: position.coords.latitude, lng: position.coords.longitude })
+    setCenter({ lat: position.coords.latitude, lng: position.coords.longitude });
+    setUserCenter({ lat: position.coords.latitude, lng: position.coords.longitude });
+  }
+
+  const errorGeo = (error) => {
+    console.log(error);
+  };
+
+  const options = {
+    enableHighAccuracy: false,
+    timeout: 5000,
+  }
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(successGeo, errorGeo, options)
+  }, [])
+
+  console.log('center', center, userCenter)
 
   return (
     <div className='root-wrapper'>
       <div className='root-sub-wrapper-navigation'>
-        <Navigation setQuery={setQuery} query={query} isLoaded={isLoaded} setIsLoaded={setIsLoaded} />
+        <Navigation setQuery={setQuery} query={query} isLoaded={isLoaded} setIsLoaded={setIsLoaded} setCenter={setCenter} center={center} userCenter={userCenter} />
       </div>
       <Switch>
         <Route exact path='/'>
           <div className='root-sub-wrapper'>
             <div className='map-allSpots-wrapper'>
               <Spots setQuery={setQuery} query={query} ></Spots>
-              <MapContainer setQuery={setQuery} />
+              <MapContainer setQuery={setQuery} setCenter={setCenter} center={center} />
             </div>
           </div>
         </Route>

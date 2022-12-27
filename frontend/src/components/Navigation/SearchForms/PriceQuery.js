@@ -13,7 +13,7 @@ export default function PriceQuery({ hasSubmitted, errors, setErrors, minPrice, 
       if (maxPrice > 0 && minPrice > maxPrice) hasErrors.minMax = 'Minimum price must be less than or equal to Maximum price.';
       else delete hasErrors.minMax;
       
-      console.log(hasErrors, minPrice, maxPrice)
+      // console.log(hasErrors, minPrice, maxPrice)
       setErrors(hasErrors)
       setPriceErrors(hasErrors)
 
@@ -26,7 +26,7 @@ export default function PriceQuery({ hasSubmitted, errors, setErrors, minPrice, 
     }
   }
 
-  console.log('price --------- errors', errors)
+  // console.log('price --------- errors', errors)
 
   return (
     <div className='price-query-wrapper'>
