@@ -1,19 +1,19 @@
-import { useEffect } from 'react';
+// import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getKey } from '../../store/maps';
+// import { getKey } from '../../store/maps';
 import Maps from './Maps';
 import './Maps.css';
 
-const MapContainer = () => {
+const MapContainer = ({ mapLoaded }) => {
     const key = useSelector((state) => state.maps.key);
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
 
-    useEffect(() => {
-        if (!key) {
-            dispatch(getKey());
-        }
-    }, [dispatch, key]);
+    // useEffect(() => {
+    //     if (!key) {
+    //         dispatch(getKey());
+    //     }
+    // }, [dispatch, key]);
 
     if (!key) {
         return null;

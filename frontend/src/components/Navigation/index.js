@@ -9,7 +9,7 @@ import MenuButton from './MenuButton';
 import Icon from './Icon';
 import SearchBar from './SearchBar';
 
-export default function Navigation({ setPage, isLoaded, setIsLoaded, setQuery, query, showDropDown, setShowDropDown }) {
+export default function Navigation({ setPage, isLoaded, setIsLoaded, setQuery, showDropDown, setShowDropDown }) {
     const sessionUser = useSelector(state => state.session.user);
     const location = useLocation();
     const [showSearch, setShowSearch] = useState(true);

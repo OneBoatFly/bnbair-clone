@@ -1,9 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react'
 import './SearchBar.css';
-
-import MyButton from '../FormElements/MyButton';
-import PriceQuery from './SearchForms/PriceQuery';
-import { Modal } from '../../context/Modal';
 import SearchForms from './SearchForms/SearchForms';
 
 export default function SearchBar({ setQuery, showDropDown, setShowDropDown }) {
@@ -11,8 +7,8 @@ export default function SearchBar({ setQuery, showDropDown, setShowDropDown }) {
     const [showMenu, setShowMenu] = useState(false);
 
     const openMenu = (e) => {
-        console.log('openMenu clicked', e.target)
-        console.log(e.currentTarget)
+        // console.log('openMenu clicked', e.target, showMenu)
+        // console.log(e.currentTarget)
         if (showMenu) return;
         setShowMenu(true);
     };
@@ -21,7 +17,10 @@ export default function SearchBar({ setQuery, showDropDown, setShowDropDown }) {
         if (!showMenu) return;
 
         const closeMenu = (e) => {
-            if (dropDownFormRef.current && !dropDownFormRef.current.contains(e.target)) {
+            // console.log('in closememu', e.target)
+            // console.log('in closememu', e.currentTarget)
+            // console.log('dropDownRef', dropDownFormRef.current)
+            if (dropDownFormRef.current && !dropDownFormRef.current.contains(e.target) && !e.target.className.includes('auto-suggest-span')) {
                 // console.log('here')
                 setShowMenu(false);
             }

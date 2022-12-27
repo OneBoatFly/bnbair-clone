@@ -1,6 +1,6 @@
 import React, { useState, useEffect }  from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import * as sessionActions from "./store/session";
 import Navigation from './components/Navigation';
@@ -10,13 +10,15 @@ import PageNotFound from './components/PageNotFound';
 import Trips from './components/Trips/Trips';
 import useSearchFetch from './components/Navigation/useSearchFetch';
 import MapContainer from './components/Maps';
-
+import { getKey } from './store/maps';
+import { useJsApiLoader } from '@react-google-maps/api';
 
 function App() {
   const prevLoaded = window.localStorage.getItem('isLoaded');
   const [isLoaded, setIsLoaded] = useState(prevLoaded);
   const [query, setQuery] = useState({});
   const [showDropDown, setShowDropDown] = useState(false);
+  const key = useSelector((state) => state.maps.key);
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -27,12 +29,18 @@ function App() {
 
   }, [dispatch]);
 
+  useEffect(() => {
+    if (!key) {
+      dispatch(getKey());
+    }
+  }, [dispatch, key]);
+
+  console.log('App --------- query -----------', query)
 
   return (
     <div className='root-wrapper'>
       <div className='root-sub-wrapper-navigation'>
         <Navigation setQuery={setQuery} query={query} isLoaded={isLoaded} setIsLoaded={setIsLoaded} showDropDown={showDropDown} setShowDropDown={setShowDropDown} />
-        {/* <Navigation setPage={setPage}    /> */}
       </div>
       <Switch>
         <Route exact path='/'>

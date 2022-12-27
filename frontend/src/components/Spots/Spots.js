@@ -60,11 +60,11 @@ export default function Spots({ query, setQuery }) {
     if (getSpotErrorsArr) getSpotErrorsArr = Object.values(getSpotErrorsArr);
 
     const successGeo = (position) => {
-        console.log(position)
+        // console.log(position)
     }
 
     const errorGeo = (error) => {
-        console.log(error);
+        // console.log(error);
     };
 
     const options = {
