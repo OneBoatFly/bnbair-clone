@@ -26,8 +26,11 @@ const Maps = ({ apiKey, setQuery }) => {
     const handleCenterChanged = () => {
         if (mapref) {
             const newBound = mapref.getBounds();
+            const newCenter = mapref.getCenter();
             // console.log('NE', newBound.getNorthEast().lat(), newBound.getNorthEast().lng());
             // console.log('SW', newBound.getSouthWest().lat(), newBound.getSouthWest().lng());
+            // console.log('------------- newCenter', newCenter.lat(), newCenter.lng())
+            if (newCenter.lat() === center.lat && newCenter.lng() === center.lng) return;
 
             setQuery(query => {
                 const newQuery = {}
@@ -73,6 +76,7 @@ const Maps = ({ apiKey, setQuery }) => {
     }
 
     const successGeo = (position) => {
+        // console.log('success')
         setCenter({ lat: position.coords.latitude, lng: position.coords.longitude })
     }
 
@@ -86,6 +90,8 @@ const Maps = ({ apiKey, setQuery }) => {
     }
 
     navigator.geolocation.getCurrentPosition(successGeo, errorGeo, options)
+
+    // console.log('center', center)
 
     return (
         <div className='google-map'>

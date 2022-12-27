@@ -41,11 +41,11 @@ export default function SearchBar({ setQuery, query }) {
     const handleSearch = (e) => {
         e.preventDefault();
         setHasSubmitted(true);
-        console.log('submit search form clicked')
-        console.log('errors', errors)
+        // console.log('submit search form clicked')
+        // console.log('errors', errors)
 
         if (Object.values(errors).length) {
-            console.log('errors', errors)
+            // console.log('errors', errors)
             return;
         } else {
             setQuery(query => {
@@ -74,7 +74,7 @@ export default function SearchBar({ setQuery, query }) {
         openMenu(e);
     }
 
-    console.log('SearchBar - query', query)
+    // console.log('SearchBar - query', query)
 
   return (
     <div className='search-bar-wrapper' ref={dropDownFormRef} onClick={(e) => handleClick(e)}>
