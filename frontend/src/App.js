@@ -11,13 +11,11 @@ import Trips from './components/Trips/Trips';
 import useSearchFetch from './components/Navigation/useSearchFetch';
 import MapContainer from './components/Maps';
 import { getKey } from './store/maps';
-import { useJsApiLoader } from '@react-google-maps/api';
 
 function App() {
   const prevLoaded = window.localStorage.getItem('isLoaded');
   const [isLoaded, setIsLoaded] = useState(prevLoaded);
   const [query, setQuery] = useState({});
-  const [showDropDown, setShowDropDown] = useState(false);
   const key = useSelector((state) => state.maps.key);
 
   const dispatch = useDispatch();
@@ -40,7 +38,7 @@ function App() {
   return (
     <div className='root-wrapper'>
       <div className='root-sub-wrapper-navigation'>
-        <Navigation setQuery={setQuery} query={query} isLoaded={isLoaded} setIsLoaded={setIsLoaded} showDropDown={showDropDown} setShowDropDown={setShowDropDown} />
+        <Navigation setQuery={setQuery} query={query} isLoaded={isLoaded} setIsLoaded={setIsLoaded} />
       </div>
       <Switch>
         <Route exact path='/'>

@@ -2,13 +2,11 @@ import React, { useEffect, useState, useRef } from 'react'
 import './SearchBar.css';
 import SearchForms from './SearchForms/SearchForms';
 
-export default function SearchBar({ setQuery, showDropDown, setShowDropDown }) {
+export default function SearchBar({ setQuery, query }) {
     const dropDownFormRef = useRef(null);
     const [showMenu, setShowMenu] = useState(false);
 
     const openMenu = (e) => {
-        // console.log('openMenu clicked', e.target, showMenu)
-        // console.log(e.currentTarget)
         if (showMenu) return;
         setShowMenu(true);
     };
@@ -44,13 +42,14 @@ export default function SearchBar({ setQuery, showDropDown, setShowDropDown }) {
         e.preventDefault();
         setHasSubmitted(true);
         console.log('submit search form clicked')
+        console.log('errors', errors)
 
         if (Object.values(errors).length) {
             console.log('errors', errors)
             return;
         } else {
             setQuery(query => {
-                const newQuery = { ...query }
+                const newQuery = {}
                 newQuery.minPrice = minPrice;
                 newQuery.maxPrice = maxPrice;
                 newQuery.minLat = minLat;
@@ -61,19 +60,32 @@ export default function SearchBar({ setQuery, showDropDown, setShowDropDown }) {
                 return newQuery;
             });
             setShowMenu(false);
+            setMinPrice(10);
+            setMaxPrice(300);
+            setMinLat(-90);
+            setMaxLat(90);
+            setMinLng(-180);
+            setMaxLng(180);
+            setHasSubmitted(false);     
         }
     }
 
+    const handleClick = (e) => {
+        openMenu(e);
+    }
+
+    console.log('SearchBar - query', query)
+
   return (
-    <div className='search-bar-wrapper' ref={dropDownFormRef} onClick={(e) => openMenu(e)}>
-          <form className='search-form' onSubmit={handleSearch}>
+    <div className='search-bar-wrapper' ref={dropDownFormRef} onClick={(e) => handleClick(e)}>
+        <form className='search-form' onSubmit={handleSearch}>
             <div className='search-form-nav'>
                 <div className='search-element-div-wrapper'>
                     <div className='search-element-div'>
-                        <button>Feature</button>
+                        <button>Search </button>
                     </div>
                     <div className='search-element-div middle'>
-                        <button>To</button>
+                        <button>Any where</button>
                     </div>
                     <div className='search-element-div'>
                         <button>Any price</button>
@@ -85,7 +97,7 @@ export default function SearchBar({ setQuery, showDropDown, setShowDropDown }) {
             </div>
 
             {showMenu && 
-                  <SearchForms hasSubmitted={hasSubmitted} setHasSubmitted={setHasSubmitted} errors={errors} setErrors={setErrors} minPrice={minPrice} setMinPrice={setMinPrice} maxPrice={maxPrice} setMaxPrice={setMaxPrice} minLat={minLat} setMinLat={setMinLat} maxLat={maxLat} setMaxLat={setMaxLat} minLng={minLng} setMinLng={setMinLng} maxLng={maxLng} setMaxLng={setMaxLng} />
+                <SearchForms hasSubmitted={hasSubmitted} setHasSubmitted={setHasSubmitted} errors={errors} setErrors={setErrors} minPrice={minPrice} setMinPrice={setMinPrice} maxPrice={maxPrice} setMaxPrice={setMaxPrice} minLat={minLat} setMinLat={setMinLat} maxLat={maxLat} setMaxLat={setMaxLat} minLng={minLng} setMinLng={setMinLng} maxLng={maxLng} setMaxLng={setMaxLng} />
             }
         </form>
     </div>

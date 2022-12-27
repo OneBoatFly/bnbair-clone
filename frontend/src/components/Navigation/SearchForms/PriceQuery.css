@@ -2,3 +2,38 @@
     display: flex;
     flex-direction: column;
 }
+
+.price-search-wrapper {
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.price-query-input-wrapper {
+    width: calc(50% - 12px);
+    border: 1px solid #B0B0B0;
+    border-radius: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    color: #222222;
+    min-height: 60px;
+    box-sizing: border-box;
+    font-size: 0.875rem;
+}
+
+.price-query-dash {
+    padding: 8px;
+    width: 8px;
+}
+
+.minMax-price-div {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 4px;
+    padding-top: 4px;
+}
+
+.minMax-price-div input {
+    width: 80%;
+}

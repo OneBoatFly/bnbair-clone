@@ -9,7 +9,7 @@ import MenuButton from './MenuButton';
 import Icon from './Icon';
 import SearchBar from './SearchBar';
 
-export default function Navigation({ setPage, isLoaded, setIsLoaded, setQuery, showDropDown, setShowDropDown }) {
+export default function Navigation({ setPage, isLoaded, setIsLoaded, setQuery, query}) {
     const sessionUser = useSelector(state => state.session.user);
     const location = useLocation();
     const [showSearch, setShowSearch] = useState(true);
@@ -21,6 +21,10 @@ export default function Navigation({ setPage, isLoaded, setIsLoaded, setQuery, s
         else setShowSearch(true);
 
     }, [location])
+
+    const handleIconOnClick = () => {
+        setQuery({})
+    }
 
     let sessionLinks;
     if (sessionUser) {
@@ -35,11 +39,11 @@ export default function Navigation({ setPage, isLoaded, setIsLoaded, setQuery, s
     return (
         <div className='navigation-all-wrapper'>
             <div className='navigation-sub-wrapper side1'>
-                <NavLink exact to='/' ><Icon setPage={setPage} /></NavLink>
+                <NavLink exact to='/' onClick={handleIconOnClick} ><Icon setPage={setPage} /></NavLink>
             </div>
             <div className='navigation-sub-wrapper center'>
                 {showSearch && 
-                    <SearchBar setQuery={setQuery} showDropDown={showDropDown} setShowDropDown={setShowDropDown} />
+                    <SearchBar setQuery={setQuery} query={query}/>
                 }
             </div>
             <div className='navigation-sub-wrapper side2'>

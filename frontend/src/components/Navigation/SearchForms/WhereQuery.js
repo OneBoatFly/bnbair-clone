@@ -65,7 +65,7 @@ export default function WhereQuery({apiKey, hasSubmitted, errors, setErrors, min
                     >
                         {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
                             <div className='where-search-auto-complete'>
-                                <span>Where</span>
+                                <span>where</span>
                                 <input
                                     {...getInputProps({
                                         placeholder: 'Search destinations ...',
