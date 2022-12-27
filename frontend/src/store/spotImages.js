@@ -4,28 +4,26 @@ import * as spotsActions from './spots';
 // regular actions
 
 // thunk actions
-export const addImages = (imageUrls, spotId) => async (dispatch) => {
-    // console.log('add image thunk ---- ')
-    // console.log('imageUrls', imageUrls)
-    // console.log('spotid', spotId)
-    imageUrls.forEach(async (imageUrl) => {
-        const options = {
-            method: 'POST',
-            body: JSON.stringify({
-                url: imageUrl.url,
-                preview: imageUrl.preview
-            })
-        }
+export const addImages = (imageInfo, spotId) => async (dispatch) => {
+    console.log('add image thunk ---- ')
+    console.log('imageUrls', imageInfo)
+    console.log('spotid', spotId)
+    const options = {
+        method: 'POST',
+        body: JSON.stringify({
+            url: imageInfo.url,
+            preview: imageInfo.preview
+        })
+    }
 
-        const response = await csrfFetch(`/api/spots/${spotId}/images`, options);
+    const response = await csrfFetch(`/api/spots/${spotId}/images`, options);
 
-        if (response.ok) {
-            const data = await response.json();
-            // console.log('response ok - data', data)
-            dispatch(spotsActions.getOneSpot(spotId));
-            return data;
-        }
-    })
+    if (response.ok) {
+        const data = await response.json();
+        // console.log('response ok - data', data)
+        dispatch(spotsActions.getOneSpot(spotId));
+        return data;
+    }
 }
 
 const initalState = {};

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import './OwnerSpots.css';
 
 import * as spotsActions from '../../store/spots';
@@ -30,6 +31,13 @@ export default function OwnerSpotsTR({ setShowUpdateSpotModal, spot, setCurrSpot
             })
     }
 
+    const history = useHistory();
+    const handleImages = async () => {
+        console.log('in handle images --------- ')
+
+        history.push(`/spots/${spot.id}/images`)
+    }
+
     return (
         <tr>
             <td>
@@ -43,6 +51,9 @@ export default function OwnerSpotsTR({ setShowUpdateSpotModal, spot, setCurrSpot
                 </div>
             </td>
             <td>
+                <div className='modify-button-div'>
+                    <button className='modify-buttons first' onClick={handleImages}>Add Images</button>
+                </div>                
                 <div className='modify-button-div'>
                     <button className='modify-buttons first' onClick={handleUpdate}>Update</button>
                     <button className='modify-buttons' onClick={handleDelete} >Delete</button>

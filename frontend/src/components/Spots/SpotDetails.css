@@ -180,7 +180,7 @@
     align-items: center;
     justify-content: space-between;
 }
-
+single-image-div-small
 @media (max-width: 740px) {
     .signle-spot-header-wrapper {
         flex-wrap: wrap;

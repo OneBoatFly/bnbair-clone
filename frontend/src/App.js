@@ -8,9 +8,9 @@ import { Spots, SpotDetails, OwnerSpots } from './components/Spots';
 import UserReviews from './components/Reviews/UserReviews';
 import PageNotFound from './components/PageNotFound';
 import Trips from './components/Trips/Trips';
-// import useSearchFetch from './components/Navigation/useSearchFetch';
 import MapContainer from './components/Maps/MapContainer';
 import { getKey } from './store/maps';
+import AddSpotImages from './components/Spots/AddSpotImages';
 
 function App() {
   const prevLoaded = window.localStorage.getItem('isLoaded');
@@ -96,6 +96,13 @@ function App() {
             </div>
           </Route>
         }
+        {isLoaded &&
+          <Route exact path='/spots/:spotId/images'>
+            <div className='root-sub-wrapper'>
+              <AddSpotImages />
+            </div>
+          </Route>
+        }        
         {!isLoaded &&
           <Route exact path='/spots/current'>
             <Redirect to='/' />

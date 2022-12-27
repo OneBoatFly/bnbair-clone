@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from "react-redux";
 import './SpotDetails.css';
 import moment from 'moment';
 
-// import AddSpotImages from './AddSpotImages';
 import SpotReviews from '../Reviews/SpotReviews';
 import SpotReviewsModal from '../Reviews/SpotReviewsModal';
 import AddReview from '../Reviews/AddReview';
