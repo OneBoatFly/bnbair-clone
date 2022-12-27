@@ -2,7 +2,7 @@
     /* outline: 1px solid blue; */
     display: flex;
     box-sizing: border-box;
-    padding: 1.5rem 0px;
+    padding: 2rem 0px;
     border-bottom: 1px solid #dddddd;
 }
 
@@ -27,23 +27,20 @@
     max-width: 58.33%;
 }
 
-.spot-info-wrapper .hostName {
-    /* outline: 1px solid salmon; */
-}
-
 .date-calendar-wrapper {
-    /* outline: 1px solid slateblue; */
     margin-top: 16px;
 }
 
+.spot-map-wrapper h4,
 .reviews-wrapper h4,
 .spot-info-wrapper h4 {
     margin: 0;
     font-size: 22px;
+    font-weight: 600;
 }
 
 .hostName {
-    padding: 24px 0px 24px 0px;
+    padding: 0px 0px 24px 0px;
 }
 
 .info-detail-wrapper {
@@ -87,11 +84,12 @@
 
 .reviews-wrapper {
     /* outline: 1px solid blue; */
-    padding: 32px 0px;
+    padding: 3rem 0;
 }
 
+.spot-map-sub-wrapper,
 .reviews-sub-wrapper {
-    margin-bottom: 20px;
+    margin-bottom: 2rem;
 }
 
 /* // images */
@@ -363,4 +361,10 @@
 .location-mobile {
     display: inline-block;
     padding-top: 8px;
+}
+
+.spot-map-wrapper {
+    border-top: 1px solid #dddddd;
+    padding: 3rem 0;
+    box-sizing: border-box;
 }

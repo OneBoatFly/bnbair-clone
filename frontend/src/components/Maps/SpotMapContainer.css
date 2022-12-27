@@ -1,0 +1,103 @@
+.spot-map-container {
+    width: 100%;
+    height: 480px;
+    box-sizing: border-box;
+    font-family: 'Montserrat',
+        Arial,
+        Helvetica,
+        sans-serif
+}
+
+.spot-google-map {
+    width: 100%;
+    height: 100%;
+    font-family: inherit;
+}
+
+.spot-map-house-outer {
+    width: 9rem;
+    height: 9rem;
+    border-radius: 50%;
+    background-color: rgba(230, 30, 77, 0.1);
+    border: unset;
+    font-family: inherit;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translate(-50%, -50%)
+}
+
+.spot-map-house-inner {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background-color: rgba(230, 30, 77, 1);
+    border: unset;
+    position: relative;
+    font-family: inherit;
+    box-shadow: rgb(255 255 255 / 18%) 0px 0px 0px 1px inset,
+        rgb(0 0 0 / 18%) 0px 2px 4px;
+    padding: unset;
+}
+
+.spot-map-label-box {
+    position: absolute;
+    background-color: white;
+    width: 18rem;
+    top: -4rem;
+    left: -7.5rem;
+    padding: 1rem;
+    box-sizing: border-box;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    color: #717171;
+    box-shadow: 0px 0px 10px 5px rgb(0 0 0 / 18%);
+    font-family: inherit;
+}
+
+.spot-map-label-pointer {
+    position: absolute;
+    top: -1rem;
+    left: 0.8rem;
+    border: solid 10px transparent;
+    border-top-color: #fff;
+    position: absolute;
+}
+
+.spot-map-icon-container {
+    width: 3rem;
+    height: 3rem;
+    transform-style: preserve-3d;
+    transition: all 0.5s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.spot-map-icon-container:hover {
+    transform: rotateY(180deg);
+}
+
+.spot-map-house-icon {
+    position: absolute;
+    color: white;
+    font-size: 1.25rem;
+    backface-visibility: hidden;
+}
+
+.spot-map-airbnb-icon {
+    position: absolute;
+    color: white;
+    font-size: 1.25rem;
+    font-weight: 700;
+    transform: rotateY(180deg);
+    backface-visibility: hidden;
+}
+
+@media (max-width: 550px) {
+    .spot-map-container {
+        height: 240px !important;
+        border-radius: 1rem !important;
+        overflow: hidden !important;
+    }
+}

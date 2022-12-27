@@ -17,12 +17,10 @@
     max-width: 1120px;
     width: 100%;
     margin: 24px auto;
-    /* outline: 1px solid salmon; */
 }
 
 .all-spots-sub-wrapper {
     display: flex;
-    /* column-gap: 16px; */
     column-gap: 32px;
     row-gap: 32px;
     flex-wrap: wrap;
@@ -183,10 +181,6 @@
     .link-wrapper {
         max-width: 100%;
         flex-basis: 100%;
-    }
-
-    .single-spot-wrapper {
-        /* margin: 0px !important; */
     }
 
     .title-div-wrapper,

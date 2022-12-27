@@ -9,7 +9,7 @@ import UserReviews from './components/Reviews/UserReviews';
 import PageNotFound from './components/PageNotFound';
 import Trips from './components/Trips/Trips';
 // import useSearchFetch from './components/Navigation/useSearchFetch';
-import MapContainer from './components/Maps';
+import MapContainer from './components/Maps/MapContainer';
 import { getKey } from './store/maps';
 
 function App() {
@@ -39,8 +39,8 @@ function App() {
   }, [dispatch, key]);
 
   const successGeo = (position) => {
-    console.log('success')
-    console.log({ lat: position.coords.latitude, lng: position.coords.longitude })
+    // console.log('success')
+    // console.log({ lat: position.coords.latitude, lng: position.coords.longitude })
     setCenter({ lat: position.coords.latitude, lng: position.coords.longitude });
     setUserCenter({ lat: position.coords.latitude, lng: position.coords.longitude });
   }
@@ -58,7 +58,7 @@ function App() {
     navigator.geolocation.getCurrentPosition(successGeo, errorGeo, options)
   }, [])
 
-  console.log('center', center, userCenter)
+  // console.log('center', center, userCenter)
 
   return (
     <div className='root-wrapper'>
