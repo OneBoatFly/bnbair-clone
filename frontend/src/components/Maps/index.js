@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import Maps from './Maps';
 import './Maps.css';
 
-const MapContainer = () => {
+const MapContainer = ({ setQuery }) => {
     const key = useSelector((state) => state.maps.key);
 
     if (!key) {
@@ -12,7 +12,7 @@ const MapContainer = () => {
 
     return (
         <div className='home-page-map-container'>
-            <Maps apiKey={key} />
+            <Maps apiKey={key} setQuery={setQuery} />
         </div>
     );
 };

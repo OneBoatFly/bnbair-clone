@@ -11,14 +11,39 @@ const containerStyle = {
     left: '0',
 };
 
-const Maps = ({ apiKey }) => {
-    const [spotInfoArr, setSpotInfoArr] = useState([]);
+const Maps = ({ apiKey, setQuery }) => {
+    const [libraries] = useState(['places']);
     const [center, setCenter] = useState({
         lat: 47.6040349,
         lng: -122.3007308,
     })
+    const [mapref, setMapRef] = React.useState(null);
+
+    const handleOnLoad = map => {
+        setMapRef(map);
+    };
+
+    const handleCenterChanged = () => {
+        if (mapref) {
+            const newBound = mapref.getBounds();
+            // console.log('NE', newBound.getNorthEast().lat(), newBound.getNorthEast().lng());
+            // console.log('SW', newBound.getSouthWest().lat(), newBound.getSouthWest().lng());
+
+            setQuery(query => {
+                const newQuery = {}
+                newQuery.minLat = newBound.getSouthWest().lat();
+                newQuery.maxLat = newBound.getNorthEast().lat();
+                newQuery.minLng = newBound.getSouthWest().lng();
+                newQuery.maxLng = newBound.getNorthEast().lng();
+
+                return newQuery;
+            });
+        }  
+    };
+
+    const [spotInfoArr, setSpotInfoArr] = useState([]);
     const spots = useSelector(state => state.spots.allSpots);
-    const [libraries] = useState(['places']);    
+        
 
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
@@ -47,9 +72,6 @@ const Maps = ({ apiKey }) => {
         history.push(`/spots/${spotId}`)
     }
 
-    // console.log('---- Maps Component ----', coordinates)
-
-
     const successGeo = (position) => {
         setCenter({ lat: position.coords.latitude, lng: position.coords.longitude })
     }
@@ -72,9 +94,11 @@ const Maps = ({ apiKey }) => {
                     mapContainerStyle={containerStyle}
                     center={center}
                     zoom={11}
+                    onLoad={handleOnLoad}
+                    onCenterChanged={handleCenterChanged}
                 >
                 {spotInfoArr.map(spot => {
-                    console.log(spot)
+                    // console.log(spot)
                     return (
                         <div key={spot.id} className='overlay-container'>
                             <OverlayView

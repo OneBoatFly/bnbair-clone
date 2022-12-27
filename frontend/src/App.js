@@ -45,7 +45,7 @@ function App() {
           <div className='root-sub-wrapper'>
             <div className='map-allSpots-wrapper'>
               <Spots setQuery={setQuery} query={query} ></Spots>
-              <MapContainer />
+              <MapContainer setQuery={setQuery} />
             </div>
           </div>
         </Route>
