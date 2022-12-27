@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom'
 import { GoogleMap, useJsApiLoader, OverlayView } from '@react-google-maps/api';
 import { useSelector } from 'react-redux';
 
@@ -32,7 +33,7 @@ const Maps = ({ apiKey }) => {
     useEffect(() => {
         const spotInfo = []
         for (let spot of spotsArr) {
-            spotInfo.push({ lat: spot.lat, lng:spot.lng, price:spot.price, spotId: spot.id })
+            spotInfo.push({ lat: spot.lat, lng:spot.lng, price:spot.price, id: spot.id })
         }
 
         setSpotInfoArr(spotInfo)
@@ -42,6 +43,11 @@ const Maps = ({ apiKey }) => {
         }
     }, [spots])
     
+    const history = useHistory();
+    const handleClick = (spotId) => {
+        history.push(`/spots/${spotId}`)
+    }
+
     // console.log('---- Maps Component ----', coordinates)
 
     return (
@@ -60,7 +66,7 @@ const Maps = ({ apiKey }) => {
                                 position={{ lat: spot.lat, lng: spot.lng }}
                                 mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
                             >
-                                <button className='overlay-button'>${parseFloat((spot.price).toFixed(0)).toLocaleString()}</button>
+                                <button onClick={() => handleClick(spot.id)} className='overlay-button'>${parseFloat((spot.price).toFixed(0)).toLocaleString()}</button>
                             </OverlayView>
                         </div>
                     )
