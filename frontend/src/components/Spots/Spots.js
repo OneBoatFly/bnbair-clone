@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef, useCallback} from 'react';
 import {useSelector} from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import './Spots.css';
 // import * as spotsActions from '../../store/spots';
 
 import useSearchFetch from '../Navigation/useSearchFetch';
 import coordinatesDistance from './SpotCalcs/spotDistance';
+import SpotImageSlider from './SpotImageSlider';
+import useResizeObserver from "use-resize-observer";
 
 export default function Spots({ query, setQuery }) {
     const spots = useSelector(state => state.spots.allSpots);
@@ -59,6 +61,18 @@ export default function Spots({ query, setQuery }) {
     let getSpotErrorsArr = [];
     if (getSpotErrorsArr) getSpotErrorsArr = Object.values(getSpotErrorsArr);
 
+    const imageContainerRef = useRef(null);
+    const { width, height } = useResizeObserver({ ref: imageContainerRef });
+    console.log(imageContainerRef, width, height, 'imageContainerRef')
+
+    const history = useHistory();
+    const handleSpotClick = (e, id) => {
+        console.log('handle click e', e.target)
+        console.log(e.target.tagName)
+        if (e.target.tagName === 'IMG') return;
+        history.push(`/spots/${id}`);
+    }
+
   return (
     <div className='all-spots-wrapper'>
         <div>
@@ -75,16 +89,18 @@ export default function Spots({ query, setQuery }) {
             {
                 spotsArr?.map((spot, idx) => {
                     const { previewImage, city, state, avgRating, price, id, lat, lng, weekPast } = spot;
+                    // console.log('------------------ previewImage', previewImage)
                     const nf = new Intl.NumberFormat();
                     let distance = nf.format(coordinatesDistance(lat, lng, userLocation.lat, userLocation.lng));
                     // console.log(city, state, typeof distance, distance)
                     const priceFormatted = nf.format(price);
                     if (spotsArr.length === idx + 1) {
                         return (
-                            <NavLink ref={lastSpotElementRef} key={id} to={`/spots/${id}`} className='link-wrapper'>
+                            <div ref={lastSpotElementRef} key={id} onClick={(e) => handleSpotClick(e, id)} className='link-wrapper'>
                                 <div className='individual-spot-wrapper'>
-                                    <div className='image-div'>
-                                        <img src={`${previewImage}`} alt='preview' />
+                                    <div className='image-div' ref={imageContainerRef}>
+                                        {/* <img src={`${previewImage}`} alt='preview' /> */}
+                                        <SpotImageSlider previewImage={previewImage} imageWidth={width} imageHeight={height}/>
                                     </div>
                                     <div className='short-info-wrapper'>
                                         <span className='cityState'>{city}, {state}</span>
@@ -98,7 +114,7 @@ export default function Spots({ query, setQuery }) {
                                         </span>
                                     </div>
                                 </div>
-                            </NavLink>
+                            </div>
                         )
                     } else {
                         return (

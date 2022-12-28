@@ -1,0 +1,35 @@
+.image-div > div > div > button {
+    border-radius: 50%;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    width: 25px !important;
+    height: 25px !important;
+}
+
+.image-div>div>div>button img {
+    width: 18px !important;
+    height: 18px !important;
+}
+
+.image-div>div>div>button:first-of-type img {
+    padding-right: 2px;
+}
+
+.image-div >div>div>button:first-of-type {
+    left: 10px !important;
+}
+
+.image-div >div>div>button:last-of-type {
+    right: 10px !important;
+}
+
+.image-div>div>div>div>button {
+    width: 0.5rem !important;
+    height: 0.5rem !important;
+}
+
+.image-div>div>div>div:last-of-type {
+    bottom: 8px !important;
+    margin: 0 0 0 -32.5px !important;
+}

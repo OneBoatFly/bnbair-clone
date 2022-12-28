@@ -30,6 +30,7 @@
 /* this is for screen 1880px higher, from here goes down */
 /* calc((100% - 80px) / 6) if not including map, use this. and update to 16px gap */
 .link-wrapper {
+    cursor: pointer;
     box-sizing: border-box;
     max-width: calc((100% - 32px) / 2);
     flex-basis: calc((100% - 32px) / 2);
@@ -52,6 +53,11 @@
     overflow: hidden;
     width: 100%;
     aspect-ratio: 1.05/1;
+}
+
+.image-div div,
+.image-div img {
+    border-radius: 12px;
 }
 
 .image-div > img,
