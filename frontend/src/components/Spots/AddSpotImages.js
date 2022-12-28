@@ -25,7 +25,7 @@ export default function AddSpotImages() {
             return;
         }
 
-        for (let image of imageUpload) {
+        imageUpload.foprEach((image, idx) => {
             const imageRef = ref(storage, `spots/${spotId}/${image.name + v4()}`)
             uploadBytes(imageRef, image)
                 .then((snapshot) => {
@@ -34,14 +34,14 @@ export default function AddSpotImages() {
                         setImageUrlArr(arr => [...arr, url])
                         dispatch(spotIamgesActions.addImages({
                             url: url,
-                            preview: false
+                            preview: idx === 0
                         }, spotId))
                     })
                 })
                 .catch((e) => {
                     // console.log('uploading --- error', e)
                 })
-        }
+        })
     }
 
     const imageFolderRef = ref(storage, `spots/${spotId}`)

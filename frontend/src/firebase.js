@@ -3,7 +3,7 @@ import { initializeApp } from "firebase/app";
 import { getStorage } from 'firebase/storage';
 
 const firebaseConfig = {
-    apiKey: "AIzaSyAPuNQE-sNIi03ksZcO_n20k3pWy9R7aFo",
+    apiKey: "AIzaSyB6vPiDU9IVWzRZELW5_rgTyjsUwMMMXAc",
     authDomain: "bnbair-4c597.firebaseapp.com",
     projectId: "bnbair",
     storageBucket: "bnbair.appspot.com",

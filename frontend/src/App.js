@@ -9,7 +9,7 @@ import UserReviews from './components/Reviews/UserReviews';
 import PageNotFound from './components/PageNotFound';
 import Trips from './components/Trips/Trips';
 import MapContainer from './components/Maps/MapContainer';
-import { getKey } from './store/maps';
+import { getGeoKey, getKey } from './store/maps';
 import AddSpotImages from './components/Spots/AddSpotImages';
 
 function App() {
@@ -22,6 +22,7 @@ function App() {
   })
   const [userCenter, setUserCenter] = useState({});
   const key = useSelector((state) => state.maps.key);
+  const geoKey = useSelector((state) => state.maps.geoKey)
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -35,6 +36,10 @@ function App() {
   useEffect(() => {
     if (!key) {
       dispatch(getKey());
+    }
+
+    if (!geoKey) {
+      dispatch(getGeoKey())
     }
   }, [dispatch, key]);
 

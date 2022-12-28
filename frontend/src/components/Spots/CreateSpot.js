@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Redirect } from 'react-router-dom';
 import validator from 'validator';
+import Geocode from "react-geocode";
 
 import * as spotsActions from '../../store/spots';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,7 +11,8 @@ import { handleLabelSmall, handleLabelBig, handleDivBottomBorder, handleDivBotto
 import MyButton from '../FormElements/MyButton';
 
 
-export default function CreateSpot({ setShowSpotFormModal, setPage, hasMore }) {
+export default function CreateSpot({ setShowSpotFormModal, apiKey }) {
+  Geocode.setApiKey(apiKey);
   const [address, setAddress] = useState('');
   const [city, setCity] = useState('');
   const [province, setProvince] = useState('');
@@ -26,7 +28,8 @@ export default function CreateSpot({ setShowSpotFormModal, setPage, hasMore }) {
   const [titleErrors, setTitleErrors] = useState('');
   const [descriptionErrors, setDescriptionErrors] = useState('');
   const [priceErrors, setPriceErrors] = useState('');
-  const [imageUrlErrors, setImageUrlErrors] = useState('');
+  // const [imageUrlErrors, setImageUrlErrors] = useState('');
+  const [geoError, setGeoError] = useState('');
   const [validationErrors, setValidationErrors] = useState({});
   const [hasSubmitted, setHasSubmitted] = useState(false);
 
@@ -79,8 +82,8 @@ export default function CreateSpot({ setShowSpotFormModal, setPage, hasMore }) {
     else setPriceErrors('');
 
     // console.log('valid url', validator.isURL(previewImage))
-    if (!previewImage.length || !validator.isURL(previewImage) ) setImageUrlErrors('A valid preview image url is required');
-    else setImageUrlErrors('');
+    // if (!previewImage.length || !validator.isURL(previewImage) ) setImageUrlErrors('A valid preview image url is required');
+    // else setImageUrlErrors('');
 
     // set addressErrors expecting []:
     // console.log('hasAddressErrors', hasAddressErrors)
@@ -90,55 +93,56 @@ export default function CreateSpot({ setShowSpotFormModal, setPage, hasMore }) {
       setAddressErrors([]);
     }
 
-  }, [address, city, province, country, name, description, price, previewImage]);
+  }, [address, city, province, country, name, description, price]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setHasSubmitted(true);
     // console.log('handleSubmit fired')
 
-    if (addressErrors.length || titleErrors.length || descriptionErrors.length || priceErrors.length || imageUrlErrors) {
-      // console.log('has errors, returned,')
-      // console.log('addressErrors', addressErrors);
-      // console.log('titleErrors', titleErrors);
-      // console.log('descriptionErrors', descriptionErrors);
-      // console.log('priceErrors', priceErrors);
-      // console.log('imageUrlErrors', imageUrlErrors);
+    if (addressErrors.length || titleErrors.length || descriptionErrors.length || priceErrors.length) {
       return;
     }
 
-    dispatch(spotsActions.createOneSpot({
-      address, city, state: province, country, name, description, price, lat: 37.7645358, lng: -122.4730327
-    }, previewImage))
-      .then((spot) => {
-        // console.log('in dispatch success - checking spot', spot)
-        setHasSubmitted(false);
-        setNewSpot(spot);
-        // setPage(1);
-        setShowSpotFormModal(false);
-      })
-      .catch(async (res) => {
-        // console.log('res returned: ', res)
-        const data = await res.json();
-        // console.log('data.errors', data.errors)
-        if (data && data.message) {
-          setAddressErrors([data.message]);
-        } else if (data && data.errors) {
-          setAddressErrors((errors) => {
-            if (data.errors.address) errors.push(data.errors.address);
-            if (data.errors.city) errors.push(data.errors.city);
-            if (data.errors.state) errors.push(data.errors.state);
-            if (data.errors.country) errors.push(data.errors.country);
-            return errors;
+    Geocode.fromAddress(`${address} ${city} ${province} ${country}`)
+      .then((response) => {
+        const { lat, lng } = response.results[0].geometry.location;
+        console.log(lat, lng);
+
+        dispatch(spotsActions.createOneSpot({address, city, state: province, country, name, description, price, lat, lng}))
+          .then((spot) => {
+            setHasSubmitted(false);
+            setNewSpot(spot);
+            setShowSpotFormModal(false);
+          })
+          .catch(async (res) => {
+            const data = await res.json();
+            if (data && data.message) {
+              setAddressErrors([data.message]);
+            } else if (data && data.errors) {
+              setAddressErrors((errors) => {
+                if (data.errors.address) errors.push(data.errors.address);
+                if (data.errors.city) errors.push(data.errors.city);
+                if (data.errors.state) errors.push(data.errors.state);
+                if (data.errors.country) errors.push(data.errors.country);
+                return errors;
+              });
+
+              if (data.errors.name) setTitleErrors(data.errors.name);
+              if (data.errors.description) setDescriptionErrors(data.errors.description);
+              if (data.errors.price) setPriceErrors(data.errors.price);
+
+              if (data.errors.lat || data.errors.lng) setValidationErrors(err => data.errors);
+            }
           });
 
-          if (data.errors.name) setTitleErrors(data.errors.name);
-          if (data.errors.description) setDescriptionErrors(data.errors.description);
-          if (data.errors.price) setPriceErrors(data.errors.price);
+        },
+      ).catch(e => {
+        console.log('-------- geo error ----------')
+        console.log(e);
+        setGeoError('Invalid address.')
+      })    
 
-          if (data.errors.lat || data.errors.lng) setValidationErrors(err => data.errors);
-        }
-      });
   }
 
   
@@ -169,7 +173,7 @@ export default function CreateSpot({ setShowSpotFormModal, setPage, hasMore }) {
   }
 
   if (newSpot.id) return (
-    <Redirect push to={`/spots/${newSpot.id}`}/>
+    <Redirect push to={`/spots/current`}/>
   )
 
   if (!sessionUser) return (
@@ -259,6 +263,12 @@ export default function CreateSpot({ setShowSpotFormModal, setPage, hasMore }) {
               </div>
             )
           })}
+          {hasSubmitted && geoError.length > 0 &&
+            <div className='error-messages-wrapper'>
+              <i className="fa-sharp fa-solid fa-circle-exclamation"></i>
+              <span className='error-messages'>{geoError}</span>
+            </div>
+          }
 
           <div className='create-spot-headers'>
             <h3>Create your title</h3>
@@ -313,24 +323,24 @@ export default function CreateSpot({ setShowSpotFormModal, setPage, hasMore }) {
             </div>
           }
 
-          <div className='create-spot-headers'>
+          {/* <div className='create-spot-headers'>
             <h3>Set a preview image</h3>
           </div>
           <div className='create-spot'>
             <div className='outline-wrapper previewImage-wrapper'>
               <div className='create-spot-previewImage'>
-                {/* <label htmlFor='previewImage'>previewImage</label> */}
+                <label htmlFor='previewImage'>previewImage</label>
                 <input type='text' id="previewImage" value={previewImage} onChange={(e) => setPreviewImage(e.target.value)} />
               </div>
             </div>
-          </div>
+          </div> */}
           {/* {console.log('price', priceErrors)} */}
-          {hasSubmitted && imageUrlErrors &&
+          {/* {hasSubmitted && imageUrlErrors &&
             <div className='error-messages-wrapper'>
               <i className="fa-sharp fa-solid fa-circle-exclamation"></i>
               <span className='error-messages'>{imageUrlErrors}</span>
             </div>
-          }          
+          }           */}
           {
             hasSubmitted && Object.values(validationErrors) &&
             Object.values(validationErrors).map((err, idx) => {

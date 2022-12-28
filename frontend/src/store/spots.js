@@ -149,8 +149,8 @@ export const getOneSpot = (spotId) => async (dispatch) => {
     }
 };
 
-export const createOneSpot = (spotInfo, imageUrl) => async (dispatch) => {
-    // console.log('----------reached creating a spot thunk----------')
+export const createOneSpot = (spotInfo) => async (dispatch) => {
+    console.log('----------reached creating a spot thunk----------', spotInfo)
     const options = {
         method: 'POST',
         body: JSON.stringify(spotInfo)
@@ -163,14 +163,7 @@ export const createOneSpot = (spotInfo, imageUrl) => async (dispatch) => {
     if (response.ok) {
         // console.log('-------------reached reponse ok-------------')
         const spot = await response.json();
-        // console.log(spot);
-        const imageUrls = [{
-            url: imageUrl,
-            preview: true
-        }];
-        dispatch(addImages(imageUrls, spot.id))
         dispatch(getOneSpot(spot.id));
-        // dispatch(getAllSpotsWithQuery({page: 1}));
         return spot;
     }
 };
