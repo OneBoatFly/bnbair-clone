@@ -321,17 +321,21 @@ router.get('/', validateQuery, async (req, res, next) => {
             spotJSON.avgRating = Math.round(avgRating[0].toJSON().avgRating * 100) / 100;
         }
     
-        const preview = await SpotImage.findOne({
+        const previews = await SpotImage.findAll({
             where: {
                 preview: true,
                 spotId: spot.id
             },
             attributes: ['url']
         });
-        if (preview) {
-            spotJSON.previewImage = preview.url;
+        if (previews.length) {
+            let previewUrls = []
+            for (let preview of previews) {
+                previewUrls.push(preview.url)
+            }
+            spotJSON.previewImage = previewUrls;
         } else {
-            spotJSON.previewImage = null;
+            spotJSON.previewImage = [];
         }
         
         spotsArr.push(spotJSON);

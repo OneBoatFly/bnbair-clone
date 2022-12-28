@@ -29,12 +29,16 @@ export default function AddSpotImages() {
             const imageRef = ref(storage, `spots/${spotId}/${image.name + v4()}`)
             uploadBytes(imageRef, image)
                 .then((snapshot) => {
+                    const allTimeArr = [...imageUrlArr];
                     getDownloadURL(snapshot.ref).then(url => {
                         // console.log('uploading --- grabing url', url)
                         setImageUrlArr(arr => [...arr, url])
+                        allTimeArr.push(url);
+                        const isPreview = idx <= 5 - allTimeArr.length;
+
                         dispatch(spotIamgesActions.addImages({
                             url: url,
-                            preview: idx === 0
+                            preview: isPreview
                         }, spotId))
                     })
                 })
@@ -58,7 +62,7 @@ export default function AddSpotImages() {
             .catch(e => {
                 // console.log('add spot image --- listAll error ---', e)
             })
-    }, [imageUpload])
+    }, [])
 
     const history = useHistory();
     const handleBackToSpot = () => {
