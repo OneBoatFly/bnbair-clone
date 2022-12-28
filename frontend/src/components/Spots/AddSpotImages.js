@@ -62,7 +62,7 @@ export default function AddSpotImages() {
 
     const history = useHistory();
     const handleBackToSpot = () => {
-        history.push(`/spots/${spotId}`)
+        history.push(`/spots/current`)
     }
 
   return (

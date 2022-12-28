@@ -40,7 +40,7 @@ export default function OwnerSpotsTR({ setShowUpdateSpotModal, spot, setCurrSpot
 
     return (
         <tr>
-            <td>
+            <td className='td-listing'>
                 <div className="table-image-wrapper" style={{ display: 'flex' }}>
                     <NavLink to={`/spots/${spot.id}`}>
                         <div className='table-image-div' >
@@ -50,13 +50,20 @@ export default function OwnerSpotsTR({ setShowUpdateSpotModal, spot, setCurrSpot
                     <span><b>{name}</b></span>
                 </div>
             </td>
-            <td>
+            <td className='td-to-do'>  
                 <div className='modify-button-div'>
-                    <button className='modify-buttons first' onClick={handleImages}>Add Images</button>
-                </div>                
-                <div className='modify-button-div'>
-                    <button className='modify-buttons first' onClick={handleUpdate}>Update</button>
-                    <button className='modify-buttons' onClick={handleDelete} >Delete</button>
+                    <button className='modify-buttons first' onClick={handleImages}>
+                        Add images
+                        {/* <i className="fa-solid fa-image"></i> */}
+                    </button>
+                    <button className='modify-buttons first' onClick={handleUpdate}>
+                        Edit spot
+                        {/* <i className="fa-solid fa-pen-to-square"></i> */}
+                    </button>
+                    <button className='modify-buttons' onClick={handleDelete} >
+                        Delete
+                        {/* <i className="fa-solid fa-trash"></i> */}
+                    </button>
                 </div>
             </td>
             <td>
