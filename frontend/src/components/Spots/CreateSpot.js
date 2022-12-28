@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Redirect } from 'react-router-dom';
-import validator from 'validator';
 import Geocode from "react-geocode";
 
 import * as spotsActions from '../../store/spots';
@@ -20,15 +19,11 @@ export default function CreateSpot({ setShowSpotFormModal, apiKey }) {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState(4500);
-  const [previewImage, setPreviewImage] = useState('');
-  // const [buttonDisabled, setbuttonDisabled] = useState(true);
 
-  // const [errors, setErrors] = useState([]);
   const [addressErrors, setAddressErrors] = useState([]);
   const [titleErrors, setTitleErrors] = useState('');
   const [descriptionErrors, setDescriptionErrors] = useState('');
   const [priceErrors, setPriceErrors] = useState('');
-  // const [imageUrlErrors, setImageUrlErrors] = useState('');
   const [geoError, setGeoError] = useState('');
   const [validationErrors, setValidationErrors] = useState({});
   const [hasSubmitted, setHasSubmitted] = useState(false);
@@ -107,13 +102,14 @@ export default function CreateSpot({ setShowSpotFormModal, apiKey }) {
     Geocode.fromAddress(`${address} ${city} ${province} ${country}`)
       .then((response) => {
         const { lat, lng } = response.results[0].geometry.location;
-        console.log(lat, lng);
+        // console.log(lat, lng);
 
         dispatch(spotsActions.createOneSpot({address, city, state: province, country, name, description, price, lat, lng}))
           .then((spot) => {
             setHasSubmitted(false);
             setNewSpot(spot);
             setShowSpotFormModal(false);
+            dispatch(spotsActions.getOwnerSpots());
           })
           .catch(async (res) => {
             const data = await res.json();
@@ -138,8 +134,8 @@ export default function CreateSpot({ setShowSpotFormModal, apiKey }) {
 
         },
       ).catch(e => {
-        console.log('-------- geo error ----------')
-        console.log(e);
+        // console.log('-------- geo error ----------')
+        // console.log(e);
         setGeoError('Invalid address.')
       })    
 

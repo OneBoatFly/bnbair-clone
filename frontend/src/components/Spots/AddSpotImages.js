@@ -25,7 +25,7 @@ export default function AddSpotImages() {
             return;
         }
 
-        imageUpload.foprEach((image, idx) => {
+        Object.values(imageUpload)?.forEach((image, idx) => {
             const imageRef = ref(storage, `spots/${spotId}/${image.name + v4()}`)
             uploadBytes(imageRef, image)
                 .then((snapshot) => {
@@ -58,7 +58,7 @@ export default function AddSpotImages() {
             .catch(e => {
                 // console.log('add spot image --- listAll error ---', e)
             })
-    }, [])
+    }, [imageUpload])
 
     const history = useHistory();
     const handleBackToSpot = () => {
@@ -72,10 +72,12 @@ export default function AddSpotImages() {
             <h3>Add some photos of your house</h3>
         </div>
         <div className='button-wrapper'>
-            <div className='image-input-wrapper image-upload-button'>
-                <label htmlFor='image-add-photo'>Add</label>
-                <input id='image-add-photo' type='file' multiple onChange={(e) => setImageUpload(e.target.files)} />
-            </div>
+            <label htmlFor='image-add-photo'>
+                <div className='image-input-wrapper image-upload-button'>
+                    Add
+                </div>
+            </label>
+            <input id='image-add-photo' type='file' multiple onChange={(e) => setImageUpload(e.target.files)} />
             <div className='image-upload-button' onClick={handleSubmit}>
                 <MyButton name='Upload' ></MyButton>
             </div>

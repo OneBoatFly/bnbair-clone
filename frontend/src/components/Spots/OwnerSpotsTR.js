@@ -44,7 +44,7 @@ export default function OwnerSpotsTR({ setShowUpdateSpotModal, spot, setCurrSpot
                 <div className="table-image-wrapper" style={{ display: 'flex' }}>
                     <NavLink to={`/spots/${spot.id}`}>
                         <div className='table-image-div' >
-                            <img src={`${previewImage}`} alt='preview' />
+                            {previewImage ? <img src={`${previewImage}`} alt='preview' /> : <div className='no-image-div ownerspots-no-image'>No Image</div>}
                         </div>
                     </NavLink>
                     <span><b>{name}</b></span>

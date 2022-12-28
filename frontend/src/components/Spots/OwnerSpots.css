@@ -158,3 +158,11 @@
         max-width: 67%;
     }
 }
+
+.table-image-wrapper a {
+    text-decoration: none;
+}
+
+.ownerspots-no-image {
+    padding: 0 4px;
+}
