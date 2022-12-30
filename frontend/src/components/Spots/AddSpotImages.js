@@ -50,6 +50,7 @@ export default function AddSpotImages() {
 
     const imageFolderRef = ref(storage, `spots/${spotId}`)
     useEffect(() => {
+
         listAll(imageFolderRef)
             .then((response) => {
                 // console.log('add spot image --- listAll response ---', response)

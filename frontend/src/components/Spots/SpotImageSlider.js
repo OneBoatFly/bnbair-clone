@@ -3,7 +3,6 @@ import SimpleImageSlider from "react-simple-image-slider";
 import './SpotImageSlider.css'
 
 export default function SpotImageSlider({ previewImage, imageWidth, imageHeight }) {
-    console.log(imageWidth, imageHeight, '--------SpotImageSlider')
 
     return (
         <SimpleImageSlider
