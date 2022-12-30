@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Redirect } from 'react-router-dom';
+import Geocode from "react-geocode";
 
 import * as spotsActions from '../../store/spots';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,9 +9,9 @@ import './CreateSpot.css';
 import { handleLabelSmall, handleLabelBig, handleDivBottomBorder, handleDivBottomBorderOut } from '../styles';
 import MyButton from '../FormElements/MyButton';
 
-export default function UpdateSpot({ setShowUpdateSpotModal, spot }) {
+export default function UpdateSpot({ setShowUpdateSpotModal, spot, apiKey }) {
+  Geocode.setApiKey(apiKey);
   const [address, setAddress] = useState(spot.address);
-  // const [aptNum, setAptNum] = useState(spot.aptNum);
   const [city, setCity] = useState(spot.city);
   const [province, setProvince] = useState(spot.state);
   const [country, setCountry] = useState(spot.country);
@@ -18,11 +19,11 @@ export default function UpdateSpot({ setShowUpdateSpotModal, spot }) {
   const [description, setDescription] = useState(spot.description);
   const [price, setPrice] = useState(spot.price);
 
-  // const [errors, setErrors] = useState([]);
   const [addressErrors, setAddressErrors] = useState([]);
   const [titleErrors, setTitleErrors] = useState('');
   const [descriptionErrors, setDescriptionErrors] = useState('');
   const [priceErrors, setPriceErrors] = useState('');
+  const [geoError, setGeoError] = useState('');
   const [validationErrors, setValidationErrors] = useState({});
   const [hasSubmitted, setHasSubmitted] = useState(false);
 
@@ -81,50 +82,49 @@ export default function UpdateSpot({ setShowUpdateSpotModal, spot }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     setHasSubmitted(true);
-    // console.log('update handleSubmit fired')
+    console.log('edit submit')
 
     if (addressErrors.length || titleErrors.length || descriptionErrors.length || priceErrors.length) {
-      // console.log('has errors, returned,')
-      // console.log('addressErrors', addressErrors);
-      // console.log('titleErrors', titleErrors);
-      // console.log('descriptionErrors', descriptionErrors);
-      // console.log('priceErrors', priceErrors);
       return;
     }
 
-    dispatch(spotsActions.updateOneSpot({
-      address, city, state: province, country, name, description, price, lat: spot.lat, lng: spot.lng
-    }, spot.id))
-      .then((spot) => {
-        // console.log('update in dispatch success - checking spot', spot)
-        setHasSubmitted(false);
-        setNewSpot(spot);
-        setSuccess(true);
-        // setPage(1);
-        setShowUpdateSpotModal(false);
-      })
-      .catch(async (res) => {
-        const data = await res.json();
-        // console.log('update data returned: ', data)
-        // console.log('update data.errors', data.errors)
-        if (data && data.message) {
-          setAddressErrors([data.message]);
-        } else if (data && data.errors) {
-          setAddressErrors((errors) => {
-            if (data.errors.address) errors.push(data.errors.address);
-            if (data.errors.city) errors.push(data.errors.city);
-            if (data.errors.state) errors.push(data.errors.state);
-            if (data.errors.country) errors.push(data.errors.country);
-            return errors;
+    Geocode.fromAddress(`${address} ${city} ${province} ${country}`)
+      .then((response) => {
+        const { lat, lng } = response.results[0].geometry.location;
+        console.log(lat, lng)
+        dispatch(spotsActions.updateOneSpot({address, city, state: province, country, name, description, price, lat, lng}, spot.id))
+          .then((spot) => {
+            setHasSubmitted(false);
+            setNewSpot(spot);
+            setSuccess(true);
+            setShowUpdateSpotModal(false);
+          })
+          .catch(async (res) => {
+            const data = await res.json();
+            if (data && data.message) {
+              setAddressErrors([data.message]);
+            } else if (data && data.errors) {
+              setAddressErrors((errors) => {
+                if (data.errors.address) errors.push(data.errors.address);
+                if (data.errors.city) errors.push(data.errors.city);
+                if (data.errors.state) errors.push(data.errors.state);
+                if (data.errors.country) errors.push(data.errors.country);
+                return errors;
+              });
+
+              if (data.errors.name) setTitleErrors(data.errors.name);
+              if (data.errors.description) setDescriptionErrors(data.errors.description);
+              if (data.errors.price) setPriceErrors(data.errors.price);
+
+              if (data.errors.lat || data.errors.lng) setValidationErrors(data.errors);
+            }
           });
 
-          if (data.errors.name) setTitleErrors(data.errors.name);
-          if (data.errors.description) setDescriptionErrors(data.errors.description);
-          if (data.errors.price) setPriceErrors(data.errors.price);
+      }).catch((e) => {
+        console.log('e', e)
+        setGeoError('Invalid address.')
+      })   
 
-          if (data.errors.lat || data.errors.lng) setValidationErrors(err => data.errors);
-        }
-      });
   }
 
   // css related //
@@ -245,7 +245,12 @@ export default function UpdateSpot({ setShowUpdateSpotModal, spot }) {
               </div>
             )
           })}
-
+          {hasSubmitted && geoError.length > 0 &&
+            <div className='error-messages-wrapper'>
+              <i className="fa-sharp fa-solid fa-circle-exclamation"></i>
+              <span className='error-messages'>{geoError}</span>
+            </div>
+          }
           <div className='create-spot-headers'>
             <h3>Create your title</h3>
           </div>

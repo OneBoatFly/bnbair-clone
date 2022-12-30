@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import './OwnerSpots.css';
 
 import * as spotsActions from '../../store/spots';
@@ -30,22 +31,39 @@ export default function OwnerSpotsTR({ setShowUpdateSpotModal, spot, setCurrSpot
             })
     }
 
+    const history = useHistory();
+    const handleImages = async () => {
+        console.log('in handle images --------- ')
+
+        history.push(`/spots/${spot.id}/images`)
+    }
+
     return (
         <tr>
-            <td>
+            <td className='td-listing'>
                 <div className="table-image-wrapper" style={{ display: 'flex' }}>
                     <NavLink to={`/spots/${spot.id}`}>
                         <div className='table-image-div' >
-                            <img src={`${previewImage}`} alt='preview' />
+                            {previewImage ? <img src={`${previewImage}`} alt='preview' /> : <div className='no-image-div ownerspots-no-image'>No Image</div>}
                         </div>
                     </NavLink>
                     <span><b>{name}</b></span>
                 </div>
             </td>
-            <td>
+            <td className='td-to-do'>  
                 <div className='modify-button-div'>
-                    <button className='modify-buttons first' onClick={handleUpdate}>Update</button>
-                    <button className='modify-buttons' onClick={handleDelete} >Delete</button>
+                    <button className='modify-buttons first' onClick={handleImages}>
+                        Add images
+                        {/* <i className="fa-solid fa-image"></i> */}
+                    </button>
+                    <button className='modify-buttons first' onClick={handleUpdate}>
+                        Edit spot
+                        {/* <i className="fa-solid fa-pen-to-square"></i> */}
+                    </button>
+                    <button className='modify-buttons' onClick={handleDelete} >
+                        Delete
+                        {/* <i className="fa-solid fa-trash"></i> */}
+                    </button>
                 </div>
             </td>
             <td>

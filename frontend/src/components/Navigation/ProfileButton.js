@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, Redirect } from "react-router-dom";
 import * as sessionActions from '../../store/session';
 import * as spotsActions from '../../store/spots';
@@ -11,6 +11,7 @@ import './Navigation.css';
 
 export default function ProfileButton({ user, setIsLoaded, setPage }) {
     const dispatch = useDispatch();
+    const geokey = useSelector((state) => state.maps.geokey);
     const [showMenu, setShowMenu] = useState(false);
     const [showSpotFormModal, setShowSpotFormModal] = useState(false);
 
@@ -88,7 +89,7 @@ export default function ProfileButton({ user, setIsLoaded, setPage }) {
         )}      
         {showSpotFormModal && (
             <Modal onClose={() => setShowSpotFormModal(false)} >
-                <CreateSpot setShowSpotFormModal={setShowSpotFormModal} setPage={setPage}/>
+                <CreateSpot setShowSpotFormModal={setShowSpotFormModal} apiKey={geokey}/>
             </Modal>
         )}  
     </div>

@@ -45,8 +45,8 @@
     border: 1px solid #222222;
     border-radius: 8px;
     overflow: hidden;
-    width: 85%;
-    max-width: 100px;
+    width: 6.5rem;
+    max-width: 6.5rem;
 }
 
 .modify-buttons {
@@ -93,6 +93,16 @@
     font-size: 0.8rem;
 }
 
+.td-listing {
+    width: 15rem;
+    max-width: 15rem;
+}
+
+.td-to-do {
+    width: 10rem;
+    max-width: 10rem;
+}
+
 .owner-spots-header-row {
     /* outline: 1px solid salmon; */
     font-size: 14px;
@@ -109,6 +119,7 @@
     display: flex;
     align-items: center;
     column-gap: 8px;
+    max-width: 15rem;
 }
 
 .table-image-div {
@@ -146,4 +157,12 @@
     .table-div {
         max-width: 67%;
     }
+}
+
+.table-image-wrapper a {
+    text-decoration: none;
+}
+
+.ownerspots-no-image {
+    padding: 0 4px;
 }

@@ -12,23 +12,19 @@ import PlacesAutocomplete from 'react-places-autocomplete';
 import { useJsApiLoader } from '@react-google-maps/api';
 
 
-export default function WhereQuery({apiKey, hasSubmitted, errors, setErrors, minLat, setMinLat, maxLat, setMaxLat, minLng, setMinLng, maxLng, setMaxLng }) {
-    console.log('------------- WhereQuery --------------')
+export default function WhereQuery({ apiKey, hasSubmitted, errors, setErrors, minLat, setMinLat, maxLat, setMaxLat, minLng, setMinLng, maxLng, setMaxLng, setCenter, center }) {
+    // console.log('------------- WhereQuery --------------')
     const [address, setAddress] = useState('')
-    const [coordinates, setCoordinates] = useState({
-        lat:null,
-        lng:null
-    })
 
     const handleSelect = async (value) => {
         const results = await geocodeByAddress(value)
         const latLng = await getLatLng(results[0])
-        // console.log('--- in handleSelect')
+        console.log('--- in handleSelect')
         console.log(value) // Seattle, WA, USA
         console.log(latLng) // {lat: 47.6062095, lng: -122.3320708}
 
         setAddress(value)
-        setCoordinates(latLng)
+        setCenter(latLng)
 
         const bounds = getBoundsOfDistance({ latitude: latLng.lat, longitude: latLng.lng }, 500000);
 
@@ -54,7 +50,7 @@ export default function WhereQuery({apiKey, hasSubmitted, errors, setErrors, min
     // console.log('------ maxLng ------', maxLng)    
 
     return (
-        <div className='where-query-wrapper'>
+        <div className='where-query-wrapper' >
             <div className='where-search-wrapper'>
                 {isLoaded &&
                     <PlacesAutocomplete
@@ -76,18 +72,18 @@ export default function WhereQuery({apiKey, hasSubmitted, errors, setErrors, min
                                     {loading && <div>Loading...</div>}
                                     {suggestions.map((suggestion, idx) => {
                                         const className = suggestion.active
-                                            ? `suggestion-item--active ${idx === 0 ? 'first' : ''} ${idx === suggestions.length - 1 ? 'last' : ''}`
-                                            : `suggestion-item ${idx === 0 ? 'first' : ''} ${idx === suggestions.length - 1 ? 'last' : ''}`;
+                                            ? `where-query-drop-down suggestion-item--active ${idx === 0 ? 'first' : ''} ${idx === suggestions.length - 1 ? 'last' : ''}`
+                                            : `where-query-drop-down suggestion-item ${idx === 0 ? 'first' : ''} ${idx === suggestions.length - 1 ? 'last' : ''}`;
                                         return (
                                             <div key={suggestion.placeId}
                                                 {...getSuggestionItemProps(suggestion, {
                                                     className,
                                                 })}
                                             >
-                                                <button className='auto-search-location-button'>
-                                                    <i className="fa-solid fa-location-dot"></i>
+                                                <button className='where-query-drop-down auto-search-location-button'>
+                                                    <i className="where-query-drop-down fa-solid fa-location-dot"></i>
                                                 </button>
-                                                <span className='auto-suggest-span'>{suggestion.description}</span>
+                                                <span className='where-query-drop-down auto-suggest-span'>{suggestion.description}</span>
                                             </div>
                                         );
                                     })}

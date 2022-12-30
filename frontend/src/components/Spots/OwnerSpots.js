@@ -11,8 +11,8 @@ import OwnerSpotsTR from './OwnerSpotsTR';
 import './OwnerSpots.css';
 
 export default function OwnerSpots({ isLoaded }) {
+  const key = useSelector((state) => state.maps.geokey);
   const ownerSpots = useSelector(state => state.spots.ownerSpots);
-  // const [showSpotFormModal, setShowSpotFormModal] = useState(false);
   const [showUpdateSpotModal, setShowUpdateSpotModal] = useState(false);
   const [currSpot, setCurrSpot] = useState({});
   const [deleteMessage, setDeleteMessage] = useState('');
@@ -25,7 +25,6 @@ export default function OwnerSpots({ isLoaded }) {
 
   useEffect(() => {
     if (deleteMessage === '') return;
-    // console.log('deleteMessage change detected')
     const toDelete = setTimeout(() => setShowDelete(false), 2000)
 
     return () => clearTimeout(toDelete);
@@ -62,7 +61,7 @@ export default function OwnerSpots({ isLoaded }) {
             <thead>
               <tr className='owner-spots-header-row' >
                 <th><span>LISTING</span></th>
-                <th><span></span></th>
+                <th><span>TO DO</span></th>
                 <th><span>LOCATION</span></th>
                 <th><span>LAST MODIFIED</span></th>
               </tr>
@@ -84,8 +83,7 @@ export default function OwnerSpots({ isLoaded }) {
       )}   */}
       {showUpdateSpotModal && (
         <Modal onClose={() => setShowUpdateSpotModal(false)} >
-          <UpdateSpot setShowUpdateSpotModal={setShowUpdateSpotModal} spot={currSpot} />
-          {/* <UpdateSpot setShowUpdateSpotModal={setShowUpdateSpotModal} spot={currSpot} setPage={setPage} /> */}
+          <UpdateSpot setShowUpdateSpotModal={setShowUpdateSpotModal} spot={currSpot} apiKey={key}/>
         </Modal>
       )}
     </div>

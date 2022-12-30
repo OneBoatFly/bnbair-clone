@@ -1,81 +1,102 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import validator from 'validator';
+import { useHistory } from 'react-router-dom';
+import { storage } from '../../firebase';
+import { ref, uploadBytes, listAll, getDownloadURL } from 'firebase/storage';
+import {v4} from 'uuid';
 
 import './AddSpotImages.css';
 
 import MyButton from '../FormElements/MyButton';
 
 import * as spotIamgesActions from '../../store/spotImages';
+import { useParams } from 'react-router-dom';
 
-export default function AddSpotImages({ spotId, setShowAddImageForm }) {
-    // console.log('AddSpotImages')
-    
-    const [imageUrl, setImageUrl] = useState('');
-    const [errors, setErrors] = useState('');
-    const [hasSubmitted, setHasSubmitted] = useState(false);
+export default function AddSpotImages() {
+    console.log('---------AddSpotImages Component ---------')
+    const { spotId } = useParams();
+    const [imageUrlArr, setImageUrlArr] = useState([]);
+    const [imageUpload, setImageUpload] = useState(null);
 
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        // console.log(imageUrl)
-        // console.log('valid url', validator.isURL(imageUrl))
-        if (!imageUrl.length || !validator.isURL(imageUrl)) setErrors('A valid preview image url is required');
-        else setErrors('');
-
-    }, [imageUrl])
-
-
     const handleSubmit = (e) => {
-        e.preventDefault();
-        setHasSubmitted(true)
-        if (errors) {
-            // console.log('has errors', errors);
+        if (imageUpload === null) {
             return;
         }
 
-        const imageUrlArr = [
-            {
-                url: imageUrl,
-                preview: false
-            }
-        ]
+        Object.values(imageUpload)?.forEach((image, idx) => {
+            const imageRef = ref(storage, `spots/${spotId}/${image.name + v4()}`)
+            uploadBytes(imageRef, image)
+                .then((snapshot) => {
+                    const allTimeArr = [...imageUrlArr];
+                    getDownloadURL(snapshot.ref).then(url => {
+                        // console.log('uploading --- grabing url', url)
+                        setImageUrlArr(arr => [...arr, url])
+                        allTimeArr.push(url);
+                        const isPreview = idx <= 5 - allTimeArr.length;
 
-        // console.log(spotId)
-        dispatch(spotIamgesActions.addImages(imageUrlArr, spotId))
-            .then(() => {
-                setHasSubmitted(false);
-                setShowAddImageForm(false);
+                        dispatch(spotIamgesActions.addImages({
+                            url: url,
+                            preview: isPreview
+                        }, spotId))
+                    })
+                })
+                .catch((e) => {
+                    // console.log('uploading --- error', e)
+                })
+        })
+    }
+
+    const imageFolderRef = ref(storage, `spots/${spotId}`)
+    useEffect(() => {
+        listAll(imageFolderRef)
+            .then((response) => {
+                // console.log('add spot image --- listAll response ---', response)
+                response.items.forEach(item => {
+                    getDownloadURL(item).then(url => {
+                        setImageUrlArr(arr => [...arr, url])
+                    })
+                })
             })
+            .catch(e => {
+                // console.log('add spot image --- listAll error ---', e)
+            })
+    }, [])
+
+    const history = useHistory();
+    const handleBackToSpot = () => {
+        history.push(`/spots/current`)
     }
 
   return (
     <div className='image-wrapper'>
-        <div className='login exit-button-wrapper'>
-            <div className='login exit-button-div' onClick={() => setShowAddImageForm(false)}>
-                <i className="fa-solid fa-xmark"></i>
+        <div className='head-buttons-wrapper'>
+            <i className="fa-solid fa-chevron-left all-photos" onClick={handleBackToSpot}></i>
+            <h3>Add some photos of your house</h3>
+        </div>
+        <div className='button-wrapper'>
+            <label htmlFor='image-add-photo'>
+                <div className='image-input-wrapper image-upload-button'>
+                    Add
+                </div>
+            </label>
+            <input id='image-add-photo' type='file' multiple onChange={(e) => setImageUpload(e.target.files)} />
+            <div className='image-upload-button' onClick={handleSubmit}>
+                <MyButton name='Upload' ></MyButton>
             </div>
         </div>
-        <div className='image-form-wrapper'>
-            <div className='upload-image-header'>
-                <h3>Upload images url</h3>
-            </div>
-            <form onSubmit={handleSubmit}>
-                <div className='image-input-wrapper'>
-                    <input id='image-url' type='text' value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} />
-                </div>
-                <div className='errors' style={{ marginTop: '4px', marginBottom: '4px' }}>
-                {
-                    hasSubmitted && errors.length > 0 && (
-                        <div className='error-messages-wrapper'>
-                            <i className="fa-sharp fa-solid fa-circle-exclamation"></i>
-                            <span className='error-messages'>{errors}</span>
+        <div className='image-upload-photos'>
+            <div className='image-upload-photos-sub'>
+                {imageUrlArr.map((url, idx) => {
+                    const big = idx % 3 === 0 ? 'single-image-div-big' : 'single-image-div-small'
+                    return (
+                        <div key={idx} className={big}>
+                            <img src={`${url}`} alt='room' />
                         </div>
                     )
-                }
-                </div>
-                <MyButton name='Upload images'></MyButton>
-            </form>
+                })}
+            </div>
         </div>
     </div>
   )

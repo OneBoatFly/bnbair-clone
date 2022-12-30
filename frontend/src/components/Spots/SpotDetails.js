@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from "react-redux";
 import './SpotDetails.css';
 import moment from 'moment';
 
-// import AddSpotImages from './AddSpotImages';
 import SpotReviews from '../Reviews/SpotReviews';
 import SpotReviewsModal from '../Reviews/SpotReviewsModal';
 import AddReview from '../Reviews/AddReview';
@@ -20,6 +19,7 @@ import * as spotReviewsActions from '../../store/spotReviews';
 
 import { getMMMDDYYYStr } from '../Spots/SpotCalcs/spotDates';
 import CreateBookingMobile from '../Bookings/CreateBookingMobile';
+import SpotMapContainer from '../Maps/SpotMapContainer';
 
 export default function SpotDetails() {
     // console.log('Spot Details Compoment')
@@ -223,6 +223,14 @@ export default function SpotDetails() {
                         </h4>
                     </div>
                     <SpotReviews spotReviews={spotReviews} />
+                </div>
+                <div className='spot-map-wrapper'>
+                    <div className='spot-map-sub-wrapper'>
+                        <h4>
+                            Where you'll be
+                        </h4>
+                    </div>                    
+                    <SpotMapContainer spot={spot}/>
                 </div>
 
                 <div className='booking-form-wrapper-mobile'>
