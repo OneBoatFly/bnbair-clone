@@ -63,12 +63,9 @@ export default function Spots({ query, setQuery }) {
 
     const imageContainerRef = useRef(null);
     const { width, height } = useResizeObserver({ ref: imageContainerRef });
-    console.log(imageContainerRef, width, height, 'imageContainerRef')
 
     const history = useHistory();
     const handleSpotClick = (e, id) => {
-        console.log('handle click e', e.target)
-        console.log(e.target.tagName)
         if (e.target.tagName === 'IMG') return;
         history.push(`/spots/${id}`);
     }
@@ -89,17 +86,14 @@ export default function Spots({ query, setQuery }) {
             {
                 spotsArr?.map((spot, idx) => {
                     const { previewImage, city, state, avgRating, price, id, lat, lng, weekPast } = spot;
-                    // console.log('------------------ previewImage', previewImage)
                     const nf = new Intl.NumberFormat();
                     let distance = nf.format(coordinatesDistance(lat, lng, userLocation.lat, userLocation.lng));
-                    // console.log(city, state, typeof distance, distance)
                     const priceFormatted = nf.format(price);
                     if (spotsArr.length === idx + 1) {
                         return (
                             <div ref={lastSpotElementRef} key={id} onClick={(e) => handleSpotClick(e, id)} className='link-wrapper'>
                                 <div className='individual-spot-wrapper'>
                                     <div className='image-div' ref={imageContainerRef}>
-                                        {/* <img src={`${previewImage}`} alt='preview' /> */}
                                         <SpotImageSlider previewImage={previewImage} imageWidth={width} imageHeight={height}/>
                                     </div>
                                     <div className='short-info-wrapper'>
@@ -109,7 +103,6 @@ export default function Spots({ query, setQuery }) {
                                         <span className="priceNight" ><span style={{ fontWeight: '500' }}>${priceFormatted}</span> night</span>
                                         <span className='rating-wrapper'>
                                             <i className="fa-solid fa-star" />
-                                            {/* {console.log(avgRating)} */}
                                             {avgRating ? <span>{avgRating.toFixed(1)}</span> : null}
                                         </span>
                                     </div>
@@ -118,10 +111,10 @@ export default function Spots({ query, setQuery }) {
                         )
                     } else {
                         return (
-                            <NavLink key={id} to={`/spots/${id}`} className='link-wrapper'>
+                            <div key={id} to={`/spots/${id}`} onClick={(e) => handleSpotClick(e, id)} className='link-wrapper'>
                                 <div className='individual-spot-wrapper'>
                                     <div className='image-div'>
-                                        <img src={`${previewImage}`} alt='preview' />
+                                        <SpotImageSlider previewImage={previewImage} imageWidth={width} imageHeight={height} />
                                     </div>
                                     <div className='short-info-wrapper'>
                                         <span className='cityState'>{city}, {state}</span>
@@ -135,7 +128,7 @@ export default function Spots({ query, setQuery }) {
                                         </span>
                                     </div>
                                 </div>
-                            </NavLink>
+                            </div>
                         )
                     }
                 })

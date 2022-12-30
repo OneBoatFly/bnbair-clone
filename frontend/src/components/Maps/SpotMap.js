@@ -15,6 +15,14 @@ const SpotMap = ({ apiKey, spot }) => {
         libraries
     });
 
+    console.log('SpotMap Component -------- ')
+    console.log('spot:', spot)
+    console.log('lat and lng', spot.lat, spot.lng)
+
+    if (!spot) {
+        return null
+    }
+
     return (
         <div className='spot-google-map'>
             {isLoaded && (
@@ -25,8 +33,6 @@ const SpotMap = ({ apiKey, spot }) => {
                         lng: spot.lng,
                     }}
                     zoom={15}
-                    // onLoad={handleOnLoad}
-                    // onCenterChanged={handleCenterChanged}
                 >
                 <div className='overlay-container'>
                     <OverlayView
