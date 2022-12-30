@@ -15,10 +15,6 @@ const SpotMap = ({ apiKey, spot }) => {
         libraries
     });
 
-    console.log('SpotMap Component -------- ')
-    console.log('spot:', spot)
-    console.log('lat and lng', spot.lat, spot.lng, typeof spot.lat, typeof spot.lng)
-
     const center = {
         lat: parseFloat(spot.lat),
         lng: parseFloat(spot.lng)
