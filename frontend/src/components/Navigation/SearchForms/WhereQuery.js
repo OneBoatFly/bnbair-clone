@@ -19,9 +19,9 @@ export default function WhereQuery({ apiKey, hasSubmitted, errors, setErrors, mi
     const handleSelect = async (value) => {
         const results = await geocodeByAddress(value)
         const latLng = await getLatLng(results[0])
-        console.log('--- in handleSelect')
-        console.log(value) // Seattle, WA, USA
-        console.log(latLng) // {lat: 47.6062095, lng: -122.3320708}
+        // console.log('--- in handleSelect')
+        // console.log(value) // Seattle, WA, USA
+        // console.log(latLng) // {lat: 47.6062095, lng: -122.3320708}
 
         setAddress(value)
         setCenter(latLng)

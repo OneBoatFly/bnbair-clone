@@ -17,7 +17,12 @@ const SpotMap = ({ apiKey, spot }) => {
 
     console.log('SpotMap Component -------- ')
     console.log('spot:', spot)
-    console.log('lat and lng', spot.lat, spot.lng)
+    console.log('lat and lng', spot.lat, spot.lng, typeof spot.lat, typeof spot.lng)
+
+    const center = {
+        lat: parseFloat(spot.lat),
+        lng: parseFloat(spot.lng)
+    };
 
     if (!spot) {
         return null
@@ -28,10 +33,7 @@ const SpotMap = ({ apiKey, spot }) => {
             {isLoaded && (
                 <GoogleMap
                     mapContainerStyle={containerStyle}
-                    center={{
-                        lat: spot.lat,
-                        lng: spot.lng,
-                    }}
+                    center={center}
                     zoom={15}
                 >
                 <div className='overlay-container'>
