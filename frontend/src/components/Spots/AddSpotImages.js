@@ -120,16 +120,16 @@ export default function AddSpotImages() {
 
     
     const handleDelete = (img, idx) => {
-        console.log('---- handle Delete---', img, idx)
+        // console.log('---- handle Delete---', img, idx)
 
         if (img.id && img.url.includes('firebase')) {
             const imageRef = ref(storage, img.url)
-            console.log('imageRef', imageRef)
+            // console.log('imageRef', imageRef)
             deleteObject(imageRef).then(() => {
-                console.log('firebase delete success')
+                // console.log('firebase delete success')
                 dispatch(spotIamgesActions.deleteImage(img.id, spotId))
             }).catch((e) => {
-                console.log('firebase delete fail')
+                // console.log('firebase delete fail')
                 setError(e.code)
             })
         } else if (img.id) {
@@ -160,7 +160,7 @@ export default function AddSpotImages() {
     }
 
     // console.log('------- imageUpload', imageUpload)
-    console.log('------- imageUrlArr', imageUrlArr)
+    // console.log('------- imageUrlArr', imageUrlArr)
     // console.log('------- success', success)
 
   return (

@@ -33,7 +33,7 @@ export default function OwnerSpotsTR({ setShowUpdateSpotModal, spot, setCurrSpot
 
     const history = useHistory();
     const handleImages = async () => {
-        console.log('in handle images --------- ')
+        // console.log('in handle images --------- ')
 
         history.push(`/spots/${spot.id}/images`)
     }
@@ -53,11 +53,11 @@ export default function OwnerSpotsTR({ setShowUpdateSpotModal, spot, setCurrSpot
             <td className='td-to-do'>  
                 <div className='modify-button-div'>
                     <button className='modify-buttons first' onClick={handleImages}>
-                        Add images
+                        Images
                         {/* <i className="fa-solid fa-image"></i> */}
                     </button>
                     <button className='modify-buttons first' onClick={handleUpdate}>
-                        Edit spot
+                        Edit
                         {/* <i className="fa-solid fa-pen-to-square"></i> */}
                     </button>
                     <button className='modify-buttons' onClick={handleDelete} >
@@ -66,6 +66,11 @@ export default function OwnerSpotsTR({ setShowUpdateSpotModal, spot, setCurrSpot
                     </button>
                 </div>
             </td>
+            <td>
+                <span>
+                    Placeholder for number of bookings
+                </span>
+            </td>            
             <td>
                 <span>{city}, {state}</span>
             </td>

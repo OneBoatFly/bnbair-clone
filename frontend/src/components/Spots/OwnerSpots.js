@@ -62,6 +62,7 @@ export default function OwnerSpots({ isLoaded }) {
               <tr className='owner-spots-header-row' >
                 <th><span>LISTING</span></th>
                 <th><span>TO DO</span></th>
+                <th><span>BOOKINGS</span></th>
                 <th><span>LOCATION</span></th>
                 <th><span>LAST MODIFIED</span></th>
               </tr>
