@@ -166,3 +166,7 @@
 .ownerspots-no-image {
     padding: 0 4px;
 }
+
+.spot-booking-link {
+    color: inherit;
+}

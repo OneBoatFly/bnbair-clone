@@ -11,6 +11,7 @@ import Trips from './components/Trips/Trips';
 import MapContainer from './components/Maps/MapContainer';
 import { getGeoKey, getKey } from './store/maps';
 import AddSpotImages from './components/Spots/AddSpotImages';
+import Reservations from './components/Reservations/Reservations';
 
 function App() {
   const prevLoaded = window.localStorage.getItem('isLoaded');
@@ -90,7 +91,6 @@ function App() {
           <Route exact path='/reviews/current'>
             <div className='root-sub-wrapper'>
               <UserReviews isLoaded={isLoaded} />
-              {/* <UserReviews isLoaded={isLoaded} setPage={setPage}/> */}
             </div>
           </Route>
         }
@@ -102,6 +102,13 @@ function App() {
           </Route>
         }
         {isLoaded &&
+          <Route exact path='/spots/:spotId/bookings'>
+            <div className='root-sub-wrapper'>
+              <Reservations />
+            </div>
+          </Route>
+        }        
+        {isLoaded &&
           <Route exact path='/spots/:spotId/images'>
             <div className='root-sub-wrapper'>
               <AddSpotImages />
@@ -109,20 +116,20 @@ function App() {
           </Route>
         }        
         {!isLoaded &&
-          <Route exact path='/spots/current'>
+          <Route path={['/spots/current', '/spots/:spotId/bookings', '/reviews/current', '/trips']}>
             <Redirect to='/' />
           </Route>
         }
-        {!isLoaded &&
+        {/* {!isLoaded &&
           <Route exact path='/reviews/current'>
             <Redirect to='/' />
           </Route>
-        }
-        {!isLoaded &&
+        } */}
+        {/* {!isLoaded &&
           <Route exact path='/trips'>
             <Redirect to='/' />
           </Route>
-        }         
+        }          */}
         <Route exact path='/spots/:spotId'>
           <div className='root-sub-wrapper'>
             <SpotDetails isLoaded={isLoaded} />

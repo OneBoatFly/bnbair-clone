@@ -7,7 +7,7 @@ import * as spotsActions from '../../store/spots';
 import { NavLink } from 'react-router-dom';
 
 export default function OwnerSpotsTR({ setShowUpdateSpotModal, spot, setCurrSpot, setDeleteMessage, setShowDelete }) {
-    const { previewImage, city, state, name, updatedAt } = spot;
+    const { previewImage, city, state, name, updatedAt, numberOfBooking } = spot;
     const date = new Date(updatedAt);
     const month = date.toLocaleString('en-US', { month: 'long' });
     const day = date.getDate();
@@ -67,9 +67,11 @@ export default function OwnerSpotsTR({ setShowUpdateSpotModal, spot, setCurrSpot
                 </div>
             </td>
             <td>
-                <span>
-                    Placeholder for number of bookings
-                </span>
+                {numberOfBooking > 0 ?
+                    <NavLink to={`${spot.id}/bookings`} className='spot-booking-link'>{numberOfBooking} booking(s)</NavLink>
+                    :
+                    <span>No booking</span>
+                }
             </td>            
             <td>
                 <span>{city}, {state}</span>

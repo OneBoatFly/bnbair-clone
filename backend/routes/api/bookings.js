@@ -28,7 +28,7 @@ router.get('/current', requireAuth, async (req, res) => {
     });
 
     let bookingsFutureJSON = [];
-    let bookingsPastJSON = []
+    let bookingsPastJSON = [];
     for (let booking of bookings) {
         const bookingJSON = booking.toJSON();
 

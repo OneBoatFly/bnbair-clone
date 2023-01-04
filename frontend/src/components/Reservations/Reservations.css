@@ -1,0 +1,25 @@
+.all-bookings-wrapper {
+    margin: 24px auto;
+    max-width: 1760px;
+    color: #222222;
+}
+
+.all-bookings-sub-wrapper {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    row-gap: 24px;
+    overflow: hidden;
+    max-width: 80%;
+}
+
+.all-bookings-header-wrapper {
+    display: flex;
+    align-items: center;
+    column-gap: 16px;
+}
+
+.all-bookings-header-wrapper h4 {
+    font-size: 2rem;
+    font-weight: 600;
+}

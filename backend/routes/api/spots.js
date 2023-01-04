@@ -43,6 +43,13 @@ router.get('/current', requireAuth, async (req, res) => {
             spotJSON.previewImage = null;
         }
 
+        const numberOfBooking = await Booking.findAll({
+            attributes: [[sequelize.fn("COUNT", sequelize.col("id")), "numberOfBooking"]],
+            where: { spotId: spot.id }
+        });
+
+        spotJSON.numberOfBooking = numberOfBooking[0].toJSON().numberOfBooking
+
         spotsArr.push(spotJSON);
     }
 
@@ -79,6 +86,7 @@ router.get('/:spotId/reviews', async (req, res, next) => {
 // get all bookings by a spotId
     // removed requireAuth here
 router.get('/:spotId/bookings', async (req, res, next) => {
+    console.log('spotId/bookings -----------', req.params.spotId)
     const spot = await Spot.findByPk(req.params.spotId);
 
     if (!spot) {
@@ -94,6 +102,7 @@ router.get('/:spotId/bookings', async (req, res, next) => {
         });
 
         if (!req.user) {
+            // console.log('--------------1----------------------------')
             const bookingsJSON = [];
             for (let booking of bookings) {
                 const bookingJSON = {};
@@ -106,8 +115,26 @@ router.get('/:spotId/bookings', async (req, res, next) => {
             res.json({ Bookings: bookingsJSON });
         } else {
             if (req.user.id === spot.ownerId) {
-                res.json({ Bookings: bookings })
+                const moment = MomentRange.extendMoment(Moment);
+
+                let bookingsFutureJSON = [];
+                let bookingsPastJSON = [];
+                for (let booking of bookings) {
+                    const bookingJSON = booking.toJSON();
+
+                    if (moment(booking.endDate) > moment()) {
+                        bookingsFutureJSON.push(bookingJSON);
+                    } else {
+                        bookingsPastJSON.push(bookingJSON); 
+                    }
+                }
+
+                // res.json({ Bookings: bookings })
+                // console.log('bookingsFutureJSON', bookingsFutureJSON)
+                // console.log('bookingsPastJSON', bookingsPastJSON)
+                res.json({ BookingsFuture: bookingsFutureJSON, BookingsPast: bookingsPastJSON });
             } else {
+                // console.log('-------------3-----------------------------')
                 const bookingsJSON = [];
                 for (let booking of bookings) {
                     const bookingJSON = {};
