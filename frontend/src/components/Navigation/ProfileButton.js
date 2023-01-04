@@ -52,9 +52,9 @@ export default function ProfileButton({ user, setIsLoaded, setPage }) {
   return (
     <div className="menu-all-wrapper">
         <button className="navBar-button" onClick={openMenu}>
-            <div style={{display:'flex', flexDirection:'row', verticalAlign:'center', justifyContent:'space-between', width:'70%'}}>
+            <div className='navBar-button-sub-div'>
                 <i className="fa-solid fa-bars"></i>
-                <i className="fa-solid fa-user"></i>
+                {user?.profileUrl ? <img className="profile-button-profile-pic" src={user.profileUrl} alt='' /> : <i className="fa-solid fa-user"></i>}
             </div>
         </button>
         {showMenu && (

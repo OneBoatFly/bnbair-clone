@@ -10,7 +10,7 @@ export default function DemoUserButton({ setIsLoaded }) {
     const [errors, setErrors] = useState([]);
     const sessionUser = useSelector(state => state.session.user);
 
-    const credential = 'DemoUser';
+    const credential = 'Yizhou';
     const password = 'password';
 
     const handleDemoUser = () => {

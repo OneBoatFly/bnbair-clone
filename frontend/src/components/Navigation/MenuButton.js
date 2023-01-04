@@ -36,10 +36,10 @@ export default function MenuButton({ setIsLoaded }) {
     return (
         <div className="menu-all-wrapper">
             <button className="navBar-button" onClick={openMenu}>
-                <div>
+                <div className="menu-button-sub-div">
                     <i className="fa-solid fa-bars"></i>
+                    <span className="menu-button-span-background"><i className="fa-solid fa-user"></i></span>
                 </div>
-                {/* <div><span>Menu</span></div> */}
             </button>
             {showMenu && (
                 <div className="navlinks" ref={showDropDownMenuRef}>

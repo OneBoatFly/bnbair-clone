@@ -121,16 +121,6 @@ function App() {
             <Redirect to='/' />
           </Route>
         }
-        {/* {!isLoaded &&
-          <Route exact path='/reviews/current'>
-            <Redirect to='/' />
-          </Route>
-        } */}
-        {/* {!isLoaded &&
-          <Route exact path='/trips'>
-            <Redirect to='/' />
-          </Route>
-        }          */}
         <Route exact path='/spots/:spotId'>
           <div className='root-sub-wrapper'>
             <SpotDetails isLoaded={isLoaded} />
