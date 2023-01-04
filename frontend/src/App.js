@@ -12,6 +12,7 @@ import MapContainer from './components/Maps/MapContainer';
 import { getGeoKey, getKey } from './store/maps';
 import AddSpotImages from './components/Spots/AddSpotImages';
 import Reservations from './components/Reservations/Reservations';
+import Footer from './components/Footer/Footer';
 
 function App() {
   const prevLoaded = window.localStorage.getItem('isLoaded');
@@ -142,6 +143,7 @@ function App() {
           </div>
         </Route>
       </Switch>
+      <Footer />
     </div>
   );
 }

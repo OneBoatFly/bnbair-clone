@@ -1,0 +1,31 @@
+.footer-div {
+    border-top: 1px solid rgb(0 0 0 / 10%);
+    box-sizing: border-box;
+    min-height: 80px;
+    max-height: 80px;
+    padding: 8px 5rem 8px;
+    font-size: 0.75rem;
+    color: #6b6e76;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: white;
+    width: 100%;
+}
+
+.footer-contact-me-div {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 8px;
+    align-items: center;
+}
+
+.footer-contact-me {
+    color: #0074de;
+}
+
+@media (max-width: 680px) {
+    .footer-div {
+        padding: 8px;
+    }
+}
