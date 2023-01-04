@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import { dateRange } from '../Trips/util';
-// import './PastReservations.css';
+import './PastReservations.css';
 
 export default function PastReservations({ spotPastBookings }) {
 
@@ -14,7 +14,7 @@ export default function PastReservations({ spotPastBookings }) {
                         const rangeStr = dateRange(booking.startDate, booking.endDate)
 
                         return (
-                            <div key={booking.id} className='past-booking-single-div' >
+                            <div key={booking.id} className='past-booking-single-div past-reservation' >
                                 <div className='past-booking-single-left'>
                                     {booking.User.profileImage ?
                                         <img src={booking.User.profileImage} alt='' />
