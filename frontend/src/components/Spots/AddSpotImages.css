@@ -106,3 +106,42 @@
     color: black;
     border-radius: black;
 }
+
+.upload-image-single-div {
+    position: relative;
+}
+
+.single-image-div-delete-icon {
+    border: 1px solid rgb(34, 34, 34);
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: white;
+    margin-top: 0.5rem;
+    margin-right: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+}
+
+.single-image-div-delete-icon:hover {
+    background-color: #f7f7f7;
+}
+
+.fade-in-out {
+    animation: fadeInOut 4s;
+}
+
+@keyframes fadeInOut {
+    0% {
+        opacity: 0;
+    }
+
+    5% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}

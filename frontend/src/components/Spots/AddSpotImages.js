@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { storage } from '../../firebase';
-import { ref, uploadBytes, listAll, getDownloadURL } from 'firebase/storage';
+import { ref, uploadBytes, deleteObject, getDownloadURL } from 'firebase/storage';
 import {v4} from 'uuid';
 
 import './AddSpotImages.css';
@@ -22,6 +22,8 @@ export default function AddSpotImages() {
     const [imageUrlArr, setImageUrlArr] = useState([]);
     const [imageUpload, setImageUpload] = useState([]);
     const [error, setError] = useState('');
+    // const [success, setSuccess] = useState('');
+    const [showSuccess, setShowSuccess] = useState(false);
 
     const handleDragOver = (e) => {
         e.preventDefault();
@@ -41,7 +43,7 @@ export default function AddSpotImages() {
         setImageUpload(prev => [...prev, ...validPreviewImages])
 
         validPreviewImages.forEach((image) => {
-            setImageUrlArr(prev => [...prev, URL.createObjectURL(image)])
+            setImageUrlArr(prev => [...prev, { url: URL.createObjectURL(image) }])
         })
     };
 
@@ -59,23 +61,23 @@ export default function AddSpotImages() {
         setImageUpload(prev => [...prev, ...validPreviewImages])
 
         validPreviewImages.forEach((image) => {
-            setImageUrlArr(prev => [...prev, URL.createObjectURL(image)])
+            setImageUrlArr(prev => [...prev, {url: URL.createObjectURL(image)}])
         })        
     }
 
-    const handleFetchExistingImages = () => {
-        const imageFolderRef = ref(storage, `spots/${spotId}`)
-        listAll(imageFolderRef)
-            .then((response) => {
-                response.items.forEach(item => {
-                    getDownloadURL(item).then(url => {
-                        setImageUrlArr(arr => [...arr, url])
-                    })
-                })
-            })
-            .catch(e => {
-            })
-    }
+    // const handleFetchExistingImages = () => {
+    //     const imageFolderRef = ref(storage, `spots/${spotId}`)
+    //     listAll(imageFolderRef)
+    //         .then((response) => {
+    //             response.items.forEach(item => {
+    //                 getDownloadURL(item).then(url => {
+    //                     setImageUrlArr(arr => [...arr, url])
+    //                 })
+    //             })
+    //         })
+    //         .catch(e => {
+    //         })
+    // }
 
     const handleSubmit = (e) => {
         if (!imageUpload.length) {
@@ -91,23 +93,54 @@ export default function AddSpotImages() {
                     getDownloadURL(snapshot.ref).then(url => {
                         // console.log('uploading --- grabing url', url)
                         // setImageUrlArr(arr => [...arr, url])
+                        setImageUpload([])
+                        
                         allTimeArr.push(url);
                         const isPreview = idx <= 5 - allTimeArr.length;
-
+                        
                         dispatch(spotIamgesActions.addImages({
                             url: url,
                             preview: isPreview
-                        }, spotId))
+                        }, spotId)).then(() => {
+                            // setSuccess('Images successfully uploaded.')
+                            setShowSuccess(true)
+
+                            setTimeout(() => {
+                                setShowSuccess(false)
+                            }, 4000)
+                        })
                     })
                 })
                 .catch((e) => {
-                    console.log('uploading --- error', e.code)
+                    // console.log('uploading --- error', e.code)
                     setError(e.code)
                 })
         })
     }
 
     
+    const handleDelete = (img, idx) => {
+        console.log('---- handle Delete---', img, idx)
+
+        if (img.id && img.url.includes('firebase')) {
+            const imageRef = ref(storage, img.url)
+            console.log('imageRef', imageRef)
+            deleteObject(imageRef).then(() => {
+                console.log('firebase delete success')
+                dispatch(spotIamgesActions.deleteImage(img.id, spotId))
+            }).catch((e) => {
+                console.log('firebase delete fail')
+                setError(e.code)
+            })
+        } else if (img.id) {
+            dispatch(spotIamgesActions.deleteImage(img.id, spotId))
+        } else {
+            const currentUrlArr = [...imageUrlArr];
+            currentUrlArr.splice(idx, 1)
+            setImageUrlArr([...currentUrlArr])
+        }
+    }
+
     useEffect(() => {
         // handleFetchExistingImages();
         dispatch(getOneSpot(spotId))
@@ -116,9 +149,9 @@ export default function AddSpotImages() {
     useEffect(() => {
         if (!spot) return;
         const existingImages = spot.SpotImages;
-        const existingImageUrls = existingImages?.map(img => img.url);
+        // const existingImageUrls = existingImages?.map(img => img.url);
 
-        setImageUrlArr(existingImageUrls)
+        setImageUrlArr(existingImages)
     }, [dispatch, spot])
 
     const history = useHistory();
@@ -127,7 +160,8 @@ export default function AddSpotImages() {
     }
 
     // console.log('------- imageUpload', imageUpload)
-    // console.log('------- imageUrlArr', imageUrlArr)
+    console.log('------- imageUrlArr', imageUrlArr)
+    // console.log('------- success', success)
 
   return (
     <div className='image-wrapper'>
@@ -136,6 +170,9 @@ export default function AddSpotImages() {
             <h3>Add some photos of your house</h3>
         </div>
         <div className='button-wrapper'>
+            {showSuccess &&
+                <span className='fade-in-out'>Images successfully uploaded.</span>
+            }
             {error.length > 0 && 
                 <div className='error-messages-wrapper'>
                     <i className="fa-sharp fa-solid fa-circle-exclamation"></i>
@@ -170,11 +207,12 @@ export default function AddSpotImages() {
         </div>
         <div className='image-upload-photos'>
             <div className='image-upload-photos-sub'>
-                {imageUrlArr.map((url, idx) => {
+                {imageUrlArr?.map((img, idx) => {
                     const big = idx % 3 === 0 ? 'single-image-div-big' : 'single-image-div-small'
                     return (
-                        <div key={idx} className={big}>
-                            <img src={`${url}`} alt='room' />
+                        <div key={idx} className={`upload-image-single-div ${big}`}>
+                            <img src={`${img?.url}`} alt='room' />
+                            <i className="fa-solid fa-trash single-image-div-delete-icon" onClick={() => handleDelete(img, idx)}></i>
                         </div>
                     )
                 })}
