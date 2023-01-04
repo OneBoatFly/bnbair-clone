@@ -37,16 +37,17 @@ const validateSignup = [
         .withMessage('Last name is required.'),
     check('lastName', 'Last name is required.')
         .not()
-        .isEmpty({ ignore_whitespace: true }),        
+        .isEmpty({ ignore_whitespace: true }),     
     handleValidationErrors        
 ];
 
 // sign up route
 router.post('/', validateSignup, async (req, res, next) => {
-    const { username, email, firstName, lastName, password } = req.body;
+    let { username, email, firstName, lastName, password, profileUrl } = req.body;
+    if (!profileUrl) profileUrl = 'https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png';
 
     try {
-        const user = await User.signup({ username, email, firstName, lastName, password });
+        const user = await User.signup({ username, email, firstName, lastName, password, profileUrl });
     
         const token = setTokenCookie(res, user);
         const userJSON = user.toJSON();
