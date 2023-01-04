@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom';
 import { getSpotBookings } from '../../store/bookings';
 import FutureReservations from './FutureReservations';
+import PastReservations from './PastReservations';
 // import PastReservations from './PastReservations';
 import './Reservations.css';
 
@@ -31,7 +32,7 @@ export default function Reservations() {
                 </div>
             </div>
             <FutureReservations spotFutureBookings={spotFutureBookings} />
-            {/* <PastReservations spotPastBookings={spotPastBookings} /> */}
+            <PastReservations spotPastBookings={spotPastBookings} />
         </div>
     )
 }

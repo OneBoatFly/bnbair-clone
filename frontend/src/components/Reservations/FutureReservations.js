@@ -1,45 +1,51 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import moment from 'moment';
 import { dateRange, timeDiff } from '../Trips/util';
-// import './FutureReservations.css';
-import { deleteBooking } from '../../store/bookings';
+import './FutureReservations.css';
+import { deleteBooking, getSpotBookings } from '../../store/bookings';
 
 export default function FutureReservations({ spotFutureBookings }) {
-    const history = useHistory()
-    // const handleClick = (e, spotId) => {
-    //     if (e.target.className.includes('fa-solid')) return;
-    //     history.push(`/spots/${spotId}`)
-    // }
+    const { spotId } = useParams();
 
     const dispatch = useDispatch();
     const handleDelete = (e, bookingId) => {
         dispatch(deleteBooking(bookingId))
+            .then(() => {
+                dispatch(getSpotBookings(spotId))
+            })
     }
 
-    console.log('spotFutureBookings', spotFutureBookings)
+    // console.log('spotFutureBookings', spotFutureBookings)
 
     return (
         <div className='future-booking-container'>
             <span>Upcoming reservations</span>
-            <div className='future-booking-all-div'>
+            <div className='future-reservation-all-div'>
                 {
                     spotFutureBookings?.map(booking => {
                         const inTime = timeDiff(booking.startDate)
                         const rangeStr = dateRange(booking.startDate, booking.endDate)
 
                         return (
-                            <div key={booking.id} className='future-booking-single-div'>
-                                <div className='future-booking-single-left'>
-                                    <div className='future-booking-single-left-top'>
-                                        <span className='s-name'>Guest: {booking.User.firstName}</span>
-                                        <i className="fa-solid fa-trash future-booking-delete" onClick={(e) => handleDelete(e, booking.id)}></i>
+                            <div key={booking.id} className='future-reservation-single-div'>
+                                <div className='future-reservation-single-right'>
+                                    <span>In {inTime}</span>
+                                    {booking.User.profileImage ?
+                                        <img src={booking.User.profileImage} alt='' />
+                                        :
+                                        <img src='https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png' alt='' />
+                                    }
+                                </div>                                
+                                <div className='future-reservation-single-left'>
+                                    <div className='future-reservationsingle-left-top'>
+                                        <span className='s-name'>Guest: <b>{booking.User.firstName}</b></span>
                                     </div>
-                                    <div className='future-booking-single-left-bottom'>
+                                    <div className='future-reservation-single-left-bottom'>
                                         <span className='s-range'>{rangeStr} <span>{moment(booking.endDate).year()}</span></span>
-                                        <span>In {inTime}</span>
                                     </div>
+                                    <i className="fa-solid fa-trash future-reservation-delete" onClick={(e) => handleDelete(e, booking.id)}></i>
                                 </div>
                             </div>
                         )
