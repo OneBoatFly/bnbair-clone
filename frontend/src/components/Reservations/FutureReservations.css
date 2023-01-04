@@ -50,18 +50,17 @@
     height: 5rem;
 }
 
-.s-range {
+.s-range-reservation {
     padding-right: 1rem;
     width: 100%;
 }
 
-
-.future-reservation-single-left-bottom .s-range {
+.future-reservation-single-left-bottom .s-range-reservation {
     font-size: 1.125rem;
     white-space: pre-line;
 }
 
-.future-reservation-single-left-bottom .s-range>span {
+.future-reservation-single-left-bottom .s-range-reservation>span {
     font-size: 0.875rem;
 }
 

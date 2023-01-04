@@ -129,9 +129,8 @@ router.get('/:spotId/bookings', async (req, res, next) => {
                     }
                 }
 
-                // res.json({ Bookings: bookings })
-                // console.log('bookingsFutureJSON', bookingsFutureJSON)
-                // console.log('bookingsPastJSON', bookingsPastJSON)
+                bookingsFutureJSON.sort((a, b) => moment(a.startDate) - moment(b.startDate)) // earliest first
+                bookingsPastJSON.sort((a, b) => moment(b.startDate) - moment(a.startDate)) // latest first
                 res.json({ BookingsFuture: bookingsFutureJSON, BookingsPast: bookingsPastJSON });
             } else {
                 // console.log('-------------3-----------------------------')

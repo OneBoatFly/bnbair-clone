@@ -43,7 +43,7 @@ export default function FutureReservations({ spotFutureBookings }) {
                                         <span className='s-name'>Guest: <b>{booking.User.firstName}</b></span>
                                     </div>
                                     <div className='future-reservation-single-left-bottom'>
-                                        <span className='s-range'>{rangeStr} <span>{moment(booking.endDate).year()}</span></span>
+                                        <span className='s-range-reservation'>{rangeStr} <span>{moment(booking.endDate).year()}</span></span>
                                     </div>
                                     <i className="fa-solid fa-trash future-reservation-delete" onClick={(e) => handleDelete(e, booking.id)}></i>
                                 </div>

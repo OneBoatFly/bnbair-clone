@@ -64,8 +64,8 @@ router.get('/current', requireAuth, async (req, res) => {
         }
     }
     
-    bookingsFutureJSON.sort((b1, b2) => b1.endDate - b2.endDate)
-    bookingsPastJSON.sort((b1, b2) => b1.endDate - b2.endDate)
+    bookingsFutureJSON.sort((b1, b2) => b1.endDate - b2.endDate) // earliest first
+    bookingsPastJSON.sort((b1, b2) => b2.endDate - b1.endDate) // latest first
     res.json({ BookingsFuture: bookingsFutureJSON, BookingsPast: bookingsPastJSON });
 });
 
