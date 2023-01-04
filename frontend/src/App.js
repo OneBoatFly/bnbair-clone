@@ -143,7 +143,9 @@ function App() {
           </div>
         </Route>
       </Switch>
-      <Footer />
+      <div className='root-sub-wrapper-footer'>
+       <Footer />
+      </div>
     </div>
   );
 }
