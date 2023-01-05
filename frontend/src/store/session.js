@@ -100,9 +100,9 @@ const sessionReducer = (state = initalState, action) => {
         case LOGIN_USER: {
             // console.log('LOGIN_USER')
             newState = Object.assign({}, state);
-            const {id, username, email, firstName, lastName, profileUrl} = action.user;
+            const { id, username, email, firstName, lastName, profileUrl, isSuperhost } = action.user;
             // console.log(action.user)
-            if (id) newState.user = { id, username, email, firstName, lastName, profileUrl };
+            if (id) newState.user = { id, username, email, firstName, lastName, profileUrl, isSuperhost };
             return newState;
         }
         case LOGOUT_USER: {

@@ -5,8 +5,8 @@ const bcrypt = require('bcryptjs');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     toSafeObject() {
-      const { id, username, email, firstName, lastName, profileUrl } = this; // info for that one user instance
-      return { id, username, email, firstName, lastName, profileUrl };
+      const { id, username, email, firstName, lastName, profileUrl, isSuperhost } = this; // info for that one user instance
+      return { id, username, email, firstName, lastName, profileUrl, isSuperhost };
     }
 
     validatePassword(password) {
@@ -33,7 +33,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
 
-    static async signup({ username, email, firstName, lastName, password, profileUrl }) {
+    static async signup({ username, email, firstName, lastName, password, profileUrl, isSuperhost }) {
       const hashedPassword = bcrypt.hashSync(password);
       const user = await User.create({
         username,
@@ -41,7 +41,8 @@ module.exports = (sequelize, DataTypes) => {
         firstName,
         lastName,
         hashedPassword,
-        profileUrl
+        profileUrl,
+        isSuperhost
       });
 
       // Per documentation, starting with Express 5, route handlers and middleware that return a Promise will 
@@ -101,6 +102,11 @@ module.exports = (sequelize, DataTypes) => {
     profileUrl: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    isSuperhost: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false
     },
     hashedPassword: {
       type: DataTypes.STRING.BINARY,

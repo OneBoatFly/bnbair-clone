@@ -43,11 +43,11 @@ const validateSignup = [
 
 // sign up route
 router.post('/', validateSignup, async (req, res, next) => {
-    let { username, email, firstName, lastName, password, profileUrl } = req.body;
+    let { username, email, firstName, lastName, password, profileUrl, isSuperhost } = req.body;
     if (!profileUrl) profileUrl = 'https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png';
 
     try {
-        const user = await User.signup({ username, email, firstName, lastName, password, profileUrl });
+        const user = await User.signup({ username, email, firstName, lastName, password, profileUrl, isSuperhost });
     
         const token = setTokenCookie(res, user);
         const userJSON = user.toJSON();

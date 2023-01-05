@@ -14,7 +14,8 @@ module.exports = {
       firstName: 'Yizhou',
       lastName: 'Zhang',
       hashedPassword: bcrypt.hashSync('password'),
-      profileUrl: 'https://firebasestorage.googleapis.com/v0/b/bnbair.appspot.com/o/profiles%2Fprofile-yizhou.png?alt=media&token=24090b77-6c6b-4a0c-9506-f81e834476ae'
+      profileUrl: 'https://firebasestorage.googleapis.com/v0/b/bnbair.appspot.com/o/profiles%2Fprofile-yizhou.png?alt=media&token=24090b77-6c6b-4a0c-9506-f81e834476ae',
+      isSuperhost: true
     });
 
     const NAMES = ['Rachel', 'Monica', 'Phoebe', 'Joey', 'Chandler', 'Ross']
@@ -35,13 +36,15 @@ module.exports = {
       const lastName = `DemoLast ${counter}`;
       const hashedPassword = bcrypt.hashSync('password');
       const profileUrl = PROFILES[counter];
+      const isSuperhost = counter % 2 === 0;
       await User.create({
         username,
         email,
         firstName,
         lastName,
         hashedPassword,
-        profileUrl
+        profileUrl,
+        isSuperhost
       });
       counter++;
     }
