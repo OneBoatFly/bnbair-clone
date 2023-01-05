@@ -1,0 +1,14 @@
+.airbnb-super-black {
+    height: 16px;
+}
+
+.spot-detail-super-loc-div {
+    padding-left: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.spot-detail-super-loc-div a {
+    color: inherit;
+}

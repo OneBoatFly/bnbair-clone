@@ -20,6 +20,7 @@ import * as spotReviewsActions from '../../store/spotReviews';
 import { getMMMDDYYYStr } from '../Spots/SpotCalcs/spotDates';
 import CreateBookingMobile from '../Bookings/CreateBookingMobile';
 import SpotMapContainer from '../Maps/SpotMapContainer';
+import SpotDetailHostLoc from './SpotDetailHostLoc';
 
 export default function SpotDetails() {
     // console.log('Spot Details Compoment')
@@ -97,6 +98,7 @@ export default function SpotDetails() {
                 </div>
                 <div className='title-div-wrapper'>
                     <RatingNumReview spot={spot} setShowReviewModal={setShowReviewModal} />
+                    <SpotDetailHostLoc spot={spot} />
                 </div>
 
                 {spot.SpotImages && 
@@ -224,7 +226,7 @@ export default function SpotDetails() {
                     </div>
                     <SpotReviews spotReviews={spotReviews} />
                 </div>
-                <div className='spot-map-wrapper'>
+                <div className='spot-map-wrapper' id='spot-detail-map'>
                     <div className='spot-map-sub-wrapper'>
                         <h4>
                             Where you'll be
