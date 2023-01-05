@@ -10,6 +10,8 @@ export default function MultiTitle({ formData, setFormData, hasSubmitted }) {
     else setTitleErrors('');
   }, [formData.name])
 
+  if (!formData) return null;
+
   return (
     <div className='multi-create-title'>
       <div className='create-spot '>

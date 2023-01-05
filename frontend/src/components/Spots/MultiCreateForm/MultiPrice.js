@@ -17,6 +17,8 @@ export default function MultiPrice({ formData, setFormData, hasSubmitted }) {
     else setPriceErrors('');
   }, [formData.price])
 
+  if (!formData) return null;
+  
   return (
     <div className='multi-create-price'>
       <div className='create-spot'>

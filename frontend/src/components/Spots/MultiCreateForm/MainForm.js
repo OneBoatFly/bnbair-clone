@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import './MainForm.css';
@@ -9,19 +9,32 @@ import { FormTitles, FormSubTitles, progressBar, PageDisplay, checkInput} from '
 
 export default function MainForm({ sessionUser }) {
   const geokey = useSelector((state) => state.maps.geokey);
+
   const [geoError, setGeoError] = useState('');
-  
-  const [page, setPage] = useState(0);
   const [hasSubmitted, setHasSubmitted] = useState(false);
-  const [formData, setFormData] = useState({
-    address: '',
-    city: '',
-    province: '',
-    country: '',
-    name: '',
-    description: '',
-    price: 4500
-  })
+
+  let existingFormData = Cookies.get('create-formData');
+  if (!existingFormData) {
+    existingFormData = {
+      address: '',
+      city: '',
+      province: '',
+      country: '',
+      name: '',
+      description: '',
+      price: 4500
+    }
+  } else {
+    existingFormData = JSON.parse(existingFormData)
+  }
+
+  const [formData, setFormData] = useState(existingFormData);
+
+  let currentPage = Cookies.get('create-formPage');
+  if (!currentPage) currentPage = 0;
+  else currentPage = parseInt(currentPage);
+
+  const [page, setPage] = useState(currentPage);
 
   const goNext = () => {
     if (page >= FormTitles.length) return;
@@ -32,6 +45,18 @@ export default function MainForm({ sessionUser }) {
     if (page <= 0) return;
     setPage(currPage => currPage - 1)
   }
+
+  
+
+  useEffect(() => {
+    if (!formData) return;
+    Cookies.set('create-formData', JSON.stringify(formData))
+  }, [formData])
+
+  useEffect(() => {
+    if (page === null) return;
+    Cookies.set('create-formPage', page)
+  }, [page])
 
   // if (!sessionUser) return (
   //   <Redirect to='/' />

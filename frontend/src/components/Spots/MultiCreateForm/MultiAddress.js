@@ -3,7 +3,7 @@ import Geocode from "react-geocode";
 import { handleLabelSmall, handleLabelBig, handleDivBottomBorder, handleDivBottomBorderOut } from '../../styles';
 
 export default function MultiAddress({ apiKey, formData, setFormData, hasSubmitted, geoError }) {
-  // console.log('formData', formData)
+  console.log('MultiAddress- formData', formData)
 
   Geocode.setApiKey(apiKey);
   const [addressErrors, setAddressErrors] = useState([]);
@@ -64,6 +64,8 @@ export default function MultiAddress({ apiKey, formData, setFormData, hasSubmitt
     }
 
   }, [formData.address, formData.city, formData.province, formData.country]);
+
+  if (!formData) return null;
 
   return (
     <div className='multi-create-address'>

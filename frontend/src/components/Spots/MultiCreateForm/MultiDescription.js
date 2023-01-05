@@ -10,6 +10,8 @@ export default function MultiDescription({ formData, setFormData, hasSubmitted }
     else setDescriptionErrors('');
   }, [formData.description])
 
+  if (!formData) return null;
+  
   return (
     <div className='multi-create-description'>
       <div className='create-spot'>
