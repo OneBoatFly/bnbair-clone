@@ -21,6 +21,7 @@ import { getMMMDDYYYStr } from '../Spots/SpotCalcs/spotDates';
 import CreateBookingMobile from '../Bookings/CreateBookingMobile';
 import SpotMapContainer from '../Maps/SpotMapContainer';
 import SpotDetailHostLoc from './SpotDetailHostLoc';
+import SpotDetailSuperhostLogo from './SpotDetailSuperhostLogo';
 
 export default function SpotDetails() {
     // console.log('Spot Details Compoment')
@@ -155,7 +156,21 @@ export default function SpotDetails() {
 
                 <div className='info-booking-wrapper'>
                     <div className='spot-info-wrapper'>
-                        {spot.Owner && <div className='hostName'>{spot.Owner && <h4>Hosted by {spot.Owner.firstName}</h4>}</div>}
+                        {spot.Owner && 
+                            <div className='hostName'>
+                                <div>
+                                    <h4>Hosted by {spot.Owner.firstName}</h4>
+                                </div>
+                                <div className='host-profile-pic-div'>
+                                    <img className='host-profile-pic-img' src={spot.Owner.profileUrl} alt=''/>
+                                    {spot.Owner.isSuperhost &&
+                                        <div className='host-superhost-logo-div'>
+                                            <SpotDetailSuperhostLogo />
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        }
                         <div className='info-detail-wrapper'>
                             <div>
                                 <img className='aircover-img' src='https://a0.muscache.com/im/pictures/54e427bb-9cb7-4a81-94cf-78f19156faad.jpg' alt='aircover'></img>

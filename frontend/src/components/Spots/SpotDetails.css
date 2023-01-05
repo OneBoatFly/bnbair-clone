@@ -44,6 +44,27 @@
 
 .hostName {
     padding: 0px 0px 24px 0px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.host-profile-pic-div {
+    position: relative;
+    width: 56px;
+    height: 56px;
+}
+
+.host-superhost-logo-div {
+    position: absolute;
+    bottom: 0;
+    right: -8px;
+}
+
+.host-profile-pic-img {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
 }
 
 .info-detail-wrapper {
