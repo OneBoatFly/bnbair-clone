@@ -2,7 +2,7 @@ const { check, query } = require('express-validator');
 const { requireAuth } = require('../../utils/auth');
 const { handleValidationErrors } = require('../../utils/validation');
 const router = require('express').Router();
-const { Spot, Review, SpotImage, User, ReviewImage, Booking, sequelize } = require('../../db/models');
+const { Spot, Review, SpotImage, User, ReviewImage, Booking, sequelize, AmenityBasic, AmenitySafety, AmenityStandout } = require('../../db/models');
 const { Op } = require('sequelize');
 const Moment = require('moment');
 const MomentRange = require('moment-range');
@@ -163,7 +163,16 @@ router.get('/:spotId', async (req, res, next) => {
                 model: User,
                 as: 'Owner',
                 attributes: ['id', 'firstName', 'lastName', 'isSuperhost', 'profileUrl'],
-            }
+            },
+            {
+                model: AmenityBasic
+            },
+            {
+                model: AmenityStandout
+            }, 
+            {
+                model: AmenitySafety
+            }           
         ]
     });
 
