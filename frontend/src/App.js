@@ -14,6 +14,7 @@ import AddSpotImages from './components/Spots/AddSpotImages';
 import Reservations from './components/Reservations/Reservations';
 import Footer from './components/Footer/Footer';
 import MainForm from './components/Spots/MultiCreateForm/MainForm';
+import MainFormContainer from './components/Spots/MultiCreateForm/MainFormContainer';
 
 function App() {
   const prevLoaded = window.localStorage.getItem('isLoaded');
@@ -26,7 +27,6 @@ function App() {
   const [userCenter, setUserCenter] = useState({});
   const key = useSelector((state) => state.maps.key);
   const geoKey = useSelector((state) => state.maps.geoKey);
-  const sessionUser = useSelector(state => state.session.user);
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -121,7 +121,7 @@ function App() {
         {isLoaded &&
           <Route exact path='/spots/create'>
             <div className='root-sub-wrapper'>
-              <MainForm sessionUser={sessionUser}/>
+              <MainFormContainer />
             </div>
           </Route>
         }       

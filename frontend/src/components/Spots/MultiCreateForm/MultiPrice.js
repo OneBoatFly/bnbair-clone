@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 
-export default function MultiPrice({ formData, setFormData, hasSubmitted }) {
-
-  const [priceErrors, setPriceErrors] = useState('');
+export default function MultiPrice({ formData, setFormData, hasSubmitted, priceErrors, setPriceErrors }) {
 
   const handleKeyDown = (e) => {
     // console.log(e.key, typeof e.key, e.key === 'Backspace', /[0-9]/.test(e.key), (e.key === 'Backspace') || /0-9/.test(e.key))
@@ -15,10 +13,10 @@ export default function MultiPrice({ formData, setFormData, hasSubmitted }) {
   useEffect(() => {
     if (formData.price <= 0 || !formData.price) setPriceErrors('Valid price is required.');
     else setPriceErrors('');
-  }, [formData.price])
+  }, [formData.price, setPriceErrors])
 
   if (!formData) return null;
-  
+
   return (
     <div className='multi-create-price'>
       <div className='create-spot'>

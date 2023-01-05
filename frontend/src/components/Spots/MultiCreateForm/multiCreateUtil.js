@@ -40,17 +40,18 @@ export const progressBar = (page) => {
 }
 
 
-export const PageDisplay = (page, apiKey, formData, setFormData, hasSubmitted, geoError) => {
+export const PageDisplay = (page, formData, setFormData, hasSubmitted, setHasSubmitted, allErrors) => {
     // console.log(apiKey, formData, setFormData)
+
     switch (page) {
-        case 0: return <MultiAddress apiKey={apiKey} formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} geoError={geoError} />
-        case 1: return <MultiRooms formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} />
-        case 2: return <MultiAmenities formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} />
-        case 3: return <MultiImages formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} />
-        case 4: return <MultiTitle formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} />
-        case 5: return <MultiDescription formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} />
-        case 6: return <MultiPrice formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} />
-        case 7: return <MultiPublish formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} />
+        case 0: return <MultiAddress formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} geoError={allErrors.geoError} addressErrors={allErrors.addressErrors} setAddressErrors={allErrors.setAddressErrors}/>
+        case 1: return <MultiRooms formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} addressErrors={allErrors.addressErrors} setAddressErrors={allErrors.setAddressErrors} />
+        case 2: return <MultiAmenities formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} addressErrors={allErrors.addressErrors} setAddressErrors={allErrors.setAddressErrors} />
+        case 3: return <MultiImages formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} addressErrors={allErrors.addressErrors} setAddressErrors={allErrors.setAddressErrors} />
+        case 4: return <MultiTitle formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} titleErrors={allErrors.titleErrors} setTitleErrors={allErrors.setTitleErrors} />
+        case 5: return <MultiDescription formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} descriptionErrors={allErrors.descriptionErrors} setDescriptionErrors={allErrors.setDescriptionErrors} />
+        case 6: return <MultiPrice formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} priceErrors={allErrors.priceErrors} setPriceErrors={allErrors.setPriceErrors} />
+        case 7: return <MultiPublish formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} addressErrors={allErrors.addressErrors} setPriceErrors={allErrors.setPriceErrors}/>
         default: return null
     }
 }

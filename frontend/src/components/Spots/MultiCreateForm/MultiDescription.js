@@ -1,17 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 
-export default function MultiDescription({ formData, setFormData, hasSubmitted }) {
+export default function MultiDescription({ formData, setFormData, hasSubmitted, descriptionErrors, setDescriptionErrors }) {
 
-  const [descriptionErrors, setDescriptionErrors] = useState('');
 
   useEffect(() => {
     if (!formData.description.length) setDescriptionErrors('Description is required.');
     else if (formData.description.length > 500) setDescriptionErrors('Description must be less than 500 characters.');
     else setDescriptionErrors('');
-  }, [formData.description])
+  }, [formData.description, setDescriptionErrors])
 
   if (!formData) return null;
-  
+
   return (
     <div className='multi-create-description'>
       <div className='create-spot'>

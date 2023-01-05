@@ -1,12 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react'
-import Geocode from "react-geocode";
+import React, { useEffect, useRef } from 'react'
 import { handleLabelSmall, handleLabelBig, handleDivBottomBorder, handleDivBottomBorderOut } from '../../styles';
 
-export default function MultiAddress({ apiKey, formData, setFormData, hasSubmitted, geoError }) {
+export default function MultiAddress({ formData, setFormData, hasSubmitted, geoError, addressErrors, setAddressErrors }) {
   console.log('MultiAddress- formData', formData)
-
-  Geocode.setApiKey(apiKey);
-  const [addressErrors, setAddressErrors] = useState([]);
 
   // css related //
   const streetLabel = useRef(null);
@@ -63,7 +59,7 @@ export default function MultiAddress({ apiKey, formData, setFormData, hasSubmitt
       setAddressErrors([]);
     }
 
-  }, [formData.address, formData.city, formData.province, formData.country]);
+  }, [formData.address, formData.city, formData.province, formData.country, setAddressErrors]);
 
   if (!formData) return null;
 

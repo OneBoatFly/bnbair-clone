@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 
-export default function MultiTitle({ formData, setFormData, hasSubmitted }) {
-
-  const [titleErrors, setTitleErrors] = useState('');
+export default function MultiTitle({ formData, setFormData, hasSubmitted, titleErrors, setTitleErrors }) {
 
   useEffect(() => {
     if (!formData.name.length) setTitleErrors('Title is required.');
     else if (formData.name.length > 50) setTitleErrors('Title must be less than 50 characters.');
     else setTitleErrors('');
-  }, [formData.name])
+  }, [formData.name, setTitleErrors])
 
   if (!formData) return null;
 
