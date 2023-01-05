@@ -240,10 +240,10 @@ router.get('/:spotId', async (req, res, next) => {
             })
         }
 
-        spotJSON.Amenity = amenities;
-        // delete spotJSON.AmenityBasic;
-        // delete spotJSON.AmenityStandout;
-        // delete spotJSON.AmenitySafety;
+        spotJSON.Amenities = amenities;
+        delete spotJSON.AmenityBasic;
+        delete spotJSON.AmenityStandout;
+        delete spotJSON.AmenitySafety;
 
         res.json(spotJSON);
     }

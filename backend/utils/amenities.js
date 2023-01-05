@@ -30,7 +30,7 @@ const AMENITIES = {
 
 const AMENITY_TYPES = {
     wifi: "Wifi",
-    tv: 'Tv',
+    tv: 'TV',
     kitchen: 'Kitchen',
     washer: 'Washer',
     freeParking: 'Free parking on premises',
