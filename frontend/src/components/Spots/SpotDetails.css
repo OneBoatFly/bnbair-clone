@@ -229,14 +229,19 @@
         flex-basis: calc((100% - 8px) / 2);
     }
 
-    .title-div-wrapper-mobile,
     .signle-spot-header-wrapper-mobile {
         display: block !important;
     }
 
+    .title-div-wrapper-mobile {
+        display: flex !important;
+        flex-wrap: wrap;
+        row-gap: 0.5rem;
+    }
+
     .signle-spot-header-wrapper-mobile h3 {
         margin-top: 24px !important;
-        margin-bottom: 8px !important;
+        margin-bottom: 1rem !important;
         font-size: 1.5rem !important;
         font-weight: 500 !important;
     }

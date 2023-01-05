@@ -147,10 +147,10 @@ export default function SpotDetails() {
 
                 <div className='signle-spot-header-wrapper-mobile'>
                     <h3>{spot.name}</h3>
-                    <span>Hosted by {spot.Owner?.firstName} @{spot.city}, {spot.state}</span>
                 </div>
                 <div className='title-div-wrapper-mobile'>
                     <RatingNumReview spot={spot} setShowReviewModal={setShowReviewModal} />
+                    <SpotDetailHostLoc spot={spot} />
                 </div>
 
                 <div className='info-booking-wrapper'>
