@@ -1,0 +1,37 @@
+.flex-row-nowrap {
+    display: flex;
+    align-items: flex-start;
+}
+
+.bottom-margin24 {
+    margin-bottom: 24px;
+}
+
+.svg-spot-detail-32 {
+    width: 32px;
+    height: 32px;
+}
+
+.flex-column-nowrap-left16 {
+    display: flex;
+    flex-direction: column;
+    margin-left: 16px;
+}
+
+.span-bold16 {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.bottom-margin4 {
+    margin-bottom: 4px;
+}
+
+.span-thin14 {
+    font-size: 0.875rem;
+    font-weight: 400;
+}
+
+.rgb113 {
+    color: rgb(113, 113, 113);
+}

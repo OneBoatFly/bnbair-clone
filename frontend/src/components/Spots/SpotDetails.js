@@ -22,6 +22,8 @@ import CreateBookingMobile from '../Bookings/CreateBookingMobile';
 import SpotMapContainer from '../Maps/SpotMapContainer';
 import SpotDetailHostLoc from './SpotDetailHostLoc';
 import SpotDetailSuperhostLogo from './SpotDetailSuperhostLogo';
+import SpotDetailRooms from './SpotDetailRooms';
+import SpotDetailHighlight from './SpotDetailHighlight';
 
 export default function SpotDetails() {
     // console.log('Spot Details Compoment')
@@ -160,6 +162,7 @@ export default function SpotDetails() {
                             <div className='hostName'>
                                 <div>
                                     <h4>Hosted by {spot.Owner.firstName}</h4>
+                                    <SpotDetailRooms spot={spot} />
                                 </div>
                                 <div className='host-profile-pic-div'>
                                     <img className='host-profile-pic-img' src={spot.Owner.profileUrl} alt=''/>
@@ -171,6 +174,9 @@ export default function SpotDetails() {
                                 </div>
                             </div>
                         }
+                        <div className='info-detail-wrapper'>
+                            <SpotDetailHighlight owner={spot?.Owner} />
+                        </div>
                         <div className='info-detail-wrapper'>
                             <div>
                                 <img className='aircover-img' src='https://a0.muscache.com/im/pictures/54e427bb-9cb7-4a81-94cf-78f19156faad.jpg' alt='aircover'></img>
