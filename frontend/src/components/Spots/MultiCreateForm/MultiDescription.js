@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react'
 
-export default function MultiDescription({ formData, setFormData }) {
+export default function MultiDescription({ formData, setFormData, hasSubmitted }) {
 
   const [descriptionErrors, setDescriptionErrors] = useState('');
-  const [hasSubmitted, setHasSubmitted] = useState(false);
 
   useEffect(() => {
     if (!formData.description.length) setDescriptionErrors('Description is required.');

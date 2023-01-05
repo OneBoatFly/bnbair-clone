@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react'
 
-export default function MultiTitle({formData, setFormData}) {
+export default function MultiTitle({ formData, setFormData, hasSubmitted }) {
 
   const [titleErrors, setTitleErrors] = useState('');
-  const [hasSubmitted, setHasSubmitted] = useState(false);
 
   useEffect(() => {
     if (!formData.name.length) setTitleErrors('Title is required.');

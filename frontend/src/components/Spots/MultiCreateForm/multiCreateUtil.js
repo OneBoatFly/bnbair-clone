@@ -40,17 +40,17 @@ export const progressBar = (page) => {
 }
 
 
-export const PageDisplay = (page, apiKey, formData, setFormData) => {
+export const PageDisplay = (page, apiKey, formData, setFormData, hasSubmitted, geoError) => {
     // console.log(apiKey, formData, setFormData)
     switch (page) {
-        case 0: return <MultiAddress apiKey={apiKey} formData={formData} setFormData={setFormData} />
-        case 1: return <MultiRooms formData={formData} setFormData={setFormData} />
-        case 2: return <MultiAmenities formData={formData} setFormData={setFormData} />
-        case 3: return <MultiImages formData={formData} setFormData={setFormData} />
-        case 4: return <MultiTitle formData={formData} setFormData={setFormData} />
-        case 5: return <MultiDescription formData={formData} setFormData={setFormData} />
-        case 6: return <MultiPrice formData={formData} setFormData={setFormData} />
-        case 7: return <MultiPublish formData={formData} setFormData={setFormData} />
+        case 0: return <MultiAddress apiKey={apiKey} formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} geoError={geoError} />
+        case 1: return <MultiRooms formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} />
+        case 2: return <MultiAmenities formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} />
+        case 3: return <MultiImages formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} />
+        case 4: return <MultiTitle formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} />
+        case 5: return <MultiDescription formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} />
+        case 6: return <MultiPrice formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} />
+        case 7: return <MultiPublish formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} />
         default: return null
     }
 }
