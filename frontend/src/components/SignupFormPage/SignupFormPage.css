@@ -128,3 +128,15 @@ input:-webkit-autofill:focus {
 .signup-all-wrapper input {
     color: rgb(113, 113, 113);
 }
+
+/* ----------------------------------------- profile picture ---------------------------------------- */
+.signup.profile-img-wrapper {
+    margin-bottom: 24px;
+    display: flex;
+    
+}
+
+.profile-image-instruction {
+    font-size: 12px;
+    color: rgb(113, 113, 113);
+}

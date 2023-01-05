@@ -6,6 +6,11 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import './SignupFormPage.css';
 import { handleMouseMove, handleDivBottomBorder, handleDivBottomBorderOut } from '../styles';
+import AddProfileImage from './AddProfileImage';
+
+import { storage } from '../../firebase';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { v4 } from 'uuid';
 
 export default function SignupFormPage({ setShowSignUpModal, setIsLoaded }) {
     const [firstName, setFirstName] = useState('');
@@ -15,6 +20,9 @@ export default function SignupFormPage({ setShowSignUpModal, setIsLoaded }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [passwordConfirm, setPasswordConfirm] = useState('');
+    const [imageUrl, setImageUrl] = useState([]);
+    const [imageUpload, setImageUpload] = useState(null);
+    const [imageError, setImageError] = useState('');
 
     const [errors, setErrors] = useState([]);
     const [errorsObj, setErrorsObj] = useState({});
@@ -90,27 +98,48 @@ export default function SignupFormPage({ setShowSignUpModal, setIsLoaded }) {
 
         if (errors.length) return;
 
-        dispatch(sessionActions.signup({ 
-            firstName,
-            lastName,
-            username,
-            email,
-            password 
-        }))
-        .then(() => {
-            setHasSubmitted(false);
-            setIsLoaded(true);
-            window.localStorage.setItem('isLoaded', true);
-        })
-        .catch(async (res) => {
-            const data = await res.json();
-            // console.log('data returned: ', data)
-            // console.log('data.errors', data.errors)
-            if (data && data.errors) {
-                setErrorsObj(data.errors);
-                setErrors(Object.values(data.errors));
-            }
-        });
+        if (!imageUpload) {
+            setImageError('A profile picture is required.')
+            return;
+        }
+
+        const imageRef = ref(storage, `profiles/${imageUpload.name + v4()}`)
+        uploadBytes(imageRef, imageUpload)
+            .then((snapshot) => {
+                getDownloadURL(snapshot.ref).then(profileUrl => {
+                    // console.log('uploading --- grabing profileUrl', profileUrl)
+                    
+                    dispatch(sessionActions.signup({
+                        firstName,
+                        lastName,
+                        username,
+                        email,
+                        password,
+                        profileUrl
+                    }))
+                        .then(() => {
+                            setHasSubmitted(false);
+                            setIsLoaded(true);
+                            window.localStorage.setItem('isLoaded', true);
+                        })
+                        .catch(async (res) => {
+                            const data = await res.json();
+                            // console.log('data returned: ', data)
+                            // console.log('data.errors', data.errors)
+                            if (data && data.errors) {
+                                setErrorsObj(data.errors);
+                                setErrors(Object.values(data.errors));
+                            }
+                        });
+                    
+                    setImageUpload(null)
+                })
+            })
+            .catch((e) => {
+                // console.log('uploading --- imageerror', e.code)
+                setImageError(e.code)
+            })
+        
     }
 
     // css related //
@@ -254,7 +283,13 @@ export default function SignupFormPage({ setShowSignUpModal, setIsLoaded }) {
                                 <span className='error-messages'>{errorsObj.diffPass}</span>
                             </div>
                         }                                       
-                    </div>          
+                    </div>
+
+                    <div className='signup profile-img-wrapper'>
+                        <span>Choose a profile picture</span>
+                        <span className='profile-image-instruction'>Drag and drop your photo. Accepts .webp or .png only.</span>
+                        <AddProfileImage imageUrl={imageUrl} setImageUrl={setImageUrl} setImageUpload={setImageUpload} imageError={imageError} setImageError={setImageError} />
+                    </div>    
 
                     <div className='signup conditions-wrapper'>
                         <span className='signup-comments'>By selecting <span style={{ fontWeight: '800', color:'black' }}>Agree and continue</span>, I agree to Airbnb’s Terms of Service, Payments Terms of Service, and Nondiscrimination Policy and acknowledge the Privacy Policy.</span>
