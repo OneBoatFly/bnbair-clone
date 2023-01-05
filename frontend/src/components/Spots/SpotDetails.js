@@ -24,6 +24,7 @@ import SpotDetailHostLoc from './SpotDetailHostLoc';
 import SpotDetailSuperhostLogo from './SpotDetailSuperhostLogo';
 import SpotDetailRooms from './SpotDetailRooms';
 import SpotDetailHighlight from './SpotDetailHighlight';
+import SpotDetailAmenities from './SpotDetailAmenities';
 
 export default function SpotDetails() {
     // console.log('Spot Details Compoment')
@@ -186,6 +187,7 @@ export default function SpotDetails() {
                         <div className='info-detail-wrapper'>
                             <p>{spot.description}</p>
                         </div>
+
                         {spot.SpotImages &&
                             <div className='pictures-in-mobile'>
                                 <div className='pictures-big-mobile upper'>
@@ -221,7 +223,13 @@ export default function SpotDetails() {
                                     </ModalWhole>
                                 }
                             </div>
-                        }          
+                        }
+
+                        <div className='info-detail-wrapper'>
+                            <h4>What this place offers</h4>
+                              <SpotDetailAmenities spot={spot} />
+                        </div>
+
                         <div className='info-detail-wrapper'>
                             <h4>{totalDays} nights in {spot.city}</h4>
                             <div className='date-calendar-span'>
