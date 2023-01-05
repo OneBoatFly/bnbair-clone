@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import './MainForm.css';
 
 import { FormTitles, FormSubTitles, progressBar, PageDisplay, checkInput} from './multiCreateUtil';
 
 
-export default function MainForm() {
+export default function MainForm({ sessionUser }) {
   const geokey = useSelector((state) => state.maps.geokey);
-
+  
   const [page, setPage] = useState(0);
   const [formData, setFormData] = useState({
     address: '',
@@ -28,6 +29,10 @@ export default function MainForm() {
     if (page <= 0) return;
     setPage(currPage => currPage - 1)
   }
+
+  // if (!sessionUser) return (
+  //   <Redirect to='/' />
+  // )
 
   return (
     <div className='main-create-form'>

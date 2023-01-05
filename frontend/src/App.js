@@ -25,7 +25,8 @@ function App() {
   })
   const [userCenter, setUserCenter] = useState({});
   const key = useSelector((state) => state.maps.key);
-  const geoKey = useSelector((state) => state.maps.geoKey)
+  const geoKey = useSelector((state) => state.maps.geoKey);
+  const sessionUser = useSelector(state => state.session.user);
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -120,7 +121,7 @@ function App() {
         {isLoaded &&
           <Route exact path='/spots/create'>
             <div className='root-sub-wrapper'>
-              <MainForm />
+              <MainForm sessionUser={sessionUser}/>
             </div>
           </Route>
         }       

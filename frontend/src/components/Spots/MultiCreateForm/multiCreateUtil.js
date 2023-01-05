@@ -44,13 +44,13 @@ export const PageDisplay = (page, apiKey, formData, setFormData) => {
     // console.log(apiKey, formData, setFormData)
     switch (page) {
         case 0: return <MultiAddress apiKey={apiKey} formData={formData} setFormData={setFormData} />
-        case 1: return <MultiRooms />
-        case 2: return <MultiAmenities />
-        case 3: return <MultiImages />
-        case 4: return <MultiTitle />
-        case 5: return <MultiDescription />
-        case 6: return <MultiPrice />
-        case 7: return <MultiPublish />
+        case 1: return <MultiRooms formData={formData} setFormData={setFormData} />
+        case 2: return <MultiAmenities formData={formData} setFormData={setFormData} />
+        case 3: return <MultiImages formData={formData} setFormData={setFormData} />
+        case 4: return <MultiTitle formData={formData} setFormData={setFormData} />
+        case 5: return <MultiDescription formData={formData} setFormData={setFormData} />
+        case 6: return <MultiPrice formData={formData} setFormData={setFormData} />
+        case 7: return <MultiPublish formData={formData} setFormData={setFormData} />
         default: return null
     }
 }
