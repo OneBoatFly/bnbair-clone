@@ -13,6 +13,7 @@ import { getGeoKey, getKey } from './store/maps';
 import AddSpotImages from './components/Spots/AddSpotImages';
 import Reservations from './components/Reservations/Reservations';
 import Footer from './components/Footer/Footer';
+import MainForm from './components/Spots/MultiCreateForm/MainForm';
 
 function App() {
   const prevLoaded = window.localStorage.getItem('isLoaded');
@@ -115,7 +116,14 @@ function App() {
               <AddSpotImages />
             </div>
           </Route>
-        }        
+        }
+        {isLoaded &&
+          <Route exact path='/spots/create'>
+            <div className='root-sub-wrapper'>
+              <MainForm />
+            </div>
+          </Route>
+        }       
         {!isLoaded &&
           <Route path={['/spots/current', '/spots/:spotId/bookings', '/reviews/current', '/trips']}>
             <Redirect to='/' />
