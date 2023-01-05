@@ -6,6 +6,7 @@ const { Spot, Review, SpotImage, User, ReviewImage, Booking, sequelize, AmenityB
 const { Op } = require('sequelize');
 const Moment = require('moment');
 const MomentRange = require('moment-range');
+const { AMENITIES, AMENITY_TYPES } = require('../../utils/amenities'); 
 
 // get all spots owned by the current user
 router.get('/current', requireAuth, async (req, res) => {
@@ -218,6 +219,31 @@ router.get('/:spotId', async (req, res, next) => {
         spotJSON.firstAvailableStart = moment(endDate, "DD-MM-YYYY").subtract(2, 'days')
         spotJSON.firstAvailableEnd = endDate;
         // console.log('Spot detail with first availability -----------', spotJSON)
+
+        // convert amenities to array with urls
+        const amenityArr = Object.keys(AMENITIES);
+        let amenities = []
+        for (let amenity of amenityArr) {
+            if (spotJSON.AmenityBasic[amenity]) amenities.push({
+                url: AMENITIES[amenity],
+                type: AMENITY_TYPES[amenity]
+            })
+
+            if (spotJSON.AmenityStandout[amenity]) amenities.push({
+                url: AMENITIES[amenity],
+                type: AMENITY_TYPES[amenity]
+            })
+
+            if (spotJSON.AmenitySafety[amenity]) amenities.push({
+                url: AMENITIES[amenity],
+                type: AMENITY_TYPES[amenity]
+            })
+        }
+
+        spotJSON.Amenity = amenities;
+        // delete spotJSON.AmenityBasic;
+        // delete spotJSON.AmenityStandout;
+        // delete spotJSON.AmenitySafety;
 
         res.json(spotJSON);
     }
