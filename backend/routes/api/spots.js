@@ -440,17 +440,36 @@ const validateSpot = [
     check('price', "Price per day is required")
         .exists({checkFalsy: true})
         .isFloat({min: 0}),
+    check('guests', 'Allow guest number from 1 to 16.')
+        .exists({ checkFalsy: true })
+        .isInt({min: 1, max: 16}),
+    check('bedrooms', 'Allow bedrooms number from 0 to 50.')
+        .exists({ checkFalsy: true })
+        .isInt({ min: 0, max: 50 }),
+    check('beds', 'Allow beds number from 1 to 16.')
+        .exists({ checkFalsy: true })
+        .isInt({ min: 1, max: 16 }),
+    check('bathrooms', 'Allow bathroom number from 0.5 to 50.')
+        .exists({ checkFalsy: true })
+        .isFloat({ min: 0.5, max: 50 }),                        
     handleValidationErrors
 ];
 
 router.post('/', requireAuth, validateSpot, async (req, res, next) => {
     // console.log('in post a spot route');
-    const { address, city, state, country, lat, lng, name, description, price } = req.body;
+    const { address, city, state, country, lat, lng, name, description, price, guest, bedrooms, bathrooms, beds } = req.body;
+    const { amenityBasic } = req.body;
+    const { amenityStandout } = req.body;
+    const { amenitySafety } = req.body;
     
     try {
         const spot = await Spot.create({ ownerId: req.user.id, 
-            address, city, state, country, lat, lng, name, description, price });
-    
+            address, city, state, country, lat, lng, name, description, price, guest, bedrooms, bathrooms, beds});
+        
+        await spot.createAmenityBasic({ id: spot.id, ...amenityBasic });
+        await spot.createAmenityStandout({ id: spot.id, ...amenityStandout });
+        await spot.createAmenitySafety({ id: spot.id, ...amenitySafety });
+
         res.json(spot);
     } catch(e) {
         // console.log('backend error: ', e)

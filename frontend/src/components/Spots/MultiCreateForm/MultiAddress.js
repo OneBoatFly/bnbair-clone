@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react'
 import { handleLabelSmall, handleLabelBig, handleDivBottomBorder, handleDivBottomBorderOut } from '../../styles';
 
 export default function MultiAddress({ formData, setFormData, hasSubmitted, geoError, addressErrors, setAddressErrors }) {
-  console.log('MultiAddress- formData', formData)
+  // console.log('MultiAddress- formData', formData)
 
   // css related //
   const streetLabel = useRef(null);

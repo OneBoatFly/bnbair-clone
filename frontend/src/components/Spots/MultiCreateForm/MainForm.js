@@ -42,7 +42,11 @@ export default function MainForm({ apiKey, sessionUser }) {
       country: '',
       name: '',
       description: '',
-      price: 4500
+      price: 4500,
+      guests: 2,
+      bedrooms: 1,
+      beds: 1,
+      bathrooms:1
     }
   } else {
     existingFormData = JSON.parse(existingFormData)
@@ -57,13 +61,24 @@ export default function MainForm({ apiKey, sessionUser }) {
   const [page, setPage] = useState(currentPage);
 
   const goNext = () => {
+    setHasSubmitted(false);
     if (page >= FormTitles.length) return;
     setPage(currPage => currPage + 1)
   }
 
   const goBack = () => {
+    setHasSubmitted(false);
     if (page <= 0) return;
     setPage(currPage => currPage - 1)
+  }
+
+  const onNext = () => {
+    if (!checkInput(page, allErrors)) {
+      setHasSubmitted(true);
+      return;
+    }
+
+    goNext()
   }
 
   const dispatch = useDispatch();
@@ -81,9 +96,11 @@ export default function MainForm({ apiKey, sessionUser }) {
         const { lat, lng } = response.results[0].geometry.location;
         // console.log(lat, lng);
 
-        dispatch(spotsActions.createOneSpot({ ...formData, lat, lng }))
+        dispatch(spotsActions.createOneSpot({ ...formData, state: formData.province, lat, lng }))
           .then((spot) => {
             setHasSubmitted(false);
+            Cookies.remove('create-formPage');
+            Cookies.remove('create-formData');
             setNewSpot(spot);
             dispatch(spotsActions.getOwnerSpots());
           })
@@ -127,15 +144,15 @@ export default function MainForm({ apiKey, sessionUser }) {
     Cookies.set('create-formPage', page)
   }, [page])
 
-  // if (!sessionUser) return (
-  //   <Redirect to='/' />
-  // )
-
   if (!apiKey) return null;
 
   if (newSpot.id) return (
     <Redirect push to={`/spots/current`} />
   )
+
+  // if (!sessionUser) return (
+  //   <Redirect to='/' />
+  // )
 
   return (
     <div className='main-create-form'>
@@ -143,7 +160,7 @@ export default function MainForm({ apiKey, sessionUser }) {
           <span className='main-create-form-title'>{FormTitles[page]}</span>
           <span className='main-create-form-sub-title'>{FormSubTitles[page]}</span>
           <div className='main-create-form-body'>
-            {PageDisplay(page, formData, setFormData, hasSubmitted, setHasSubmitted, allErrors)}
+            {PageDisplay(page, formData, setFormData, hasSubmitted, allErrors)}
           </div>
         </div>
         <div className='main-create-form-validation-errors'>
@@ -164,8 +181,8 @@ export default function MainForm({ apiKey, sessionUser }) {
         </div>
         <div className='main-create-button-container'>
           {page > 0 && <button onClick={goBack}>Back</button>}
-          {page < FormTitles.length - 1 && <button onClick={goNext}>Next</button>}
-          {page === FormTitles.length - 1 && <button>Publish</button>}
+          {page < FormTitles.length - 1 && <button onClick={onNext}>Next</button>}
+          {page === FormTitles.length - 1 && <button onClick={handleSubmit}>Publish</button>}
         </div>
     </div>
   )

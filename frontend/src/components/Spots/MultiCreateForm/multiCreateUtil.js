@@ -40,12 +40,12 @@ export const progressBar = (page) => {
 }
 
 
-export const PageDisplay = (page, formData, setFormData, hasSubmitted, setHasSubmitted, allErrors) => {
+export const PageDisplay = (page, formData, setFormData, hasSubmitted, allErrors) => {
     // console.log(apiKey, formData, setFormData)
 
     switch (page) {
         case 0: return <MultiAddress formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} geoError={allErrors.geoError} addressErrors={allErrors.addressErrors} setAddressErrors={allErrors.setAddressErrors}/>
-        case 1: return <MultiRooms formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} addressErrors={allErrors.addressErrors} setAddressErrors={allErrors.setAddressErrors} />
+        case 1: return <MultiRooms formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} />
         case 2: return <MultiAmenities formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} addressErrors={allErrors.addressErrors} setAddressErrors={allErrors.setAddressErrors} />
         case 3: return <MultiImages formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} addressErrors={allErrors.addressErrors} setAddressErrors={allErrors.setAddressErrors} />
         case 4: return <MultiTitle formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} titleErrors={allErrors.titleErrors} setTitleErrors={allErrors.setTitleErrors} />
@@ -56,24 +56,29 @@ export const PageDisplay = (page, formData, setFormData, hasSubmitted, setHasSub
     }
 }
 
-export const checkInput = (page) => {
+export const checkInput = (page, allErrors) => {
     switch (page) {
         case 0:
-            break;
+            if (allErrors.addressErrors.length) return false;
+            else return true;
         case 1:
-            break;
+            return true;
         case 2:
-            break;
+            return true;
         case 3:
-            break;
+            return true;
         case 4:
-            break;
+            if (allErrors.titleErrors.length) return false;
+            else return true;
         case 5:
-            break;
+            if (allErrors.descriptionErrors.length) return false;
+            else return true;
         case 6:
-            break;
+            if (allErrors.priceErrors.length) return false;
+            else return true;
         case 7:
-            break;
+            if (allErrors.addressErrors.length || allErrors.titleErrors.length || allErrors.descriptionErrors.length || allErrors.priceErrors.length) return false;
+            else return true;
         default: return null
     }
 }

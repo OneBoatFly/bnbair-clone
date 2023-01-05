@@ -13,7 +13,6 @@ import { getGeoKey, getKey } from './store/maps';
 import AddSpotImages from './components/Spots/AddSpotImages';
 import Reservations from './components/Reservations/Reservations';
 import Footer from './components/Footer/Footer';
-import MainForm from './components/Spots/MultiCreateForm/MainForm';
 import MainFormContainer from './components/Spots/MultiCreateForm/MainFormContainer';
 
 function App() {
@@ -30,7 +29,6 @@ function App() {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    // dispatch(sessionActions.userLocation())
     dispatch(sessionActions.restoreUser()).then(() => {
       setIsLoaded(true);
     });
@@ -126,14 +124,13 @@ function App() {
           </Route>
         }       
         {!isLoaded &&
-          <Route path={['/spots/current', '/spots/:spotId/bookings', '/reviews/current', '/trips']}>
+          <Route path={['/spots/current', '/spots/:spotId/bookings', '/reviews/current', '/trips', '/spots/create']}>
             <Redirect to='/' />
           </Route>
         }
         <Route exact path='/spots/:spotId'>
           <div className='root-sub-wrapper'>
             <SpotDetails isLoaded={isLoaded} />
-            {/* <SpotDetails isLoaded={isLoaded} setPage={setPage}></SpotDetails> */}
           </div>
         </Route>
         <Route>
