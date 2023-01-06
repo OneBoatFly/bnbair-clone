@@ -67,9 +67,12 @@ export default function ProfileButton({ user, setIsLoaded, setPage }) {
                 </div>
 
                 <div className="menu-dropdown">
-                    <div className="menu-dropdown-sub" onClick={() => setShowSpotFormModal(true)}>
+                    {/* <div className="menu-dropdown-sub" onClick={() => setShowSpotFormModal(true)}>
                         <button className="create-listing-button" >Create a new listing</button>
-                    </div>                    
+                    </div> */}
+                    <NavLink to='/spots/create' className='navLink-current' >
+                          <div className="menu-dropdown-sub">Create a new listing</div>
+                    </NavLink>                 
                     <NavLink to='/spots/current' className="navLink-current">
                         <div className="menu-dropdown-sub">Listings</div>
                     </NavLink>
@@ -87,11 +90,11 @@ export default function ProfileButton({ user, setIsLoaded, setPage }) {
                 </div>
             </div>
         )}      
-        {showSpotFormModal && (
+        {/* {showSpotFormModal && (
             <Modal onClose={() => setShowSpotFormModal(false)} >
                 <CreateSpot setShowSpotFormModal={setShowSpotFormModal} apiKey={geokey}/>
             </Modal>
-        )}  
+        )}   */}
     </div>
   )
 }

@@ -11,7 +11,7 @@ export default function MultiPrice({ formData, setFormData, hasSubmitted, priceE
   }
 
   useEffect(() => {
-    if (formData.price <= 0 || !formData.price) setPriceErrors('Valid price is required.');
+    if (formData.price < 10 || !formData.price || formData.price >= 10000) setPriceErrors("Please enter a base price between $10 and $10,000.");
     else setPriceErrors('');
   }, [formData.price, setPriceErrors])
 
@@ -20,15 +20,26 @@ export default function MultiPrice({ formData, setFormData, hasSubmitted, priceE
   return (
     <div className='multi-create-price'>
       <div className='create-spot'>
+        <i className={`fa-solid fa-minus ${formData.price === 10 && 'toggle-disabled'} multt-create-price-toggle`}
+          onClick={() => {
+            if (formData.price <= 10) return;
+            setFormData({ ...formData, price: parseFloat(formData.price) - 5 })
+          }} />
+
         <div className='outline-wrapper price-wrapper'>
           <div className='create-spot-price' style={{ display: 'flex' }}>
-            {/* <label htmlFor='price'>Price</label> */}
             <span>$</span><input type='text' id="price" value={formData.price} onChange={(e) => setFormData({ ...formData, price: e.target.value })} onKeyDown={handleKeyDown} />
           </div>
         </div>
+
+        <i className={`fa-solid fa-plus ${formData.price === 10000 && 'toggle-disabled'} multt-create-price-toggle`}
+          onClick={() => {
+            if (formData.price >= 10000) return;
+            setFormData({ ...formData, price: parseFloat(formData.price) + 5 })
+          }} />
       </div>
-      {/* {console.log('price', priceErrors)} */}
-      {hasSubmitted && priceErrors &&
+
+      {priceErrors.length > 0 &&
         <div className='error-messages-wrapper'>
           <i className="fa-sharp fa-solid fa-circle-exclamation"></i>
           <span className='error-messages'>{priceErrors}</span>
