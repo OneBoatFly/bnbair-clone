@@ -11,10 +11,10 @@ export const FormTitles = [
     'Confirm your address',
     'Share some basics about your place',
     "Tell guests what your place has to offer",
-    'Add some photos of your house',
     "Now, let's give your house a title",
     'Create your description',
     'Now, set your price',
+    'Add some photos of your house',
     'Yay! It’s time to publish.'
 ]
 
@@ -22,10 +22,10 @@ export const FormSubTitles = [
     'Your address is only shared with guests after they’ve made a reservation.',
     "You'll add more details later, like bed types.",
     "You can add more amenities after you publish your listing.",
-    "You'll need 5 photos to get started. You can add more or make changes later.",
     "Short titles work best. Have fun with it—you can always change it later.",
     "Share what makes your place special.",
     "You can change it anytime.",
+    "You'll need 5 photos to get started. You can add more or make changes later.",
     "Here's what we'll show to guests. Before you publish, make sure to review the details."
 ]
 
@@ -40,17 +40,17 @@ export const progressBar = (page) => {
 }
 
 
-export const PageDisplay = (page, formData, setFormData, hasSubmitted, allErrors, apiKey) => {
+export const PageDisplay = (page, formData, setFormData, hasSubmitted, allErrors, newSpot) => {
     // console.log(apiKey, formData, setFormData)
     // 
     switch (page) {
         case 0: return <MultiAddress formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} addressErrors={allErrors.addressErrors} setAddressErrors={allErrors.setAddressErrors} geoError={allErrors.geoError} />
         case 1: return <MultiRooms formData={formData} setFormData={setFormData} />
         case 2: return <MultiAmenities formData={formData} setFormData={setFormData} />
-        case 3: return <MultiImages formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} addressErrors={allErrors.addressErrors} setAddressErrors={allErrors.setAddressErrors} />
+        case 3: return <MultiPrice formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} priceErrors={allErrors.priceErrors} setPriceErrors={allErrors.setPriceErrors} />
         case 4: return <MultiTitle formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} titleErrors={allErrors.titleErrors} setTitleErrors={allErrors.setTitleErrors} />
         case 5: return <MultiDescription formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} descriptionErrors={allErrors.descriptionErrors} setDescriptionErrors={allErrors.setDescriptionErrors} />
-        case 6: return <MultiPrice formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} priceErrors={allErrors.priceErrors} setPriceErrors={allErrors.setPriceErrors} />
+        case 6: return <MultiImages formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} addressErrors={allErrors.addressErrors} setAddressErrors={allErrors.setAddressErrors} newSpot={newSpot}/>
         case 7: return <MultiPublish formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} addressErrors={allErrors.addressErrors} setPriceErrors={allErrors.setPriceErrors}/>
         default: return null
     }
@@ -66,7 +66,8 @@ export const checkInput = (page, allErrors) => {
         case 2:
             return true;
         case 3:
-            return true;
+            if (allErrors.priceErrors.length) return false;
+            else return true;        
         case 4:
             if (allErrors.titleErrors.length) return false;
             else return true;
@@ -74,8 +75,7 @@ export const checkInput = (page, allErrors) => {
             if (allErrors.descriptionErrors.length) return false;
             else return true;
         case 6:
-            if (allErrors.priceErrors.length) return false;
-            else return true;
+            return true;
         case 7:
             if (allErrors.addressErrors.length || allErrors.titleErrors.length || allErrors.descriptionErrors.length || allErrors.priceErrors.length) return false;
             else return true;

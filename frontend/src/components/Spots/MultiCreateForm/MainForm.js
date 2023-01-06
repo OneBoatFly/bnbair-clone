@@ -16,6 +16,8 @@ export default function MainForm({ apiKey, sessionUser }) {
   const [geoError, setGeoError] = useState('');
   const [validationErrors, setValidationErrors] = useState({});
   const [hasSubmitted, setHasSubmitted] = useState(false);
+  const [newSpot, setNewSpot] = useState({});
+  const [createComplete, setCreateComplete] = useState(false);
 
   const allErrors = {
     addressErrors,
@@ -28,8 +30,6 @@ export default function MainForm({ apiKey, sessionUser }) {
     priceErrors,
     setPriceErrors
   }
-
-  const [newSpot, setNewSpot] = useState({});
 
   let existingFormData = Cookies.get('create-formData');
   if (!existingFormData) {
@@ -115,26 +115,24 @@ export default function MainForm({ apiKey, sessionUser }) {
     }
 
     if (page === 0) checkAddress()
+    else if (page === 5) handleSpotSubmit()
     else goNext()
   }
 
-  const dispatch = useDispatch();
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSpotSubmit = () => {
     setHasSubmitted(true);
-    // console.log('handleSubmit fired')
-
-    if (addressErrors.length || titleErrors.length || descriptionErrors.length || priceErrors.length) {
+    if (addressErrors.length || titleErrors.length || descriptionErrors.length || priceErrors.length || geoError.length) {
       return;
     }
 
     dispatch(spotsActions.createOneSpot({ ...formData, state: formData.province }))
       .then((spot) => {
         setHasSubmitted(false);
-        Cookies.remove('create-formPage');
-        Cookies.remove('create-formData');
+        // Cookies.remove('create-formPage');
+        // Cookies.remove('create-formData');
         setNewSpot(spot);
         dispatch(spotsActions.getOwnerSpots());
+        goNext();
       })
       .catch(async (res) => {
         const data = await res.json();
@@ -142,20 +140,52 @@ export default function MainForm({ apiKey, sessionUser }) {
           setAddressErrors([data.message]);
         } else if (data && data.errors) {
           setAddressErrors((errors) => {
-            if (data.errors.address) errors.push(data.errors.address);
-            if (data.errors.city) errors.push(data.errors.city);
-            if (data.errors.state) errors.push(data.errors.state);
-            if (data.errors.country) errors.push(data.errors.country);
+            if (data.errors.address) {
+              errors.push(data.errors.address);
+              setPage(0)
+            }
+            if (data.errors.city) {
+              errors.push(data.errors.city);
+              setPage(0)
+            }
+            if (data.errors.state) {
+              errors.push(data.errors.state);
+              setPage(0)
+            }
+            if (data.errors.country) {
+              errors.push(data.errors.country);
+              setPage(0)
+            }
             return errors;
           });
 
-          if (data.errors.name) setTitleErrors(data.errors.name);
-          if (data.errors.description) setDescriptionErrors(data.errors.description);
-          if (data.errors.price) setPriceErrors(data.errors.price);
+          if (data.errors.name) {
+            setTitleErrors(data.errors.name);
+            setPage(4)
+          }
+          if (data.errors.description) {
+            setDescriptionErrors(data.errors.description);
+            setPage(5)
+          }
+          if (data.errors.price) {
+            setPriceErrors(data.errors.price);
+            setPage(3)
+          }
 
-          if (data.errors.lat || data.errors.lng) setValidationErrors(err => data.errors);
+          if (data.errors.lat || data.errors.lng) {
+            setValidationErrors(err => data.errors);
+            setPage(0)
+          }
         }
       });
+  }
+
+  const dispatch = useDispatch();
+  const handleImageSubmit = (e) => {
+    e.preventDefault();
+    setHasSubmitted(true);
+    // console.log('handleImageSubmit fired')
+
 
   }
 
@@ -169,9 +199,8 @@ export default function MainForm({ apiKey, sessionUser }) {
     Cookies.set('create-formPage', page)
   }, [page])
 
-  if (!apiKey) return null;
 
-  if (newSpot.id) return (
+  if (createComplete) return (
     <Redirect push to={`/spots/current`} />
   )
 
@@ -185,7 +214,7 @@ export default function MainForm({ apiKey, sessionUser }) {
           <span className='main-create-form-title'>{FormTitles[page]}</span>
           <span className='main-create-form-sub-title'>{FormSubTitles[page]}</span>
           <div className='main-create-form-body'>
-            {PageDisplay(page, formData, setFormData, hasSubmitted, allErrors, apiKey)}
+            {PageDisplay(page, formData, setFormData, hasSubmitted, allErrors, newSpot)}
           </div>
         </div>
         <div className='main-create-form-validation-errors'>
@@ -207,7 +236,7 @@ export default function MainForm({ apiKey, sessionUser }) {
         <div className='main-create-button-container'>
           {page > 0 && <button onClick={goBack}>Back</button>}
           {page < FormTitles.length - 1 && <button onClick={onNext}>Next</button>}
-          {page === FormTitles.length - 1 && <button onClick={handleSubmit}>Publish</button>}
+          {page === FormTitles.length - 1 && <button onClick={handleImageSubmit}>Publish</button>}
         </div>
     </div>
   )
