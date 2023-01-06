@@ -46,7 +46,10 @@ export default function MainForm({ apiKey, sessionUser }) {
       guests: 2,
       bedrooms: 1,
       beds: 1,
-      bathrooms:1
+      bathrooms:1,
+      amenityBasic: {},
+      amenityStandout: {},
+      amenitySafety: {}
     }
   } else {
     existingFormData = JSON.parse(existingFormData)

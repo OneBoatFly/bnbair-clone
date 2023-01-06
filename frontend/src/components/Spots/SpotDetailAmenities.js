@@ -13,7 +13,7 @@ export default function SpotDetailAmenities({ spot }) {
           spotAmenities?.map((amenity, idx) => {
             if (idx < 5) {
               return (
-                <div key={`${amenity}-${idx}`} className='single-amenities-wrapper'>
+                <div key={`${amenity.type}-${idx}`} className='single-amenities-wrapper'>
                   <img src={amenity.url} alt='' />
                   <span className='amenityer-date'>{amenity.type}</span>
                 </div>
@@ -21,7 +21,7 @@ export default function SpotDetailAmenities({ spot }) {
             } else {
               return (
                 showAllAmenities &&
-                <div key={`${amenity}-${idx}`} className='single-amenities-wrapper'>
+                <div key={`${amenity.type}-${idx}`} className='single-amenities-wrapper'>
                   <img src={amenity.url} alt='' />
                   <span className='amenityer-date'>{amenity.type}</span>
                 </div>

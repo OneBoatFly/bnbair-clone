@@ -6,7 +6,43 @@ const { Spot, Review, SpotImage, User, ReviewImage, Booking, sequelize, AmenityB
 const { Op } = require('sequelize');
 const Moment = require('moment');
 const MomentRange = require('moment-range');
-const { AMENITIES, AMENITY_TYPES } = require('../../utils/amenities'); 
+const { AMENITIES, AMENITY_TYPES, AMENITIES_CLASSIFICATION } = require('../../utils/amenities'); 
+
+// get all amenities
+router.get('/amenities', async (req, res) => {
+    const amenityBasic = [];
+    const amenityStandout = [];
+    const amenitySafety = [];
+
+    const keys = Object.keys(AMENITIES)
+    // console.log(keys, '------------')
+    for (let i in keys) {
+        const key = keys[i]
+        if (i <= AMENITIES_CLASSIFICATION.basic) {
+            amenityBasic.push({
+                url: AMENITIES[key],
+                type: AMENITY_TYPES[key],
+                field: key
+            })
+        } else if (i <= AMENITIES_CLASSIFICATION.standout) {
+            amenityStandout.push({
+                url: AMENITIES[key],
+                type: AMENITY_TYPES[key],
+                field: key
+            })
+        } else {
+            amenitySafety.push({
+                url: AMENITIES[key],
+                type: AMENITY_TYPES[key],
+                field: key
+            })
+        }
+    }
+
+    const amenities = { amenityBasic, amenityStandout, amenitySafety }
+
+    res.json(amenities)
+})
 
 // get all spots owned by the current user
 router.get('/current', requireAuth, async (req, res) => {

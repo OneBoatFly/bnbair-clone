@@ -1,3 +1,5 @@
+// change this to a table
+
 const AMENITIES = {
     wifi: "https://firebasestorage.googleapis.com/v0/b/bnbair.appspot.com/o/anemities%2Fwifi.png?alt=media&token=94821998-9010-4170-8f9a-016edc6f4197",
     tv: 'https://firebasestorage.googleapis.com/v0/b/bnbair.appspot.com/o/anemities%2Ftv.png?alt=media&token=1c8eef7a-bdc3-4944-9ae3-db0c7b570718',
@@ -58,7 +60,14 @@ const AMENITY_TYPES = {
     co2Alarm: 'Carbon monoxide alarm'
 }
 
+AMENITIES_CLASSIFICATION = {
+    basic: 7,
+    standout: 21,
+}
+
+
 module.exports = {
     AMENITIES,
-    AMENITY_TYPES
+    AMENITY_TYPES,
+    AMENITIES_CLASSIFICATION
 }

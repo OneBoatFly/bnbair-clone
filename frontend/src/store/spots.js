@@ -9,6 +9,16 @@ const LOAD_OWNER_SPOTS = 'spots/ownerSpots';
 const REMOVE_OWNER_SPOTS = 'spots/removeOwnerSpots';
 const UNLOAD_SPOT_DETAIL = 'spots/unloadOneSpot';
 const LOAD_SPOT_BOOKINGS = 'spots/loadSpotBookings';
+const LOAD_AMENITIES = 'spots/loadAmenities';
+
+
+const loadAmenities = (amenities) => {
+    return {
+        type: LOAD_AMENITIES,
+        amenities
+    }
+};
+
 
 const loadSpots = (spots, page) => {
     return {
@@ -257,6 +267,24 @@ export const createSpotBooking = (spotId, dates) => async (dispatch) => {
 };
 
 
+export const getAmenities = () => async (dispatch) => {
+    // console.log('---------- getAmenities thunk ---------')
+    const response = await csrfFetch(`/api/spots/amenities`);
+    // console.log('---------- getAmenities response ------', response)
+    if (response.ok) {
+        const data = await response.json();
+        // console.log('getAmenities response.ok', data)
+
+        dispatch(loadAmenities(data));
+        return null
+    } else {
+        const data = await response.json();
+        // console.log('getSpotBookings error', data, "*******")
+        return data
+    }
+};
+
+
 const initalState = {};
 const spotsReducer = (state = initalState, action) => {
     // console.log(action)
@@ -300,6 +328,11 @@ const spotsReducer = (state = initalState, action) => {
         case LOAD_SPOT_BOOKINGS: {
             newState = { ...state }
             newState.spotBookings = action.bookings;
+            return newState
+        }
+        case LOAD_AMENITIES: {
+            newState = { ...state }
+            newState.amenities = action.amenities;
             return newState
         }
         default: {
