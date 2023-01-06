@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 import './MainForm.css';
 import Cookies from 'js-cookie';
 import * as spotsActions from '../../../store/spots';
@@ -14,10 +14,14 @@ export default function MainForm({ apiKey, sessionUser }) {
   const [descriptionErrors, setDescriptionErrors] = useState('');
   const [priceErrors, setPriceErrors] = useState('');
   const [geoError, setGeoError] = useState('');
+  const [imageErrors, setImageErrors] = useState('');
   const [validationErrors, setValidationErrors] = useState({});
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [newSpot, setNewSpot] = useState({});
+  const [imageUrlArr, setImageUrlArr] = useState([]);
   const [createComplete, setCreateComplete] = useState(false);
+  const spot = useSelector(state => state.spots.newSpot);
+  const history = useHistory();
 
   const allErrors = {
     addressErrors,
@@ -28,7 +32,8 @@ export default function MainForm({ apiKey, sessionUser }) {
     descriptionErrors,
     setDescriptionErrors,
     priceErrors,
-    setPriceErrors
+    setPriceErrors,
+    imageErrors,
   }
 
   let existingFormData = Cookies.get('create-formData');
@@ -115,11 +120,11 @@ export default function MainForm({ apiKey, sessionUser }) {
     }
 
     if (page === 0) checkAddress()
-    else if (page === 5) handleSpotSubmit()
     else goNext()
   }
 
-  const handleSpotSubmit = () => {
+  const dispatch = useDispatch();
+  const handleCreateSpot = () => {
     setHasSubmitted(true);
     if (addressErrors.length || titleErrors.length || descriptionErrors.length || priceErrors.length || geoError.length) {
       return;
@@ -128,12 +133,13 @@ export default function MainForm({ apiKey, sessionUser }) {
     dispatch(spotsActions.createOneSpot({ ...formData, state: formData.province }))
       .then((spot) => {
         setHasSubmitted(false);
-        // Cookies.remove('create-formPage');
-        // Cookies.remove('create-formData');
-        // setNewSpot(spot);
+        Cookies.remove('create-formPage');
+        Cookies.remove('create-formData');
+        setNewSpot(spot);
         dispatch(spotsActions.getOneSpot(spot.id));
         // dispatch(spotsActions.getOwnerSpots());
-        goNext();
+        // goNext();
+        history.push(`/spots/current`);
       })
       .catch(async (res) => {
         const data = await res.json();
@@ -180,15 +186,24 @@ export default function MainForm({ apiKey, sessionUser }) {
         }
       });
   }
+  
+  // const handlePublish = (e) => {
+  //   e.preventDefault();
+  //   setHasSubmitted(true);
+  //   // console.log('handleImageSubmit fired')
 
-  const dispatch = useDispatch();
-  const handleImageSubmit = (e) => {
-    e.preventDefault();
-    setHasSubmitted(true);
-    // console.log('handleImageSubmit fired')
+  //   if (!spot) {
+  //     console.log('no spot created, returned')
+  //     return;
+  //   }
 
+  //   if (spot.SpotImages?.length < 5) {
+  //     console.log('not enough images, returned')
+  //     return;
+  //   }
 
-  }
+  //   history.push(`/spots/current`);
+  // }
 
   useEffect(() => {
     if (!formData) return;
@@ -200,6 +215,12 @@ export default function MainForm({ apiKey, sessionUser }) {
     Cookies.set('create-formPage', page)
   }, [page])
 
+  useEffect(() => {
+    if (!spot) return;
+
+    const existingImages = spot.SpotImages || [];
+    setImageUrlArr(existingImages)
+  }, [dispatch, spot])
 
   if (createComplete) return (
     <Redirect push to={`/spots/current`} />
@@ -235,9 +256,10 @@ export default function MainForm({ apiKey, sessionUser }) {
         <div className='main-create-progress-bar' style={{ 'width': `${progressBar(page)*100}%`}}></div>
         </div>
         <div className='main-create-button-container'>
-          {page > 0 && <button onClick={goBack}>Back</button>}
-          {page < FormTitles.length - 1 && <button onClick={onNext}>Next</button>}
-          {page === FormTitles.length - 1 && <button onClick={handleImageSubmit}>Publish</button>}
+          {page > 0 && page !== 6 && <button className='main-create-button button-left' onClick={goBack}>Back</button>}
+          {page < FormTitles.length - 1 && page !== 5 && <button className='main-create-button button-right'  onClick={onNext}>Next</button>}
+          {page === 5 && <button className='main-create-button button-right' onClick={handleCreateSpot}>Create Spot</button>}
+          {/* {page === FormTitles.length - 1 && <button onClick={handlePublish}>Publish</button>} */}
         </div>
     </div>
   )

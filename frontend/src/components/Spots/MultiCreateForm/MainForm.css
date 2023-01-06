@@ -1,14 +1,67 @@
+.main-create-form-container {
+    max-width: 630px;
+    margin: 3rem auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.main-create-form-title {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: inherit
+}
+
+.main-create-form-sub-title {
+    font-size: 1.125rem;
+    margin-bottom: 2.75rem;
+    color: rgb(113, 113, 113)
+}
+
 .main-create-progress-bar-container {
     height: 6px;
     min-height: 6px;
     max-height: 6px;
     background-color: #DDDDDD;
-    width: 100%;
 }
 
 .main-create-progress-bar {
     height: 6px;
     min-height: 6px;
     max-height: 6px;
-    background-color: black;
+    background-color: rgb(34, 34, 34);
+}
+
+.main-create-button-container {
+    margin: 1rem 0;
+    height: 4rem;
+    position: relative;
+}
+
+.main-create-button {
+    cursor: pointer;
+    color: inherit;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 8px;
+}
+
+.main-create-button.button-left {
+    border: unset;
+    background-color: unset;
+    text-decoration: underline;
+    padding: 10px;
+}
+
+.main-create-button.button-left:hover {
+    background-color: #f7f7f7;
+}
+
+.main-create-button.button-right {
+    position: absolute;
+    right: 0;
+    border: rgb(34,34,34);
+    background-color: rgb(34, 34, 34);
+    color: white;
+    padding: 14px 28px;
 }

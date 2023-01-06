@@ -5,6 +5,7 @@ import { addImages } from './spotImages';
 const LOAD_SPOTS = 'spots/loadSpots';
 const LOAD_SPOTS_PAGINATION = 'spots/loadSpotsPagination'
 const LOAD_SPOT_DETAIL = 'spots/getOneSpot';
+const LOAD_NEW_SPOT = 'spots/loadNewSpot';
 const LOAD_OWNER_SPOTS = 'spots/ownerSpots';
 const REMOVE_OWNER_SPOTS = 'spots/removeOwnerSpots';
 const UNLOAD_SPOT_DETAIL = 'spots/unloadOneSpot';
@@ -24,6 +25,14 @@ const loadSpots = (spots, page) => {
     return {
         type: LOAD_SPOTS,
         payload: {spots, page}
+    }
+};
+
+
+const loadNewSpot = (spot) => {
+    return {
+        type: LOAD_NEW_SPOT,
+        spot
     }
 };
 
@@ -173,6 +182,7 @@ export const createOneSpot = (spotInfo) => async (dispatch) => {
     if (response.ok) {
         // console.log('-------------reached reponse ok-------------')
         const spot = await response.json();
+        dispatch(loadNewSpot(spot));
         dispatch(getOneSpot(spot.id));
         return spot;
     }
@@ -258,7 +268,7 @@ export const createSpotBooking = (spotId, dates) => async (dispatch) => {
     if (response.ok) {
         // console.log('-------------reached reponse ok-------------')
         const booking = await response.json();
-        console.log(booking);
+        // console.log(booking);
 
         dispatch(getOneSpot(spotId));
         dispatch(getSpotBookings(spotId));
@@ -333,6 +343,11 @@ const spotsReducer = (state = initalState, action) => {
         case LOAD_AMENITIES: {
             newState = { ...state }
             newState.amenities = action.amenities;
+            return newState
+        }
+        case LOAD_NEW_SPOT: {
+            newState = { ...state }
+            newState.newSpot = action.spot;
             return newState
         }
         default: {

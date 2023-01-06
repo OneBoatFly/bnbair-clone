@@ -7,10 +7,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as spotIamgesActions from '../../../store/spotImages';
 import MyButton from '../../FormElements/MyButton';
 
-export default function MultiImages() {
+import './MultiImages.css';
+
+export default function MultiImages({ hasSubmitted, imageErrors }) {
   const inputRef = useRef(null);
   const dispatch = useDispatch();
-  const spot = useSelector(state => state.spots.spotDetails);
+  const spot = useSelector(state => state.spots.newSpot);
   const [imageUrlArr, setImageUrlArr] = useState([]);
   const [imageUpload, setImageUpload] = useState([]);
   const [error, setError] = useState('');
@@ -117,6 +119,7 @@ export default function MultiImages() {
     setImageUrlArr(existingImages)
   }, [dispatch, spot])
 
+
   // console.log('------- imageUpload', imageUpload)
   // console.log('------- imageUrlArr', imageUrlArr)
   // console.log('------- success', success)
@@ -135,6 +138,13 @@ export default function MultiImages() {
             <span className='error-messages'>{error}</span>
           </div>
         }
+        {/* imageErrors */}
+        {hasSubmitted && imageErrors.length > 0 &&
+          <div className='error-messages-wrapper'>
+            <i className="fa-sharp fa-solid fa-circle-exclamation"></i>
+            <span className='error-messages'>{imageErrors}</span>
+          </div>
+        }        
         <div className='image-upload-button' onClick={handleSubmit}>
           <MyButton name='Upload' ></MyButton>
         </div>
@@ -159,7 +169,7 @@ export default function MultiImages() {
             handleSelect(e)
           }}
         />
-        <button className='image-input-button' onClick={() => inputRef.current.click()}>Select Photos</button>
+        <span className='upload-from-device' onClick={() => inputRef.current.click()}>Upload from your device</span>
       </div>
       <div className='image-upload-photos'>
         <div className='image-upload-photos-sub'>
