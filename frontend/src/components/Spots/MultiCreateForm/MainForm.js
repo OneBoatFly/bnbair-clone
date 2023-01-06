@@ -82,12 +82,14 @@ export default function MainForm({ apiKey, sessionUser }) {
   }
 
   const checkAddress = () => {
+    let countryWCode = formData.country?.split(' - ');
+    
     dispatch(validateAddress(apiKey, {
       address: formData.address, 
       city: formData.city,  
       province: formData.province, 
       zipCode: formData.zipCode,  
-      country: formData.country, 
+      country: countryWCode[1], 
     })).then((result) => {
       // console.log('dispatch address validation.then---')
       // console.log(result.geocode.location) // {latitude: 47.7362009, longitude: -122.1700787}
@@ -100,7 +102,7 @@ export default function MainForm({ apiKey, sessionUser }) {
           address: result.address.postalAddress.addressLines[0],
           city: result.address.postalAddress.locality,
           province: result.address.postalAddress.administrativeArea,
-          country: result.address.postalAddress.regionCode,           
+          // country: result.address.postalAddress.regionCode,           
         })
 
     }).then(() => {
@@ -130,7 +132,9 @@ export default function MainForm({ apiKey, sessionUser }) {
       return;
     }
 
-    dispatch(spotsActions.createOneSpot({ ...formData, state: formData.province }))
+    let countryWCode = formData.country?.split(' - ');
+    console.log('countryWCode', countryWCode)
+    dispatch(spotsActions.createOneSpot({ ...formData, state: formData.province, country: countryWCode[0] }))
       .then((spot) => {
         setHasSubmitted(false);
         Cookies.remove('create-formPage');

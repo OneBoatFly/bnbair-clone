@@ -1,9 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { handleLabelSmall, handleLabelBig, handleDivBottomBorder, handleDivBottomBorderOut } from '../../styles';
+import './MultiAddress.css';
 
+const countryCodes = require('country-codes-list');
 
 export default function MultiAddress({ formData, setFormData, hasSubmitted, addressErrors, setAddressErrors, geoError }) {
-
+  const myCountryCodesObject = countryCodes.customList('countryCode', '{countryNameEn} - {countryCode}')
+  const myCountryCodesArr = Object.values(myCountryCodesObject);
 
   // css related //
   const streetLabel = useRef(null);
@@ -61,6 +64,7 @@ export default function MultiAddress({ formData, setFormData, hasSubmitted, addr
     }
 
   }, [formData.address, formData.city, formData.province, formData.country, setAddressErrors]);
+  console.log(formData)
 
   if (!formData) return null;
 
@@ -120,14 +124,32 @@ export default function MultiAddress({ formData, setFormData, hasSubmitted, addr
         }}>
           <div className='create-spot-country' onFocus={() => handleLabelSmall(countryLabel)} onBlur={() => handleLabelBig(countryLabel, countryInput)}>
             <div className='label-div' ref={countryLabel}>
-              <label htmlFor='country'>Country</label>
+              <label htmlFor='country'>Country / Region</label>
             </div>
-            <div className='input-div' ref={countryInput}>
-              <input type='text' id="country" value={formData.country} onChange={(e) => setFormData({ ...formData, country: e.target.value })} />
+            <div className='input-div multi-create-country-input-div' ref={countryInput}>
+              <select 
+                name='country'
+                id='country'
+                defaultValue={'United States of America - US' || 'Select'}
+                value={formData.country}
+                className='multi-form-country-select'
+                onChange={(e) => setFormData({ ...formData, country: e.target.value })}
+              >
+                {myCountryCodesArr?.map(countryWCode => {
+                  return (
+                    <option key={countryWCode} value={countryWCode}>
+                      {countryWCode}
+                    </option>
+                  )
+                })}
+              </select>
             </div>
           </div>
         </div>
+
       </div>
+
+
       {hasSubmitted && addressErrors.map((err, idx) => {
         return (
           <div key={idx} className='error-messages-wrapper'>
