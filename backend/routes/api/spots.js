@@ -44,6 +44,60 @@ router.get('/amenities', async (req, res) => {
     res.json(amenities)
 })
 
+
+// update spot amenities
+router.put('/:spotId/amenities', async (req, res, next) => {
+    const { amenityBasic } = req.body;
+    const { amenityStandout } = req.body;
+    const { amenitySafety } = req.body;
+    const keys = Object.keys(AMENITIES);
+
+    // console.log('-------- req.params.spotId -----------', req.params.spotId)
+    const spot = await Spot.findByPk(req.params.spotId);
+    if (!spot) {
+        const err = new Error("Spot couldn't be found");
+        err.status = 404;
+        next(err);
+    } else {
+        if (spot.ownerId == req.user.id) {
+            // make the updates
+
+            for (let i in keys) {
+                const key = keys[i]
+                if (i <= AMENITIES_CLASSIFICATION.basic && !amenityBasic.hasOwnProperty(key)) {
+                    amenityBasic[key] = false;
+                } else if (i <= AMENITIES_CLASSIFICATION.standout && !amenityStandout.hasOwnProperty(key)) {
+                    amenityStandout[key] = false;
+                } else if (!amenitySafety.hasOwnProperty(key)) {
+                    amenitySafety[key] = false;
+                }
+            }
+
+            // console.log('--------------------')
+            // console.log(amenityBasic)
+            // console.log(amenityStandout)
+            // console.log(amenitySafety)
+            const amenityBasicInstance = await AmenityBasic.findByPk(req.params.spotId);
+            await amenityBasicInstance.update({ ...amenityBasic });
+
+            const amenityStandoutInstance = await AmenityStandout.findByPk(req.params.spotId);
+            await amenityStandoutInstance.update({ ...amenityStandout });
+
+            const amenitySafetyInstance = await AmenitySafety.findByPk(req.params.spotId);
+            await amenitySafetyInstance.update({ ...amenitySafety });
+
+            res.json(spot);
+        } else {
+            const err = new Error('Unauthorized');
+            err.title = 'Unauthorized';
+            err.errors = ['Unauthorized'];
+            err.status = 403;
+            return next(err);
+        }
+    }
+})
+
+
 // get all spots owned by the current user
 router.get('/current', requireAuth, async (req, res) => {
     const spots = await Spot.findAll({
@@ -398,6 +452,8 @@ router.get('/', validateQuery, async (req, res, next) => {
         attributes: [[sequelize.fn('COUNT', sequelize.col('id')), 'totalNumSpots']],
     });
 
+    where.isPublished = true;
+
     // console.log(totalSpots[0].toJSON())
     const spots = await Spot.findAll({ where, limit: size, offset, order: ['id'] });
 
@@ -543,7 +599,8 @@ router.post('/', requireAuth, validateSpot, async (req, res, next) => {
 // edit a spot
 // need to confirm if i should assume body must include all attributes
 router.put('/:spotId', requireAuth, validateSpot, async (req, res, next) => {
-    const { address, city, state, country, lat, lng, name, description, price } = req.body;
+    const { address, city, state, country, lat, lng, name, description, price, guests, bedrooms, bathrooms, beds } = req.body;
+
     const spot = await Spot.findByPk(req.params.spotId);
     if (!spot) {
         const err = new Error("Spot couldn't be found");
@@ -552,7 +609,8 @@ router.put('/:spotId', requireAuth, validateSpot, async (req, res, next) => {
     } else {
         if (spot.ownerId == req.user.id) {
             // make the updates
-            const updatedSpot = await spot.update({ address, city, state, country, lat, lng, name, description, price });
+            const updatedSpot = await spot.update({ address, city, state, country, lat, lng, name, description, price, guests, bedrooms, bathrooms, beds });
+            
             res.json(updatedSpot);
         } else {
             const err = new Error('Unauthorized');
@@ -563,6 +621,31 @@ router.put('/:spotId', requireAuth, validateSpot, async (req, res, next) => {
         }
     }
 });
+
+
+// edit a spot - PATCH isPublished only
+router.patch('/:spotId', requireAuth, async (req, res, next) => {
+    const { isPublished } = req.body;
+
+    const spot = await Spot.findByPk(req.params.spotId);
+    if (!spot) {
+        const err = new Error("Spot couldn't be found");
+        err.status = 404;
+        next(err);
+    } else {
+        if (spot.ownerId == req.user.id) {
+            // make the updates
+            const updatedSpot = await spot.update({ isPublished });
+            res.json(updatedSpot);
+        } else {
+            const err = new Error('Unauthorized');
+            err.title = 'Unauthorized';
+            err.errors = ['Unauthorized'];
+            err.status = 403;
+            return next(err);
+        }
+    }
+})
 
 // delete a spot
 router.delete('/:spotId', requireAuth, async (req, res, next) => {

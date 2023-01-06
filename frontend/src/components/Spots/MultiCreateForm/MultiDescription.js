@@ -1,7 +1,11 @@
 import React, { useEffect } from 'react'
 
 export default function MultiDescription({ formData, setFormData, hasSubmitted, descriptionErrors, setDescriptionErrors }) {
-
+  useEffect(() => {
+    if (formData.description === 'Unpublished') {
+      setFormData({ ...formData, description: '' })
+    }
+  }, [])
 
   useEffect(() => {
     if (!formData.description.length) setDescriptionErrors('Description is required.');

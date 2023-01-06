@@ -128,7 +128,12 @@ module.exports = (sequelize, DataTypes) => {
         min: 0.5,
         max: 50
       }
-    }    
+    },
+    isPublished: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false
+    },  
   }, {
     sequelize,
     modelName: 'Spot',

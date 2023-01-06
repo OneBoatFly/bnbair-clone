@@ -64,7 +64,6 @@ export default function MultiAddress({ formData, setFormData, hasSubmitted, addr
     }
 
   }, [formData.address, formData.city, formData.province, formData.country, setAddressErrors]);
-  console.log(formData)
 
   if (!formData) return null;
 

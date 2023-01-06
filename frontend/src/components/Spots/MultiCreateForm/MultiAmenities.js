@@ -4,12 +4,8 @@ import { getAmenities } from '../../../store/spots';
 import './MultiAmenities.css';
 
 export default function MultiAmenities({ formData, setFormData }) {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const amenities = useSelector(state => state.spots.amenities);
-
-  useEffect(() => {
-    dispatch(getAmenities())
-  }, [dispatch])
 
   const clickBasic = (field) => {
     const currentFormData = {...formData};

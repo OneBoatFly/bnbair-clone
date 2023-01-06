@@ -182,7 +182,7 @@ export const createOneSpot = (spotInfo) => async (dispatch) => {
     if (response.ok) {
         // console.log('-------------reached reponse ok-------------')
         const spot = await response.json();
-        dispatch(loadNewSpot(spot));
+        // dispatch(loadNewSpot(spot));
         dispatch(getOneSpot(spot.id));
         return spot;
     }
@@ -291,6 +291,24 @@ export const getAmenities = () => async (dispatch) => {
         const data = await response.json();
         // console.log('getSpotBookings error', data, "*******")
         return data
+    }
+};
+
+
+export const updateSpotAmenities = (spotInfo, spotId) => async (dispatch) => {
+    console.log('----------updateSpotAmenities thunk----------')
+    const options = {
+        method: 'PUT',
+        body: JSON.stringify(spotInfo)
+    };
+
+    const response = await csrfFetch(`/api/spots/${spotId}/amenities`, options);
+
+    if (response.ok) {
+        console.log('-------------updateSpotAmenities reponse ok-------------')
+        const spot = await response.json();
+        dispatch(getOneSpot(spot.id));
+        return spot;
     }
 };
 

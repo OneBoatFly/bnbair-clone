@@ -9,10 +9,10 @@ import MyButton from '../../FormElements/MyButton';
 
 import './MultiImages.css';
 
-export default function MultiImages({ hasSubmitted, imageErrors }) {
+export default function MultiImages({ formData }) {
   const inputRef = useRef(null);
   const dispatch = useDispatch();
-  const spot = useSelector(state => state.spots.newSpot);
+  let spot = useSelector(state => state.spots.spotDetails);
   const [imageUrlArr, setImageUrlArr] = useState([]);
   const [imageUpload, setImageUpload] = useState([]);
   const [error, setError] = useState('');
@@ -67,7 +67,7 @@ export default function MultiImages({ hasSubmitted, imageErrors }) {
     }
 
     imageUpload.forEach((image, idx) => {
-      const imageRef = ref(storage, `spots/${spot.id}/${image.name + v4()}`)
+      const imageRef = ref(storage, `spots/${formData.spotId}/${image.name + v4()}`)
       uploadBytes(imageRef, image)
         .then((snapshot) => {
           const allTimeArr = [...imageUrlArr];
@@ -79,7 +79,7 @@ export default function MultiImages({ hasSubmitted, imageErrors }) {
             dispatch(spotIamgesActions.addImages({
               url: url,
               preview: isPreview
-            }, spot.id)).then(() => {
+            }, formData.spotId)).then(() => {
               setShowSuccess(true)
               setTimeout(() => {
                 setShowSuccess(false)
@@ -99,12 +99,12 @@ export default function MultiImages({ hasSubmitted, imageErrors }) {
     if (img.id && img.url.includes('firebase')) {
       const imageRef = ref(storage, img.url)
       deleteObject(imageRef).then(() => {
-        dispatch(spotIamgesActions.deleteImage(img.id, spot.id))
+        dispatch(spotIamgesActions.deleteImage(img.id, formData.spotId))
       }).catch((e) => {
         setError(e.code)
       })
     } else if (img.id) {
-      dispatch(spotIamgesActions.deleteImage(img.id, spot.id))
+      dispatch(spotIamgesActions.deleteImage(img.id, formData.spotId))
     } else {
       const currentUrlArr = [...imageUrlArr];
       currentUrlArr.splice(idx, 1)
@@ -118,6 +118,10 @@ export default function MultiImages({ hasSubmitted, imageErrors }) {
     const existingImages = spot.SpotImages || [];
     setImageUrlArr(existingImages)
   }, [dispatch, spot])
+
+  // useEffect(() => {
+
+  // }, [imageUrlArr])
 
 
   // console.log('------- imageUpload', imageUpload)
@@ -137,14 +141,7 @@ export default function MultiImages({ hasSubmitted, imageErrors }) {
             <i className="fa-sharp fa-solid fa-circle-exclamation"></i>
             <span className='error-messages'>{error}</span>
           </div>
-        }
-        {/* imageErrors */}
-        {hasSubmitted && imageErrors.length > 0 &&
-          <div className='error-messages-wrapper'>
-            <i className="fa-sharp fa-solid fa-circle-exclamation"></i>
-            <span className='error-messages'>{imageErrors}</span>
-          </div>
-        }        
+        }       
         <div className='image-upload-button' onClick={handleSubmit}>
           <MyButton name='Upload' ></MyButton>
         </div>
@@ -165,6 +162,9 @@ export default function MultiImages({ hasSubmitted, imageErrors }) {
           accept="image/webp image/png image/jpeg"
           multiple
           ref={inputRef}
+          onClick={(e) => {
+            e.target.value = null
+          }}
           onChange={(e) => {
             handleSelect(e)
           }}

@@ -2,6 +2,11 @@ import React, { useEffect } from 'react';
 import './MultiTitle.css';
 
 export default function MultiTitle({ formData, setFormData, hasSubmitted, titleErrors, setTitleErrors }) {
+  useEffect(() => {
+    if (formData.name === 'Unpublished') {
+      setFormData({ ...formData, name:''})
+    }
+  }, [])
 
   useEffect(() => {
     if (!formData.name.length) setTitleErrors('Title is required.');

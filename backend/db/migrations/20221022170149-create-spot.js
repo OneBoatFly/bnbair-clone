@@ -72,7 +72,12 @@ module.exports = {
         type: Sequelize.DECIMAL,
         allowNull: false,
         defaultValue: 1
-      },      
+      },
+      isPublished: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
+      }, 
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

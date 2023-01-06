@@ -65,3 +65,7 @@
     color: white;
     padding: 14px 28px;
 }
+
+.main-create-form-validation-errors {
+    margin-bottom: 1rem;
+}

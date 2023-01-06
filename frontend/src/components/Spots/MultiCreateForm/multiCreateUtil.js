@@ -14,7 +14,7 @@ export const FormTitles = [
     "Now, let's give your house a title",
     'Create your description',
     'Now, set your price',
-    // 'Add some photos of your house',
+    'Add some photos of your house',
     // 'Yay! It’s time to publish.'
 ]
 
@@ -25,7 +25,7 @@ export const FormSubTitles = [
     "Short titles work best. Have fun with it—you can always change it later.",
     "Share what makes your place special.",
     "You can change it anytime.",
-    // "You'll need 5 photos to get started. You can add more or make changes later.",
+    "You'll need 5 photos to get started. You can add more or make changes later.",
     // "Here's what we'll show to guests. Before you publish, make sure to review the details."
 ]
 
@@ -50,7 +50,7 @@ export const PageDisplay = (page, formData, setFormData, hasSubmitted, allErrors
         case 3: return <MultiTitle formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} titleErrors={allErrors.titleErrors} setTitleErrors={allErrors.setTitleErrors} />
         case 4: return <MultiDescription formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} descriptionErrors={allErrors.descriptionErrors} setDescriptionErrors={allErrors.setDescriptionErrors} />
         case 5: return <MultiPrice formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} priceErrors={allErrors.priceErrors} setPriceErrors={allErrors.setPriceErrors} />
-        // case 6: return <MultiImages hasSubmitted={hasSubmitted} imageErrors={allErrors.imageErrors}/>
+        case 6: return <MultiImages formData={formData} />
         // case 7: return <MultiPublish formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} addressErrors={allErrors.addressErrors} setPriceErrors={allErrors.setPriceErrors}/>
         default: return null
     }
@@ -74,8 +74,8 @@ export const checkInput = (page, allErrors) => {
         case 5:
             if (allErrors.priceErrors.length) return false;
             else return true;        
-        // case 6:
-        //     return true;
+        case 6:
+            return true;
         // case 7:
         //     if (allErrors.addressErrors.length || allErrors.titleErrors.length || allErrors.descriptionErrors.length || allErrors.priceErrors.length) return false;
         //     else return true;
