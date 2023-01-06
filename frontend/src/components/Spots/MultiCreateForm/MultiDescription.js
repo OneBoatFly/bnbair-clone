@@ -9,7 +9,7 @@ export default function MultiDescription({ formData, setFormData, hasSubmitted, 
     else setDescriptionErrors('');
   }, [formData.description, setDescriptionErrors])
 
-  console.log('descriptionErrors', descriptionErrors)
+  // console.log('descriptionErrors', descriptionErrors)
 
   if (!formData) return null;
 

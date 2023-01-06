@@ -3,6 +3,7 @@ import './MultiRooms.css';
 
 export default function MultiRooms({ formData, setFormData }) {
 
+  console.log('formData', formData)
   if (!formData) return null;
   return (
     <div className='multi-create-rooms'>
@@ -26,9 +27,9 @@ export default function MultiRooms({ formData, setFormData }) {
       <div className='multi-create-rooms-single-div'>
         <span>Bedrooms</span>
         <div className='multi-create-rooms-toggle-div'>
-          <i className={`fa-solid fa-minus multi-create-toggle-icon ${formData.bedrooms === 0 && 'toggle-disabled'}`}
+          <i className={`fa-solid fa-minus multi-create-toggle-icon ${formData.bedrooms === 1 && 'toggle-disabled'}`}
             onClick={() => {
-              if (formData.bedrooms <= 0) return;
+              if (formData.bedrooms <= 1) return;
               setFormData({ ...formData, bedrooms: formData.bedrooms - 1 })
             }} />
           <span className="multi-create-rooms-number">{formData.bedrooms}</span>

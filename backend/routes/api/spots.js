@@ -479,9 +479,9 @@ const validateSpot = [
     check('guests', 'Allow guest number from 1 to 16.')
         .exists({ checkFalsy: true })
         .isInt({min: 1, max: 16}),
-    check('bedrooms', 'Allow bedrooms number from 0 to 50.')
+    check('bedrooms', 'Allow bedrooms number from 1 to 50.')
         .exists({ checkFalsy: true })
-        .isInt({ min: 0, max: 50 }),
+        .isInt({ min: 1, max: 50 }),
     check('beds', 'Allow beds number from 1 to 16.')
         .exists({ checkFalsy: true })
         .isInt({ min: 1, max: 16 }),

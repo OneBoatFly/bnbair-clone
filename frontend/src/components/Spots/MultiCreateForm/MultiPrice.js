@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from 'react';
+import "./MultiPrice.css";
 
 export default function MultiPrice({ formData, setFormData, hasSubmitted, priceErrors, setPriceErrors }) {
 
@@ -20,7 +21,7 @@ export default function MultiPrice({ formData, setFormData, hasSubmitted, priceE
   return (
     <div className='multi-create-price'>
       <div className='create-spot'>
-        <i className={`fa-solid fa-minus ${formData.price === 10 && 'toggle-disabled'} multt-create-price-toggle`}
+        <i className={`fa-solid fa-minus ${formData.price < 10 && 'toggle-disabled'} multt-create-price-toggle`}
           onClick={() => {
             if (formData.price <= 10) return;
             setFormData({ ...formData, price: parseFloat(formData.price) - 5 })
@@ -28,7 +29,9 @@ export default function MultiPrice({ formData, setFormData, hasSubmitted, priceE
 
         <div className='outline-wrapper price-wrapper'>
           <div className='create-spot-price' style={{ display: 'flex' }}>
-            <span>$</span><input type='text' id="price" value={formData.price} onChange={(e) => setFormData({ ...formData, price: e.target.value })} onKeyDown={handleKeyDown} />
+            {/* <span>$</span> */}
+            <input type='text' id="price" value={formData.price} onChange={(e) => setFormData({ ...formData, price: e.target.value })} onKeyDown={handleKeyDown} />
+            {/* <span className='multi-create-price-invisible'>$</span> */}
           </div>
         </div>
 
@@ -38,6 +41,7 @@ export default function MultiPrice({ formData, setFormData, hasSubmitted, priceE
             setFormData({ ...formData, price: parseFloat(formData.price) + 5 })
           }} />
       </div>
+      <span className='multi-create-price-span'>per night</span>
 
       {priceErrors.length > 0 &&
         <div className='error-messages-wrapper'>
