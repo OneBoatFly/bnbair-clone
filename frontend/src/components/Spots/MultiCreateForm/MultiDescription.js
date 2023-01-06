@@ -9,6 +9,8 @@ export default function MultiDescription({ formData, setFormData, hasSubmitted, 
     else setDescriptionErrors('');
   }, [formData.description, setDescriptionErrors])
 
+  console.log('descriptionErrors', descriptionErrors)
+
   if (!formData) return null;
 
   return (
@@ -20,7 +22,7 @@ export default function MultiDescription({ formData, setFormData, hasSubmitted, 
           </div>
         </div>
       </div>
-      {hasSubmitted && descriptionErrors &&
+      {descriptionErrors.length > 0 &&
         <div className='error-messages-wrapper'>
           <i className="fa-sharp fa-solid fa-circle-exclamation"></i>
           <span className='error-messages'>{descriptionErrors}</span>

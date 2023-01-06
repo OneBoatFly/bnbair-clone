@@ -47,9 +47,9 @@ export const PageDisplay = (page, formData, setFormData, hasSubmitted, allErrors
         case 0: return <MultiAddress formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} addressErrors={allErrors.addressErrors} setAddressErrors={allErrors.setAddressErrors} geoError={allErrors.geoError} />
         case 1: return <MultiRooms formData={formData} setFormData={setFormData} />
         case 2: return <MultiAmenities formData={formData} setFormData={setFormData} />
-        case 3: return <MultiPrice formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} priceErrors={allErrors.priceErrors} setPriceErrors={allErrors.setPriceErrors} />
-        case 4: return <MultiTitle formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} titleErrors={allErrors.titleErrors} setTitleErrors={allErrors.setTitleErrors} />
-        case 5: return <MultiDescription formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} descriptionErrors={allErrors.descriptionErrors} setDescriptionErrors={allErrors.setDescriptionErrors} />
+        case 3: return <MultiTitle formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} titleErrors={allErrors.titleErrors} setTitleErrors={allErrors.setTitleErrors} />
+        case 4: return <MultiDescription formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} descriptionErrors={allErrors.descriptionErrors} setDescriptionErrors={allErrors.setDescriptionErrors} />
+        case 5: return <MultiPrice formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} priceErrors={allErrors.priceErrors} setPriceErrors={allErrors.setPriceErrors} />
         // case 6: return <MultiImages hasSubmitted={hasSubmitted} imageErrors={allErrors.imageErrors}/>
         // case 7: return <MultiPublish formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} addressErrors={allErrors.addressErrors} setPriceErrors={allErrors.setPriceErrors}/>
         default: return null
@@ -66,14 +66,14 @@ export const checkInput = (page, allErrors) => {
         case 2:
             return true;
         case 3:
-            if (allErrors.priceErrors.length) return false;
-            else return true;        
-        case 4:
             if (allErrors.titleErrors.length) return false;
             else return true;
-        case 5:
+        case 4:
             if (allErrors.descriptionErrors.length) return false;
             else return true;
+        case 5:
+            if (allErrors.priceErrors.length) return false;
+            else return true;        
         // case 6:
         //     return true;
         // case 7:

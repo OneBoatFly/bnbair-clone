@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from 'react';
+import './MultiTitle.css';
 
 export default function MultiTitle({ formData, setFormData, hasSubmitted, titleErrors, setTitleErrors }) {
 
   useEffect(() => {
     if (!formData.name.length) setTitleErrors('Title is required.');
-    else if (formData.name.length > 50) setTitleErrors('Title must be less than 50 characters.');
+    else if (formData.name.length > 32) setTitleErrors('Title must be less than 32 characters.');
     else setTitleErrors('');
   }, [formData.name, setTitleErrors])
 
@@ -13,9 +14,9 @@ export default function MultiTitle({ formData, setFormData, hasSubmitted, titleE
   return (
     <div className='multi-create-title'>
       <div className='create-spot '>
-        <div className='outline-wrapper name-wrapper'>
+        <div className='outline-wrapper name-wrapper multi-create-title-spot-name'>
           <div className='create-spot-name'>
-            <input type='text' placeholder="An Aawesome Place" id="name" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} />
+            <textarea placeholder="An Aawesome Place" id="name" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} />
           </div>
         </div>
       </div>

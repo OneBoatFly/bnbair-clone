@@ -1,0 +1,16 @@
+.multi-create-title-spot-name {
+    height: 144px;
+    box-sizing: border-box;
+}
+
+.create-spot-name {
+    height: 120px;
+}
+
+.create-spot-name textarea {
+    height: 100%;
+}
+
+.create-spot-name:focus-within {
+    border: unset;
+}
