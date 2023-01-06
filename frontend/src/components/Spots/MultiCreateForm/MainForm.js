@@ -7,6 +7,7 @@ import * as spotsActions from '../../../store/spots';
 
 import { FormTitles, FormSubTitles, progressBar, PageDisplay, checkInput} from './multiCreateUtil';
 import { validateAddress } from '../../../store/maps';
+import { csrfFetch } from '../../../store/csrf';
 
 export default function MainForm({ apiKey, sessionUser }) {
   const [addressErrors, setAddressErrors] = useState([]);
@@ -277,7 +278,7 @@ export default function MainForm({ apiKey, sessionUser }) {
   }
 
 
-  const handlePublish = (e) => {
+  const handlePublish = async (e) => {
     e.preventDefault();
     setHasSubmitted(true);
     console.log('handlePublish fired', spot)
@@ -294,8 +295,24 @@ export default function MainForm({ apiKey, sessionUser }) {
       return;
     }
 
+    const options = {
+      method: 'PATCH',
+      body: JSON.stringify({isPublished: true})
+    };
+
+    const response = await csrfFetch(`/api/spots/${spot.id}`, options);
+
+    if (response.ok) {
+      console.log('change to publish success')
+      history.push(`/spots/current`);
+    } else {
+      const data = await response.json();
+      if (data && data.errors) {
+        setValidationErrors({ ...validationErrors, isPublished: data.errors})
+      }
+    }
+
     // setCreateComplete(true);
-    // history.push(`/spots/current`);
   }
 
   const onNext = () => {
@@ -337,9 +354,9 @@ export default function MainForm({ apiKey, sessionUser }) {
 
   console.log('MainForm --- formData', formData)
 
-  if (createComplete) return (
-    <Redirect push to={`/spots/current`} />
-  )
+  // if (createComplete) return (
+  //   <Redirect push to={`/spots/current`} />
+  // )
 
   // if (!sessionUser) return (
   //   <Redirect to='/' />
