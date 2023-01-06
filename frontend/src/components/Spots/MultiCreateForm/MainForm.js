@@ -130,8 +130,9 @@ export default function MainForm({ apiKey, sessionUser }) {
         setHasSubmitted(false);
         // Cookies.remove('create-formPage');
         // Cookies.remove('create-formData');
-        setNewSpot(spot);
-        dispatch(spotsActions.getOwnerSpots());
+        // setNewSpot(spot);
+        dispatch(spotsActions.getOneSpot(spot.id));
+        // dispatch(spotsActions.getOwnerSpots());
         goNext();
       })
       .catch(async (res) => {

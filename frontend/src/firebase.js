@@ -16,9 +16,9 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-initializeAppCheck(app, {
-    provider: new ReCaptchaV3Provider('6Ldsv9MjAAAAAL04HVRKIPXq_gtz_UweQYXX4MRvQQQ'),
-    // isTokenAutoRefreshEnabled: true
-});
+// initializeAppCheck(app, {
+//     provider: new ReCaptchaV3Provider('6Ldsv9MjAAAAAL04HVRKIPXq_gtz_UweQYXX4MRvQQQ'),
+//     // isTokenAutoRefreshEnabled: true
+// });
 
 export const storage = getStorage(app)

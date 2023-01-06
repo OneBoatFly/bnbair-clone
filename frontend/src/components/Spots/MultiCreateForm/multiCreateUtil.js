@@ -40,7 +40,7 @@ export const progressBar = (page) => {
 }
 
 
-export const PageDisplay = (page, formData, setFormData, hasSubmitted, allErrors, newSpot) => {
+export const PageDisplay = (page, formData, setFormData, hasSubmitted, allErrors) => {
     // console.log(apiKey, formData, setFormData)
     // 
     switch (page) {
@@ -50,7 +50,7 @@ export const PageDisplay = (page, formData, setFormData, hasSubmitted, allErrors
         case 3: return <MultiPrice formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} priceErrors={allErrors.priceErrors} setPriceErrors={allErrors.setPriceErrors} />
         case 4: return <MultiTitle formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} titleErrors={allErrors.titleErrors} setTitleErrors={allErrors.setTitleErrors} />
         case 5: return <MultiDescription formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} descriptionErrors={allErrors.descriptionErrors} setDescriptionErrors={allErrors.setDescriptionErrors} />
-        case 6: return <MultiImages formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} addressErrors={allErrors.addressErrors} setAddressErrors={allErrors.setAddressErrors} newSpot={newSpot}/>
+        case 6: return <MultiImages formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} addressErrors={allErrors.addressErrors} setAddressErrors={allErrors.setAddressErrors}/>
         case 7: return <MultiPublish formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} addressErrors={allErrors.addressErrors} setPriceErrors={allErrors.setPriceErrors}/>
         default: return null
     }
