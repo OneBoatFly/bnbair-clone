@@ -62,7 +62,7 @@ export default function MultiAmenities({ formData, setFormData }) {
 
               return (
                 <div key={`${amenity.field}`} 
-                  className={`multi-create-rooms-single-div ${divSelected ? 'amenity-selected' : ''}`} 
+                  className={`multi-create-amenities-single-div ${divSelected ? 'amenity-selected' : ''}`} 
                   onClick={() => clickBasic(amenity.field)}>
                   <img src={amenity.url} alt='' />
                   <span className='amenityer-date'>{amenity.type}</span>
@@ -78,7 +78,7 @@ export default function MultiAmenities({ formData, setFormData }) {
 
               return (
                 <div key={`${amenity.field}`}
-                  className={`multi-create-rooms-single-div ${divSelected ? 'amenity-selected' : ''}`}
+                  className={`multi-create-amenities-single-div ${divSelected ? 'amenity-selected' : ''}`}
                   onClick={() => clickStandout(amenity.field)}>
                   <img src={amenity.url} alt='' />
                   <span className='amenityer-date'>{amenity.type}</span>
@@ -94,7 +94,7 @@ export default function MultiAmenities({ formData, setFormData }) {
 
               return (
                 <div key={`${amenity.field}`}
-                  className={`multi-create-rooms-single-div ${divSelected ? 'amenity-selected' : ''}`}
+                  className={`multi-create-amenities-single-div ${divSelected ? 'amenity-selected' : ''}`}
                   onClick={() => clickSafety(amenity.field)}>
                   <img src={amenity.url} alt='' />
                   <span className='amenityer-date'>{amenity.type}</span>
