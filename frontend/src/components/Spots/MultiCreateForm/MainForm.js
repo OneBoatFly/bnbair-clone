@@ -48,7 +48,8 @@ export default function MainForm({ apiKey, sessionUser }) {
       lat: 0,
       lng: 0,
       description: '',
-      price: 4500,
+      price: '$4500',
+      realPrice: 4500,
       guests: 2,
       bedrooms: 1,
       beds: 1,
@@ -132,9 +133,8 @@ export default function MainForm({ apiKey, sessionUser }) {
       return;
     }
 
-    let countryWCode = formData.country?.split(' - ');
-    console.log('countryWCode', countryWCode)
-    dispatch(spotsActions.createOneSpot({ ...formData, state: formData.province, country: countryWCode[0] }))
+    const countryWCode = formData.country?.split(' - ');
+    dispatch(spotsActions.createOneSpot({ ...formData, state: formData.province, country: countryWCode[0], price: formData.realPrice }))
       .then((spot) => {
         setHasSubmitted(false);
         Cookies.remove('create-formPage');

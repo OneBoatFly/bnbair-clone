@@ -11,34 +11,38 @@ export default function MultiPrice({ formData, setFormData, hasSubmitted, priceE
     }
   }
 
+  const handlePrice = (e) => {
+    let numPrice = e.target.value.replace(/\$+/g, '');
+    let newPrice = `$${numPrice}`;
+    setFormData({ ...formData, price: newPrice, realPrice: parseInt(numPrice) || 0 });
+  }
+
   useEffect(() => {
-    if (formData.price < 10 || !formData.price || formData.price >= 10000) setPriceErrors("Please enter a base price between $10 and $10,000.");
+    if (formData.realPrice < 10 || !formData.realPrice || formData.realPrice >= 10000) setPriceErrors("Please enter a base price between $10 and $10,000.");
     else setPriceErrors('');
-  }, [formData.price, setPriceErrors])
+  }, [formData.realPrice, setPriceErrors])
 
   if (!formData) return null;
 
   return (
     <div className='multi-create-price'>
       <div className='create-spot'>
-        <i className={`fa-solid fa-minus ${formData.price < 10 && 'toggle-disabled'} multt-create-price-toggle`}
+        <i className={`fa-solid fa-minus ${formData.realPrice <= 10 && 'toggle-disabled'} multt-create-price-toggle`}
           onClick={() => {
-            if (formData.price <= 10) return;
-            setFormData({ ...formData, price: parseFloat(formData.price) - 5 })
+            if (formData.realPrice <= 10) return;
+            setFormData({ ...formData, realPrice: parseInt(formData.realPrice) - 5, price: `$${parseInt(formData.realPrice) - 5}` })
           }} />
 
         <div className='outline-wrapper price-wrapper'>
           <div className='create-spot-price' style={{ display: 'flex' }}>
-            {/* <span>$</span> */}
-            <input type='text' id="price" value={formData.price} onChange={(e) => setFormData({ ...formData, price: e.target.value })} onKeyDown={handleKeyDown} />
-            {/* <span className='multi-create-price-invisible'>$</span> */}
+            <input type='text' id="price" value={formData.price} onChange={(e) => handlePrice(e)} onKeyDown={handleKeyDown} />
           </div>
         </div>
 
-        <i className={`fa-solid fa-plus ${formData.price === 10000 && 'toggle-disabled'} multt-create-price-toggle`}
+        <i className={`fa-solid fa-plus ${formData.realPrice >= 10000 && 'toggle-disabled'} multt-create-price-toggle`}
           onClick={() => {
-            if (formData.price >= 10000) return;
-            setFormData({ ...formData, price: parseFloat(formData.price) + 5 })
+            if (formData.realPrice >= 10000) return;
+            setFormData({ ...formData, realPrice: parseInt(formData.realPrice) + 5, price: `$${parseInt(formData.realPrice) + 5}` })
           }} />
       </div>
       <span className='multi-create-price-span'>per night</span>

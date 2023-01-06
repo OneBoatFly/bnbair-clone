@@ -22,7 +22,7 @@ export default function MultiDescription({ formData, setFormData, hasSubmitted, 
           </div>
         </div>
       </div>
-      {descriptionErrors.length > 0 &&
+      {hasSubmitted && descriptionErrors.length > 0 &&
         <div className='error-messages-wrapper'>
           <i className="fa-sharp fa-solid fa-circle-exclamation"></i>
           <span className='error-messages'>{descriptionErrors}</span>

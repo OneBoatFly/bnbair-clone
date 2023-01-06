@@ -169,7 +169,7 @@ export const getOneSpot = (spotId) => async (dispatch) => {
 };
 
 export const createOneSpot = (spotInfo) => async (dispatch) => {
-    console.log('----------reached creating a spot thunk----------', spotInfo)
+    // console.log('----------reached creating a spot thunk----------', spotInfo)
     const options = {
         method: 'POST',
         body: JSON.stringify(spotInfo)
