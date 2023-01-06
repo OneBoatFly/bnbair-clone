@@ -3,14 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import './MainForm.css';
 import Cookies from 'js-cookie';
-import Geocode from "react-geocode";
 import * as spotsActions from '../../../store/spots';
 
 import { FormTitles, FormSubTitles, progressBar, PageDisplay, checkInput} from './multiCreateUtil';
+import { validateAddress } from '../../../store/maps';
 
 export default function MainForm({ apiKey, sessionUser }) {
-  Geocode.setApiKey(apiKey);
-
   const [addressErrors, setAddressErrors] = useState([]);
   const [titleErrors, setTitleErrors] = useState('');
   const [descriptionErrors, setDescriptionErrors] = useState('');
@@ -39,8 +37,11 @@ export default function MainForm({ apiKey, sessionUser }) {
       address: '',
       city: '',
       province: '',
+      zipCode: '',
       country: '',
       name: '',
+      lat: 0,
+      lng: 0,
       description: '',
       price: 4500,
       guests: 2,
@@ -75,13 +76,46 @@ export default function MainForm({ apiKey, sessionUser }) {
     setPage(currPage => currPage - 1)
   }
 
+  const checkAddress = () => {
+    dispatch(validateAddress(apiKey, {
+      address: formData.address, 
+      city: formData.city,  
+      province: formData.province, 
+      zipCode: formData.zipCode,  
+      country: formData.country, 
+    })).then((result) => {
+      // console.log('dispatch address validation.then---')
+      // console.log(result.geocode.location) // {latitude: 47.7362009, longitude: -122.1700787}
+      // console.log(result.address.postalAddress)
+      
+      setFormData({
+          ...formData,
+          lat: result.geocode.location.latitude,
+          lng: result.geocode.location.longitude,
+          address: result.address.postalAddress.addressLines[0],
+          city: result.address.postalAddress.locality,
+          province: result.address.postalAddress.administrativeArea,
+          country: result.address.postalAddress.regionCode,           
+        })
+
+    }).then(() => {
+      goNext()
+    }).catch((error) => {
+      // console.log('dispatch error.catch', error.message)
+      setHasSubmitted(true);
+      setGeoError("We don't recognize that address. Is it correct?");
+    })
+
+  }
+
   const onNext = () => {
     if (!checkInput(page, allErrors)) {
       setHasSubmitted(true);
       return;
     }
 
-    goNext()
+    if (page === 0) checkAddress()
+    else goNext()
   }
 
   const dispatch = useDispatch();
@@ -94,46 +128,34 @@ export default function MainForm({ apiKey, sessionUser }) {
       return;
     }
 
-    Geocode.fromAddress(`${formData.address} ${formData.city} ${formData.province} ${formData.country}`)
-      .then((response) => {
-        const { lat, lng } = response.results[0].geometry.location;
-        // console.log(lat, lng);
-
-        dispatch(spotsActions.createOneSpot({ ...formData, state: formData.province, lat, lng }))
-          .then((spot) => {
-            setHasSubmitted(false);
-            Cookies.remove('create-formPage');
-            Cookies.remove('create-formData');
-            setNewSpot(spot);
-            dispatch(spotsActions.getOwnerSpots());
-          })
-          .catch(async (res) => {
-            const data = await res.json();
-            if (data && data.message) {
-              setAddressErrors([data.message]);
-            } else if (data && data.errors) {
-              setAddressErrors((errors) => {
-                if (data.errors.address) errors.push(data.errors.address);
-                if (data.errors.city) errors.push(data.errors.city);
-                if (data.errors.state) errors.push(data.errors.state);
-                if (data.errors.country) errors.push(data.errors.country);
-                return errors;
-              });
-
-              if (data.errors.name) setTitleErrors(data.errors.name);
-              if (data.errors.description) setDescriptionErrors(data.errors.description);
-              if (data.errors.price) setPriceErrors(data.errors.price);
-
-              if (data.errors.lat || data.errors.lng) setValidationErrors(err => data.errors);
-            }
+    dispatch(spotsActions.createOneSpot({ ...formData, state: formData.province }))
+      .then((spot) => {
+        setHasSubmitted(false);
+        Cookies.remove('create-formPage');
+        Cookies.remove('create-formData');
+        setNewSpot(spot);
+        dispatch(spotsActions.getOwnerSpots());
+      })
+      .catch(async (res) => {
+        const data = await res.json();
+        if (data && data.message) {
+          setAddressErrors([data.message]);
+        } else if (data && data.errors) {
+          setAddressErrors((errors) => {
+            if (data.errors.address) errors.push(data.errors.address);
+            if (data.errors.city) errors.push(data.errors.city);
+            if (data.errors.state) errors.push(data.errors.state);
+            if (data.errors.country) errors.push(data.errors.country);
+            return errors;
           });
 
-      },
-      ).catch(e => {
-        // console.log('-------- geo error ----------')
-        // console.log(e);
-        setGeoError('Invalid address.')
-      })
+          if (data.errors.name) setTitleErrors(data.errors.name);
+          if (data.errors.description) setDescriptionErrors(data.errors.description);
+          if (data.errors.price) setPriceErrors(data.errors.price);
+
+          if (data.errors.lat || data.errors.lng) setValidationErrors(err => data.errors);
+        }
+      });
 
   }
 
@@ -163,7 +185,7 @@ export default function MainForm({ apiKey, sessionUser }) {
           <span className='main-create-form-title'>{FormTitles[page]}</span>
           <span className='main-create-form-sub-title'>{FormSubTitles[page]}</span>
           <div className='main-create-form-body'>
-            {PageDisplay(page, formData, setFormData, hasSubmitted, allErrors)}
+            {PageDisplay(page, formData, setFormData, hasSubmitted, allErrors, apiKey)}
           </div>
         </div>
         <div className='main-create-form-validation-errors'>

@@ -3,10 +3,10 @@ import { useSelector } from 'react-redux';
 import MainForm from './MainForm';
 
 export default function MainFormContainer() {
-    const geokey = useSelector((state) => state.maps.geokey);
+    const key = useSelector((state) => state.maps.key);
     const sessionUser = useSelector(state => state.session.user);
 
   return (
-      <MainForm apiKey={geokey} sessionUser={sessionUser}/>
+      <MainForm apiKey={key} sessionUser={sessionUser}/>
   )
 }
