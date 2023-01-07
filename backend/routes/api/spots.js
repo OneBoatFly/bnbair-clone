@@ -256,13 +256,16 @@ router.get('/:spotId', async (req, res, next) => {
                 attributes: ['id', 'firstName', 'lastName', 'isSuperhost', 'profileUrl'],
             },
             {
-                model: AmenityBasic
+                model: AmenityBasic,
+                attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }
             },
             {
-                model: AmenityStandout
+                model: AmenityStandout,
+                attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }
             }, 
             {
-                model: AmenitySafety
+                model: AmenitySafety,
+                attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }
             }           
         ]
     });
@@ -331,9 +334,9 @@ router.get('/:spotId', async (req, res, next) => {
         }
 
         spotJSON.Amenities = amenities;
-        delete spotJSON.AmenityBasic;
-        delete spotJSON.AmenityStandout;
-        delete spotJSON.AmenitySafety;
+        // delete spotJSON.AmenityBasic;
+        // delete spotJSON.AmenityStandout;
+        // delete spotJSON.AmenitySafety;
 
         res.json(spotJSON);
     }

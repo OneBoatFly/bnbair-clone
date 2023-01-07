@@ -1,10 +1,8 @@
-import React, { useEffect } from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import { getAmenities } from '../../../store/spots';
+import React from 'react';
+import { useSelector} from 'react-redux';
 import './MultiAmenities.css';
 
 export default function MultiAmenities({ formData, setFormData }) {
-  // const dispatch = useDispatch();
   const amenities = useSelector(state => state.spots.amenities);
 
   const clickBasic = (field) => {
@@ -16,13 +14,6 @@ export default function MultiAmenities({ formData, setFormData }) {
     }
 
     setFormData(currentFormData)
-    // setFormData({
-    //   ...formData,
-    //   amenityBasic: {
-    //     ...formData.amenityBasic,
-    //     [field]: !formData.amenityBasic[field]
-    //   }
-    // })
   }
 
   const clickStandout = (field) => {
@@ -54,7 +45,8 @@ export default function MultiAmenities({ formData, setFormData }) {
         <>
           <div className='multi-create-rooms-section-div'>
             {amenities.amenityBasic?.map((amenity, idx) => {
-              const divSelected = formData.amenityBasic[amenity.field];
+              let divSelected = false;
+              if (formData.amenityBasic) divSelected = formData.amenityBasic[amenity.field];
 
               return (
                 <div key={`${amenity.field}`} 
@@ -70,7 +62,8 @@ export default function MultiAmenities({ formData, setFormData }) {
           <span>Do you have any standout amenities?</span>
           <div className='multi-create-rooms-section-div'>
             {amenities.amenityStandout?.map((amenity, idx) => {
-              const divSelected = formData.amenityStandout[amenity.field];
+              let divSelected = false;
+              if (formData.amenityStandout) divSelected = formData.amenityStandout[amenity.field];
 
               return (
                 <div key={`${amenity.field}`}
@@ -86,7 +79,8 @@ export default function MultiAmenities({ formData, setFormData }) {
           <span>Do you have any of these safety items?</span>
           <div className='multi-create-rooms-section-div'>
             {amenities.amenitySafety?.map((amenity, idx) => {
-              const divSelected = formData.amenitySafety[amenity.field];
+              let divSelected = false;
+              if (formData.amenitySafety) divSelected = formData.amenitySafety[amenity.field];
 
               return (
                 <div key={`${amenity.field}`}

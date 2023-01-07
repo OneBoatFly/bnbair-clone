@@ -129,7 +129,6 @@ export default function MultiAddress({ formData, setFormData, hasSubmitted, addr
               <select 
                 name='country'
                 id='country'
-                defaultValue={'United States of America - US' || 'Select'}
                 value={formData.country}
                 className='multi-form-country-select'
                 onChange={(e) => setFormData({ ...formData, country: e.target.value })}

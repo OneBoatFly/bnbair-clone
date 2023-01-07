@@ -50,7 +50,7 @@ export const PageDisplay = (page, formData, setFormData, hasSubmitted, allErrors
         case 3: return <MultiTitle formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} titleErrors={allErrors.titleErrors} setTitleErrors={allErrors.setTitleErrors} />
         case 4: return <MultiDescription formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} descriptionErrors={allErrors.descriptionErrors} setDescriptionErrors={allErrors.setDescriptionErrors} />
         case 5: return <MultiPrice formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} priceErrors={allErrors.priceErrors} setPriceErrors={allErrors.setPriceErrors} />
-        case 6: return <MultiImages formData={formData} />
+        case 6: return <MultiImages formData={formData} setImageError={allErrors.setImageError}/>
         // case 7: return <MultiPublish formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} addressErrors={allErrors.addressErrors} setPriceErrors={allErrors.setPriceErrors}/>
         default: return null
     }

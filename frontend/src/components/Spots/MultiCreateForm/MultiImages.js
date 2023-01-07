@@ -9,12 +9,13 @@ import MyButton from '../../FormElements/MyButton';
 
 import './MultiImages.css';
 
-export default function MultiImages({ formData }) {
+export default function MultiImages({ formData, setImageError }) {
   const inputRef = useRef(null);
   const dispatch = useDispatch();
   let spot = useSelector(state => state.spots.spotDetails);
   const [imageUrlArr, setImageUrlArr] = useState([]);
   const [imageUpload, setImageUpload] = useState([]);
+  const [databaseUrlArr, setDatabaseUrlArr] = useState([]);
   const [error, setError] = useState('');
   const [showSuccess, setShowSuccess] = useState(false);
 
@@ -50,7 +51,7 @@ export default function MultiImages({ formData }) {
 
     const previewImages = Array.from(e.target.files)
     const validPreviewImages = previewImages.filter(file => {
-      console.log(file.type, validFileType(file))
+      // console.log(file.type, validFileType(file))
       return validFileType(file)
     })
 
@@ -66,15 +67,19 @@ export default function MultiImages({ formData }) {
       return;
     }
 
+    setImageError('');
     imageUpload.forEach((image, idx) => {
       const imageRef = ref(storage, `spots/${formData.spotId}/${image.name + v4()}`)
       uploadBytes(imageRef, image)
         .then((snapshot) => {
-          const allTimeArr = [...imageUrlArr];
+          // const allTimeArr = [...databaseUrlArr];
+          console.log('--------- databaseUrlArr ----------', databaseUrlArr)
           getDownloadURL(snapshot.ref).then(url => {
             setImageUpload([])
-            allTimeArr.push(url);
-            const isPreview = idx <= 5 - allTimeArr.length;
+            const isPreview = databaseUrlArr.length >= 5 ? false : idx < 5 - databaseUrlArr.length;
+            console.log('--- isPreview', isPreview, idx, databaseUrlArr.length)
+            // allTimeArr.push(url);
+            // console.log('--------- getDownloadURL ----------', allTimeArr)
 
             dispatch(spotIamgesActions.addImages({
               url: url,
@@ -116,7 +121,8 @@ export default function MultiImages({ formData }) {
     if (!spot) return;
 
     const existingImages = spot.SpotImages || [];
-    setImageUrlArr(existingImages)
+    setImageUrlArr(existingImages);
+    setDatabaseUrlArr(existingImages);
   }, [dispatch, spot])
 
   // useEffect(() => {

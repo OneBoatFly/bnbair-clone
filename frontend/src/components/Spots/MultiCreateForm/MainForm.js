@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Redirect, useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import './MainForm.css';
 import Cookies from 'js-cookie';
 import * as spotsActions from '../../../store/spots';
@@ -18,9 +18,11 @@ export default function MainForm({ apiKey, sessionUser }) {
   const [validationErrors, setValidationErrors] = useState({});
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [imageError, setImageError] = useState('');
-  const [createComplete, setCreateComplete] = useState(false);
   const history = useHistory();
+  const location = useLocation();
   const dispatch = useDispatch();
+  let editFormData;
+  editFormData = location.state?.editFormData;
 
   const allErrors = {
     addressErrors,
@@ -31,7 +33,8 @@ export default function MainForm({ apiKey, sessionUser }) {
     descriptionErrors,
     setDescriptionErrors,
     priceErrors,
-    setPriceErrors
+    setPriceErrors,
+    setImageError
   }
 
   // check cookies first
@@ -42,26 +45,30 @@ export default function MainForm({ apiKey, sessionUser }) {
 
   let existingFormData = Cookies.get('create-formData');
   if (!existingFormData) {
-    existingFormData = {
-      spotId: spot ? spot.id : null,
-      address: '',
-      city: '',
-      province: '',
-      zipCode: '',
-      country: '',
-      name: '',
-      lat: 0,
-      lng: 0,
-      description: '',
-      price: '$4500',
-      realPrice: 4500,
-      guests: 2,
-      bedrooms: 1,
-      beds: 1,
-      bathrooms:1,
-      amenityBasic: {},
-      amenityStandout: {},
-      amenitySafety: {}
+    if (!editFormData?.spotId) {
+      existingFormData = {
+        spotId: spot ? spot.id : null,
+        address: '',
+        city: '',
+        province: '',
+        zipCode: '',
+        country: "United States of America - US",
+        name: '',
+        lat: 0,
+        lng: 0,
+        description: '',
+        price: '$4500',
+        realPrice: 4500,
+        guests: 2,
+        bedrooms: 1,
+        beds: 1,
+        bathrooms:1,
+        amenityBasic: {},
+        amenityStandout: {},
+        amenitySafety: {}
+      }
+    } else {
+      existingFormData = {...editFormData};
     }
   } else {
     existingFormData = JSON.parse(existingFormData)
@@ -81,6 +88,7 @@ export default function MainForm({ apiKey, sessionUser }) {
     setHasSubmitted(false);
     setValidationErrors({});
     if (page >= FormTitles.length) return;
+
     setPage(currPage => currPage + 1)
   }
 
@@ -107,11 +115,6 @@ export default function MainForm({ apiKey, sessionUser }) {
           description: spot.description,
           spotId: spot.id
         })
-        
-        // setNewSpot(spot);
-        // Cookies.remove('create-formPage');
-        // Cookies.remove('create-formData');
-        // history.push(`/spots/current`);
       })
       .then(() => {
         goNext();
@@ -233,7 +236,6 @@ export default function MainForm({ apiKey, sessionUser }) {
       })
       .catch(async (res) => {
         const data = await res.json();
-        console.log('----- handleEditAmenities .catch', data)
         if (data && data.errors) {
           setValidationErrors({...validationErrors, amenities: data.errors});
         }
@@ -260,17 +262,13 @@ export default function MainForm({ apiKey, sessionUser }) {
           province: result.address.postalAddress.administrativeArea,   
         })
     }).then(() => {
-      console.log('checkAddress.then', formData)
       if (formData.spotId) {
-        console.log('sending to edit spot')
         handleEditSpot();
       } else {
-        console.log('sending to create spot')
         handleCreateSpot();
       }
 
     }).catch((error) => {
-      // console.log('dispatch error.catch', error.message)
       setHasSubmitted(true);
       setGeoError("We don't recognize that address. Is it correct?");
     })
@@ -281,16 +279,12 @@ export default function MainForm({ apiKey, sessionUser }) {
   const handlePublish = async (e) => {
     e.preventDefault();
     setHasSubmitted(true);
-    console.log('handlePublish fired', spot)
-    console.log('handlePublish fired', spot.SpotImages)
 
     if (!spot) {
-      console.log('no spot created, returned')
       return;
     }
 
     if (spot.SpotImages?.length < 5) {
-      console.log('not enough images, returned')
       setImageError('Please upload at least 5 photos.')
       return;
     }
@@ -303,7 +297,9 @@ export default function MainForm({ apiKey, sessionUser }) {
     const response = await csrfFetch(`/api/spots/${spot.id}`, options);
 
     if (response.ok) {
-      console.log('change to publish success')
+      Cookies.remove('create-formPage');
+      Cookies.remove('create-formData');
+      Cookies.remove('modifySpot');
       history.push(`/spots/current`);
     } else {
       const data = await response.json();
@@ -311,8 +307,6 @@ export default function MainForm({ apiKey, sessionUser }) {
         setValidationErrors({ ...validationErrors, isPublished: data.errors})
       }
     }
-
-    // setCreateComplete(true);
   }
 
   const onNext = () => {
@@ -321,8 +315,9 @@ export default function MainForm({ apiKey, sessionUser }) {
       return;
     }
 
-    if (page === 0) checkAddress();
-    if (page === 2) handleEditAmenities();
+    if (page === 0) {
+      checkAddress();
+    } else if (page === 2) handleEditAmenities();
     else handleEditSpot();
   }
 
@@ -353,6 +348,7 @@ export default function MainForm({ apiKey, sessionUser }) {
   }, [dispatch])
 
   console.log('MainForm --- formData', formData)
+  // console.log('MainForm --- formPage', page)
 
   // if (createComplete) return (
   //   <Redirect push to={`/spots/current`} />

@@ -2,22 +2,63 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import './OwnerSpots.css';
-
 import * as spotsActions from '../../store/spots';
 import { NavLink } from 'react-router-dom';
+import Cookies from 'js-cookie';
+
+const countryCodes = require('country-codes-list');
 
 export default function OwnerSpotsTR({ setShowUpdateSpotModal, spot, setCurrSpot, setDeleteMessage, setShowDelete }) {
     const { previewImage, city, state, name, updatedAt, numberOfBooking } = spot;
+    const history = useHistory();
+    const dispatch = useDispatch();
     const date = new Date(updatedAt);
     const month = date.toLocaleString('en-US', { month: 'long' });
     const day = date.getDate();
 
+    const myCountryNameObject = countryCodes.customList('countryNameEn', '{countryNameEn} - {countryCode}')
+    // console.log('myCountryNameObject', myCountryNameObject)
+
     const handleUpdate = () => {
         setCurrSpot(spot);
-        setShowUpdateSpotModal(true);
+        // setShowUpdateSpotModal(true);
+
+        dispatch(spotsActions.getOneSpot(spot.id))
+            .then((editSpot) => {
+                Cookies.set('modifySpot', JSON.stringify(editSpot));
+                const editFormData = {
+                    spotId: editSpot ? editSpot.id : null,
+                    address: editSpot.address,
+                    city: editSpot.city,
+                    province: editSpot.state,
+                    zipCode: '',
+                    country: myCountryNameObject[editSpot.country],
+                    name: editSpot.name,
+                    lat: editSpot.lat,
+                    lng: editSpot.lng,
+                    description: editSpot.description,
+                    price: `$${editSpot.price}`,
+                    realPrice: editSpot.price,
+                    guests: editSpot.guests,
+                    bedrooms: editSpot.bedrooms,
+                    beds: editSpot.beds,
+                    bathrooms: editSpot.bathrooms,
+                    amenityBasic: editSpot.AmenityBasic,
+                    amenityStandout: editSpot.AmenityStandout,
+                    amenitySafety: editSpot.AmenitySafety
+                }
+        
+                if (editFormData.spotId) {
+                    Cookies.set('create-formData', JSON.stringify(editFormData));
+                    Cookies.set('create-formPage', 0);
+                }
+                history.push('/spots/create', {
+                    state: editFormData
+                })
+            })
+
     }
 
-    const dispatch = useDispatch();
     const handleDelete = async () => {
         // console.log('in handleDelete')
         const message = await dispatch(spotsActions.deleteOneSpot(spot.id));
@@ -31,7 +72,6 @@ export default function OwnerSpotsTR({ setShowUpdateSpotModal, spot, setCurrSpot
             })
     }
 
-    const history = useHistory();
     const handleImages = async () => {
         // console.log('in handle images --------- ')
 
