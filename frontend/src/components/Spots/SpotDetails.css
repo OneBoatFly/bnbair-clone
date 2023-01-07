@@ -88,7 +88,7 @@
 .booking-form-sub-wrapper {
     position: sticky;
     z-index: 0;
-    top: 128px;
+    top: 2rem;
 }
 
 .booking-form {

@@ -21,8 +21,9 @@ export default function MainForm({ apiKey, sessionUser }) {
   const history = useHistory();
   const location = useLocation();
   const dispatch = useDispatch();
-  let editFormData;
-  editFormData = location.state?.editFormData;
+  // let editFormData;
+  // editFormData = location.state?.editFormData;
+  const { mode, editFormData } = location.state
 
   const allErrors = {
     addressErrors,
@@ -37,15 +38,12 @@ export default function MainForm({ apiKey, sessionUser }) {
     setImageError
   }
 
+  const spot = useSelector(state => state.spots.spotDetails);
   // check cookies first
-  let spot = useSelector(state => state.spots.spotDetails);
-  if (!spot) {
-    spot = Cookies.get('modifySpot');
-  }
-
   let existingFormData = Cookies.get('create-formData');
-  if (!existingFormData) {
-    if (!editFormData?.spotId) {
+  console.log('--------', mode, existingFormData, editFormData)
+  if (mode === 'create') {
+    if (!existingFormData) {
       existingFormData = {
         spotId: spot ? spot.id : null,
         address: '',
@@ -62,16 +60,16 @@ export default function MainForm({ apiKey, sessionUser }) {
         guests: 2,
         bedrooms: 1,
         beds: 1,
-        bathrooms:1,
+        bathrooms: 1,
         amenityBasic: {},
         amenityStandout: {},
         amenitySafety: {}
       }
     } else {
-      existingFormData = {...editFormData};
+      existingFormData = JSON.parse(existingFormData)
     }
-  } else {
-    existingFormData = JSON.parse(existingFormData)
+  } else if (mode === 'edit') {
+    existingFormData = { ...editFormData };
   }
 
   const [formData, setFormData] = useState(existingFormData);
@@ -83,7 +81,6 @@ export default function MainForm({ apiKey, sessionUser }) {
   const [page, setPage] = useState(currentPage);
   // check cookies and set variables end
   
-
   const goNext = () => {
     setHasSubmitted(false);
     setValidationErrors({});
@@ -345,18 +342,8 @@ export default function MainForm({ apiKey, sessionUser }) {
   useEffect(() => {
     if (!formData.spotId) return;
     dispatch(spotsActions.getOneSpot(formData.spotId));
-  }, [dispatch])
+  }, [dispatch, formData.spotId])
 
-  console.log('MainForm --- formData', formData)
-  // console.log('MainForm --- formPage', page)
-
-  // if (createComplete) return (
-  //   <Redirect push to={`/spots/current`} />
-  // )
-
-  // if (!sessionUser) return (
-  //   <Redirect to='/' />
-  // )
 
   return (
     <div className='main-create-form'>

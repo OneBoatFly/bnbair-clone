@@ -8,6 +8,7 @@ export default function MultiAddress({ formData, setFormData, hasSubmitted, addr
   const myCountryCodesObject = countryCodes.customList('countryCode', '{countryNameEn} - {countryCode}')
   const myCountryCodesArr = Object.values(myCountryCodesObject);
 
+  console.log('formData', formData)
   // css related //
   const streetLabel = useRef(null);
   const streetInput = useRef(null);

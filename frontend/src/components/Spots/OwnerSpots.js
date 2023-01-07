@@ -1,5 +1,5 @@
 import React, { useEffect, useState} from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 
 import * as spotsActions from '../../store/spots';
@@ -7,6 +7,7 @@ import { Modal } from '../../context/Modal';
 import UpdateSpot from './UpdateSpot';
 import OwnerSpotsTR from './OwnerSpotsTR';
 // import CreateSpot from './CreateSpot';
+import Cookies from 'js-cookie';
 
 import './OwnerSpots.css';
 
@@ -17,7 +18,17 @@ export default function OwnerSpots({ isLoaded }) {
   const [currSpot, setCurrSpot] = useState({});
   const [deleteMessage, setDeleteMessage] = useState('');
   const [showDelete, setShowDelete] = useState(false);
+  const history = useHistory();
   
+  const handleCreate = () => {
+    Cookies.remove('create-formData');
+    Cookies.remove('create-formPage');
+
+    history.push('/spots/create', {
+      mode: 'create'
+    });
+  }
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(spotsActions.getOwnerSpots());
@@ -47,10 +58,10 @@ export default function OwnerSpots({ isLoaded }) {
             <h4>
               {ownerSpotsArr.length > 0 ? `${ownerSpotsArr.length} listings` : 'No listing'}
             </h4>
-            {/* <button onClick={() => setShowSpotFormModal(true)} className='modify-buttons single-button'>
+            <button className='modify-buttons single-button' onClick={handleCreate}>
               <i className="fa-solid fa-plus"></i>
               <span> Create a listing</span>
-            </button> */}
+            </button>
           </div>
           <h5 id='delete-message' className={showDelete ? 'fadeIn' : 'fadeOut'}>
             {deleteMessage.length > 0 && `${deleteMessage}.`}

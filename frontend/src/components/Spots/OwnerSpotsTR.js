@@ -25,7 +25,7 @@ export default function OwnerSpotsTR({ setShowUpdateSpotModal, spot, setCurrSpot
 
         dispatch(spotsActions.getOneSpot(spot.id))
             .then((editSpot) => {
-                Cookies.set('modifySpot', JSON.stringify(editSpot));
+                console.log('-------editSpot', editSpot)
                 const editFormData = {
                     spotId: editSpot ? editSpot.id : null,
                     address: editSpot.address,
@@ -48,12 +48,13 @@ export default function OwnerSpotsTR({ setShowUpdateSpotModal, spot, setCurrSpot
                     amenitySafety: editSpot.AmenitySafety
                 }
         
-                if (editFormData.spotId) {
-                    Cookies.set('create-formData', JSON.stringify(editFormData));
-                    Cookies.set('create-formPage', 0);
-                }
+
+                Cookies.remove('create-formData');
+                Cookies.remove('create-formPage');
+
                 history.push('/spots/create', {
-                    state: editFormData
+                    editFormData,
+                    mode: 'edit'
                 })
             })
 
