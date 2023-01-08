@@ -110,7 +110,7 @@ export default function MainForm({ apiKey, sessionUser }) {
       zipCode: formData.zipCode,
       country: countryWCode[1],
     })).then((result) => {
-      console.log('check address result', result)
+      // console.log('check address result', result)
       if (result.verdict.hasUnconfirmedComponents) {
         setHasSubmitted(true);
         setGeoError("We don't recognize that address. Is it correct?");
@@ -125,10 +125,10 @@ export default function MainForm({ apiKey, sessionUser }) {
         })
 
         if (formData.spotId) {
-          console.log('passed address check -- edit')
+          // console.log('passed address check -- edit')
           handleEditSpot(result);
         } else {
-          console.log('passed address check -- create')
+          // console.log('passed address check -- create')
           handleCreateSpot(result);
         }
       }
@@ -150,7 +150,7 @@ export default function MainForm({ apiKey, sessionUser }) {
       return;
     }
 
-    console.log('creating spot - formData sent', formData)
+    // console.log('creating spot - formData sent', formData)
     const countryWCode = formData.country?.split(' - ');
     dispatch(spotsActions.createOneSpot({
       ...formData,
@@ -230,7 +230,7 @@ export default function MainForm({ apiKey, sessionUser }) {
       return;
     }
 
-    console.log('>>>>>>> edit spot - formData sent', formData)
+    // console.log('>>>>>>> edit spot - formData sent', formData)
     const countryWCode = formData.country?.split(' - ');
     dispatch(spotsActions.updateOneSpot({
       ...formData,
@@ -291,7 +291,7 @@ export default function MainForm({ apiKey, sessionUser }) {
   const handleEditAmenities = () => {
     // updateSpotAmenities
     setHasSubmitted(true);
-    console.log(' >>> handleEditAmenities', formData)
+    // console.log(' >>> handleEditAmenities', formData)
     dispatch(spotsActions.updateSpotAmenities({ ...formData}, formData.spotId))
       .then(() => {
         setHasSubmitted(false);
@@ -314,7 +314,7 @@ export default function MainForm({ apiKey, sessionUser }) {
     setHasSubmitted(true);
     if (imageUpload.length) {
       setImageError(`You have ${imageUpload.length} unloaded images.`);
-      console.log('errorWrapperRef', errorWrapperRef)
+      // console.log('errorWrapperRef', errorWrapperRef)
       errorWrapperRef.current.scrollIntoView();
       return;
     }

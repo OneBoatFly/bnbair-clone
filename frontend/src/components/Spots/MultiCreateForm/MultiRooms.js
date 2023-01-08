@@ -3,7 +3,7 @@ import './MultiRooms.css';
 
 export default function MultiRooms({ formData, setFormData }) {
 
-  console.log('formData', formData)
+  // console.log('formData', formData)
   if (!formData) return null;
   return (
     <div className='multi-create-rooms'>

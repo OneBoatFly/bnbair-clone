@@ -296,7 +296,7 @@ export const getAmenities = () => async (dispatch) => {
 
 
 export const updateSpotAmenities = (spotInfo, spotId) => async (dispatch) => {
-    console.log('----------updateSpotAmenities thunk----------')
+    // console.log('----------updateSpotAmenities thunk----------')
     const options = {
         method: 'PUT',
         body: JSON.stringify(spotInfo)
@@ -305,7 +305,7 @@ export const updateSpotAmenities = (spotInfo, spotId) => async (dispatch) => {
     const response = await csrfFetch(`/api/spots/${spotId}/amenities`, options);
 
     if (response.ok) {
-        console.log('-------------updateSpotAmenities reponse ok-------------')
+        // console.log('-------------updateSpotAmenities reponse ok-------------')
         const spot = await response.json();
         dispatch(getOneSpot(spot.id));
         return spot;

@@ -5,7 +5,6 @@
 }
 
 .main-create-form-container {
-    border: 1px solid greenyellow;
     overflow-y: scroll;
     height: calc(100% - 6rem - 6px);
 }
@@ -48,7 +47,7 @@
 }
 
 .main-create-button-container {
-    outline: 1px solid goldenrod;
+    /* outline: 1px solid goldenrod; */
     height: calc(6rem + 6px);
     width: 100%;
     padding-bottom: 1.5rem;

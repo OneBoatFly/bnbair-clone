@@ -40,10 +40,10 @@ export const getSpotBookings = (spotId) => async (dispatch) => {
     // console.log('---------- getSpotBookings thunk --------- ')
 
     const response = await csrfFetch(`/api/spots/${spotId}/bookings`);
-    console.log(response)
+    // console.log(response)
     if (response.ok) {
         const data = await response.json();
-        console.log('response ok - data', data)
+        // console.log('response ok - data', data)
         dispatch(loadSpotBookings(data));
     } else {
         return response
@@ -52,7 +52,7 @@ export const getSpotBookings = (spotId) => async (dispatch) => {
 
 
 export const deleteBooking = (bookingId) => async (dispatch) => {
-    console.log('---------- deleteBooking thunk --------- ', bookingId)
+    // console.log('---------- deleteBooking thunk --------- ', bookingId)
     const options = { method: 'DELETE' };
     const response = await csrfFetch(`/api/bookings/${bookingId}`, options);
 

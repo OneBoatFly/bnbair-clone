@@ -34,7 +34,7 @@ export default function AddSpotImages() {
     }
 
     const handleDrop = (e) => {
-        console.log('------handleDrop----')
+        // console.log('------handleDrop----')
         e.preventDefault();
         
         const previewImages = Array.from(e.dataTransfer.files)
@@ -57,11 +57,11 @@ export default function AddSpotImages() {
     };
 
     const handleSelect = (e) => {
-        console.log('-------handleSelect---') // e.target.files
+        // console.log('-------handleSelect---') // e.target.files
         e.preventDefault();
 
         const previewImages = Array.from(e.target.files)
-        console.log('previewImages', previewImages)
+        // console.log('previewImages', previewImages)
 
         if (imageUrlArr.length + previewImages.length > 6) {
             setError('Maximum of 6 images allowed');

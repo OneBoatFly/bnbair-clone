@@ -162,7 +162,7 @@
 
     .airbnb-text-air,
     .airbnb-text-bnb {
-        outline: 1px solid salmon;
+        /* outline: 1px solid salmon; */
         display: none;
     }
 }

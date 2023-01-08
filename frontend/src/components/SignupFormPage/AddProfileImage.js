@@ -10,7 +10,7 @@ export default function AddProfileImage({ imageUrl, setImageUrl, setImageUpload,
         e.preventDefault();
         setImageError('')
 
-        console.log(e.dataTransfer.files[0].type)
+        // console.log(e.dataTransfer.files[0].type)
         if (e.dataTransfer.files[0].type !== 'image/webp' && e.dataTransfer.files[0].type !== 'image/png') {
             setImageError('Accepts .webp or .png only.');
             return;

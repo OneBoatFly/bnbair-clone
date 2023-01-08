@@ -82,7 +82,7 @@ export default function UpdateSpot({ setShowUpdateSpotModal, spot, apiKey }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     setHasSubmitted(true);
-    console.log('edit submit')
+    // console.log('edit submit')
 
     if (addressErrors.length || titleErrors.length || descriptionErrors.length || priceErrors.length) {
       return;
@@ -91,7 +91,7 @@ export default function UpdateSpot({ setShowUpdateSpotModal, spot, apiKey }) {
     Geocode.fromAddress(`${address} ${city} ${province} ${country}`)
       .then((response) => {
         const { lat, lng } = response.results[0].geometry.location;
-        console.log(lat, lng)
+        // console.log(lat, lng)
         dispatch(spotsActions.updateOneSpot({address, city, state: province, country, name, description, price, lat, lng}, spot.id))
           .then((spot) => {
             setHasSubmitted(false);
@@ -121,7 +121,7 @@ export default function UpdateSpot({ setShowUpdateSpotModal, spot, apiKey }) {
           });
 
       }).catch((e) => {
-        console.log('e', e)
+        // console.log('e', e)
         setGeoError('Invalid address.')
       })   
 

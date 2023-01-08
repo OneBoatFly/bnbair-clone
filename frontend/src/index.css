@@ -19,7 +19,7 @@ body {
 }
 
 .root-wrapper {
-    outline: 1px solid purle;
+    /* outline: 1px solid purle; */
     position: relative;
     height: 100%;
 }

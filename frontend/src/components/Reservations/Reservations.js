@@ -17,7 +17,7 @@ export default function Reservations() {
     useEffect(() => {
         dispatch(getSpotBookings(spotId))
             .then((bookings) => {
-                console.log('success', bookings)
+                // console.log('success', bookings)
             })
             .catch(async (data) => {
                 const error = await data.json()

@@ -25,7 +25,7 @@ export default function OwnerSpotsTR({ setShowUpdateSpotModal, spot, setCurrSpot
 
         dispatch(spotsActions.getOneSpot(spot.id))
             .then((editSpot) => {
-                console.log('-------editSpot', editSpot)
+                // console.log('-------editSpot', editSpot)
                 const editFormData = {
                     spotId: editSpot ? editSpot.id : null,
                     address: editSpot.address,

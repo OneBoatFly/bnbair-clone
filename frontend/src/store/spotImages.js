@@ -6,9 +6,9 @@ import * as spotsActions from './spots';
 
 // thunk actions
 export const addImages = (imageInfo, spotId) => async (dispatch) => {
-    console.log('add image thunk ---- ')
-    console.log('imageUrls', imageInfo)
-    console.log('spotid', spotId)
+    // console.log('add image thunk ---- ')
+    // console.log('imageUrls', imageInfo)
+    // console.log('spotid', spotId)
     const options = {
         method: 'POST',
         body: JSON.stringify({
@@ -28,8 +28,8 @@ export const addImages = (imageInfo, spotId) => async (dispatch) => {
 }
 
 export const deleteImage = (imageId, spotId) => async (dispatch) => {
-    console.log('delete image thunk ---- ')
-    console.log('imageId', imageId)
+    // console.log('delete image thunk ---- ')
+    // console.log('imageId', imageId)
     const options = {
         method: 'DELETE',
     }

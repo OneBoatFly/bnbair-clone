@@ -53,7 +53,7 @@ function App() {
   }
 
   const errorGeo = (error) => {
-    console.log(error);
+    // console.log(error);
   };
 
   const options = {

@@ -8,6 +8,7 @@ import * as spotIamgesActions from '../../../store/spotImages';
 import MyButton from '../../FormElements/MyButton';
 
 import './MultiImages.css';
+import '../AddSpotImages.css';
 
 export default function MultiImages({ formData, setImageError, imageUpload, setImageUpload }) {
   const inputRef = useRef(null);
@@ -28,7 +29,7 @@ export default function MultiImages({ formData, setImageError, imageUpload, setI
   }
 
   const handleDrop = (e) => {
-    console.log('------handleDrop----')
+    // console.log('------handleDrop----')
     e.preventDefault();
 
     const previewImages = Array.from(e.dataTransfer.files);
@@ -51,7 +52,7 @@ export default function MultiImages({ formData, setImageError, imageUpload, setI
   };
 
   const handleSelect = (e) => {
-    console.log('-------handleSelect---') // e.target.files
+    // console.log('-------handleSelect---') // e.target.files
     e.preventDefault();
 
     const previewImages = Array.from(e.target.files)
@@ -85,11 +86,11 @@ export default function MultiImages({ formData, setImageError, imageUpload, setI
       uploadBytes(imageRef, image)
         .then((snapshot) => {
           // const allTimeArr = [...databaseUrlArr];
-          console.log('--------- databaseUrlArr ----------', databaseUrlArr)
+          // console.log('--------- databaseUrlArr ----------', databaseUrlArr)
           getDownloadURL(snapshot.ref).then(url => {
             setImageUpload([])
             const isPreview = databaseUrlArr.length >= 5 ? false : idx < 5 - databaseUrlArr.length;
-            console.log('--- isPreview', isPreview, idx, databaseUrlArr.length)
+            // console.log('--- isPreview', isPreview, idx, databaseUrlArr.length)
             // allTimeArr.push(url);
             // console.log('--------- getDownloadURL ----------', allTimeArr)
 

@@ -20,7 +20,7 @@ const SpotMap = ({ apiKey, spot }) => {
         lng: parseFloat(spot.lng)
     };
 
-    console.log('SpotMap --- center', center)
+    // console.log('SpotMap --- center', center)
 
     if (!spot || !spot.lat || !spot.lng) {
         return null;
