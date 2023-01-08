@@ -9,7 +9,7 @@ import Cookies from 'js-cookie';
 const countryCodes = require('country-codes-list');
 
 export default function OwnerSpotsTR({ setShowUpdateSpotModal, spot, setCurrSpot, setDeleteMessage, setShowDelete }) {
-    const { previewImage, city, state, name, updatedAt, numberOfBooking } = spot;
+    const { previewImage, city, state, name, updatedAt, numberOfBooking, isPublished} = spot;
     const history = useHistory();
     const dispatch = useDispatch();
     const date = new Date(updatedAt);
@@ -73,11 +73,11 @@ export default function OwnerSpotsTR({ setShowUpdateSpotModal, spot, setCurrSpot
             })
     }
 
-    const handleImages = async () => {
-        // console.log('in handle images --------- ')
+    // const handleImages = async () => {
+    //     // console.log('in handle images --------- ')
 
-        history.push(`/spots/${spot.id}/images`)
-    }
+    //     history.push(`/spots/${spot.id}/images`)
+    // }
 
     return (
         <tr>
@@ -91,12 +91,15 @@ export default function OwnerSpotsTR({ setShowUpdateSpotModal, spot, setCurrSpot
                     <span><b>{name}</b></span>
                 </div>
             </td>
+            <td>
+                <span>{isPublished ? 'Published' : 'Pending'}</span>
+            </td>            
             <td className='td-to-do'>  
                 <div className='modify-button-div'>
-                    <button className='modify-buttons first' onClick={handleImages}>
+                    {/* <button className='modify-buttons first' onClick={handleImages}>
                         Images
-                        {/* <i className="fa-solid fa-image"></i> */}
-                    </button>
+                        <i className="fa-solid fa-image"></i>
+                    </button> */}
                     <button className='modify-buttons first' onClick={handleUpdate}>
                         Edit
                         {/* <i className="fa-solid fa-pen-to-square"></i> */}

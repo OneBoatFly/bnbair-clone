@@ -40,17 +40,17 @@ export const progressBar = (page) => {
 }
 
 
-export const PageDisplay = (page, formData, setFormData, hasSubmitted, allErrors) => {
+export const PageDisplay = (page, formData, setFormData, hasSubmitted, allErrors, imageUpload, setImageUpload) => {
     // console.log(apiKey, formData, setFormData)
     // 
     switch (page) {
-        case 0: return <MultiAddress formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} addressErrors={allErrors.addressErrors} setAddressErrors={allErrors.setAddressErrors} geoError={allErrors.geoError} />
+        case 0: return <MultiAddress formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} addressErrors={allErrors.addressErrors} setAddressErrors={allErrors.setAddressErrors} geoError={allErrors.geoError} setGeoError={allErrors.setGeoError} />
         case 1: return <MultiRooms formData={formData} setFormData={setFormData} />
         case 2: return <MultiAmenities formData={formData} setFormData={setFormData} />
         case 3: return <MultiTitle formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} titleErrors={allErrors.titleErrors} setTitleErrors={allErrors.setTitleErrors} />
         case 4: return <MultiDescription formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} descriptionErrors={allErrors.descriptionErrors} setDescriptionErrors={allErrors.setDescriptionErrors} />
         case 5: return <MultiPrice formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} priceErrors={allErrors.priceErrors} setPriceErrors={allErrors.setPriceErrors} />
-        case 6: return <MultiImages formData={formData} setImageError={allErrors.setImageError}/>
+        case 6: return <MultiImages formData={formData} setImageError={allErrors.setImageError} imageUpload={imageUpload} setImageUpload={setImageUpload} />
         // case 7: return <MultiPublish formData={formData} setFormData={setFormData} hasSubmitted={hasSubmitted} addressErrors={allErrors.addressErrors} setPriceErrors={allErrors.setPriceErrors}/>
         default: return null
     }

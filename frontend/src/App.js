@@ -10,7 +10,7 @@ import PageNotFound from './components/PageNotFound';
 import Trips from './components/Trips/Trips';
 import MapContainer from './components/Maps/MapContainer';
 import { getGeoKey, getKey } from './store/maps';
-import AddSpotImages from './components/Spots/AddSpotImages';
+// import AddSpotImages from './components/Spots/AddSpotImages';
 import Reservations from './components/Reservations/Reservations';
 import Footer from './components/Footer/Footer';
 import MainFormContainer from './components/Spots/MultiCreateForm/MainFormContainer';
@@ -74,7 +74,7 @@ function App() {
       </div>
       <Switch>
         <Route exact path='/'>
-          <div className='root-sub-wrapper'>
+          <div className='root-sub-wrapper root-sub-wrapper-with-map'>
             <div className='map-allSpots-wrapper'>
               <Spots setQuery={setQuery} query={query} ></Spots>
               <MapContainer setQuery={setQuery} setCenter={setCenter} center={center} />
@@ -109,16 +109,16 @@ function App() {
             </div>
           </Route>
         }        
-        {isLoaded &&
+        {/* {isLoaded &&
           <Route exact path='/spots/:spotId/images'>
             <div className='root-sub-wrapper'>
               <AddSpotImages />
             </div>
           </Route>
-        }
+        } */}
         {isLoaded &&
           <Route exact path='/spots/create'>
-            <div className='root-sub-wrapper'>
+            <div className='root-sub-wrapper root-sub-wrapper-with-multi-form'>
               <MainFormContainer />
             </div>
           </Route>

@@ -1,6 +1,20 @@
+.main-create-form {
+    box-sizing: border-box;
+    height: calc(100vh - 81px - 65px);
+    position: relative;
+}
+
 .main-create-form-container {
+    border: 1px solid greenyellow;
+    overflow-y: scroll;
+    height: calc(100% - 6rem - 6px);
+}
+
+.main-create-form-container-sub {
     max-width: 630px;
-    margin: 3rem auto;
+    box-sizing: border-box;
+    padding-top: 1.5rem;
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
 }
@@ -23,6 +37,7 @@
     min-height: 6px;
     max-height: 6px;
     background-color: #DDDDDD;
+    margin-bottom: 1.5rem;
 }
 
 .main-create-progress-bar {
@@ -33,12 +48,17 @@
 }
 
 .main-create-button-container {
-    margin: 1rem 0;
-    height: 4rem;
-    position: relative;
+    outline: 1px solid goldenrod;
+    height: calc(6rem + 6px);
+    width: 100%;
+    padding-bottom: 1.5rem;
+    box-sizing: border-box;
+    position: absolute;
+    bottom: 0;
 }
 
 .main-create-button {
+    height: 3rem;
     cursor: pointer;
     color: inherit;
     font-size: 1rem;
@@ -47,6 +67,8 @@
 }
 
 .main-create-button.button-left {
+    position: absolute;
+    left: 1.5rem;
     border: unset;
     background-color: unset;
     text-decoration: underline;
@@ -59,7 +81,7 @@
 
 .main-create-button.button-right {
     position: absolute;
-    right: 0;
+    right: 1.5rem;
     border: rgb(34,34,34);
     background-color: rgb(34, 34, 34);
     color: white;
@@ -68,4 +90,6 @@
 
 .main-create-form-validation-errors {
     margin-bottom: 1rem;
+    height: 2rem;
+    overflow-y: auto;
 }

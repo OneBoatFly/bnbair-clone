@@ -4,11 +4,11 @@ import './MultiAddress.css';
 
 const countryCodes = require('country-codes-list');
 
-export default function MultiAddress({ formData, setFormData, hasSubmitted, addressErrors, setAddressErrors, geoError }) {
+export default function MultiAddress({ formData, setFormData, hasSubmitted, addressErrors, setAddressErrors, geoError, setGeoError }) {
   const myCountryCodesObject = countryCodes.customList('countryCode', '{countryNameEn} - {countryCode}')
   const myCountryCodesArr = Object.values(myCountryCodesObject);
 
-  console.log('formData', formData)
+  // console.log('formData', formData)
   // css related //
   const streetLabel = useRef(null);
   const streetInput = useRef(null);
@@ -27,6 +27,8 @@ export default function MultiAddress({ formData, setFormData, hasSubmitted, addr
   // css related //
 
   useEffect(() => {
+    setGeoError('');
+    
     const hasAddressErrors = {};
 
     if (!formData.address.length) hasAddressErrors.street = 'Street is required.';
