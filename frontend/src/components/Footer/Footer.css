@@ -7,6 +7,12 @@
     z-index: 3;
 }
 
+.footer-div span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap
+}
+
 @media (max-width: 1128px) {
     .root-sub-wrapper-footer {
         padding: 0 40px;

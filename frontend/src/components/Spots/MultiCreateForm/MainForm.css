@@ -18,6 +18,12 @@
     flex-direction: column;
 }
 
+@media (max-width: 650px) {
+    .main-create-form-container-sub {
+        max-width: 90%;
+    }
+}
+
 .main-create-form-title {
     font-size: 2rem;
     font-weight: 600;

@@ -18,9 +18,9 @@
 .multi-create-price .create-spot {
     width: 100%;
     display: flex;
-    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
+    justify-content: center;
 }
 
 .multi-create-price .price-wrapper {
