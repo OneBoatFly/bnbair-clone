@@ -20,6 +20,11 @@ import * as spotReviewsActions from '../../store/spotReviews';
 import { getMMMDDYYYStr } from '../Spots/SpotCalcs/spotDates';
 import CreateBookingMobile from '../Bookings/CreateBookingMobile';
 import SpotMapContainer from '../Maps/SpotMapContainer';
+import SpotDetailHostLoc from './SpotDetailHostLoc';
+import SpotDetailSuperhostLogo from './SpotDetailSuperhostLogo';
+import SpotDetailRooms from './SpotDetailRooms';
+import SpotDetailHighlight from './SpotDetailHighlight';
+import SpotDetailAmenities from './SpotDetailAmenities';
 
 export default function SpotDetails() {
     // console.log('Spot Details Compoment')
@@ -97,6 +102,7 @@ export default function SpotDetails() {
                 </div>
                 <div className='title-div-wrapper'>
                     <RatingNumReview spot={spot} setShowReviewModal={setShowReviewModal} />
+                    <SpotDetailHostLoc spot={spot} />
                 </div>
 
                 {spot.SpotImages && 
@@ -145,15 +151,33 @@ export default function SpotDetails() {
 
                 <div className='signle-spot-header-wrapper-mobile'>
                     <h3>{spot.name}</h3>
-                    <span>Hosted by {spot.Owner?.firstName} @{spot.city}, {spot.state}</span>
                 </div>
                 <div className='title-div-wrapper-mobile'>
                     <RatingNumReview spot={spot} setShowReviewModal={setShowReviewModal} />
+                    <SpotDetailHostLoc spot={spot} />
                 </div>
 
                 <div className='info-booking-wrapper'>
                     <div className='spot-info-wrapper'>
-                        {spot.Owner && <div className='hostName'>{spot.Owner && <h4>Hosted by {spot.Owner.firstName}</h4>}</div>}
+                        {spot.Owner && 
+                            <div className='hostName'>
+                                <div>
+                                    <h4>Hosted by {spot.Owner.firstName}</h4>
+                                    <SpotDetailRooms spot={spot} />
+                                </div>
+                                <div className='host-profile-pic-div'>
+                                    <img className='host-profile-pic-img' src={spot.Owner.profileUrl} alt=''/>
+                                    {spot.Owner.isSuperhost &&
+                                        <div className='host-superhost-logo-div'>
+                                            <SpotDetailSuperhostLogo />
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        }
+                        <div className='info-detail-wrapper'>
+                            <SpotDetailHighlight owner={spot?.Owner} />
+                        </div>
                         <div className='info-detail-wrapper'>
                             <div>
                                 <img className='aircover-img' src='https://a0.muscache.com/im/pictures/54e427bb-9cb7-4a81-94cf-78f19156faad.jpg' alt='aircover'></img>
@@ -163,6 +187,7 @@ export default function SpotDetails() {
                         <div className='info-detail-wrapper'>
                             <p>{spot.description}</p>
                         </div>
+
                         {spot.SpotImages &&
                             <div className='pictures-in-mobile'>
                                 <div className='pictures-big-mobile upper'>
@@ -198,7 +223,13 @@ export default function SpotDetails() {
                                     </ModalWhole>
                                 }
                             </div>
-                        }          
+                        }
+
+                        <div className='info-detail-wrapper'>
+                            <h4>What this place offers</h4>
+                              <SpotDetailAmenities spot={spot} />
+                        </div>
+
                         <div className='info-detail-wrapper'>
                             <h4>{totalDays} nights in {spot.city}</h4>
                             <div className='date-calendar-span'>
@@ -224,7 +255,7 @@ export default function SpotDetails() {
                     </div>
                     <SpotReviews spotReviews={spotReviews} />
                 </div>
-                <div className='spot-map-wrapper'>
+                <div className='spot-map-wrapper' id='spot-detail-map'>
                     <div className='spot-map-sub-wrapper'>
                         <h4>
                             Where you'll be

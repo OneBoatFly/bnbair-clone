@@ -70,18 +70,30 @@
     border: none;
     border: 1px solid #dddddd;
     border-radius: 21px;
-    padding: 5px 5px 5px 5px;
+    padding: 5px 5px 5px 12px;
     display: flex;
     align-items: center;
     justify-content: center;
     column-gap: 10px;
-    width: 58px;
-    height: 30px;
+    width: 75px;
+    height: 42px;
+    box-sizing: border-box;
     cursor: pointer;
 }
 
 .navBar-button:hover {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18);
+}
+
+.navBar-button-sub-div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.navBar-button-sub-div i {
+    font-size: 1rem;
+    margin-right: 0.5rem;
 }
 
 .menu-all-wrapper {
@@ -216,4 +228,34 @@
     .navigation-sub-wrapper.side1 {
         display: none;
     }
+}
+
+.profile-button-profile-pic {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.menu-button-sub-div {
+    width: 95%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.menu-button-sub-div i {
+    margin: auto 0;
+    font-size: 1rem;
+}
+
+.menu-button-span-background {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: rgb(113, 113, 113);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
 }

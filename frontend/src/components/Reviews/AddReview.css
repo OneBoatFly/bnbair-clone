@@ -32,6 +32,10 @@
     border-radius: 8px;
 }
 
+.content-wrapper textarea:focus-within {
+    outline: 2px solid #222222;
+}
+
 .select-rating-wrapper select {
     border-radius: 8px;
     padding: 8px;

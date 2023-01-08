@@ -16,7 +16,7 @@ module.exports = {
         const spotDetail = spotsDetails[j];
         spotDetail.address = `DemoUser${user.id} ${spotDetail.address}`;
 
-        await user.createSpot({ ownerId: user.id, ...spotDetail });
+        await user.createSpot({ ownerId: user.id, ...spotDetail, isPublished: true });
       };
     };
 

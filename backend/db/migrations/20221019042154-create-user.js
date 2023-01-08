@@ -19,6 +19,15 @@ module.exports = {
         allowNull: false,
         unique: true,
       },
+      profileUrl: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      isSuperhost: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,        
+      },
       hashedPassword: {
         type: Sequelize.STRING.BINARY,
         allowNull: false,

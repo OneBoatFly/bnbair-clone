@@ -1,6 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getStorage } from 'firebase/storage';
+const { initializeAppCheck, ReCaptchaV3Provider } = require("firebase/app-check");
 
 const firebaseConfig = {
     apiKey: "AIzaSyB6vPiDU9IVWzRZELW5_rgTyjsUwMMMXAc",
@@ -14,4 +15,10 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+
+// initializeAppCheck(app, {
+//     provider: new ReCaptchaV3Provider('6Ldsv9MjAAAAAL04HVRKIPXq_gtz_UweQYXX4MRvQQQ'),
+//     // isTokenAutoRefreshEnabled: true
+// });
+
 export const storage = getStorage(app)

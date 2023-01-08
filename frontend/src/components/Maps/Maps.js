@@ -1,14 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom'
 import { GoogleMap, useJsApiLoader, OverlayView } from '@react-google-maps/api';
 import { useSelector } from 'react-redux';
 
 const containerStyle = {
     width: '100%',
-    height: 'calc(100vh - 81px + 24px)',
-    position: 'absolute',
-    top: '-24px',
-    left: '0',
+    height: '100%',
 };
 
 const Maps = ({ apiKey, setQuery, setCenter, center }) => {

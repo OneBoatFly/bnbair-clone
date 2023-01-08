@@ -1,63 +1,50 @@
 html {
     padding: 0;
     margin: 0;
+    height: 100vh;
 }
 
 body {
     font-family: 'Montserrat', Arial, Helvetica, sans-serif;
     margin: 0px;
     padding: 0;
+    height: 100vh;
 }
 
 #root {
     height: 100%;
     min-height: 100%;
     max-height: 100%;
+    height: 100vh;
 }
 
 .root-wrapper {
     outline: 1px solid purle;
-    /* background-color: #dddddd; */
     position: relative;
     height: 100%;
 }
 
-/* .scrollable-container {
-    height: 100%;
-    width: 100%;
-    overflow-y: scroll;
-} */
-
 /* padding 80px is for 1440px screen or above */
 .root-sub-wrapper-navigation {
-    /* outline: 2px solid salmon; */
     border-bottom: 1px solid #dddddd;
     padding: 0 80px;
     position: sticky;
     top: 0;
     background: white;
-    z-index: 1;
+    z-index: 3;
 }
 
 .root-sub-wrapper {
-    /* outline: 2px solid black; */
-    border-bottom: 1px solid #dddddd;
     padding: 0 80px;
-    /* width: 100%; */
-    height: 100%;
+    height: calc(100vh - 81px - 65px);
     position: relative;
+    overflow-y: auto;
 }
 
-.map-allSpots-wrapper {
-    max-width: 1760px;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    margin: 24px auto;
-    column-gap: 24px;
-    width: 100%;
-    height: 100%;
-    box-sizing: border-box;
+.root-sub-wrapper-with-multi-form,
+.root-sub-wrapper-with-map {
+    overflow-y: unset;
+    padding: unset;
 }
 
 .error-messages-wrapper {
@@ -86,6 +73,12 @@ span.error-messages {
         /* outline: 1px solid black; */
         padding: 0 40px;
     }
+
+    .root-sub-wrapper-with-multi-form,
+    .root-sub-wrapper-with-map {
+        overflow-y: unset;
+        padding: unset;
+    }
 }
 
 @media (max-width: 744px) {
@@ -93,5 +86,11 @@ span.error-messages {
     .root-sub-wrapper-navigation {
         /* outline: 1px solid black; */
         padding: 0 20px;
+    }
+    
+    .root-sub-wrapper-with-multi-form,
+    .root-sub-wrapper-with-map {
+        overflow-y: unset;
+        padding: unset;
     }
 }

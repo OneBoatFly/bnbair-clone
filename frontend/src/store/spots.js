@@ -5,15 +5,34 @@ import { addImages } from './spotImages';
 const LOAD_SPOTS = 'spots/loadSpots';
 const LOAD_SPOTS_PAGINATION = 'spots/loadSpotsPagination'
 const LOAD_SPOT_DETAIL = 'spots/getOneSpot';
+const LOAD_NEW_SPOT = 'spots/loadNewSpot';
 const LOAD_OWNER_SPOTS = 'spots/ownerSpots';
 const REMOVE_OWNER_SPOTS = 'spots/removeOwnerSpots';
 const UNLOAD_SPOT_DETAIL = 'spots/unloadOneSpot';
 const LOAD_SPOT_BOOKINGS = 'spots/loadSpotBookings';
+const LOAD_AMENITIES = 'spots/loadAmenities';
+
+
+const loadAmenities = (amenities) => {
+    return {
+        type: LOAD_AMENITIES,
+        amenities
+    }
+};
+
 
 const loadSpots = (spots, page) => {
     return {
         type: LOAD_SPOTS,
         payload: {spots, page}
+    }
+};
+
+
+const loadNewSpot = (spot) => {
+    return {
+        type: LOAD_NEW_SPOT,
+        spot
     }
 };
 
@@ -150,7 +169,7 @@ export const getOneSpot = (spotId) => async (dispatch) => {
 };
 
 export const createOneSpot = (spotInfo) => async (dispatch) => {
-    console.log('----------reached creating a spot thunk----------', spotInfo)
+    // console.log('----------reached creating a spot thunk----------', spotInfo)
     const options = {
         method: 'POST',
         body: JSON.stringify(spotInfo)
@@ -163,6 +182,7 @@ export const createOneSpot = (spotInfo) => async (dispatch) => {
     if (response.ok) {
         // console.log('-------------reached reponse ok-------------')
         const spot = await response.json();
+        // dispatch(loadNewSpot(spot));
         dispatch(getOneSpot(spot.id));
         return spot;
     }
@@ -248,11 +268,47 @@ export const createSpotBooking = (spotId, dates) => async (dispatch) => {
     if (response.ok) {
         // console.log('-------------reached reponse ok-------------')
         const booking = await response.json();
-        console.log(booking);
+        // console.log(booking);
 
         dispatch(getOneSpot(spotId));
         dispatch(getSpotBookings(spotId));
         return booking;
+    }
+};
+
+
+export const getAmenities = () => async (dispatch) => {
+    // console.log('---------- getAmenities thunk ---------')
+    const response = await csrfFetch(`/api/spots/amenities`);
+    // console.log('---------- getAmenities response ------', response)
+    if (response.ok) {
+        const data = await response.json();
+        // console.log('getAmenities response.ok', data)
+
+        dispatch(loadAmenities(data));
+        return null
+    } else {
+        const data = await response.json();
+        // console.log('getSpotBookings error', data, "*******")
+        return data
+    }
+};
+
+
+export const updateSpotAmenities = (spotInfo, spotId) => async (dispatch) => {
+    console.log('----------updateSpotAmenities thunk----------')
+    const options = {
+        method: 'PUT',
+        body: JSON.stringify(spotInfo)
+    };
+
+    const response = await csrfFetch(`/api/spots/${spotId}/amenities`, options);
+
+    if (response.ok) {
+        console.log('-------------updateSpotAmenities reponse ok-------------')
+        const spot = await response.json();
+        dispatch(getOneSpot(spot.id));
+        return spot;
     }
 };
 
@@ -300,6 +356,16 @@ const spotsReducer = (state = initalState, action) => {
         case LOAD_SPOT_BOOKINGS: {
             newState = { ...state }
             newState.spotBookings = action.bookings;
+            return newState
+        }
+        case LOAD_AMENITIES: {
+            newState = { ...state }
+            newState.amenities = action.amenities;
+            return newState
+        }
+        case LOAD_NEW_SPOT: {
+            newState = { ...state }
+            newState.newSpot = action.spot;
             return newState
         }
         default: {

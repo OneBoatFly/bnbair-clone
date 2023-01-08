@@ -1,0 +1,6 @@
+.upload-from-device {
+    cursor: pointer;
+    text-decoration: underline;
+    font-weight: 600;
+    margin-top: 0.5rem;
+}

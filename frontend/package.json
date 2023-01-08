@@ -8,6 +8,7 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
+    "country-codes-list": "^1.6.10",
     "firebase": "^9.15.0",
     "geolib": "^3.3.3",
     "js-cookie": "^3.0.1",

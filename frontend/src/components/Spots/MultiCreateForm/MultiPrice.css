@@ -1,0 +1,65 @@
+.multi-create-price {
+    padding: 40px 24px 40px 24px;
+    background-color: rgb(247, 247, 247);
+    border: 1px solid rgb(221, 221, 221);
+    border-radius: 12px;
+    color: rgb(34, 34, 34);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.multi-create-price-span {
+    width: 100%;
+    text-align: center;
+    margin: 1rem 0;
+}
+
+.multi-create-price .create-spot {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.multi-create-price .price-wrapper {
+    flex-grow: 1;
+    margin: 0 1rem;
+}
+
+.multt-create-price-toggle {
+    width: 40px;
+    height: 40px;
+    flex-grow: 0;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgb(176, 176, 176);
+    color: rgb(113, 113, 113);
+    background-color: white;
+    border-radius: 50%;
+}
+
+.multt-create-price-toggle:hover {
+    border-color: rgb(34, 34, 34);
+    color: rgb(34, 34, 34);
+}
+
+.multt-create-price-toggle.toggle-disabled {
+    cursor: not-allowed;
+    color: rgb(235, 235, 235);
+    border-color: rgb(235, 235, 235);
+}
+
+.multi-create-price .create-spot-price {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.multi-create-price .create-spot-price input {
+    text-align: center;
+}

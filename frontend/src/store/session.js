@@ -53,7 +53,6 @@ export const restoreUser = () => async (dispatch) => {
     // console.log(response, response.ok)
     if (response.ok) {
         const user = await response.json();
-        // console.log('user', user)
         dispatch(setUser(user));
         return user;
     }
@@ -101,9 +100,9 @@ const sessionReducer = (state = initalState, action) => {
         case LOGIN_USER: {
             // console.log('LOGIN_USER')
             newState = Object.assign({}, state);
-            const {id, username, email, firstName, lastName} = action.user;
+            const { id, username, email, firstName, lastName, profileUrl, isSuperhost } = action.user;
             // console.log(action.user)
-            if (id) newState.user = { id, username, email, firstName, lastName };
+            if (id) newState.user = { id, username, email, firstName, lastName, profileUrl, isSuperhost };
             return newState;
         }
         case LOGOUT_USER: {

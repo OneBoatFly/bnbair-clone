@@ -1,3 +1,4 @@
+import { async } from '@firebase/util';
 import { csrfFetch } from './csrf';
 import * as spotsActions from './spots';
 
@@ -24,6 +25,22 @@ export const addImages = (imageInfo, spotId) => async (dispatch) => {
         dispatch(spotsActions.getOneSpot(spotId));
         return data;
     }
+}
+
+export const deleteImage = (imageId, spotId) => async (dispatch) => {
+    console.log('delete image thunk ---- ')
+    console.log('imageId', imageId)
+    const options = {
+        method: 'DELETE',
+    }
+
+    const response = await csrfFetch(`/api/spot-images/${imageId}`, options);
+
+    if (response.ok) {
+        const data = await response.json();
+        dispatch(spotsActions.getOneSpot(spotId));
+        return data;
+    }    
 }
 
 const initalState = {};

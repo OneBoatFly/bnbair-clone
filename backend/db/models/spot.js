@@ -27,7 +27,11 @@ module.exports = (sequelize, DataTypes) => {
         through: models.Review,
         foreignKey: 'spotId',
         otherKey: 'userId',
-      });      
+      });
+
+      Spot.hasOne(models.AmenityBasic, { foreignKey: 'id' })
+      Spot.hasOne(models.AmenityStandout, { foreignKey: 'id' })
+      Spot.hasOne(models.AmenitySafety, { foreignKey: 'id' })
     }
   }
   Spot.init({
@@ -84,7 +88,52 @@ module.exports = (sequelize, DataTypes) => {
         isDecimal: true,
         min: 0
       }
-    }
+    },
+    guests: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 2,
+      validate: {
+        isInt: true,
+        min: 1,
+        max: 16
+      }
+    },
+    bedrooms: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 1,
+      validate: {
+        isInt: true,
+        min: 0,
+        max: 50
+      }  
+    },
+    beds: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 1,
+      validate: {
+        isInt: true,
+        min: 1,
+        max: 50
+      }
+    },
+    bathrooms: {
+      type: DataTypes.DECIMAL,
+      allowNull: false,
+      defaultValue: 1,
+      validate: {
+        isDecimal: true,
+        min: 0.5,
+        max: 50
+      }
+    },
+    isPublished: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false
+    },  
   }, {
     sequelize,
     modelName: 'Spot',

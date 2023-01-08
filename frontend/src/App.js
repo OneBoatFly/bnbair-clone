@@ -10,7 +10,10 @@ import PageNotFound from './components/PageNotFound';
 import Trips from './components/Trips/Trips';
 import MapContainer from './components/Maps/MapContainer';
 import { getGeoKey, getKey } from './store/maps';
-import AddSpotImages from './components/Spots/AddSpotImages';
+// import AddSpotImages from './components/Spots/AddSpotImages';
+import Reservations from './components/Reservations/Reservations';
+import Footer from './components/Footer/Footer';
+import MainFormContainer from './components/Spots/MultiCreateForm/MainFormContainer';
 
 function App() {
   const prevLoaded = window.localStorage.getItem('isLoaded');
@@ -22,11 +25,10 @@ function App() {
   })
   const [userCenter, setUserCenter] = useState({});
   const key = useSelector((state) => state.maps.key);
-  const geoKey = useSelector((state) => state.maps.geoKey)
+  const geoKey = useSelector((state) => state.maps.geoKey);
 
   const dispatch = useDispatch();
   useEffect(() => {
-    // dispatch(sessionActions.userLocation())
     dispatch(sessionActions.restoreUser()).then(() => {
       setIsLoaded(true);
     });
@@ -72,7 +74,7 @@ function App() {
       </div>
       <Switch>
         <Route exact path='/'>
-          <div className='root-sub-wrapper'>
+          <div className='root-sub-wrapper root-sub-wrapper-with-map'>
             <div className='map-allSpots-wrapper'>
               <Spots setQuery={setQuery} query={query} ></Spots>
               <MapContainer setQuery={setQuery} setCenter={setCenter} center={center} />
@@ -90,7 +92,6 @@ function App() {
           <Route exact path='/reviews/current'>
             <div className='root-sub-wrapper'>
               <UserReviews isLoaded={isLoaded} />
-              {/* <UserReviews isLoaded={isLoaded} setPage={setPage}/> */}
             </div>
           </Route>
         }
@@ -102,31 +103,34 @@ function App() {
           </Route>
         }
         {isLoaded &&
+          <Route exact path='/spots/:spotId/bookings'>
+            <div className='root-sub-wrapper'>
+              <Reservations />
+            </div>
+          </Route>
+        }        
+        {/* {isLoaded &&
           <Route exact path='/spots/:spotId/images'>
             <div className='root-sub-wrapper'>
               <AddSpotImages />
             </div>
           </Route>
-        }        
+        } */}
+        {isLoaded &&
+          <Route exact path='/spots/create'>
+            <div className='root-sub-wrapper root-sub-wrapper-with-multi-form'>
+              <MainFormContainer />
+            </div>
+          </Route>
+        }       
         {!isLoaded &&
-          <Route exact path='/spots/current'>
+          <Route path={['/spots/current', '/spots/:spotId/bookings', '/reviews/current', '/trips', '/spots/create']}>
             <Redirect to='/' />
           </Route>
         }
-        {!isLoaded &&
-          <Route exact path='/reviews/current'>
-            <Redirect to='/' />
-          </Route>
-        }
-        {!isLoaded &&
-          <Route exact path='/trips'>
-            <Redirect to='/' />
-          </Route>
-        }         
         <Route exact path='/spots/:spotId'>
           <div className='root-sub-wrapper'>
             <SpotDetails isLoaded={isLoaded} />
-            {/* <SpotDetails isLoaded={isLoaded} setPage={setPage}></SpotDetails> */}
           </div>
         </Route>
         <Route>
@@ -135,6 +139,9 @@ function App() {
           </div>
         </Route>
       </Switch>
+      <div className='root-sub-wrapper-footer'>
+       <Footer />
+      </div>
     </div>
   );
 }

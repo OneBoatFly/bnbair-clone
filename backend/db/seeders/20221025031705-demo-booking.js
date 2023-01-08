@@ -8,8 +8,10 @@ module.exports = {
     const users = await User.findAll({limit:3, offset: 5});
     const spots = await Spot.findAll({limit:3});
 
+    let now = Date.now();
+    let next = Date.now() + 8.64e+7 * 30;
+
     for (let user of users) {
-      let now = Date.now();
       for (let spot of spots) {
         const startDate = 8.64e+7 * 3 + now;
         const endDate = 2.592e+8 + startDate;
@@ -23,7 +25,7 @@ module.exports = {
         });
       };
 
-      let next = Date.now() + 8.64e+7 * 30;
+    
       for (let spot of spots) {
         const startDate = 8.64e+7 * 3 + next;
         const endDate = 2.592e+8 + startDate;
@@ -39,8 +41,8 @@ module.exports = {
       
     };
 
+    now = Date.now();
     for (let user of users) {
-      let now = Date.now();
       for (let spot of spots) {
         const endDate = now - 8.64e+7 * 3;
         const startDate = endDate - 2.592e+8;

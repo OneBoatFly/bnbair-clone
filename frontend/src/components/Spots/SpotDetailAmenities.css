@@ -1,0 +1,19 @@
+.spot-amenities-wrapper {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.single-amenities-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.single-amenities-wrapper img {
+    width: 32px;
+    height: 32px;
+    object-fit: cover;
+}

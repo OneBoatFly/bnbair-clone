@@ -2,10 +2,101 @@ const { check, query } = require('express-validator');
 const { requireAuth } = require('../../utils/auth');
 const { handleValidationErrors } = require('../../utils/validation');
 const router = require('express').Router();
-const { Spot, Review, SpotImage, User, ReviewImage, Booking, sequelize } = require('../../db/models');
+const { Spot, Review, SpotImage, User, ReviewImage, Booking, sequelize, AmenityBasic, AmenitySafety, AmenityStandout } = require('../../db/models');
 const { Op } = require('sequelize');
 const Moment = require('moment');
 const MomentRange = require('moment-range');
+const { AMENITIES, AMENITY_TYPES, AMENITIES_CLASSIFICATION } = require('../../utils/amenities'); 
+
+// get all amenities
+router.get('/amenities', async (req, res) => {
+    const amenityBasic = [];
+    const amenityStandout = [];
+    const amenitySafety = [];
+
+    const keys = Object.keys(AMENITIES)
+    // console.log(keys, '------------')
+    for (let i in keys) {
+        const key = keys[i]
+        if (i <= AMENITIES_CLASSIFICATION.basic) {
+            amenityBasic.push({
+                url: AMENITIES[key],
+                type: AMENITY_TYPES[key],
+                field: key
+            })
+        } else if (i <= AMENITIES_CLASSIFICATION.standout) {
+            amenityStandout.push({
+                url: AMENITIES[key],
+                type: AMENITY_TYPES[key],
+                field: key
+            })
+        } else {
+            amenitySafety.push({
+                url: AMENITIES[key],
+                type: AMENITY_TYPES[key],
+                field: key
+            })
+        }
+    }
+
+    const amenities = { amenityBasic, amenityStandout, amenitySafety }
+
+    res.json(amenities)
+})
+
+
+// update spot amenities
+router.put('/:spotId/amenities', async (req, res, next) => {
+    const { amenityBasic } = req.body;
+    const { amenityStandout } = req.body;
+    const { amenitySafety } = req.body;
+    const keys = Object.keys(AMENITIES);
+
+    // console.log('-------- req.params.spotId -----------', req.params.spotId)
+    const spot = await Spot.findByPk(req.params.spotId);
+    if (!spot) {
+        const err = new Error("Spot couldn't be found");
+        err.status = 404;
+        next(err);
+    } else {
+        if (spot.ownerId == req.user.id) {
+            // make the updates
+
+            for (let i in keys) {
+                const key = keys[i]
+                if (i <= AMENITIES_CLASSIFICATION.basic && !amenityBasic.hasOwnProperty(key)) {
+                    amenityBasic[key] = false;
+                } else if (i <= AMENITIES_CLASSIFICATION.standout && !amenityStandout.hasOwnProperty(key)) {
+                    amenityStandout[key] = false;
+                } else if (!amenitySafety.hasOwnProperty(key)) {
+                    amenitySafety[key] = false;
+                }
+            }
+
+            // console.log('--------------------')
+            // console.log(amenityBasic)
+            // console.log(amenityStandout)
+            // console.log(amenitySafety)
+            const amenityBasicInstance = await AmenityBasic.findByPk(req.params.spotId);
+            await amenityBasicInstance.update({ ...amenityBasic });
+
+            const amenityStandoutInstance = await AmenityStandout.findByPk(req.params.spotId);
+            await amenityStandoutInstance.update({ ...amenityStandout });
+
+            const amenitySafetyInstance = await AmenitySafety.findByPk(req.params.spotId);
+            await amenitySafetyInstance.update({ ...amenitySafety });
+
+            res.json(spot);
+        } else {
+            const err = new Error('Unauthorized');
+            err.title = 'Unauthorized';
+            err.errors = ['Unauthorized'];
+            err.status = 403;
+            return next(err);
+        }
+    }
+})
+
 
 // get all spots owned by the current user
 router.get('/current', requireAuth, async (req, res) => {
@@ -43,6 +134,13 @@ router.get('/current', requireAuth, async (req, res) => {
             spotJSON.previewImage = null;
         }
 
+        const numberOfBooking = await Booking.findAll({
+            attributes: [[sequelize.fn("COUNT", sequelize.col("id")), "numberOfBooking"]],
+            where: { spotId: spot.id }
+        });
+
+        spotJSON.numberOfBooking = numberOfBooking[0].toJSON().numberOfBooking
+
         spotsArr.push(spotJSON);
     }
 
@@ -79,6 +177,7 @@ router.get('/:spotId/reviews', async (req, res, next) => {
 // get all bookings by a spotId
     // removed requireAuth here
 router.get('/:spotId/bookings', async (req, res, next) => {
+    console.log('spotId/bookings -----------', req.params.spotId)
     const spot = await Spot.findByPk(req.params.spotId);
 
     if (!spot) {
@@ -94,6 +193,7 @@ router.get('/:spotId/bookings', async (req, res, next) => {
         });
 
         if (!req.user) {
+            // console.log('--------------1----------------------------')
             const bookingsJSON = [];
             for (let booking of bookings) {
                 const bookingJSON = {};
@@ -106,8 +206,25 @@ router.get('/:spotId/bookings', async (req, res, next) => {
             res.json({ Bookings: bookingsJSON });
         } else {
             if (req.user.id === spot.ownerId) {
-                res.json({ Bookings: bookings })
+                const moment = MomentRange.extendMoment(Moment);
+
+                let bookingsFutureJSON = [];
+                let bookingsPastJSON = [];
+                for (let booking of bookings) {
+                    const bookingJSON = booking.toJSON();
+
+                    if (moment(booking.endDate) > moment()) {
+                        bookingsFutureJSON.push(bookingJSON);
+                    } else {
+                        bookingsPastJSON.push(bookingJSON); 
+                    }
+                }
+
+                bookingsFutureJSON.sort((a, b) => moment(a.startDate) - moment(b.startDate)) // earliest first
+                bookingsPastJSON.sort((a, b) => moment(b.startDate) - moment(a.startDate)) // latest first
+                res.json({ BookingsFuture: bookingsFutureJSON, BookingsPast: bookingsPastJSON });
             } else {
+                // console.log('-------------3-----------------------------')
                 const bookingsJSON = [];
                 for (let booking of bookings) {
                     const bookingJSON = {};
@@ -136,8 +253,20 @@ router.get('/:spotId', async (req, res, next) => {
             {
                 model: User,
                 as: 'Owner',
-                attributes: ['id', 'firstName', 'lastName'],
-            }
+                attributes: ['id', 'firstName', 'lastName', 'isSuperhost', 'profileUrl'],
+            },
+            {
+                model: AmenityBasic,
+                attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }
+            },
+            {
+                model: AmenityStandout,
+                attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }
+            }, 
+            {
+                model: AmenitySafety,
+                attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }
+            }           
         ]
     });
 
@@ -183,6 +312,31 @@ router.get('/:spotId', async (req, res, next) => {
         spotJSON.firstAvailableStart = moment(endDate, "DD-MM-YYYY").subtract(2, 'days')
         spotJSON.firstAvailableEnd = endDate;
         // console.log('Spot detail with first availability -----------', spotJSON)
+
+        // convert amenities to array with urls
+        const amenityArr = Object.keys(AMENITIES);
+        let amenities = []
+        for (let amenity of amenityArr) {
+            if (spotJSON.AmenityBasic[amenity]) amenities.push({
+                url: AMENITIES[amenity],
+                type: AMENITY_TYPES[amenity]
+            })
+
+            if (spotJSON.AmenityStandout[amenity]) amenities.push({
+                url: AMENITIES[amenity],
+                type: AMENITY_TYPES[amenity]
+            })
+
+            if (spotJSON.AmenitySafety[amenity]) amenities.push({
+                url: AMENITIES[amenity],
+                type: AMENITY_TYPES[amenity]
+            })
+        }
+
+        spotJSON.Amenities = amenities;
+        // delete spotJSON.AmenityBasic;
+        // delete spotJSON.AmenityStandout;
+        // delete spotJSON.AmenitySafety;
 
         res.json(spotJSON);
     }
@@ -301,6 +455,8 @@ router.get('/', validateQuery, async (req, res, next) => {
         attributes: [[sequelize.fn('COUNT', sequelize.col('id')), 'totalNumSpots']],
     });
 
+    where.isPublished = true;
+
     // console.log(totalSpots[0].toJSON())
     const spots = await Spot.findAll({ where, limit: size, offset, order: ['id'] });
 
@@ -379,17 +535,36 @@ const validateSpot = [
     check('price', "Price per day is required")
         .exists({checkFalsy: true})
         .isFloat({min: 0}),
+    check('guests', 'Allow guest number from 1 to 16.')
+        .exists({ checkFalsy: true })
+        .isInt({min: 1, max: 16}),
+    check('bedrooms', 'Allow bedrooms number from 1 to 50.')
+        .exists({ checkFalsy: true })
+        .isInt({ min: 1, max: 50 }),
+    check('beds', 'Allow beds number from 1 to 16.')
+        .exists({ checkFalsy: true })
+        .isInt({ min: 1, max: 16 }),
+    check('bathrooms', 'Allow bathroom number from 0.5 to 50.')
+        .exists({ checkFalsy: true })
+        .isFloat({ min: 0.5, max: 50 }),                        
     handleValidationErrors
 ];
 
 router.post('/', requireAuth, validateSpot, async (req, res, next) => {
     // console.log('in post a spot route');
-    const { address, city, state, country, lat, lng, name, description, price } = req.body;
+    const { address, city, state, country, lat, lng, name, description, price, guest, bedrooms, bathrooms, beds } = req.body;
+    const { amenityBasic } = req.body;
+    const { amenityStandout } = req.body;
+    const { amenitySafety } = req.body;
     
     try {
         const spot = await Spot.create({ ownerId: req.user.id, 
-            address, city, state, country, lat, lng, name, description, price });
-    
+            address, city, state, country, lat, lng, name, description, price, guest, bedrooms, bathrooms, beds});
+        
+        await spot.createAmenityBasic({ id: spot.id, ...amenityBasic });
+        await spot.createAmenityStandout({ id: spot.id, ...amenityStandout });
+        await spot.createAmenitySafety({ id: spot.id, ...amenitySafety });
+
         res.json(spot);
     } catch(e) {
         // console.log('backend error: ', e)
@@ -427,7 +602,8 @@ router.post('/', requireAuth, validateSpot, async (req, res, next) => {
 // edit a spot
 // need to confirm if i should assume body must include all attributes
 router.put('/:spotId', requireAuth, validateSpot, async (req, res, next) => {
-    const { address, city, state, country, lat, lng, name, description, price } = req.body;
+    const { address, city, state, country, lat, lng, name, description, price, guests, bedrooms, bathrooms, beds } = req.body;
+
     const spot = await Spot.findByPk(req.params.spotId);
     if (!spot) {
         const err = new Error("Spot couldn't be found");
@@ -436,7 +612,8 @@ router.put('/:spotId', requireAuth, validateSpot, async (req, res, next) => {
     } else {
         if (spot.ownerId == req.user.id) {
             // make the updates
-            const updatedSpot = await spot.update({ address, city, state, country, lat, lng, name, description, price });
+            const updatedSpot = await spot.update({ address, city, state, country, lat, lng, name, description, price, guests, bedrooms, bathrooms, beds });
+            
             res.json(updatedSpot);
         } else {
             const err = new Error('Unauthorized');
@@ -447,6 +624,31 @@ router.put('/:spotId', requireAuth, validateSpot, async (req, res, next) => {
         }
     }
 });
+
+
+// edit a spot - PATCH isPublished only
+router.patch('/:spotId', requireAuth, async (req, res, next) => {
+    const { isPublished } = req.body;
+
+    const spot = await Spot.findByPk(req.params.spotId);
+    if (!spot) {
+        const err = new Error("Spot couldn't be found");
+        err.status = 404;
+        next(err);
+    } else {
+        if (spot.ownerId == req.user.id) {
+            // make the updates
+            const updatedSpot = await spot.update({ isPublished });
+            res.json(updatedSpot);
+        } else {
+            const err = new Error('Unauthorized');
+            err.title = 'Unauthorized';
+            err.errors = ['Unauthorized'];
+            err.status = 403;
+            return next(err);
+        }
+    }
+})
 
 // delete a spot
 router.delete('/:spotId', requireAuth, async (req, res, next) => {

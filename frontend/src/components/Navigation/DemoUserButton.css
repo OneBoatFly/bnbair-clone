@@ -1,10 +1,10 @@
 .demo-user-button-div {
-    height: 30px;
+    height: 42px;
     border-radius: 21px;
 }
 
 .demo-user-button-div button {
-    height: 30px;
+    height: 42px;
     cursor: pointer;
     display: inline-block;
     margin: 0px;

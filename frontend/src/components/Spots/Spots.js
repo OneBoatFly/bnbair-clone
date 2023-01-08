@@ -94,7 +94,11 @@ export default function Spots({ query, setQuery }) {
                             <div ref={lastSpotElementRef} key={id} onClick={(e) => handleSpotClick(e, id)} className='link-wrapper'>
                                 <div className='individual-spot-wrapper'>
                                     <div className='image-div' ref={imageContainerRef}>
-                                        <SpotImageSlider previewImage={previewImage} imageWidth={width} imageHeight={height}/>
+                                        {previewImage.length === 0 ? 
+                                            <div>No Image</div>
+                                            :
+                                            <SpotImageSlider previewImage={previewImage} imageWidth={width} imageHeight={height}/>
+                                        }
                                     </div>
                                     <div className='short-info-wrapper'>
                                         <span className='cityState'>{city}, {state}</span>
@@ -114,7 +118,11 @@ export default function Spots({ query, setQuery }) {
                             <div key={id} to={`/spots/${id}`} onClick={(e) => handleSpotClick(e, id)} className='link-wrapper'>
                                 <div className='individual-spot-wrapper'>
                                     <div className='image-div'>
-                                        <SpotImageSlider previewImage={previewImage} imageWidth={width} imageHeight={height} />
+                                        {previewImage.length === 0 ?
+                                            <div className='no-image-div'>No image</div>
+                                            :
+                                            <SpotImageSlider previewImage={previewImage} imageWidth={width} imageHeight={height} />
+                                        }                                        
                                     </div>
                                     <div className='short-info-wrapper'>
                                         <span className='cityState'>{city}, {state}</span>

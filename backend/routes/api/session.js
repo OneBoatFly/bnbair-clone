@@ -27,6 +27,7 @@ router.post('/', validateLogin, async (req, res, next) => {
         const token = setTokenCookie(res, user);
         const userJSON = user.toJSON();
         userJSON.token = token;
+        // console.log(user)
         // console.log('from login success', userJSON)
         return res.json(userJSON);
     } else {

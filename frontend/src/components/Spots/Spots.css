@@ -1,16 +1,7 @@
 .all-spots-wrapper {
-    /* max-width: 1760px; */
     width: calc(50% - 12px);
-    height: 100%;
     box-sizing: border-box;
-    overflow: scroll;
-    /* margin: 24px auto; */
-}
-
-.all-spots-wrapper::-webkit-scrollbar {
-    width: 0px;
-    background: transparent;
-    /* make scrollbar transparent */
+    margin: 24px 0;
 }
 
 .single-spot-wrapper {

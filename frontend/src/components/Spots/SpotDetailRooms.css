@@ -1,0 +1,10 @@
+.spot-detail-rooms-div {
+    margin-top: 0.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.spot-detail-rooms-div span {
+    white-space: nowrap;
+}

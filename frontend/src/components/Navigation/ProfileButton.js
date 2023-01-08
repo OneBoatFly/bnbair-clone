@@ -1,19 +1,19 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { NavLink, Redirect } from "react-router-dom";
 import * as sessionActions from '../../store/session';
 import * as spotsActions from '../../store/spots';
 import * as reviewsActions from '../../store/spotReviews';
 
-import { Modal } from '../../context/Modal';
-import CreateSpot from '../Spots/CreateSpot';
+// import { Modal } from '../../context/Modal';
+// import CreateSpot from '../Spots/CreateSpot';
 import './Navigation.css';
 
 export default function ProfileButton({ user, setIsLoaded, setPage }) {
     const dispatch = useDispatch();
-    const geokey = useSelector((state) => state.maps.geokey);
+    // const geokey = useSelector((state) => state.maps.geokey);
     const [showMenu, setShowMenu] = useState(false);
-    const [showSpotFormModal, setShowSpotFormModal] = useState(false);
+    // const [showSpotFormModal, setShowSpotFormModal] = useState(false);
 
     const openMenu = () => {
         if (showMenu) return;
@@ -52,9 +52,9 @@ export default function ProfileButton({ user, setIsLoaded, setPage }) {
   return (
     <div className="menu-all-wrapper">
         <button className="navBar-button" onClick={openMenu}>
-            <div style={{display:'flex', flexDirection:'row', verticalAlign:'center', justifyContent:'space-between', width:'70%'}}>
+            <div className='navBar-button-sub-div'>
                 <i className="fa-solid fa-bars"></i>
-                <i className="fa-solid fa-user"></i>
+                {user?.profileUrl ? <img className="profile-button-profile-pic" src={user.profileUrl} alt='' /> : <i className="fa-solid fa-user"></i>}
             </div>
         </button>
         {showMenu && (
@@ -67,11 +67,14 @@ export default function ProfileButton({ user, setIsLoaded, setPage }) {
                 </div>
 
                 <div className="menu-dropdown">
-                    <div className="menu-dropdown-sub" onClick={() => setShowSpotFormModal(true)}>
+                    {/* <div className="menu-dropdown-sub" onClick={() => setShowSpotFormModal(true)}>
                         <button className="create-listing-button" >Create a new listing</button>
-                    </div>                    
+                    </div> */}
+                    {/* <NavLink to='/spots/create' className='navLink-current' >
+                          <div className="menu-dropdown-sub">Create a new listing</div>
+                    </NavLink>                  */}
                     <NavLink to='/spots/current' className="navLink-current">
-                        <div className="menu-dropdown-sub">Listings</div>
+                        <div className="menu-dropdown-sub">Switch to host</div>
                     </NavLink>
                     <div className="menu-dropdown-sub">
                         <NavLink to='/reviews/current' className="navLink-current">My reviews</NavLink>
@@ -87,11 +90,11 @@ export default function ProfileButton({ user, setIsLoaded, setPage }) {
                 </div>
             </div>
         )}      
-        {showSpotFormModal && (
+        {/* {showSpotFormModal && (
             <Modal onClose={() => setShowSpotFormModal(false)} >
                 <CreateSpot setShowSpotFormModal={setShowSpotFormModal} apiKey={geokey}/>
             </Modal>
-        )}  
+        )}   */}
     </div>
   )
 }

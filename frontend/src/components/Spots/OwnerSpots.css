@@ -85,7 +85,7 @@
 }
 
 .owner-spots-table th {
-    padding: 10px;
+    padding: 8px;
 }
 
 .owner-spots-table td {
@@ -165,4 +165,8 @@
 
 .ownerspots-no-image {
     padding: 0 4px;
+}
+
+.spot-booking-link {
+    color: inherit;
 }

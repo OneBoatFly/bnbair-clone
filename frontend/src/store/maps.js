@@ -33,6 +33,39 @@ export const getGeoKey = () => async (dispatch) => {
 };
 
 
+export const validateAddress = (apiKey, { address, city, province, zipCode, country}) => async (dispatch) => {
+    // console.log('address validating thunk--------')
+    // console.log(address, city, province, zipCode, country)
+    const body = {
+        'address': {
+            "revision": 0,
+            "regionCode": country,
+            "administrativeArea": province,
+            // "postalCode": zipCode,
+            "locality": city,
+            "addressLines": [address]
+        },
+        "enableUspsCass": true
+    }
+
+    const options = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+    }
+
+    const res = await fetch(`https://addressvalidation.googleapis.com/v1:validateAddress?key=${apiKey}`, options)
+
+    if (res.ok) {
+        // console.log('address validating thunk response ok ----------', res)
+        const data = await res.json();
+        return data.result;
+    } else {
+        const data = await res.json();
+        throw Error(data.error.message);
+    }
+}
+
 
 const initialState = { key: null, geoKey: null};
 

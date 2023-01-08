@@ -7,15 +7,18 @@
 }
 
 .single-spot-sub-wrapper h3 {
-    font-size: 26px;
-    margin-bottom: 16px;
+    font-size: 1.875rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
 }
 
-.review-title-wrapper,
+/* .review-title-wrapper, */
 .title-div-wrapper {
     display: flex;
     align-items: center;
     column-gap: 4px;
+    font-size: 0.875rem;
+    font-weight: 500;
 }
 
 .single-spot-sub-wrapper p {
@@ -41,6 +44,27 @@
 
 .hostName {
     padding: 0px 0px 24px 0px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.host-profile-pic-div {
+    position: relative;
+    width: 56px;
+    height: 56px;
+}
+
+.host-superhost-logo-div {
+    position: absolute;
+    bottom: 0;
+    right: -8px;
+}
+
+.host-profile-pic-img {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
 }
 
 .info-detail-wrapper {
@@ -64,7 +88,7 @@
 .booking-form-sub-wrapper {
     position: sticky;
     z-index: 0;
-    top: 128px;
+    top: 2rem;
 }
 
 .booking-form {
@@ -226,14 +250,19 @@
         flex-basis: calc((100% - 8px) / 2);
     }
 
-    .title-div-wrapper-mobile,
     .signle-spot-header-wrapper-mobile {
         display: block !important;
     }
 
+    .title-div-wrapper-mobile {
+        display: flex !important;
+        flex-wrap: wrap;
+        row-gap: 0.5rem;
+    }
+
     .signle-spot-header-wrapper-mobile h3 {
         margin-top: 24px !important;
-        margin-bottom: 8px !important;
+        margin-bottom: 1rem !important;
         font-size: 1.5rem !important;
         font-weight: 500 !important;
     }
@@ -259,7 +288,8 @@
     }
 
     .hostName {
-        display: none !important;
+        border-top: 1px solid #dddddd;
+        padding-top: 24px;
     }
 
     .info-detail-wrapper {

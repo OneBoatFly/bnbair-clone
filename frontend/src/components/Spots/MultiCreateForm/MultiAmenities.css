@@ -1,0 +1,55 @@
+.multi-create-rooms {
+    display: flex;
+    flex-direction: column;
+    margin-top: -2rem;
+}
+
+.multi-create-rooms>span {
+    margin: 1rem 0;
+    font-weight: 600;
+}
+
+.multi-create-rooms-section-div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    /* justify-content: flex-start; */
+    margin: 1rem 0;
+}
+
+.multi-create-amenities-single-div {
+    height: 100%;
+    cursor: pointer;
+    flex: 0 1 calc(50% - 6px);
+    display: flex;
+    flex-direction: column;
+    border-radius: 0.5rem;
+    border: 1px solid #dddddd;
+    box-sizing: border-box;
+    padding: 1rem;
+    font-weight: 600;
+    color: #222222;
+    transition: box-shadow 0.4s ease;
+}
+
+.multi-create-amenities-single-div:hover {
+    border-color: transparent;
+    box-shadow: 0 0 0 2px #222222;
+}
+
+.multi-create-amenities-single-div img {
+    width: 45px;
+    max-width: 45px;
+    min-width: 45px;
+    height: 45px;
+    max-height: 45px;
+    min-height: 45px;
+    object-fit: cover;
+    margin-bottom: 0.5rem;
+}
+
+.amenity-selected {
+    border-color: transparent;
+    box-shadow: 0 0 0 2px #222222;
+    background-color: #f7f7f7;
+}
