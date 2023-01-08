@@ -8,12 +8,8 @@ const containerStyle = {
     height: '100%',
 };
 
-const Maps = ({ apiKey, setQuery, setCenter, center }) => {
+const Maps = ({ apiKey, setQuery, center }) => {
     const [libraries] = useState(['places']);
-    // const [center, setCenter] = useState({
-    //     lat: 47.6040349,
-    //     lng: -122.3007308,
-    // })
     const [mapref, setMapRef] = React.useState(null);
 
     const handleOnLoad = map => {
@@ -41,9 +37,7 @@ const Maps = ({ apiKey, setQuery, setCenter, center }) => {
         }  
     };
 
-    const [spotInfoArr, setSpotInfoArr] = useState([]);
     const spots = useSelector(state => state.spots.allSpots);
-        
 
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
@@ -53,20 +47,7 @@ const Maps = ({ apiKey, setQuery, setCenter, center }) => {
 
     let spotsArr = [];
     if (spots) spotsArr = Object.values(spots);
-
-    // useEffect(() => {
-    //     const spotInfo = []
-    //     for (let spot of spotsArr) {
-    //         spotInfo.push({ lat: spot.lat, lng:spot.lng, price:spot.price, id: spot.id })
-    //     }
-
-    //     setSpotInfoArr(spotInfo)
-
-    //     return () => {
-    //         setSpotInfoArr([])
-    //     }
-    // }, [spots])
-    
+   
     const history = useHistory();
     const handleClick = (spotId) => {
         history.push(`/spots/${spotId}`)
