@@ -224,12 +224,6 @@
     }
 }
 
-@media (max-width: 744px) {
-    .navigation-sub-wrapper.side1 {
-        display: none;
-    }
-}
-
 .profile-button-profile-pic {
     width: 30px;
     height: 30px;

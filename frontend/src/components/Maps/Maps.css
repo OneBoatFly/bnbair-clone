@@ -22,8 +22,15 @@
     .map-allSpots-wrapper {
             padding: 0 20px;
         }
-}
 
+    .home-page-map-container {
+        display: none;
+    }
+
+    .all-spots-wrapper {
+        width: 100%;
+    }
+}
 .home-page-map-container {
     width: calc(50% - 12px);
     height: 100%;
