@@ -177,7 +177,7 @@ router.get('/:spotId/reviews', async (req, res, next) => {
 // get all bookings by a spotId
     // removed requireAuth here
 router.get('/:spotId/bookings', async (req, res, next) => {
-    console.log('spotId/bookings -----------', req.params.spotId)
+    // console.log('spotId/bookings -----------', req.params.spotId)
     const spot = await Spot.findByPk(req.params.spotId);
 
     if (!spot) {

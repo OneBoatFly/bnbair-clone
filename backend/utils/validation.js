@@ -4,7 +4,7 @@ const handleValidationErrors = (req, _res, next) => {
     const validationErrors = validationResult(req);
 
     if (!validationErrors.isEmpty()) {
-        console.log('****', validationErrors)
+        // console.log('****', validationErrors)
 
         const errors = {};
         for (let i = 0; i < validationErrors.array().length; i++) {
