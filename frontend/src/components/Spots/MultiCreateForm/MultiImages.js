@@ -85,18 +85,20 @@ export default function MultiImages({ formData, setImageError, imageUpload, setI
       imageUpload.map(async (image, idx) => {
         const imageRef = ref(storage, `spots/${formData.spotId}/${image.name + v4()}`)
         const uploadBytesStatus = await uploadBytes(imageRef, image)
-          .then((snapshot) => {
-            getDownloadURL(snapshot.ref).then(url => {
+          .then(async (snapshot) => {
+            const getURLStatus = await getDownloadURL(snapshot.ref).then(async (url) => {
               const isPreview = databaseUrlArr.length >= 5 ? false : idx < 5 - databaseUrlArr.length;
               
-              dispatch(spotIamgesActions.addImages({
+              const databaseStatus = await dispatch(spotIamgesActions.addImages({
                 url: url,
                 preview: isPreview
               }, formData.spotId))
-              
+              console.log('databaseStatus', databaseStatus)
+              return databaseStatus;
             });
 
-            return true;
+            console.log('getURLStatus', getURLStatus)
+            return getURLStatus;
           })
           .catch((e) => {
             setError(e.code);
