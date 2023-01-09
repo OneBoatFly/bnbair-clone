@@ -67,6 +67,11 @@ span.error-messages {
     padding: 0px;
 }
 
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
 @media (max-width: 1128px) {
     .root-sub-wrapper,
     .root-sub-wrapper-navigation {
