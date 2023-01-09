@@ -9,13 +9,13 @@ import MyButton from '../../FormElements/MyButton';
 
 import './MultiImages.css';
 import '../AddSpotImages.css';
+import { getOneSpot } from '../../../store/spots';
 
 export default function MultiImages({ formData, setImageError, imageUpload, setImageUpload }) {
   const inputRef = useRef(null);
   const dispatch = useDispatch();
   let spot = useSelector(state => state.spots.spotDetails);
   const [imageUrlArr, setImageUrlArr] = useState([]);
-  // const [imageUpload, setImageUpload] = useState([]);
   const [databaseUrlArr, setDatabaseUrlArr] = useState([]);
   const [error, setError] = useState('');
   const [showSuccess, setShowSuccess] = useState(false);
@@ -81,36 +81,43 @@ export default function MultiImages({ formData, setImageError, imageUpload, setI
     }
 
     setImageError('');
-    imageUpload.forEach((image, idx) => {
-      const imageRef = ref(storage, `spots/${formData.spotId}/${image.name + v4()}`)
-      uploadBytes(imageRef, image)
-        .then((snapshot) => {
-          // const allTimeArr = [...databaseUrlArr];
-          // console.log('--------- databaseUrlArr ----------', databaseUrlArr)
-          getDownloadURL(snapshot.ref).then(url => {
-            setImageUpload([])
-            const isPreview = databaseUrlArr.length >= 5 ? false : idx < 5 - databaseUrlArr.length;
-            // console.log('--- isPreview', isPreview, idx, databaseUrlArr.length)
-            // allTimeArr.push(url);
-            // console.log('--------- getDownloadURL ----------', allTimeArr)
+    Promise.all(
+      imageUpload.map(async (image, idx) => {
+        const imageRef = ref(storage, `spots/${formData.spotId}/${image.name + v4()}`)
+        const uploadBytesStatus = await uploadBytes(imageRef, image)
+          .then((snapshot) => {
+            getDownloadURL(snapshot.ref).then(url => {
+              const isPreview = databaseUrlArr.length >= 5 ? false : idx < 5 - databaseUrlArr.length;
+              
+              dispatch(spotIamgesActions.addImages({
+                url: url,
+                preview: isPreview
+              }, formData.spotId))
+              
+            });
 
-            dispatch(spotIamgesActions.addImages({
-              url: url,
-              preview: isPreview
-            }, formData.spotId)).then(() => {
-              setShowSuccess(true)
-              setTimeout(() => {
-                setShowSuccess(false)
-              }, 4000)
-            })
+            return true;
           })
-        })
-        .catch((e) => {
-          setError(e.code)
-        })
+          .catch((e) => {
+            setError(e.code);
+          })
+        
+        console.log('uploadBytesStatus', uploadBytesStatus);
+        return uploadBytesStatus;
+      })
+    ).then((values) => {
+      console.log('values *******', values);
+      setShowSuccess(true)
+      setTimeout(() => {
+        setShowSuccess(false)
+      }, 4000);
+
+      dispatch(getOneSpot(spot.id))
+      setImageUpload([]);
     })
   }
 
+  console.log('imageUpload ---', imageUpload)
 
   const handleDelete = (img, idx) => {
 
@@ -142,17 +149,6 @@ export default function MultiImages({ formData, setImageError, imageUpload, setI
       setDatabaseUrlArr([]);
     }
   }, [dispatch, spot])
-
-  // useEffect(() => {
-
-  // }, [imageUrlArr])
-
-
-  // console.log('------- imageUpload', imageUpload)
-  // console.log('------- imageUrlArr', imageUrlArr)
-  // console.log('------- success', success)
-  // console.log('----spot', spot)
-  // console.log('--imageUrlArr', imageUrlArr)
 
   return (
     <div className='image-wrapper'>

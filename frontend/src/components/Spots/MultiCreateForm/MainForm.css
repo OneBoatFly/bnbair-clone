@@ -93,6 +93,12 @@
     padding: 14px 28px;
 }
 
+.main-create-button.button-right:disabled {
+    background-color: #DDDDDD;
+    border: #DDDDDD;
+    cursor: unset;
+}
+
 .main-create-form-validation-errors {
     margin-bottom: 1rem;
     height: 2rem;

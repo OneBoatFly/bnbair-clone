@@ -8,9 +8,8 @@ import * as spotsActions from '../../../store/spots';
 import { FormTitles, FormSubTitles, progressBar, PageDisplay, checkInput} from './multiCreateUtil';
 import { validateAddress } from '../../../store/maps';
 import { csrfFetch } from '../../../store/csrf';
-import { async } from '@firebase/util';
 
-export default function MainForm({ apiKey, sessionUser }) {
+export default function MainForm({ apiKey }) {
   const [addressErrors, setAddressErrors] = useState([]);
   const [titleErrors, setTitleErrors] = useState('');
   const [descriptionErrors, setDescriptionErrors] = useState('');
@@ -24,8 +23,7 @@ export default function MainForm({ apiKey, sessionUser }) {
   const location = useLocation();
   const dispatch = useDispatch();
   const errorWrapperRef = useRef();
-  // let editFormData;
-  // editFormData = location.state?.editFormData;
+  const [publishReady, setPublishReady] = useState(false);
   const { mode, editFormData } = location.state
 
   const allErrors = {
@@ -45,7 +43,6 @@ export default function MainForm({ apiKey, sessionUser }) {
   const spot = useSelector(state => state.spots.spotDetails);
   // check cookies first
   let existingFormData = Cookies.get('create-formData');
-  // console.log('--------', mode, existingFormData, editFormData)
   if (mode === 'create') {
     if (!existingFormData) {
       existingFormData = {
@@ -386,6 +383,14 @@ export default function MainForm({ apiKey, sessionUser }) {
     dispatch(spotsActions.getOneSpot(formData.spotId));
   }, [dispatch, formData.spotId])
 
+  useEffect(() => {
+    // console.log('publish enabling imageUpload', imageUpload)
+    if (imageUpload.length === 0 && spot?.SpotImages?.length >= 5) {
+      setPublishReady(true);
+    } else {
+      setPublishReady(false);
+    }
+  }, [imageUpload, spot])
 
   return (
     <div className='main-create-form'>
@@ -424,8 +429,7 @@ export default function MainForm({ apiKey, sessionUser }) {
           </div>
           {page > 0 && page !== 6 && <button className='main-create-button button-left' onClick={goBack}>Back</button>}
           {page < FormTitles.length - 1 && <button className='main-create-button button-right'  onClick={onNext}>Next</button>}
-          {/* {page === 5 && <button className='main-create-button button-right' onClick={handleCreateSpot}>Create Spot</button>} */}
-          {page === FormTitles.length - 1 && <button className='main-create-button button-right' onClick={handlePublish}>Publish</button>}
+          {page === FormTitles.length - 1 && <button className='main-create-button button-right' onClick={handlePublish} disabled={!publishReady}>Publish</button>}
         </div>
     </div>
   )

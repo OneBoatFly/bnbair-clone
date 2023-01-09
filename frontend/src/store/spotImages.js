@@ -22,7 +22,7 @@ export const addImages = (imageInfo, spotId) => async (dispatch) => {
     if (response.ok) {
         const data = await response.json();
         // console.log('response ok - data', data)
-        dispatch(spotsActions.getOneSpot(spotId));
+        // dispatch(spotsActions.getOneSpot(spotId));
         return data;
     }
 }
