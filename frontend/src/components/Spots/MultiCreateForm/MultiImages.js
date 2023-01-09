@@ -93,22 +93,22 @@ export default function MultiImages({ formData, setImageError, imageUpload, setI
                 url: url,
                 preview: isPreview
               }, formData.spotId))
-              console.log('databaseStatus', databaseStatus)
+              // console.log('databaseStatus', databaseStatus)
               return databaseStatus;
             });
 
-            console.log('getURLStatus', getURLStatus)
+            // console.log('getURLStatus', getURLStatus)
             return getURLStatus;
           })
           .catch((e) => {
             setError(e.code);
           })
         
-        console.log('uploadBytesStatus', uploadBytesStatus);
+        // console.log('uploadBytesStatus', uploadBytesStatus);
         return uploadBytesStatus;
       })
     ).then((values) => {
-      console.log('values *******', values);
+      // console.log('values *******', values);
       setShowSuccess(true)
       setTimeout(() => {
         setShowSuccess(false)
@@ -119,7 +119,7 @@ export default function MultiImages({ formData, setImageError, imageUpload, setI
     })
   }
 
-  console.log('imageUpload ---', imageUpload)
+  // console.log('imageUpload ---', imageUpload)
 
   const handleDelete = (img, idx) => {
 
