@@ -7,7 +7,8 @@
     max-width: 1760px;
     width: 100%;
     margin: 0 auto;
-    font-family: inherit
+    font-family: inherit;
+    gap: 0.5rem
 }
 
 .navigation-sub-wrapper {
@@ -38,14 +39,17 @@
     position: relative;
     display: flex;
     align-items: center;
+    gap: 0.25rem;
+}
+
+.airbnb-icon > span {
+    font-weight: 600;
 }
 
 .airbnb-logo {
     width: 30px;
     height: 45px;
     transform: rotate(45deg);
-    position: absolute;
-    left: 0px;
 }
 
 .airbnb-text-air {
@@ -57,7 +61,7 @@
 }
 
 .airbnb-text-bnb {
-    clip-path: inset(0px 0px 0px 62px);
+    clip-path: inset(0px 0px 0px 27px);
     width: 102px;
     height: 32px;
     position: absolute;
