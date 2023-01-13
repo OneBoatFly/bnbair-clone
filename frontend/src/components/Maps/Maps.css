@@ -1,7 +1,6 @@
 .map-allSpots-wrapper {
     height: calc(100vh - 81px - 65px);
     box-sizing: border-box;
-    max-width: 1760px;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -20,8 +19,8 @@
 
 @media (max-width: 744px) {
     .map-allSpots-wrapper {
-            padding: 0 20px;
-        }
+        padding: 0 20px;
+    }
 
     .home-page-map-container {
         display: none;
