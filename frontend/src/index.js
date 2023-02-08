@@ -12,8 +12,10 @@ import * as sessionActions from './store/session';
 import {ModalProvider} from './context/Modal';
 import {ModalWholeProvider} from './context/ModalWhole';
 import ScrollToTop from './components/ScrollToTop/ScrollToTop';
+import ReactGA from 'react-ga4';
 
 const store = configureStore();
+ReactGA.initialize('G-BYFPFPRZ9N');
 
 if (process.env.NODE_ENV !== 'production') {
   restoreCSRF();

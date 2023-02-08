@@ -16,6 +16,7 @@
     "react": "^16.14.0",
     "react-dates": "^21.8.0",
     "react-dom": "^16.14.0",
+    "react-ga4": "^2.0.0",
     "react-geocode": "^0.2.3",
     "react-places-autocomplete": "^7.3.0",
     "react-redux": "^7.2.9",
