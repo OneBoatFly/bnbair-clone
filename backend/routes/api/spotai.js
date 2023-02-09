@@ -66,13 +66,14 @@ router.post('/', requireAuth, async (req, res, next) => {
             temperature: 1,
             max_tokens: 150
         });
-
-        let result = ''
-        if (process.env.NODE_ENV === 'production') {
-            result = completion.data.choices[0].text.slice(4)
-        } else {
-            result = completion.data.choices[0].text.slice(2)
-        }
+        // console.log('completion.data.choices[0].text')
+        // console.log(completion.data.choices[0].text)
+        // console.log(completion.data.choices[0].text.length)
+        // for (let i = 0; i < completion.data.choices[0].text.length; i++) {
+        //     console.log(completion.data.choices[0].text[i], i)
+        // }
+        let result = completion.data.choices[0].text.replace(/\n/g, '')
+        // console.log('result -----------', result)
         res.status(200).json(result);
     } catch (error) {
         if (error.response) {
