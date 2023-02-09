@@ -2,8 +2,8 @@
 
 BnBAir is a web application inspired by Airbnb, that provides an online marketplace for lodging, primarily homestays for vacation rentals, and tourism activities. [Click here to view BnBAir Live Site.](https://bnbair-clone.herokuapp.com)
 
-![image](https://user-images.githubusercontent.com/34921536/202499653-ec489913-3de3-42e5-b39c-517658e5ab73.png)
-![image](https://user-images.githubusercontent.com/34921536/202499807-66689dfc-2b46-421e-8b17-236c85ce0a7d.png)
+<img src="./records/create-spot.gif">
+<img src="./records/search-spot.gif">
 
 ## Tech Stack
 
