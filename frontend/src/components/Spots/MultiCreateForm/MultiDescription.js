@@ -32,7 +32,7 @@ export default function MultiDescription({ formData, setFormData, hasSubmitted, 
       .then(async (response) => {
         // console.log(response)
         let data = await response.json()
-        setFormData({ ...formData, description: data.result.slice(2) })
+        setFormData({ ...formData, description: data })
         setAILoading(false)
       })
       .catch((error) => {

@@ -66,7 +66,14 @@ router.post('/', requireAuth, async (req, res, next) => {
             temperature: 1,
             max_tokens: 150
         });
-        res.status(200).json({ result: completion.data.choices[0].text });
+
+        let result = ''
+        if (process.env.NODE_ENV === 'production') {
+            result = completion.data.choices[0].text.slice(4)
+        } else {
+            result = completion.data.choices[0].text.slice(2)
+        }
+        res.status(200).json(result);
     } catch (error) {
         if (error.response) {
             console.error(error.response.status, error.response.data);
