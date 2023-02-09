@@ -33,7 +33,7 @@ export default function MultiTitle({ formData, setFormData, hasSubmitted, titleE
       .then(async (response) => {
         // console.log(response)
         let data = await response.json()
-        setFormData({ ...formData, name: data.result.slice(2) })
+        setFormData({ ...formData, name: data })
         setAILoading(false)
       })
       .catch((error) => {

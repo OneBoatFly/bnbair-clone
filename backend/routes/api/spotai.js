@@ -66,7 +66,15 @@ router.post('/', requireAuth, async (req, res, next) => {
             temperature: 1,
             max_tokens: 150
         });
-        res.status(200).json({ result: completion.data.choices[0].text });
+        // console.log('completion.data.choices[0].text')
+        // console.log(completion.data.choices[0].text)
+        // console.log(completion.data.choices[0].text.length)
+        // for (let i = 0; i < completion.data.choices[0].text.length; i++) {
+        //     console.log(completion.data.choices[0].text[i], i)
+        // }
+        let result = completion.data.choices[0].text.replace(/\n/g, '')
+        // console.log('result -----------', result)
+        res.status(200).json(result);
     } catch (error) {
         if (error.response) {
             console.error(error.response.status, error.response.data);
