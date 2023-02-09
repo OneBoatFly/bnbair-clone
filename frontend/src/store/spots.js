@@ -114,7 +114,7 @@ const loadSpotBookings = (bookings) => {
 
 // get all spots with query
 export const getAllSpotsWithQuery = (query) => async (dispatch) => {
-    // console.log('getAllSpotsWithQuery thunk')
+    // console.log('getAllSpotsWithQuery thunk', query)
     const searchParams = new URLSearchParams(query);
     const response = await csrfFetch('/api/spots?' + searchParams.toString());
 
