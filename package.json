@@ -25,5 +25,8 @@
   "homepage": "https://github.com/OneBoatFly/airbnb-project#readme",
   "dependencies": {
     "moment-range": "^4.0.2"
+  },
+  "engines": {
+    "node": "16.x"
   }
 }
