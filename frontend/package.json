@@ -28,17 +28,13 @@
     "redux-thunk": "^2.4.2",
     "use-resize-observer": "^9.1.0",
     "uuid": "^9.0.0",
-    "validator": "^13.7.0",
-    "eslint-config-airbnb": "^19.0.4"
+    "validator": "^13.7.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
   },
   "browserslist": {
     "production": [
@@ -53,11 +49,6 @@
     ]
   },
   "devDependencies": {
-    "eslint": "^8.34.0",
-    "eslint-plugin-import": "^2.27.5",
-    "eslint-plugin-jsx-a11y": "^6.7.1",
-    "eslint-plugin-react": "^7.32.2",
-    "eslint-plugin-react-hooks": "^4.6.0",
     "redux-logger": "^3.0.6"
   },
   "proxy": "http://localhost:8000"
