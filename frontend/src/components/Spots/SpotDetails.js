@@ -38,7 +38,7 @@ export default function SpotDetails() {
     const [backendErrors, setBackendErrors] = useState('');
     const [showAllImages, setShowAllImages] = useState(false);
     const calendarRef = useRef(null)
-
+    
     const {spotId} = useParams();
     const dispatch = useDispatch();
     useEffect(() => {

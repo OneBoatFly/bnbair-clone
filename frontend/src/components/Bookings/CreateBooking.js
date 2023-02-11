@@ -57,7 +57,11 @@ export default function CreateBooking({ calendarRef, spot, setShowReviewModal, d
             </div>
         </div>
         {user ?
-            <MyButton name='Reserve' disabled={false} />
+            (user.id === spot.ownerId ?
+                <MyButton name='This is your listing' disabled={true} />
+                :
+                <MyButton name='Reserve' disabled={false} />
+            )
             :
             <MyButton name='Please log in first' disabled={true} />
         }

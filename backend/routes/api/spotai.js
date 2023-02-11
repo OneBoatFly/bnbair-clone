@@ -18,9 +18,9 @@ router.post('/', requireAuth, async (req, res, next) => {
 
     let requirement = ''
     if (type === 'title') {
-        requirement = 'title with less than 50 characters'
+        requirement = 'title with less than thirty two characters'
     } else {
-        requirement = 'description with less than 500 characters'
+        requirement = 'description with less than five hundreds characters'
     }
 
     let amenityStr = ''
