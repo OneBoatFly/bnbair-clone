@@ -1,16 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import './CalendarDates.css';
 
-export default function CalendarDates({ calendarRef, dates, setDates, setDateErrors }) {
-    
-    // useEffect(() => {
-    //     // console.log(startDate, endDate)
-
-    // }, [startDate, endDate])
-
-    const scrollToCalendar = () => {
-      calendarRef.current.scrollIntoView()
-    }
+export default function CalendarDates({ calendarRef, dates }) {
+  const scrollToCalendar = () => {
+    calendarRef.current.scrollIntoView();
+  };
 
   return (
     <div className='dates-input-wrapper' onClick={scrollToCalendar}>

@@ -1,8 +1,7 @@
-import React, { useState, useEffect }  from 'react';
+import React, { useState, useEffect } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import { useDispatch, useSelector } from "react-redux";
-
-import * as sessionActions from "./store/session";
+import { useDispatch, useSelector } from 'react-redux';
+import * as sessionActions from './store/session';
 import Navigation from './components/Navigation';
 import { Spots, SpotDetails, OwnerSpots } from './components/Spots';
 import UserReviews from './components/Reviews/UserReviews';
@@ -22,7 +21,7 @@ function App() {
   const [center, setCenter] = useState({
     lat: 47.6040349,
     lng: -122.3007308,
-  })
+  });
   const [userCenter, setUserCenter] = useState({});
   const key = useSelector((state) => state.maps.key);
   const geoKey = useSelector((state) => state.maps.geoKey);
@@ -32,7 +31,6 @@ function App() {
     dispatch(sessionActions.restoreUser()).then(() => {
       setIsLoaded(true);
     });
-
   }, [dispatch]);
 
   useEffect(() => {
@@ -41,29 +39,27 @@ function App() {
     }
 
     if (!geoKey) {
-      dispatch(getGeoKey())
+      dispatch(getGeoKey());
     }
   }, [dispatch, key]);
 
   const successGeo = (position) => {
-    // console.log('success')
-    // console.log({ lat: position.coords.latitude, lng: position.coords.longitude })
     setCenter({ lat: position.coords.latitude, lng: position.coords.longitude });
     setUserCenter({ lat: position.coords.latitude, lng: position.coords.longitude });
-  }
+  };
 
   const errorGeo = (error) => {
-    // console.log(error);
+    console.error(error);
   };
 
   const options = {
     enableHighAccuracy: false,
     timeout: 5000,
-  }
+  };
 
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(successGeo, errorGeo, options)
-  }, [])
+    navigator.geolocation.getCurrentPosition(successGeo, errorGeo, options);
+  }, []);
 
   // console.log('center', center, userCenter)
 
