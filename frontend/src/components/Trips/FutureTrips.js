@@ -32,7 +32,10 @@ export default function FutureTrips({ userFutureBookings }) {
                             <div className='future-booking-single-left'>
                                 <div className='future-booking-single-left-top'>
                                     <span className='s-city'>{booking.Spot.city}
-                                        <i className="fa-solid fa-trash future-booking-delete" onClick={(e) => handleDelete(e, booking.id)}></i>
+                                        {/* {console.log(moment(booking.startDate))} */}
+                                        {moment(booking.startDate) > moment() &&
+                                            <i className="fa-solid fa-trash future-booking-delete" onClick={(e) => handleDelete(e, booking.id)}></i>
+                                        }
                                     </span>
                                     <span className='s-name'>{booking.Spot.name} hosted by {booking.Spot.ownerFirstName}</span>
                                 </div>

@@ -1,15 +1,13 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import './CalendarDates.css';
 
-export default function CalendarDates({ dates, setDates, setDateErrors }) {
-    
-    // useEffect(() => {
-    //     // console.log(startDate, endDate)
-
-    // }, [startDate, endDate])
+export default function CalendarDates({ calendarRef, dates }) {
+  const scrollToCalendar = () => {
+    calendarRef.current.scrollIntoView();
+  };
 
   return (
-    <div className='dates-input-wrapper'>
+    <div className='dates-input-wrapper' onClick={scrollToCalendar}>
         <div className='dates-input startDate'>
             <span className='check-inout-label'>CHECK-IN</span>
             {dates.startDate && <div>{dates.startDate.format().slice(0, 10)}</div>}

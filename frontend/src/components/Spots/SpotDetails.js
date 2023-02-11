@@ -37,7 +37,8 @@ export default function SpotDetails() {
     const [showAddReviewForm, setShowAddReviewForm] = useState(false);
     const [backendErrors, setBackendErrors] = useState('');
     const [showAllImages, setShowAllImages] = useState(false);
-
+    const calendarRef = useRef(null)
+    
     const {spotId} = useParams();
     const dispatch = useDispatch();
     useEffect(() => {
@@ -230,7 +231,7 @@ export default function SpotDetails() {
                               <SpotDetailAmenities spot={spot} />
                         </div>
 
-                        <div className='info-detail-wrapper'>
+                        <div className='info-detail-wrapper' ref={calendarRef}>
                             <h4>{totalDays} nights in {spot.city}</h4>
                             <div className='date-calendar-span'>
                                 <span>{`${getMMMDDYYYStr(dates.startDate)}`} - {dates.endDate ? `${getMMMDDYYYStr(dates.endDate)}` : getMMMDDYYYStr(moment(dates.startDate, 'DD-MM-YYYY').add(1, 'day'))}</span>
@@ -242,7 +243,7 @@ export default function SpotDetails() {
                     <div className='booking-form-wrapper'>
                         <div className='booking-form-sub-wrapper'>
                             <div className='booking-form'>
-                                  <CreateBooking spot={spot} setShowReviewModal={setShowReviewModal} dates={dates} setDates={setDates} setDateErrors={setDateErrors} totalDays={totalDays} />
+                                  <CreateBooking calendarRef={calendarRef} spot={spot} setShowReviewModal={setShowReviewModal} dates={dates} setDates={setDates} setDateErrors={setDateErrors} totalDays={totalDays} />
                             </div>
                         </div>
                     </div>
