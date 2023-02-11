@@ -82,6 +82,9 @@ export default function Spots({ query, setQuery }) {
                 )
             })}
         </div>
+        {!spotsArr.length &&
+            <span>No listing found in this region. Move map around to find listings.</span>
+        }
         <div className='all-spots-sub-wrapper'>
             {
                 spotsArr?.map((spot, idx) => {

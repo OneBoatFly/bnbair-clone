@@ -5,9 +5,11 @@ import MyButton from '../FormElements/MyButton';
 import CalendarDates from './CalendarDates';
 import './CreateBooking.css';
 import { createSpotBooking } from '../../store/spots';
+import { useHistory } from 'react-router-dom';
 
-export default function CreateBooking({ spot, setShowReviewModal, dates, setDates, setDateErrors, totalDays }) {
+export default function CreateBooking({ calendarRef, spot, setShowReviewModal, dates, setDates, setDateErrors, totalDays }) {
     const user = useSelector(state =>  state.session.user);
+    const history = useHistory();
     const nf = new Intl.NumberFormat();
     const price = nf.format(spot.price);
 
@@ -18,7 +20,7 @@ export default function CreateBooking({ spot, setShowReviewModal, dates, setDate
     const [bookingErrors, setBookingErrors] = useState('')
     const dispatch = useDispatch();
 
-    const handleSubmit =  (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
         // console.log('CreateBooking handleSubmit')
 
@@ -30,7 +32,7 @@ export default function CreateBooking({ spot, setShowReviewModal, dates, setDate
             }
         )).then((response) => {
             // console.log('booked', response)
-            // redirect to my bookings page once built.
+            history.push('/trips')
         }).catch(async (data) => {
             const error = await data.json()
             // console.log('error --------', error)
@@ -47,7 +49,7 @@ export default function CreateBooking({ spot, setShowReviewModal, dates, setDate
             <RatingNumReview spot={spot} setShowReviewModal={setShowReviewModal} />
         </div>
         <div className='choose-date-wrapper'>
-              <CalendarDates dates={dates} setDates={setDates} setDateErrors={setDateErrors} />
+              <CalendarDates calendarRef={calendarRef} dates={dates} setDates={setDates} setDateErrors={setDateErrors} />
         </div>
         <div className='choose-guest-wrapper'>
             <div>
