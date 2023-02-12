@@ -1,21 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './DemoUserButton.css';
 import { handleMouseMove } from '../styles';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import * as sessionActions from '../../store/session';
 
 export default function DemoUserButton({ setIsLoaded }) {
     const dispatch = useDispatch();
-    const [errors, setErrors] = useState([]);
-    const sessionUser = useSelector(state => state.session.user);
 
     const credential = 'Yizhou';
     const password = 'password';
 
     const handleDemoUser = () => {
-        // console.log('clicked');
-
         dispatch(sessionActions.login({ credential, password }))
             .then(() => {
                 setIsLoaded(true);

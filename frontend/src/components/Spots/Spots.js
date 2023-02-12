@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef, useCallback} from 'react';
 import {useSelector} from 'react-redux';
 import { NavLink, useHistory } from 'react-router-dom';
 import './Spots.css';
-// import * as spotsActions from '../../store/spots';
 
 import useSearchFetch from '../Navigation/useSearchFetch';
 import coordinatesDistance from './SpotCalcs/spotDistance';

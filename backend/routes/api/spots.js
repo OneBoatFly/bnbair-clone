@@ -747,7 +747,7 @@ const validateBooking = [
   handleValidationErrors,
 ];
 
-const checkConflict = require('../../utils/booking-conflicts');
+const { checkConflict } = require('../../utils/booking-conflicts');
 
 router.post('/:spotId/bookings', requireAuth, validateBooking, async (req, res, next) => {
   const spot = await Spot.findByPk(req.params.spotId);
