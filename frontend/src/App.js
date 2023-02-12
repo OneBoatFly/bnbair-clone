@@ -61,8 +61,6 @@ function App() {
     navigator.geolocation.getCurrentPosition(successGeo, errorGeo, options);
   }, []);
 
-  // console.log('center', center, userCenter)
-
   return (
     <div className='root-wrapper'>
       <div className='root-sub-wrapper-navigation'>
