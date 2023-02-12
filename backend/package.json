@@ -8,7 +8,8 @@
     "sequelize-cli": "sequelize-cli",
     "start": "per-env",
     "start:development": "nodemon ./bin/www",
-    "start:production": "node ./bin/www"
+    "start:production": "node ./bin/www",
+    "test": "mocha"
   },
   "keywords": [],
   "author": "",
@@ -35,7 +36,10 @@
     "sequelize-cli": "^6.5.1"
   },
   "devDependencies": {
+    "chai": "^4.3.7",
+    "chai-http": "^4.3.0",
     "dotenv-cli": "^6.0.0",
+    "mocha": "^10.2.0",
     "nodemon": "^2.0.20",
     "prettier": "^2.8.4",
     "sqlite3": "^5.1.2"
