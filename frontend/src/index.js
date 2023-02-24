@@ -15,7 +15,7 @@ import ScrollToTop from './components/ScrollToTop/ScrollToTop';
 import ReactGA from 'react-ga4';
 
 const store = configureStore();
-ReactGA.initialize('G-BYFPFPRZ9N');
+ReactGA.initialize('G-0686J16687');
 
 if (process.env.NODE_ENV !== 'production') {
   restoreCSRF();
