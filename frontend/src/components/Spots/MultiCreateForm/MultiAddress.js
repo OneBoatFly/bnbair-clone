@@ -31,30 +31,30 @@ export default function MultiAddress({ formData, setFormData, hasSubmitted, addr
     
     const hasAddressErrors = {};
 
-    if (!formData.address.length) hasAddressErrors.street = 'Street is required.';
-    else if (formData.address.length > 255) hasAddressErrors.street = 'Street must be less than 255 characters.';
+    if (!formData?.address?.length) hasAddressErrors.street = 'Street is required.';
+    else if (formData.address?.length > 255) hasAddressErrors.street = 'Street must be less than 255 characters.';
     else {
       delete hasAddressErrors.street;
       handleLabelSmall(streetLabel, streetInput);
     }
 
-    if (!formData.city.length) hasAddressErrors.city = 'City is required.';
-    else if (formData.city.length > 255) hasAddressErrors.city = 'City must be less than 255 characters.';
+    if (!formData?.city?.length) hasAddressErrors.city = 'City is required.';
+    else if (formData.city?.length > 255) hasAddressErrors.city = 'City must be less than 255 characters.';
     else {
       delete hasAddressErrors.city;
       handleLabelSmall(cityLabel, cityInput);
     }
 
-    if (!formData.province.length) hasAddressErrors.province = 'State is required.';
-    else if (formData.province.length > 255) hasAddressErrors.province = 'State must be less than 255 characters.';
+    if (!formData.province?.length) hasAddressErrors.province = 'State is required.';
+    else if (formData.province?.length > 255) hasAddressErrors.province = 'State must be less than 255 characters.';
     else {
       delete hasAddressErrors.province;
       handleLabelSmall(provinceLabel, provinceInput);
     }
 
     // console.log(country, country.length > 255)
-    if (!formData.country.length) hasAddressErrors.country = 'Country is required.';
-    else if (formData.country.length > 255) hasAddressErrors.country = 'Country must be less than 255 characters.';
+    if (!formData.country?.length) hasAddressErrors.country = 'Country is required.';
+    else if (formData.country?.length > 255) hasAddressErrors.country = 'Country must be less than 255 characters.';
     else {
       delete hasAddressErrors.country;
       handleLabelSmall(countryLabel, countryInput);
