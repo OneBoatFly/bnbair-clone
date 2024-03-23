@@ -27,6 +27,12 @@ function returnBookingError(startConflictBooking, endConflictBooking, bothConfli
 }
 
 async function checkConflict(spotId, newStart, newEnd) {
+  /**
+   * check if the there's already a booking in the database with the selected start or end date.
+   **/
+
+  // find one booking in the database where:
+  //  existing start date <= selected new start <= existing end date
   const potentialStartConflictBooking = await Booking.findOne({
     where: {
       startDate: { [Op.lte]: newStart },
